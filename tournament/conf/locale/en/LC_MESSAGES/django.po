@@ -1,0 +1,77 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-11-17 23:33+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: player/models.py:6
+msgid "player"
+msgstr "player"
+
+#: player/models.py:7
+msgid "players"
+msgstr "players"
+
+#: player/models.py:9
+msgid "Male"
+msgstr ""
+
+#: player/models.py:9
+msgid "Female"
+msgstr ""
+
+#: player/models.py:11
+msgid "player|name"
+msgstr "name"
+
+#: player/models.py:12
+msgid "player|surname"
+msgstr "surname"
+
+#: player/models.py:14
+msgid "player|gender"
+msgstr "gender"
+
+#: player/models.py:15
+msgid "player|age"
+msgstr "age"
+
+#: player/models.py:17
+msgid "player|club"
+msgstr "club"
+
+#: player/models.py:25
+msgid "category"
+msgstr "category"
+
+#: player/models.py:26
+msgid "categories"
+msgstr "categories"
+
+#: player/models.py:28
+msgid "category|name"
+msgstr "name"
+
+#: player/models.py:29
+msgid "category|minage"
+msgstr "minimal age"
+
+#: player/models.py:30
+msgid "category|maxage"
+msgstr "maximal age"
+
+#: player/models.py:31
+msgid "category|gender"
+msgstr "gender"

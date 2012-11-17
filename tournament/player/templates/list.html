@@ -1,0 +1,10 @@
+{% load i18n %}
+
+{{ LANGUAGE_CODE }}
+
+<h1>{% trans "Players" %}</h1>
+<ul>
+{% for player in players %}
+    <li><a href="{% url show_player player.id %}">{{ player }}</a></li>
+{% endfor %}
+</ul>
