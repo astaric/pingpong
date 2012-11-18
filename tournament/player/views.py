@@ -4,9 +4,8 @@ from . import models
 
 def list(request):
     categories = models.Category.objects.all()
-    players = models.Player.objects.all().order_by('category')
     players_by_categories = [
-        (category, players.filter(category=category))
+        (category, category.player_set.order_by('surname', 'name'))
         for category in categories
     ]
     print players_by_categories
