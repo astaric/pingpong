@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-17 23:33+0100\n"
+"POT-Creation-Date: 2012-11-18 13:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,62 +16,91 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: player/models.py:6
+#: player/models.py:9
 msgid "player"
 msgstr "player"
 
-#: player/models.py:7
+#: player/models.py:10 player/templates/list.html:3
 msgid "players"
 msgstr "players"
 
-#: player/models.py:9
+#: player/models.py:12
 msgid "Male"
-msgstr ""
+msgstr "Male"
 
-#: player/models.py:9
+#: player/models.py:12
 msgid "Female"
-msgstr ""
+msgstr "Female"
 
-#: player/models.py:11
+#: player/models.py:14
 msgid "player|name"
 msgstr "name"
 
-#: player/models.py:12
+#: player/models.py:15
 msgid "player|surname"
 msgstr "surname"
 
-#: player/models.py:14
+#: player/models.py:17
 msgid "player|gender"
 msgstr "gender"
 
-#: player/models.py:15
+#: player/models.py:18
 msgid "player|age"
 msgstr "age"
 
-#: player/models.py:17
+#: player/models.py:20
 msgid "player|club"
 msgstr "club"
 
+#: player/models.py:21
+msgid "player|category"
+msgstr "category"
+
+#: player/models.py:23
+msgid "player|group"
+msgstr "group"
+
+#: player/models.py:24
+msgid "player|placeingroup"
+msgstr "place in group"
+
 #: player/models.py:25
+msgid "player|groupleader"
+msgstr "group leader"
+
+#: player/models.py:57
 msgid "category"
 msgstr "category"
 
-#: player/models.py:26
+#: player/models.py:58
 msgid "categories"
 msgstr "categories"
 
-#: player/models.py:28
+#: player/models.py:60
 msgid "category|name"
 msgstr "name"
 
-#: player/models.py:29
+#: player/models.py:62
+msgid "category|gender"
+msgstr "gender"
+
+#: player/models.py:63
 msgid "category|minage"
 msgstr "minimal age"
 
-#: player/models.py:30
+#: player/models.py:64
 msgid "category|maxage"
 msgstr "maximal age"
 
-#: player/models.py:31
-msgid "category|gender"
-msgstr "gender"
+#: player/models.py:85
+#, python-format
+msgid "Group %s"
+msgstr "Group %s"
+
+#: player/admin/player.py:10
+msgid "Refresh categories"
+msgstr "Refresh categories"
+
+#: player/admin/player.py:14
+msgid "Create groups"
+msgstr "Create groups"
