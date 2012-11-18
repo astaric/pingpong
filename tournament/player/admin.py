@@ -16,8 +16,19 @@ class PlayerAdmin(admin.ModelAdmin):
     actions = [refresh_categories]
     readonly_fields = ['category']
 
+    def save_model(self, request, obj, form, change):
+        try:
+            category = Category.objects.get(gender=obj.gender,
+                                            min_age__lte=obj.age,
+                                            max_age__gte=obj.age)
+            obj.category = category
+        except Category.DoesNotExist:
+            pass
+        obj.save()
+
 class CategoryAdmin(admin.ModelAdmin):
     ordering = ('gender', 'min_age')
+    prepopulated_fields = {"name": ("gender","min_age", "max_age")}
 
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(Category, CategoryAdmin)
