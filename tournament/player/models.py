@@ -51,6 +51,12 @@ class Player(models.Model):
     def __unicode__(self):
         return "{} {}".format(self.name, self.surname)
 
+class PlayerByGroup(Player):
+    class Meta:
+        proxy = True
+        verbose_name = _("player by group")
+        verbose_name_plural = _("players by groups")
+
 
 class Category(models.Model):
     class Meta:

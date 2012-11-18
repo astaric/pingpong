@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-11-18 13:26+0100\n"
+"POT-Creation-Date: 2012-11-18 14:09+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -69,30 +69,38 @@ msgid "player|groupleader"
 msgstr "group leader"
 
 #: player/models.py:57
+msgid "player by group"
+msgstr "player"
+
+#: player/models.py:58
+msgid "players by groups"
+msgstr "players by groups"
+
+#: player/models.py:63
 msgid "category"
 msgstr "category"
 
-#: player/models.py:58
+#: player/models.py:64
 msgid "categories"
 msgstr "categories"
 
-#: player/models.py:60
+#: player/models.py:66
 msgid "category|name"
 msgstr "name"
 
-#: player/models.py:62
+#: player/models.py:68
 msgid "category|gender"
 msgstr "gender"
 
-#: player/models.py:63
+#: player/models.py:69
 msgid "category|minage"
 msgstr "minimal age"
 
-#: player/models.py:64
+#: player/models.py:70
 msgid "category|maxage"
 msgstr "maximal age"
 
-#: player/models.py:85
+#: player/models.py:91
 #, python-format
 msgid "Group %s"
 msgstr "Group %s"
