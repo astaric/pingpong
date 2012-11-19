@@ -12,4 +12,4 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Category, CategoryAdmin)
-admin.site.admin_view(views.show)
+admin.site.admin_view(views.details)
