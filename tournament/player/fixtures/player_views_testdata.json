@@ -1,0 +1,34 @@
+[
+    {
+        "pk": 1, 
+        "model": "player.player", 
+        "fields": {
+            "category": 1, 
+            "surname": "Medved", 
+            "name": "Janez",
+            "gender": 0, 
+            "age": 28
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "player.player", 
+        "fields": {
+            "category": 1,
+            "surname": "Novak", 
+            "name": "Andrej",
+            "gender": 0, 
+            "age": 37
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "player.category", 
+        "fields": {
+            "max_age": 45, 
+            "gender": 0, 
+            "name": "under 45",
+            "min_age": null
+        }
+    }
+]

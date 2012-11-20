@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, get_object_or_404
 
 from . import models
 
@@ -9,11 +9,12 @@ def index(request):
         (category, category.player_set.order_by('surname', 'name'))
         for category in categories
     ]
-    return render(request, "list.html", {"categories": players_by_categories})
+    return render(request, "index.html", {"categories": players_by_categories})
 
 def details(request, id):
-    player = models.Player.objects.get(id=id)
-    return render_to_response("show.html", {"player": player})
+    player = get_object_or_404(models.Player, id=id)
+
+    return render_to_response("details.html", {"player": player})
 
 
 match_template = ('','','','','','','','','','','','','','','','','','','',

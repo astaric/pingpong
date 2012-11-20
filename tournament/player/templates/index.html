@@ -6,7 +6,7 @@
     <h2>{{ category }}</h2>
     <ul>
     {% for player in players %}
-        <li><a href="{% url show_player player.id %}">{{ player }}</a></li>
+        <li><a href="{% url player_details player.id %}">{{ player }}</a></li>
     {% endfor %}
     </ul>
 {% endfor %}

@@ -1,0 +1,148 @@
+[
+    {
+        "pk": 1, 
+        "model": "player.player", 
+        "fields": {
+            "category": 1, 
+            "surname": "Medved", 
+            "name": "Janez", 
+            "club": "", 
+            "gender": 0, 
+            "age": 28
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "player.player", 
+        "fields": {
+            "category": 2, 
+            "surname": "Novak", 
+            "name": "Andrej", 
+            "club": "", 
+            "gender": 0, 
+            "age": 51
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "player.player", 
+        "fields": {
+            "category": 3, 
+            "surname": "Hribar", 
+            "name": "Petra", 
+            "club": "", 
+            "gender": 1, 
+            "age": 40
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "player.player", 
+        "fields": {
+            "category": 1, 
+            "surname": "Koren", 
+            "name": "Franc", 
+            "club": "", 
+            "gender": 0, 
+            "age": 28
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "player.player", 
+        "fields": {
+            "category": 2,
+            "surname": "Kolar", 
+            "name": "Anton", 
+            "club": "", 
+            "gender": 0, 
+            "age": 57
+        }
+    }, 
+    {
+        "pk": 6, 
+        "model": "player.player", 
+        "fields": {
+            "category": 1,
+            "surname": "Bizjak", 
+            "name": "Marko", 
+            "club": "", 
+            "gender": 0, 
+            "age": 49
+        }
+    }, 
+    {
+        "pk": 7, 
+        "model": "player.player", 
+        "fields": {
+            "category": 3, 
+            "surname": "Horvat", 
+            "name": "Mojca", 
+            "club": "", 
+            "gender": 1, 
+            "age": 26
+        }
+    }, 
+    {
+        "pk": 8, 
+        "model": "player.player", 
+        "fields": {
+            "category": 3, 
+            "surname": "Novak", 
+            "name": "Katja", 
+            "club": "", 
+            "gender": 1, 
+            "age": 20
+        }
+    }, 
+    {
+        "pk": 9, 
+        "model": "player.player", 
+        "fields": {
+            "category": 1, 
+            "surname": "Kolar", 
+            "name": "Marko", 
+            "club": "", 
+            "gender": 0, 
+            "age": 44
+        }
+    }, 
+    {
+        "pk": 10, 
+        "model": "player.player", 
+        "fields": {
+            "category": 1, 
+            "surname": "Zupan", 
+            "name": "Peter", 
+            "club": "", 
+            "gender": 0, 
+            "age": 20
+        }
+    },
+    {
+        "pk": 1, 
+        "model": "player.category", 
+        "fields": {
+            "name": "male under 40",
+            "gender": 0,
+            "max_age": 39
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "player.category", 
+        "fields": {
+            "name": "male over 40",
+            "gender": 0,
+            "min_age": 40
+        }
+    },
+    {
+        "pk": 3,
+        "model": "player.category",
+        "fields": {
+            "name": "female",
+            "gender": 1
+        }
+    }
+]

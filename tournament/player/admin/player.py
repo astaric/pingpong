@@ -6,7 +6,7 @@ from ..models import Player, PlayerByGroup, Category, Group
 def refresh_categories(modeladmin, request, queryset):
     queryset.update(category=None)
     for category in Category.objects.all():
-        Player.matching_category(category, queryset).update(category=category)
+       queryset.matching_category(category).update(category=category)
 refresh_categories.short_description = _("Refresh categories")
 
 def create_groups(modeladmin, request, queryset):
@@ -18,10 +18,6 @@ class PlayerAdmin(admin.ModelAdmin):
     actions = [refresh_categories, create_groups]
     list_display = ['__unicode__', 'category']
     list_filter = ['category']
-
-    def save_model(self, request, obj, form, change):
-        obj.update_category()
-        obj.save()
 
 class PlayerByGroupAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'group', 'group_member_no', 'group_leader')
