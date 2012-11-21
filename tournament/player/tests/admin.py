@@ -1,7 +1,8 @@
 from django.test import TestCase
+import random
 
 from ..admin import player as player_admin
-from ..models import Player, Group
+from ..models import Category, Player, Group
 
 def set_category(*args):
     for (player, category) in args:
@@ -64,7 +65,41 @@ class ActionsTestCase(TestCase):
         self.assertEqual(len(Player.objects.exclude(category=1).exclude(group=None)), 0)
         self.assertEqual(len(Player.objects.exclude(category=1).filter(group_leader=True)), 0)
 
+    def test_create_groups_with_clubs(self):
+        random.seed(0)
+        category = Category.objects.create(name="Category", gender=0)
+        players = [Player.objects.create(name="New", surname="Player",
+                                         age=0, gender=0,
+                                         club=str(club),
+                                         category=category)
+                   for _ in range(4) for club in range(4)]
+        leaders = Player.objects.filter(id__in=[x.id for x in players][:4])
+
+        player_admin.create_groups(None, None, leaders)
+        for group in Group.objects.filter(category=category):
+            clubs_in_group = Player.objects.filter(group=group).values_list("club", flat=True)
+            self.assertEqual(len(clubs_in_group), 4)
+            self.assertEqual(len(clubs_in_group), len(set(clubs_in_group)))
+
+
     def test_create_groups_bad(self):
         player_admin.create_groups(None, None, Player.objects.none())
         self.assertEqual(len(Player.objects.exclude(group=None)), 0)
         self.assertEqual(len(Player.objects.filter(group_leader=True)), 0)
+
+        # If there are more players in a club than there are group leaders,
+        # requirement that players from the same club should not be in the
+        # same group cannot be fulfilled.
+        category = Category.objects.create(name="Category", gender=0)
+        players = [Player.objects.create(name="New", surname="Player",
+                                         age=0, gender=0,
+                                         club=str("1"),
+                                         category=category) for i in range(2)]
+        leaders = Player.objects.filter(id=players[0].id)
+        with self.assertRaises(ValueError):
+            player_admin.create_groups(None, None, leaders)
+
+
+
+
+

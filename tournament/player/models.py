@@ -1,9 +1,10 @@
-from collections import defaultdict
-import random
+from collections import defaultdict, deque
 
 from django.db import models
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
+
+from .utils import shuffled
 
 class PlayerQuerySet(QuerySet):
     def matching_category(self, category):
@@ -93,33 +94,42 @@ class Group(models.Model):
 
     @staticmethod
     def create_from_leaders(leaders):
-        categories = set(map(lambda x:x["category"], leaders.values('category')))
-        Player.objects.filter(category__in=categories)\
-                      .update(group=None, group_member_no=None, group_leader=False)
-        Group.objects.filter(category__in=categories).delete()
+        category_leaders = defaultdict(list)
+        for player in leaders:
+            category_leaders[player.category_id].append(player)
+        Group.objects.filter(category__in=category_leaders.keys()).delete()
 
-        for category in categories:
-            qs = leaders.filter(category=category)
-            groups = []
-            for i, leader in enumerate(qs):
-                group = Group(name=_("Group %s") % "ABCDEFGHIJKL"[i], category_id=category)
-                group.save()
-                leader.group=group
-                leader.group_leader=True
-                leader.save()
-                groups.append(group)
+        for category in category_leaders.keys():
+            leaders = category_leaders[category]
+            group_members = defaultdict(list)
 
-            members = defaultdict(list)
-            available_players = list(Player.objects.filter(category=category, group_leader=False))
-            while available_players:
-                rnd = random.randint(0, len(available_players)-1)
-                player = available_players[rnd]
-                if any(other.club == player.club for other in members[groups[0]] if other.club):
+            for i, leader in enumerate(leaders):
+                group = Group.objects.create(name=u"ABCDEFGHIJKL"[i], category_id=category)
+                group_members[group].append(leader)
+
+            leader_ids = [p.id for p in leaders]
+            others = Player.objects.filter(category=category).exclude(id__in=leader_ids)
+            unallocated_players = deque(shuffled(others))
+            groups = deque(group_members.keys())
+            tried = 0
+            while unallocated_players:
+                player = unallocated_players.popleft()
+                if any(other.club == player.club for other in group_members[groups[0]] if other.club):
+                    unallocated_players.append(player)
+                    tried += 1
+                    if tried > len(unallocated_players):
+                        raise ValueError("Weird data")
                     continue
-                player.group=groups[0]
-                player.save()
-                groups = groups[1:] + groups[0:1]
-                del available_players[rnd]
+                else:
+                    tried = 0
+                group_members[groups[0]].append(player)
+                groups.rotate(-1)
+
+            Player.objects.filter(id__in=leader_ids).update(group_leader=True)
+            Player.objects.filter(category=category).exclude(id__in=leader_ids).update(group_leader=False)
+            for group in group_members.keys():
+                member_ids = [p.id for p in group_members[group]]
+                Player.objects.filter(id__in=member_ids).update(group=group)
 
     def __unicode__(self):
         return '{} - {}'.format(self.category, self.name)
