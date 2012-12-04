@@ -2,3 +2,5 @@
 *.mo
 *~
 .idea/*
+.DS_Store
+
