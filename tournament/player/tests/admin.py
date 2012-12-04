@@ -1,7 +1,7 @@
 from django.test import TestCase
 import random
 
-from ..admin import player as player_admin
+from ..admin.player import PlayerAdmin
 from ..models import Category, Player, Group
 
 def set_category(*args):
@@ -13,6 +13,10 @@ def get_category(x): return x.category_id
 
 class ActionsTestCase(TestCase):
     fixtures = ('player_admin_testdata.json', )
+
+    def setUp(self):
+        self.admin = PlayerAdmin(Player, None)
+
     def test_refresh_categories(self):
         male_under_40 = Player.objects.filter(gender=0, age__lt=40)
         male_over_40 = Player.objects.filter(gender=0, age__gte=40)
@@ -34,17 +38,17 @@ class ActionsTestCase(TestCase):
         changed_male_over_40 = list(male_over_40)
         changed_female = list(female)
 
-        player_admin.refresh_categories(None, None, male_under_40)
+        self.admin.refresh_categories(None, male_under_40)
         self.assertEqual(map(get_category, male_under_40.all()), map(get_category, correct_male_under_40))
         self.assertEqual(map(get_category, male_over_40.all()), map(get_category, changed_male_over_40))
         self.assertEqual(map(get_category, female.all()), map(get_category, changed_female))
 
-        player_admin.refresh_categories(None, None, male_over_40)
+        self.admin.refresh_categories(None, male_over_40)
         self.assertEqual(list(male_under_40.all()), correct_male_under_40)
         self.assertEqual(list(male_over_40.all()), correct_male_over_40)
         self.assertEqual(list(female.all()), changed_female)
 
-        player_admin.refresh_categories(None, None, female)
+        self.admin.refresh_categories(None, female)
         self.assertEqual(list(male_under_40.all()), correct_male_under_40)
         self.assertEqual(list(male_over_40.all()), correct_male_over_40)
         self.assertEqual(list(female.all()), correct_female)
@@ -52,7 +56,7 @@ class ActionsTestCase(TestCase):
     def test_create_groups(self):
         leaders = Player.objects.filter(id__in=(9, 10))
 
-        player_admin.create_groups(None, None, leaders)
+        self.admin.create_groups_from_leaders(None, leaders)
         groups = Group.objects.filter(category=1)
         self.assertEqual(len(groups), 2)
         id1, id2 = [x.id for x in groups]
@@ -75,7 +79,7 @@ class ActionsTestCase(TestCase):
                    for _ in range(4) for club in range(4)]
         leaders = Player.objects.filter(id__in=[x.id for x in players][:4])
 
-        player_admin.create_groups(None, None, leaders)
+        self.admin.create_groups_from_leaders(None, leaders)
         for group in Group.objects.filter(category=category):
             clubs_in_group = Player.objects.filter(group=group).values_list("club", flat=True)
             self.assertEqual(len(clubs_in_group), 4)
@@ -83,7 +87,7 @@ class ActionsTestCase(TestCase):
 
 
     def test_create_groups_bad(self):
-        player_admin.create_groups(None, None, Player.objects.none())
+        self.admin.create_groups_from_leaders(None, Player.objects.none())
         self.assertEqual(len(Player.objects.exclude(group=None)), 0)
         self.assertEqual(len(Player.objects.filter(group_leader=True)), 0)
 
@@ -97,7 +101,7 @@ class ActionsTestCase(TestCase):
                                          category=category) for i in range(2)]
         leaders = Player.objects.filter(id=players[0].id)
         with self.assertRaises(ValueError):
-            player_admin.create_groups(None, None, leaders)
+            self.admin.create_groups_from_leaders(None, leaders)
 
 
 

@@ -1,10 +1,6 @@
-from collections import defaultdict, deque
-
 from django.db import models
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
-
-from .utils import shuffled
 
 class PlayerQuerySet(QuerySet):
     def matching_category(self, category):
@@ -16,9 +12,11 @@ class PlayerQuerySet(QuerySet):
 
         return self.filter(**filters)
 
+
 class PlayerManager(models.Manager):
     def get_query_set(self):
         return PlayerQuerySet(self.model)
+
 
 class Player(models.Model):
     class Meta:
@@ -91,45 +89,6 @@ class Category(models.Model):
 class Group(models.Model):
     name = models.CharField(max_length=50)
     category = models.ForeignKey('Category')
-
-    @staticmethod
-    def create_from_leaders(leaders):
-        category_leaders = defaultdict(list)
-        for player in leaders:
-            category_leaders[player.category_id].append(player)
-        Group.objects.filter(category__in=category_leaders.keys()).delete()
-
-        for category in category_leaders.keys():
-            leaders = category_leaders[category]
-            group_members = defaultdict(list)
-
-            for i, leader in enumerate(leaders):
-                group = Group.objects.create(name=u"ABCDEFGHIJKL"[i], category_id=category)
-                group_members[group].append(leader)
-
-            leader_ids = [p.id for p in leaders]
-            others = Player.objects.filter(category=category).exclude(id__in=leader_ids)
-            unallocated_players = deque(shuffled(others))
-            groups = deque(group_members.keys())
-            tried = 0
-            while unallocated_players:
-                player = unallocated_players.popleft()
-                if any(other.club == player.club for other in group_members[groups[0]] if other.club):
-                    unallocated_players.append(player)
-                    tried += 1
-                    if tried > len(unallocated_players):
-                        raise ValueError("Weird data")
-                    continue
-                else:
-                    tried = 0
-                group_members[groups[0]].append(player)
-                groups.rotate(-1)
-
-            Player.objects.filter(id__in=leader_ids).update(group_leader=True)
-            Player.objects.filter(category=category).exclude(id__in=leader_ids).update(group_leader=False)
-            for group in group_members.keys():
-                member_ids = [p.id for p in group_members[group]]
-                Player.objects.filter(id__in=member_ids).update(group=group)
 
     def __unicode__(self):
         return '{} - {}'.format(self.category, self.name)
