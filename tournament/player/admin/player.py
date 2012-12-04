@@ -14,6 +14,8 @@ class PlayerAdmin(admin.ModelAdmin):
     list_filter = ['category']
 
     def refresh_categories(self, request, queryset):
+        selected_ids = list(queryset.values_list('id', flat=True))
+        queryset = Player.objects.filter(id__in=selected_ids)
         queryset.update(category=None)
         for category in Category.objects.all():
             queryset.matching_category(category).update(category=category)

@@ -57,21 +57,31 @@ class ActionsTestCase(TestCase):
         self.assertEqual(list(male_over_40.all()), correct_male_over_40)
         self.assertEqual(list(female.all()), correct_female)
 
+    def test_refresh_category_works_for_queries_filtered_by_category(self):
+        players = Player.objects.filter(category=1)
+        player_ids = list(players.values_list('id', flat=True))
+
+        self.admin.refresh_categories(None, players)
+
+        for player in Player.objects.filter(id__in=player_ids):
+            print player, player.age
+            self.assertEqual(player.category_id, 1)
+
     def test_create_groups(self):
-        leaders = Player.objects.filter(id__in=(9, 10))
+        leaders = Player.objects.filter(id__in=(5, 6))
 
         self.admin.create_groups_from_leaders(None, leaders)
-        groups = Group.objects.filter(category=1)
+        groups = Group.objects.filter(category=2)
         self.assertEqual(len(groups), 2)
         id1, id2 = [x.id for x in groups]
-        self.assertEqual(len(Player.objects.filter(group=id1)), 3)
+        self.assertEqual(len(Player.objects.filter(group=id1)), 2)
         self.assertEqual(len(Player.objects.filter(group=id2)), 2)
         # Check that leaders are marked as such
-        self.assertTrue(Player.objects.get(id=9).group_leader)
-        self.assertTrue(Player.objects.get(id=10).group_leader)
+        self.assertTrue(Player.objects.get(id=5).group_leader)
+        self.assertTrue(Player.objects.get(id=6).group_leader)
         # Players from other groups should not be assigned to groups
-        self.assertEqual(len(Player.objects.exclude(category=1).exclude(group=None)), 0)
-        self.assertEqual(len(Player.objects.exclude(category=1).filter(group_leader=True)), 0)
+        self.assertEqual(len(Player.objects.exclude(category=2).exclude(group=None)), 0)
+        self.assertEqual(len(Player.objects.exclude(category=2).filter(group_leader=True)), 0)
 
     def test_create_groups_with_clubs(self):
         random.seed(0)

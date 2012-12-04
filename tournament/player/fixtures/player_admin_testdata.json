@@ -63,7 +63,7 @@
         "pk": 6, 
         "model": "player.player", 
         "fields": {
-            "category": 1,
+            "category": 2,
             "surname": "Bizjak", 
             "name": "Marko", 
             "club": "", 
@@ -99,7 +99,7 @@
         "pk": 9, 
         "model": "player.player", 
         "fields": {
-            "category": 1, 
+            "category": 2,
             "surname": "Kolar", 
             "name": "Marko", 
             "club": "", 
