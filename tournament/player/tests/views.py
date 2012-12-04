@@ -1,9 +1,13 @@
 from django.test import TestCase
 
-def get_pk(x): return x.pk
+
+def get_pk(x):
+    return x.pk
+
 
 class PlayerViewsTestCase(TestCase):
     fixtures = ('player_views_testdata.json',)
+
     def test_index(self):
         resp = self.client.get('/players/')
         self.assertEqual(resp.status_code, 200)
@@ -12,7 +16,7 @@ class PlayerViewsTestCase(TestCase):
         self.assertEqual(len(resp.context['categories'][0]), 2)
         category, players = resp.context['categories'][0]
         self.assertEqual(category.pk, 1)
-        self.assertEqual(map(get_pk, players), [1,2])
+        self.assertEqual(map(get_pk, players), [1, 2])
         self.assertEqual(category.name, 'under 45')
         self.assertEqual(players[0].name, 'Janez')
         self.assertEqual(players[0].surname, 'Medved')

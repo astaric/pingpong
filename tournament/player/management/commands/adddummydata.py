@@ -21,19 +21,21 @@ male_proportion = .7
 player_fields = ('name', 'surname', 'gender', 'age')
 
 existing_players = {''}
+
+
 def players(n=40):
     for _ in xrange(n):
-        gender  = random.random() > male_proportion
-        names   = male_names if gender == MALE else female_names
+        gender = random.random() > male_proportion
+        names = male_names if gender == MALE else female_names
 
         new_name = False
         while not new_name:
-            name    = names[random.randint(0, len(names)-1)]
-            surname = surnames[random.randint(0, len(surnames)-1)]
+            name = names[random.randint(0, len(names) - 1)]
+            surname = surnames[random.randint(0, len(surnames) - 1)]
             new_name = (name + surname) not in existing_players
         else:
             existing_players.add(name + surname)
-        age    = random.randint(16, 70)
+        age = random.randint(16, 70)
         yield (name, surname, gender, age)
 
 
@@ -48,5 +50,4 @@ class Command(BaseCommand):
 
         for p in players():
             player = dict(zip(player_fields, p))
-            Player(**player).update_category().save()
-
+            Player(**player).save()

@@ -3,6 +3,7 @@ from django.shortcuts import render_to_response, render, get_object_or_404
 
 from . import models
 
+
 def index(request):
     categories = models.Category.objects.all()
     players_by_categories = [
@@ -11,21 +12,23 @@ def index(request):
     ]
     return render(request, "index.html", {"categories": players_by_categories})
 
+
 def details(request, id):
     player = get_object_or_404(models.Player, id=id)
 
     return render_to_response("details.html", {"player": player})
 
 
-match_template = ('','','','','','','','','','','','','','','','','','','',
-'+-----------------------------------------------------------------+----------+',
-'|                                                                 | Miza     |',
-'+-----------------------------------------------------------------+----------+',
-'|                                                                            |',
-'+----------+----------+----------+----------+----------+----------+----------+',
-'|          |          |          |          |          | Skupaj:  |          |',
-'+----------+----------+----------+----------+----------+----------+----------+',
+match_template = ('',) * 19 + (
+    '+-----------------------------------------------------------------+----------+',
+    '|                                                                 | Miza     |',
+    '+-----------------------------------------------------------------+----------+',
+    '|                                                                            |',
+    '+----------+----------+----------+----------+----------+----------+----------+',
+    '|          |          |          |          |          | Skupaj:  |          |',
+    '+----------+----------+----------+----------+----------+----------+----------+',
 )
+
 
 def print_match(request, id=0):
     template = map(list, match_template)

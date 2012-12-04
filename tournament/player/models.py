@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
 
+
 class PlayerQuerySet(QuerySet):
     def matching_category(self, category):
         filters = {'gender': category.gender}
@@ -23,7 +24,10 @@ class Player(models.Model):
         verbose_name = _("player")
         verbose_name_plural = _("players")
 
-    GENDERS = ( (0, _("Male") ), (1, _("Female") ), )
+    GENDERS = (
+        (0, _("Male")),
+        (1, _("Female")),
+    )
 
     name = models.CharField(_("player|name"), max_length=50)
     surname = models.CharField(_("player|surname"), max_length=50)
@@ -51,6 +55,7 @@ class Player(models.Model):
     def __unicode__(self):
         return "{} {}".format(self.name, self.surname)
 
+
 class PlayerByGroup(Player):
     class Meta:
         proxy = True
@@ -64,9 +69,11 @@ class CategoryQuerySet(QuerySet):
                    .exclude(min_age__gt=player.age)\
                    .exclude(max_age__lt=player.age)
 
+
 class CategoryManager(models.Manager):
     def get_query_set(self):
         return CategoryQuerySet(self.model)
+
 
 class Category(models.Model):
     class Meta:
@@ -80,7 +87,6 @@ class Category(models.Model):
     max_age = models.IntegerField(_("category|maxage"), blank=True, null=True)
 
     objects = CategoryManager()
-
 
     def __unicode__(self):
         return self.name

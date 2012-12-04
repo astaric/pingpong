@@ -4,12 +4,16 @@ import random
 from ..admin.player import PlayerAdmin
 from ..models import Category, Player, Group
 
+
 def set_category(*args):
     for (player, category) in args:
         player.category_id = category
         player.save()
 
-def get_category(x): return x.category_id
+
+def get_category(x):
+    return x.category_id
+
 
 class ActionsTestCase(TestCase):
     fixtures = ('player_admin_testdata.json', )
@@ -85,7 +89,6 @@ class ActionsTestCase(TestCase):
             self.assertEqual(len(clubs_in_group), 4)
             self.assertEqual(len(clubs_in_group), len(set(clubs_in_group)))
 
-
     def test_create_groups_bad(self):
         self.admin.create_groups_from_leaders(None, Player.objects.none())
         self.assertEqual(len(Player.objects.exclude(group=None)), 0)
@@ -102,8 +105,3 @@ class ActionsTestCase(TestCase):
         leaders = Player.objects.filter(id=players[0].id)
         with self.assertRaises(ValueError):
             self.admin.create_groups_from_leaders(None, leaders)
-
-
-
-
-
