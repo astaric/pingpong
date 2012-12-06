@@ -1,8 +1,10 @@
-from django.test import TestCase
 import random
+import string
+
+from django.test import TestCase
 
 from ..admin.player import PlayerAdmin
-from ..models import Category, Player, Group
+from ..models import Category, Player, Group, GroupMember
 
 
 def set_category(*args):
@@ -64,7 +66,6 @@ class ActionsTestCase(TestCase):
         self.admin.refresh_categories(None, players)
 
         for player in Player.objects.filter(id__in=player_ids):
-            print player, player.age
             self.assertEqual(player.category_id, 1)
 
     def test_create_groups(self):
@@ -74,14 +75,13 @@ class ActionsTestCase(TestCase):
         groups = Group.objects.filter(category=2)
         self.assertEqual(len(groups), 2)
         id1, id2 = [x.id for x in groups]
-        self.assertEqual(len(Player.objects.filter(group=id1)), 2)
-        self.assertEqual(len(Player.objects.filter(group=id2)), 2)
+        self.assertEqual(len(GroupMember.objects.filter(group=id1)), 2)
+        self.assertEqual(len(GroupMember.objects.filter(group=id2)), 2)
         # Check that leaders are marked as such
-        self.assertTrue(Player.objects.get(id=5).group_leader)
-        self.assertTrue(Player.objects.get(id=6).group_leader)
+        self.assertTrue(GroupMember.objects.get(player_id=5).leader)
+        self.assertTrue(GroupMember.objects.get(player_id=6).leader)
         # Players from other groups should not be assigned to groups
-        self.assertEqual(len(Player.objects.exclude(category=2).exclude(group=None)), 0)
-        self.assertEqual(len(Player.objects.exclude(category=2).filter(group_leader=True)), 0)
+        self.assertFalse(GroupMember.objects.exclude(player__category=2).exists())
 
     def test_create_groups_with_clubs(self):
         random.seed(0)
@@ -95,14 +95,14 @@ class ActionsTestCase(TestCase):
 
         self.admin.create_groups_from_leaders(None, leaders)
         for group in Group.objects.filter(category=category):
-            clubs_in_group = Player.objects.filter(group=group).values_list("club", flat=True)
+            clubs_in_group = GroupMember.objects.filter(group=group).values_list("player__club", flat=True)
             self.assertEqual(len(clubs_in_group), 4)
             self.assertEqual(len(clubs_in_group), len(set(clubs_in_group)))
 
     def test_create_groups_bad(self):
         self.admin.create_groups_from_leaders(None, Player.objects.none())
-        self.assertEqual(len(Player.objects.exclude(group=None)), 0)
-        self.assertEqual(len(Player.objects.filter(group_leader=True)), 0)
+        self.assertFalse(Group.objects.exists())
+        self.assertFalse(GroupMember.objects.exists())
 
         # If there are more players in a club than there are group leaders,
         # requirement that players from the same club should not be in the
@@ -115,3 +115,39 @@ class ActionsTestCase(TestCase):
         leaders = Player.objects.filter(id=players[0].id)
         with self.assertRaises(ValueError):
             self.admin.create_groups_from_leaders(None, leaders)
+
+    def test_recreating_groups_does_not_delete_players(self):
+        leaders = Player.objects.filter(id__in=(5, 6))
+
+        self.admin.create_groups_from_leaders(None, leaders)
+        self.admin.create_groups_from_leaders(None, leaders)
+
+        self.assertEqual(len(leaders.all()), 2)
+
+    def test_create_single_elimination_bracket(self):
+        brackets = self.admin.create_single_elimination_bracket(1, category_id=1)
+        self.assertEqual(len(brackets), 1)
+        self.assertEqual(len(brackets[0]), 1)
+
+        brackets = self.admin.create_single_elimination_bracket(5, category_id=1)
+        self.assertEqual(len(brackets), 5)
+        self.assertEqual(len(brackets[0]), 16)
+        self.assertEqual(len(brackets[1]), 8)
+        self.assertEqual(len(brackets[2]), 4)
+        self.assertEqual(len(brackets[3]), 2)
+        self.assertEqual(len(brackets[4]), 1)
+
+        for level, brackets in enumerate(brackets[:-1]):
+            for bracket in brackets:
+                self.assertEqual(bracket.level, level)
+                self.assertEqual(bracket.winner_goes_to.level, level + 1)
+
+    def test_create_group_transitions(self):
+        groups = [x.id for x in [Group.objects.create(category_id=1, name=string.ascii_uppercase[i])
+                                 for i in range(5)]]
+        for i in range(20):
+            Player.objects.create(name="New", surname="Player",
+                                  age=0, gender=0)
+
+        transitions = self.admin.create_group_transitions(Group.objects.filter(id__in=groups), category_id=1)
+        # print "\n".join(map(unicode, transitions))
