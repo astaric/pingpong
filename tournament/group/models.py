@@ -13,7 +13,7 @@ class Group(models.Model):
 
 class GroupMember(models.Model):
     player = models.ForeignKey(player_models.Player)
-    group = models.ForeignKey('Group')
+    group = models.ForeignKey('Group', related_name='members')
 
     place = models.IntegerField(blank=True, null=True)
     leader = models.BooleanField(default=False)

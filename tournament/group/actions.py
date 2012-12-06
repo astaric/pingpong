@@ -1,13 +1,15 @@
 from collections import deque, defaultdict
 from math import ceil, log
-import itertools
+from itertools import izip, chain, tee, cycle
+from operator import add
 import string
 
 from django.db.models import Count
 
 from ..player import models as player_models
 from .models import Group, GroupMember, Bracket, GroupToBracketTransition
-from .utils import alternate, shuffled
+from .utils import alternate, group, shuffled, invert
+from . import utils
 
 
 def create_groups_from_leaders(category_id, leaders):
@@ -64,26 +66,59 @@ def create_single_elimination_bracket(levels, **kwargs):
     return brackets
 
 
+def create_tournament_seeds(n, groups=0):
+    def create_seeds(levels):
+        if levels == 0:
+            return 0,
+        s = create_seeds(levels - 1)
+        n = 2 ** (levels) - 1
+        return list(chain.from_iterable(izip(s, (n - x for x in s))))
+
+    levels = int(ceil(log(n, 2)))
+    seeds = create_seeds(levels)
+    if groups:
+        N = len(seeds)
+        inverted = invert(seeds)
+        for i in range(groups, n):
+            for j in range(i, N):
+                if (inverted[i - groups] < N / 2) != (inverted[j] < N / 2):
+                    inverted[i:j + 1] = inverted[j:j + 1] + inverted[i:j]
+                    break
+        seeds = invert(inverted)
+
+    return [s if s < n else None for s in seeds]
+
+
 def create_group_transitions(groups, **kwargs):
-    # We currently assume that the groups contain up to 4
-    # players, first two players go to the winners bracket
-    # and the last two players go to the losers bracket.
-    groups = list(groups.annotate(Count('groupmember')))
+    # First two players from each group go to the winners
+    # bracket, the rest go to the losers bracket.
+
+    groups = list(groups.annotate(Count('members')))
     for group in groups:
-        assert group.groupmember__count <= 4
+        assert group.members__count >= 2
 
-    bracket_levels = int((ceil(log(len(groups), 2)))) + 1
-    winner_brackets = create_single_elimination_bracket(levels=bracket_levels, **kwargs)
-    loser_brackets = create_single_elimination_bracket(levels=bracket_levels, **kwargs)
+    n_players = sum(g.members__count for g in groups)
+    all_members = reduce(add, zip(*[[(g, i) for i in range(g.members__count)] for g in groups]))
 
-    transitions = []
-    # Add dummy groups so the group count is equal to bracket size
-    groups = groups + [Group(name="?")] * (len(winner_brackets[0]) - len(groups))
-    for brackets, places in ((winner_brackets, (1, 2)), (loser_brackets, (3, 4))):
-        for bracket, group, place in zip(alternate(brackets[0], brackets[0]),
-                                         alternate(groups, groups[::-1]),
-                                         itertools.cycle(places)):
-            if group.id and place <= group.groupmember__count:
-                transitions.append(
-                    GroupToBracketTransition.objects.create(group=group, place=place, bracket=bracket))
-    return transitions
+    n_winners = 2 * len(groups)
+    create_group_bracket_transitions(all_members[:n_winners], **kwargs)
+    create_group_bracket_transitions(all_members[n_winners:], **kwargs)
+
+
+def create_group_bracket_transitions(candidates, **kwargs):
+    n = len(candidates)
+    levels = int(ceil(log(n)))
+
+    brackets = create_single_elimination_bracket(levels=levels, **kwargs)
+    placements = list(create_tournament_placement(levels=levels))
+
+    for (m1, m2), b in zip(utils.group(placements, 2), brackets[0]):
+        if m1 >= n or m2 >= n:
+            b = b.winner_goes_to
+
+        if m1 < n:
+            group, place = candidates[m1]
+            GroupToBracketTransition.objects.create(group=group, place=place, bracket=b.winner_goes_to)
+        if m2 < n:
+            group, place = candidates[m2]
+            GroupToBracketTransition.objects.create(group=group, place=place, bracket=b.winner_goes_to)

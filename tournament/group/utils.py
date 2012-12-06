@@ -17,9 +17,16 @@ def group(iterable, n):
 
 def alternate(iterable1, iterable2):
     MISSING = object()
-
     for a, b in izip_longest(iterable1, iterable2, fillvalue=MISSING):
         if a is not MISSING:
             yield a
         if b is not MISSING:
             yield b
+
+
+def invert(xs, length=0):
+    ys = [None] * (length or len(xs))
+    for i, s in enumerate(xs):
+        if s < len(ys):
+            ys[s] = i
+    return ys

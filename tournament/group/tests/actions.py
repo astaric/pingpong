@@ -20,10 +20,10 @@ class TestCreateGroups(TestCase):
         groups = Group.objects.filter(category=category)
         self.assertEqual(len(groups), 4)
         # Check member counts
-        self.assertEqual(groups[0].groupmember_set.count(), 4)
-        self.assertEqual(groups[1].groupmember_set.count(), 3)
-        self.assertEqual(groups[2].groupmember_set.count(), 3)
-        self.assertEqual(groups[3].groupmember_set.count(), 3)
+        self.assertEqual(groups[0].members.count(), 4)
+        self.assertEqual(groups[1].members.count(), 3)
+        self.assertEqual(groups[2].members.count(), 3)
+        self.assertEqual(groups[3].members.count(), 3)
 
         # Check that leaders are marked as such
         self.assertTrue(GroupMember.objects.get(player=leaders[0]).leader)
@@ -44,10 +44,10 @@ class TestCreateGroups(TestCase):
         groups = Group.objects.filter(category=category)
         self.assertEqual(len(groups), 4)
         # Check member counts
-        self.assertEqual(groups[0].groupmember_set.count(), 4)
-        self.assertEqual(groups[1].groupmember_set.count(), 4)
-        self.assertEqual(groups[2].groupmember_set.count(), 4)
-        self.assertEqual(groups[3].groupmember_set.count(), 4)
+        self.assertEqual(groups[0].members.count(), 4)
+        self.assertEqual(groups[1].members.count(), 4)
+        self.assertEqual(groups[2].members.count(), 4)
+        self.assertEqual(groups[3].members.count(), 4)
 
         # Each group should have members from all 4 clubs
         member_clubs = lambda group: GroupMember.objects.filter(group=group).values_list("player__club", flat=True)
@@ -81,31 +81,31 @@ class TestCreateGroups(TestCase):
         groups = Group.objects.filter(category=category)
         self.assertEqual(len(groups), 4)
         # Check member counts
-        self.assertEqual(groups[0].groupmember_set.count(), 4)
-        self.assertEqual(groups[1].groupmember_set.count(), 3)
-        self.assertEqual(groups[2].groupmember_set.count(), 3)
-        self.assertEqual(groups[3].groupmember_set.count(), 3)
+        self.assertEqual(groups[0].members.count(), 4)
+        self.assertEqual(groups[1].members.count(), 3)
+        self.assertEqual(groups[2].members.count(), 3)
+        self.assertEqual(groups[3].members.count(), 3)
 
         actions.create_groups_from_leaders(category.id, leaders)
 
         groups = Group.objects.filter(category=category)
         self.assertEqual(len(groups), 4)
         # Check member counts
-        self.assertEqual(groups[0].groupmember_set.count(), 4)
-        self.assertEqual(groups[1].groupmember_set.count(), 3)
-        self.assertEqual(groups[2].groupmember_set.count(), 3)
-        self.assertEqual(groups[3].groupmember_set.count(), 3)
+        self.assertEqual(groups[0].members.count(), 4)
+        self.assertEqual(groups[1].members.count(), 3)
+        self.assertEqual(groups[2].members.count(), 3)
+        self.assertEqual(groups[3].members.count(), 3)
 
         self.assertEqual(len(leaders.all()), 4)
 
 
-class CreateSingleEliminationBracket(TestCase):
+class TestCreateSingleEliminationBracket(TestCase):
     def test_create_single_elimination_bracket(self):
         brackets = actions.create_single_elimination_bracket(1, category_id=1)
         self.assertEqual(len(brackets), 1)
         self.assertEqual(len(brackets[0]), 1)
 
-        brackets = self.admin.create_single_elimination_bracket(5, category_id=1)
+        brackets = actions.create_single_elimination_bracket(5, category_id=1)
         self.assertEqual(len(brackets), 5)
         self.assertEqual(len(brackets[0]), 16)
         self.assertEqual(len(brackets[1]), 8)
@@ -119,12 +119,25 @@ class CreateSingleEliminationBracket(TestCase):
                 self.assertEqual(bracket.winner_goes_to.level, level + 1)
 
 
+class TestCreateTournamentPlacement(TestCase):
+    def test_create_tournament_seeds(self):
+        self.assertEqual(actions.create_tournament_seeds(4, 2), [0, 3, 1, 2])
+        self.assertEqual(actions.create_tournament_seeds(6, 2), [0, None, 3, 4, 1, None, 2, 5])
+        self.assertEqual(actions.create_tournament_seeds(6, 3), [0, None, 4, 5, 1, None, 2, 3])
+        self.assertEqual(actions.create_tournament_seeds(8, 4), [0, 6, 3, 5, 1, 7, 2, 4])
+        self.assertEqual(actions.create_tournament_seeds(10, 5), [0, None, 6, 7, 3, None, 4, None, 1, None, 8, 9, 2, None, 5, None])
+        self.assertEqual(actions.create_tournament_seeds(12, 6), [0, None, 7, 8, 3, None, 4, 11, 1, None, 6, 9, 2, None, 5, 10])
+        self.assertEqual(actions.create_tournament_seeds(16, 8), [0, 14, 7, 9, 3, 13, 4, 10, 1, 15, 6, 8, 2, 12, 5, 11])
+
+
 class CreateGroupTransitions(TestCase):
+
     def test_create_group_transitions(self):
         groups = [x.id for x in [Group.objects.create(category_id=1, name=string.ascii_uppercase[i])
                                  for i in range(5)]]
         for i in range(20):
-            player_models.Player.objects.create(name="New", surname="Player", age=0, gender=0)
+            p = player_models.Player.objects.create(name='', surname='', age=0, gender=0)
+            GroupMember.objects.create(group_id=groups[i % 5], player=p)
 
-        transitions = self.admin.create_group_transitions(Group.objects.filter(id__in=groups), category_id=1)
+        transitions = actions.create_group_transitions(Group.objects.filter(id__in=groups), category_id=1)
         # print "\n".join(map(unicode, transitions))
