@@ -1,12 +1,23 @@
 from django.http import HttpResponse
+from django.shortcuts import render_to_response, render, get_object_or_404
+
+from . import models
+from ..player import models as player_models
 
 
 def index(request):
-    pass
+    categories = player_models.Category.objects.all()
+
+    return render(request, "group_index.html", {"categories": list(categories)})
 
 
-def details(request):
-    pass
+def details(request, category_id):
+    category = get_object_or_404(player_models.Category, id=category_id)
+    groups = list(models.Group.objects.filter(category=category))
+    for group in groups:
+        group.member_list = list(group.members.order_by('-leader', 'player__surname'))
+
+    return render(request, 'group_details.html', {'category': category, 'groups': groups})
 
 
 match_template = ('',) * 19 + (

@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h1>{{ category }}</h1>
+
+{% for group in groups %}
+<h2>{{ group.name }}</h2>
+<table border=1>
+    <tr>
+        <td></td>
+        {% for member in group.member_list %}
+        <td>{{ member.player }}</td>
+        {% endfor %}
+    </tr>
+    {% for member in group.member_list %}
+    <tr>
+        <td>{{ member.player }}</td>
+        {% for member in group.member_list %}
+        <td>{% ifequal forloop.parentloop.counter forloop.counter %}
+            ...
+            {% endifequal %}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+
+</table>
+{% empty %}
+    Skupine za to kategorijo se niso bile dolocene.
+{% endfor %}
+
+{% include 'bracket.html' %}
+{% endblock %}

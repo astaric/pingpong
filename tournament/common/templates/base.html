@@ -1,0 +1,48 @@
+{% load staticfiles %}
+{% load tournament_extras %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>{% block title %}Tournament{% endblock %}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/bracket.css' %}" type="text/css" media="all" />
+    <!--[if IE 6]><link rel="stylesheet" href="{% static 'css/ie6.css' %}" type="text/css" media="all" /><![endif]-->
+    <link rel="shortcut icon" href="{% static 'css/images/favicon.ico' %}" />
+    <script type="text/javascript" src="{% static 'js/jquery-1.4.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/func.js' %}"></script>
+</head>
+<body>
+<div class="shell">
+    <div class="border">
+        <div id="navigation">
+            <ul>
+                <li><a href="{% url home %}"{% if request.path == '/' %} class="active"{% endif %}>Home</a></li>
+                {{ user.is_authenticated }}
+                {% block navigation %}
+                    <li><a href="{% url player_index %}"{% if request.path|startswith:'/player' %} class="active"{% endif %}>Prijave</a></li>
+                    <li><a href="{% url group_index %}"{% if request.path|startswith:'/group' %} class="active"{% endif %}>Tekmovanje</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="{% url admin:index %}">Admin</a></li>
+                    {% endif %}
+                {% endblock %}
+            </ul>
+            <div class="cl">&nbsp;</div>
+        </div>
+        {% if user.is_authenticated %}
+        <div id="sidebar">
+            <ul>
+                <li><a href="#">Nov igralec</a></li>
+                <li><a href="#">Nova kategorija</a></li>
+            </ul>
+        </div>
+        {% endif %}
+        <div id="main">
+
+            {% block main %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

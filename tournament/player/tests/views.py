@@ -9,7 +9,7 @@ class PlayerViewsTestCase(TestCase):
     fixtures = ('player_views_testdata.json',)
 
     def test_index(self):
-        resp = self.client.get('/players/')
+        resp = self.client.get('/player/')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('categories' in resp.context)
         self.assertEqual(len(resp.context['categories']), 1)
@@ -24,7 +24,7 @@ class PlayerViewsTestCase(TestCase):
         self.assertEqual(players[1].surname, 'Novak')
 
     def test_details(self):
-        resp = self.client.get('/players/1/')
+        resp = self.client.get('/player/1/')
         self.assertEqual(resp.status_code, 200)
         self.assertTrue('player' in resp.context)
         player = resp.context['player']
@@ -32,5 +32,5 @@ class PlayerViewsTestCase(TestCase):
         self.assertEqual(player.surname, 'Medved')
 
         # Ensure that non-existing player throws a 404.
-        resp = self.client.get('/players/99/')
+        resp = self.client.get('/player/99/')
         self.assertEqual(resp.status_code, 404)

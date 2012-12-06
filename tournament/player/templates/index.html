@@ -1,6 +1,8 @@
+{% extends "base.html" %}
 {% load i18n %}
 
-<h1>{% trans "players" %}</h1>
+{% block main %}
+<h1>{% trans "Prijavljeni igralci po kategorijah" %}</h1>
 
 {% for category, players in categories %}
     <h2>{{ category }}</h2>
@@ -10,4 +12,4 @@
     {% endfor %}
     </ul>
 {% endfor %}
-
+{% endblock %}

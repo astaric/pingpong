@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block main %}
+<h1>{% trans "categories" %}</h1>
+
+<ul>
+{% for category in categories %}
+    <li><a href="{% url group_details category.id %}">{{ category }}</a></li>
+{% endfor %}
+</ul>
+{% endblock %}

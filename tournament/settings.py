@@ -90,6 +90,12 @@ TEMPLATE_LOADERS = (
     # 'django.template.loaders.eggs.Loader',
 )
 
+# Needed to access request in templates
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+TEMPLATE_CONTEXT_PROCESSORS += (
+    'django.core.context_processors.request',
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -108,9 +114,6 @@ ROOT_URLCONF = 'tournament.urls'
 WSGI_APPLICATION = 'tournament.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
 )
 
 LANGUAGES = (
@@ -118,7 +121,9 @@ LANGUAGES = (
     ('sl', 'Slovenian'),
 )
 
-LOCALE_PATHS = (os.path.join(project_dir, "conf", "locale"),)
+LOCALE_PATHS = (
+    os.path.join(project_dir, 'conf', 'locale'),
+)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -131,6 +136,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'tournament.common',
     'tournament.player',
     'tournament.group',
 )
