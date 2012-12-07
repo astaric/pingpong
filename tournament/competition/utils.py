@@ -15,13 +15,12 @@ def group(iterable, n):
     return izip_longest(*(iterable[i::n] for i in range(n)))
 
 
-def alternate(iterable1, iterable2):
+def alternate(*iterables):
     MISSING = object()
-    for a, b in izip_longest(iterable1, iterable2, fillvalue=MISSING):
-        if a is not MISSING:
-            yield a
-        if b is not MISSING:
-            yield b
+    for tuple in izip_longest(*iterables, fillvalue=MISSING):
+        for element in tuple:
+            if element is not MISSING:
+                yield element
 
 
 def invert(xs, length=0):

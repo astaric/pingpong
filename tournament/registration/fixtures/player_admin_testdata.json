@@ -1,7 +1,7 @@
 [
     {
         "pk": 1, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 1, 
             "surname": "Medved", 
@@ -13,7 +13,7 @@
     }, 
     {
         "pk": 2, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 2, 
             "surname": "Novak", 
@@ -25,7 +25,7 @@
     }, 
     {
         "pk": 3, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 3, 
             "surname": "Hribar", 
@@ -37,7 +37,7 @@
     }, 
     {
         "pk": 4, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 1, 
             "surname": "Koren", 
@@ -49,7 +49,7 @@
     }, 
     {
         "pk": 5, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 2,
             "surname": "Kolar", 
@@ -61,7 +61,7 @@
     }, 
     {
         "pk": 6, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 2,
             "surname": "Bizjak", 
@@ -73,7 +73,7 @@
     }, 
     {
         "pk": 7, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 3, 
             "surname": "Horvat", 
@@ -85,7 +85,7 @@
     }, 
     {
         "pk": 8, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 3, 
             "surname": "Novak", 
@@ -97,7 +97,7 @@
     }, 
     {
         "pk": 9, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 2,
             "surname": "Kolar", 
@@ -109,7 +109,7 @@
     }, 
     {
         "pk": 10, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 1, 
             "surname": "Zupan", 
@@ -121,7 +121,7 @@
     },
     {
         "pk": 1, 
-        "model": "player.category", 
+        "model": "registration.category", 
         "fields": {
             "name": "male under 40",
             "gender": 0,
@@ -130,7 +130,7 @@
     }, 
     {
         "pk": 2, 
-        "model": "player.category", 
+        "model": "registration.category", 
         "fields": {
             "name": "male over 40",
             "gender": 0,
@@ -139,7 +139,7 @@
     },
     {
         "pk": 3,
-        "model": "player.category",
+        "model": "registration.category",
         "fields": {
             "name": "female",
             "gender": 1

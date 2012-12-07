@@ -8,7 +8,6 @@ body {
 	line-height:20px;
 	font-family:Georgia, Arial, Helvetica, Sans-Serif;
 	color:#333;
-	background:url(images/body-bg.gif) repeat 0 0;
 }
 a {
 	color:#ff0000;
@@ -55,6 +54,7 @@ textarea {
 }
 .border {
 	border:1px solid #e8e8e8;
+    border-bottom: 0;
 	background:#fff;
 	position:relative;
 }
@@ -144,4 +144,8 @@ textarea {
 
 h1 {
     margin-bottom: 0.67em;
+}
+
+.bracket {
+    overflow: hidden;
 }

@@ -1,6 +1,6 @@
-from django.db import models, IntegrityError
+from django.db import models
 
-from ..player import models as player_models
+from ..registration import models as player_models
 
 
 class Group(models.Model):
@@ -27,48 +27,46 @@ class GroupMember(models.Model):
         if self.place is None:
             return
         try:
-            transition = GroupToBracketTransition.objects.get(group=self.group_id, place=self.place)
-            Match.objects.create(bracket=transition.bracket, player=self.player)
-        except (GroupToBracketTransition.DoesNotExist, IntegrityError):
+            BracketSlot.objects.filter(player=self.player_id).update(player=None)
+            bracket_slot = BracketSlot.objects.get(transition__group_id=self.group_id, transition__place=self.place)
+            bracket_slot.player_id = self.player_id
+            bracket_slot.save()
+        except BracketSlot.DoesNotExist:
             pass
 
 
 class Bracket(models.Model):
     category = models.ForeignKey(player_models.Category)
+    name = models.CharField(max_length=50)
+
+
+class BracketSlot(models.Model):
+    bracket = models.ForeignKey(Bracket)
     level = models.IntegerField()
 
-    winner_goes_to = models.ForeignKey('Bracket', blank=True, null=True, related_name='+')
-    winner_order = models.IntegerField(default=0)
-
-    loser_goes_to = models.ForeignKey('Bracket', blank=True, null=True, related_name='+')
-    loser_order = models.IntegerField(default=0)
-
-
-class Match(models.Model):
-    class Meta:
-        unique_together = (('bracket', 'player'),)
-
-    bracket = models.ForeignKey(Bracket)
-    order = models.IntegerField(default=0)
-
+    player = models.ForeignKey(player_models.Player, blank=True, null=True)
     table = models.CharField(max_length=50, blank=True)
-    player = models.ForeignKey(player_models.Player)
     score = models.IntegerField(null=True)
+
+    winner_goes_to = models.ForeignKey('BracketSlot', null=True, related_name='+')
+    loser_goes_to = models.ForeignKey('BracketSlot', null=True, related_name='+')
 
 
 class GroupToBracketTransition(models.Model):
     class Meta:
-        unique_together = (('group', 'place'),)
+        unique_together = (
+            ('group', 'place'),
+            ('slot',)
+        )
 
     group = models.ForeignKey(Group)
     place = models.IntegerField()
 
-    bracket = models.ForeignKey(Bracket)
-    order = models.IntegerField(default=0)
+    slot = models.OneToOneField(BracketSlot, related_name='transition')
 
 
 class SetScore(models.Model):
-    match = models.ForeignKey(Match)
+    match = models.ForeignKey(BracketSlot)
 
     set = models.IntegerField()
     score = models.IntegerField()

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from ..player import models as player_models
+from ..registration import models as player_models
 
 
 def index(request):

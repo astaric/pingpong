@@ -137,8 +137,8 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
     'tournament.common',
-    'tournament.player',
-    'tournament.group',
+    'tournament.registration',
+    'tournament.competition',
 )
 
 LOGGING = {

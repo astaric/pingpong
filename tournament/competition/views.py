@@ -1,8 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render_to_response, render, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 
 from . import models
-from ..player import models as player_models
+from . import templates
+from ..registration import models as player_models
 
 
 def index(request):
@@ -13,11 +14,16 @@ def index(request):
 
 def details(request, category_id):
     category = get_object_or_404(player_models.Category, id=category_id)
-    groups = list(models.Group.objects.filter(category=category))
-    for group in groups:
-        group.member_list = list(group.members.order_by('-leader', 'player__surname'))
+    members = models.GroupMember.objects.filter(group__category=category)\
+                                        .order_by('group', '-leader', 'player__surname')\
+                                        .values('player__name', 'player__surname', 'group__name')
 
-    return render(request, 'group_details.html', {'category': category, 'groups': groups})
+    brackets = models.Bracket.objects.filter(category=category)
+    brackets = [templates.render_bracket(b) for b in brackets]
+
+    return render(request, 'group_details.html', {'category': category,
+                                                  'members': members,
+                                                  'brackets': brackets})
 
 
 match_template = ('',) * 19 + (

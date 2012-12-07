@@ -3,8 +3,8 @@ import string
 
 from django.test import TestCase
 
-from ...player import models as player_models
-from ..models import Group, GroupMember
+from ...registration import models as player_models
+from ..models import Group, GroupMember, Bracket
 from .. import actions
 
 
@@ -99,45 +99,44 @@ class TestCreateGroups(TestCase):
         self.assertEqual(len(leaders.all()), 4)
 
 
-class TestCreateSingleEliminationBracket(TestCase):
+class TestCreateBrackets(TestCase):
     def test_create_single_elimination_bracket(self):
-        brackets = actions.create_single_elimination_bracket(1, category_id=1)
-        self.assertEqual(len(brackets), 1)
-        self.assertEqual(len(brackets[0]), 1)
+        bracket = Bracket.objects.create(category_id=1)
+        slots = actions.create_single_elimination_bracket_slots(bracket, 3)
+        self.assertEqual(len(slots), 2)
+        self.assertEqual(len(slots[0]), 4)
+        self.assertEqual(len(slots[1]), 2)
 
-        brackets = actions.create_single_elimination_bracket(5, category_id=1)
-        self.assertEqual(len(brackets), 5)
-        self.assertEqual(len(brackets[0]), 16)
-        self.assertEqual(len(brackets[1]), 8)
-        self.assertEqual(len(brackets[2]), 4)
-        self.assertEqual(len(brackets[3]), 2)
-        self.assertEqual(len(brackets[4]), 1)
+        bracket = Bracket.objects.create(category_id=1)
+        slots = actions.create_single_elimination_bracket_slots(bracket, 5)
+        self.assertEqual(len(slots), 3)
+        self.assertEqual(len(slots[0]), 8)
+        self.assertEqual(len(slots[1]), 4)
+        self.assertEqual(len(slots[2]), 2)
 
-        for level, brackets in enumerate(brackets[:-1]):
-            for bracket in brackets:
+        for level, slots in enumerate(slots[:-1]):
+            for bracket in slots:
                 self.assertEqual(bracket.level, level)
                 self.assertEqual(bracket.winner_goes_to.level, level + 1)
 
-
-class TestCreateTournamentPlacement(TestCase):
     def test_create_tournament_seeds(self):
-        self.assertEqual(actions.create_tournament_seeds(4, 2), [0, 3, 1, 2])
-        self.assertEqual(actions.create_tournament_seeds(6, 2), [0, None, 3, 4, 1, None, 2, 5])
-        self.assertEqual(actions.create_tournament_seeds(6, 3), [0, None, 4, 5, 1, None, 2, 3])
-        self.assertEqual(actions.create_tournament_seeds(8, 4), [0, 6, 3, 5, 1, 7, 2, 4])
-        self.assertEqual(actions.create_tournament_seeds(10, 5), [0, None, 6, 7, 3, None, 4, None, 1, None, 8, 9, 2, None, 5, None])
-        self.assertEqual(actions.create_tournament_seeds(12, 6), [0, None, 7, 8, 3, None, 4, 11, 1, None, 6, 9, 2, None, 5, 10])
-        self.assertEqual(actions.create_tournament_seeds(16, 8), [0, 14, 7, 9, 3, 13, 4, 10, 1, 15, 6, 8, 2, 12, 5, 11])
-
-
-class CreateGroupTransitions(TestCase):
+        seeds = actions.create_tournament_seeds
+        self.assertEqual(seeds(1, 1), [0, None])
+        self.assertEqual(seeds(4, 2), [0, 3, 1, 2])
+        self.assertEqual(seeds(6, 2), [0, None, 3, 4, 1, None, 2, 5])
+        self.assertEqual(seeds(6, 3), [0, None, 4, 5, 1, None, 2, 3])
+        self.assertEqual(seeds(8, 4), [0, 6, 3, 5, 1, 7, 2, 4])
+        self.assertEqual(seeds(10, 5), [0, None, 6, 7, 3, None, 4, None, 1, None, 8, 9, 2, None, 5, None])
+        self.assertEqual(seeds(12, 6), [0, None, 7, 8, 3, None, 4, 11, 1, None, 6, 9, 2, None, 5, 10])
+        self.assertEqual(seeds(16, 8), [0, 14, 7, 9, 3, 13, 4, 10, 1, 15, 6, 8, 2, 12, 5, 11])
 
     def test_create_group_transitions(self):
-        groups = [x.id for x in [Group.objects.create(category_id=1, name=string.ascii_uppercase[i])
+        category = player_models.Category.objects.create(name='', gender=0)
+        groups = [x.id for x in [Group.objects.create(category=category, name=string.ascii_uppercase[i])
                                  for i in range(5)]]
         for i in range(20):
-            p = player_models.Player.objects.create(name='', surname='', age=0, gender=0)
+            p = player_models.Player.objects.create(name='', surname='', age=0, gender=0, category=category)
             GroupMember.objects.create(group_id=groups[i % 5], player=p)
 
-        transitions = actions.create_group_transitions(Group.objects.filter(id__in=groups), category_id=1)
+        transitions = actions.create_brackets(category)
         # print "\n".join(map(unicode, transitions))

@@ -1,7 +1,7 @@
 [
     {
         "pk": 1,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -13,7 +13,7 @@
     },
     {
         "pk": 2,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -25,7 +25,7 @@
     },
     {
         "pk": 3,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -37,7 +37,7 @@
     },
     {
         "pk": 4,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -49,7 +49,7 @@
     },
     {
         "pk": 5,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -61,7 +61,7 @@
     },
     {
         "pk": 6,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -73,7 +73,7 @@
     },
     {
         "pk": 7,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -85,7 +85,7 @@
     },
     {
         "pk": 8,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -97,7 +97,7 @@
     },
     {
         "pk": 9,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -109,7 +109,7 @@
     },
     {
         "pk": 10,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -121,7 +121,7 @@
     },
     {
         "pk": 11,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -133,7 +133,7 @@
     },
     {
         "pk": 12,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -145,7 +145,7 @@
     },
     {
         "pk": 13,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -157,7 +157,7 @@
     },
     {
         "pk": 14,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -169,7 +169,7 @@
     },
     {
         "pk": 15,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -181,7 +181,7 @@
     },
     {
         "pk": 16,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 1,
             "surname": "Player",
@@ -193,7 +193,7 @@
     },
     {
         "pk": 20,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -205,7 +205,7 @@
     },
     {
         "pk": 21,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -217,7 +217,7 @@
     },
     {
         "pk": 22,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -229,7 +229,7 @@
     },
     {
         "pk": 23,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -241,7 +241,7 @@
     },
     {
         "pk": 24,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -253,7 +253,7 @@
     },
     {
         "pk": 25,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -265,7 +265,7 @@
     },
     {
         "pk": 26,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -277,7 +277,7 @@
     },
     {
         "pk": 27,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -289,7 +289,7 @@
     },
     {
         "pk": 28,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -301,7 +301,7 @@
     },
     {
         "pk": 29,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -313,7 +313,7 @@
     },
     {
         "pk": 30,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -325,7 +325,7 @@
     },
     {
         "pk": 31,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -337,7 +337,7 @@
     },
     {
         "pk": 32,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 2,
             "surname": "Player",
@@ -349,7 +349,7 @@
     },
     {
         "pk": 33,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 3,
             "surname": "Player",
@@ -361,7 +361,7 @@
     },
     {
         "pk": 34,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 3,
             "surname": "Player",
@@ -373,7 +373,7 @@
     },
     {
         "pk": 35,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 3,
             "surname": "Player",
@@ -385,7 +385,7 @@
     },
     {
         "pk": 36,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 3,
             "surname": "Player",
@@ -397,7 +397,7 @@
     },
     {
         "pk": 37,
-        "model": "player.player",
+        "model": "registration.player",
         "fields": {
             "category": 3,
             "surname": "Player",
@@ -409,7 +409,7 @@
     },
     {
         "pk": 1,
-        "model": "player.category",
+        "model": "registration.category",
         "fields": {
             "max_age": 20,
             "gender": 0,
@@ -419,7 +419,7 @@
     },
     {
         "pk": 2,
-        "model": "player.category",
+        "model": "registration.category",
         "fields": {
             "max_age": 30,
             "gender": 0,
@@ -429,7 +429,7 @@
     },
     {
         "pk": 3,
-        "model": "player.category",
+        "model": "registration.category",
         "fields": {
             "max_age": 40,
             "gender": 0,

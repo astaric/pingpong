@@ -3,9 +3,9 @@ import itertools
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
-from ..group import actions as group_actions
+from ..competition import actions as group_actions
 from .models import Player, Category
-from ..group import models as group_models
+from ..competition import models as group_models
 from . import views
 
 
@@ -25,10 +25,11 @@ class PlayerAdmin(admin.ModelAdmin):
     def create_groups_from_leaders(self, request, leaders):
         category_leaders = {category: list(leaders)
                             for category, leaders in itertools.groupby(leaders.order_by('category'),
-                                                                       lambda x: x.category_id)}
+                                                                       lambda x: x.category)}
 
-        for category_id, leaders in category_leaders.items():
-            group_actions.create_groups_from_leaders(category_id, leaders)
+        for category, leaders in category_leaders.items():
+            group_actions.create_groups_from_leaders(category.id, leaders)
+            group_actions.create_brackets(category)
     create_groups_from_leaders.short_description = _("Create groups")
 
 

@@ -1,14 +1,14 @@
 from collections import deque, defaultdict
 from math import ceil, log
-from itertools import izip, chain, tee, cycle
+from itertools import izip, chain
 from operator import add
 import string
 
 from django.db.models import Count
 
-from ..player import models as player_models
-from .models import Group, GroupMember, Bracket, GroupToBracketTransition
-from .utils import alternate, group, shuffled, invert
+from ..registration import models as player_models
+from .models import Group, GroupMember, Bracket, BracketSlot, GroupToBracketTransition
+from .utils import shuffled, invert
 from . import utils
 
 
@@ -50,20 +50,20 @@ def create_groups_from_leaders(category_id, leaders):
     GroupMember.objects.bulk_create(members)
 
 
-def create_single_elimination_bracket(levels, **kwargs):
-    brackets = [[] for i in range(levels)]
+def create_single_elimination_bracket_slots(bracket, n):
+    levels = max(int(ceil(log(n, 2))), 1)
+    slots = [[] for i in range(levels)]
 
-    def recursively_create_brackets(parent, level):
+    def recursively_create_slots(parent, level):
         if level < 0:
             return
         for i in range(2):
-            bracket = Bracket.objects.create(level=level, winner_goes_to=parent, **kwargs)
-            brackets[level].append(bracket)
-            recursively_create_brackets(bracket, level - 1)
-    finale = Bracket.objects.create(level=levels - 1, **kwargs)
-    brackets[-1].append(finale)
-    recursively_create_brackets(finale, levels - 2)
-    return brackets
+            slot = BracketSlot.objects.create(bracket=bracket, level=level, winner_goes_to=parent)
+            slots[level].append(slot)
+            recursively_create_slots(slot, level - 1)
+    bracket_winner = BracketSlot.objects.create(bracket=bracket, level=levels)
+    recursively_create_slots(bracket_winner, levels - 1)
+    return slots
 
 
 def create_tournament_seeds(n, groups=0):
@@ -74,7 +74,7 @@ def create_tournament_seeds(n, groups=0):
         n = 2 ** (levels) - 1
         return list(chain.from_iterable(izip(s, (n - x for x in s))))
 
-    levels = int(ceil(log(n, 2)))
+    levels = max(int(ceil(log(n, 2))), 1)
     seeds = create_seeds(levels)
     if groups:
         N = len(seeds)
@@ -89,36 +89,40 @@ def create_tournament_seeds(n, groups=0):
     return [s if s < n else None for s in seeds]
 
 
-def create_group_transitions(groups, **kwargs):
+def create_brackets(category):
     # First two players from each group go to the winners
     # bracket, the rest go to the losers bracket.
-
-    groups = list(groups.annotate(Count('members')))
+    Bracket.objects.filter(category=category).delete()
+    groups = Group.objects.filter(category=category).annotate(Count('members'))
     for group in groups:
         assert group.members__count >= 2
 
-    n_players = sum(g.members__count for g in groups)
-    all_members = reduce(add, zip(*[[(g, i) for i in range(g.members__count)] for g in groups]))
+    all_members = list(utils.alternate(*[[(g, i + 1) for i in range(g.members__count)] for g in groups]))
 
     n_winners = 2 * len(groups)
-    create_group_bracket_transitions(all_members[:n_winners], **kwargs)
-    create_group_bracket_transitions(all_members[n_winners:], **kwargs)
+    winner_bracket = Bracket.objects.create(category=category, name='winners bracket')
+    w_slots = create_single_elimination_bracket_slots(winner_bracket, n_winners)
+    soother_bracket = Bracket.objects.create(category=category, name='loosers bracket')
+    s_slots = create_single_elimination_bracket_slots(soother_bracket, len(all_members) - n_winners)
+
+    create_transitions(all_members[:n_winners], groups, w_slots)
+    create_transitions(all_members[n_winners:], groups, s_slots)
 
 
-def create_group_bracket_transitions(candidates, **kwargs):
+def create_transitions(candidates, groups, slots):
     n = len(candidates)
-    levels = int(ceil(log(n)))
+    placements = list(create_tournament_seeds(n, len(groups)))
 
-    brackets = create_single_elimination_bracket(levels=levels, **kwargs)
-    placements = list(create_tournament_placement(levels=levels))
-
-    for (m1, m2), b in zip(utils.group(placements, 2), brackets[0]):
-        if m1 >= n or m2 >= n:
-            b = b.winner_goes_to
-
-        if m1 < n:
-            group, place = candidates[m1]
-            GroupToBracketTransition.objects.create(group=group, place=place, bracket=b.winner_goes_to)
-        if m2 < n:
-            group, place = candidates[m2]
-            GroupToBracketTransition.objects.create(group=group, place=place, bracket=b.winner_goes_to)
+    for (p1, p2), (s1, s2) in zip(utils.group(placements, 2), utils.group(slots[0], 2)):
+        order = None
+        if p2 is None:
+            group, place = candidates[p1]
+            GroupToBracketTransition.objects.create(group=group, place=place, slot=s1.winner_goes_to)
+        elif p1 is None:
+            group, place = candidates[p2]
+            GroupToBracketTransition.objects.create(group=group, place=place, slot=s1.winner_goes_to)
+        else:
+            group, place = candidates[p1]
+            GroupToBracketTransition.objects.create(group=group, place=place, slot=s1)
+            group, place = candidates[p2]
+            GroupToBracketTransition.objects.create(group=group, place=place, slot=s2)

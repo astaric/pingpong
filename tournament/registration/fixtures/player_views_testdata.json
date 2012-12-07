@@ -1,7 +1,7 @@
 [
     {
         "pk": 1, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 1, 
             "surname": "Medved", 
@@ -12,7 +12,7 @@
     }, 
     {
         "pk": 2, 
-        "model": "player.player", 
+        "model": "registration.player", 
         "fields": {
             "category": 1,
             "surname": "Novak", 
@@ -23,7 +23,7 @@
     },
     {
         "pk": 1, 
-        "model": "player.category", 
+        "model": "registration.category", 
         "fields": {
             "max_age": 45, 
             "gender": 0, 

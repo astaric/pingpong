@@ -1,0 +1,208 @@
+[
+    {
+        "pk": 1,
+        "model": "registration.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0,
+            "age": 20
+        }
+    },
+    {
+        "pk": 2,
+        "model": "registration.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0,
+            "age": 20
+        }
+    },
+    {
+        "pk": 3,
+        "model": "registration.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0,
+            "age": 20
+        }
+    },
+    {
+        "pk": 1,
+        "model": "registration.category",
+        "fields": {
+            "max_age": null,
+            "gender": 0,
+            "name": "Category",
+            "min_age": null
+        }
+    },
+    {
+        "pk": 1,
+        "model": "competition.group",
+        "fields": {
+            "category": 1,
+            "name": "A"
+        }
+    },
+    {
+        "pk": 1,
+        "model": "competition.bracket",
+        "fields": {
+            "category": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "competition.bracket",
+        "fields": {
+            "category": 1
+        }
+    },
+    {
+        "pk": 3,
+        "model": "competition.bracket",
+        "fields": {
+            "category": 1
+        }
+    },
+    {
+        "pk": 1,
+        "model": "competition.bracketslot",
+        "fields": {
+            "score": null,
+            "level": 0,
+            "player": null,
+            "bracket": 1,
+            "winner_goes_to": 5,
+            "loser_goes_to": 6,
+            "table": ""
+        }
+    },
+    {
+        "pk": 2,
+        "model": "competition.bracketslot",
+        "fields": {
+            "score": null,
+            "level": 0,
+            "player": null,
+            "bracket": 1,
+            "winner_goes_to": 5,
+            "loser_goes_to": 6,
+            "table": ""
+        }
+    },
+    {
+        "pk": 3,
+        "model": "competition.bracketslot",
+        "fields": {
+            "score": null,
+            "level": 0,
+            "player": null,
+            "bracket": 2,
+            "winner_goes_to": 7,
+            "loser_goes_to": 8,
+            "table": ""
+        }
+    },
+    {
+        "pk": 4,
+        "model": "competition.bracketslot",
+        "fields": {
+            "score": null,
+            "level": 0,
+            "player": null,
+            "bracket": 2,
+            "winner_goes_to": 7,
+            "loser_goes_to": 8,
+            "table": ""
+        }
+    },
+    {
+        "pk": 5,
+        "model": "competition.bracketslot",
+        "fields": {
+            "score": null,
+            "level": -1,
+            "player": null,
+            "bracket": 3,
+            "winner_goes_to": null,
+            "loser_goes_to": null,
+            "table": ""
+        }
+    },
+    {
+        "pk": 6,
+        "model": "competition.bracketslot",
+        "fields": {
+            "score": null,
+            "level": -1,
+            "player": null,
+            "bracket": 3,
+            "winner_goes_to": null,
+            "loser_goes_to": null,
+            "table": ""
+        }
+    },
+    {
+        "pk": 7,
+        "model": "competition.bracketslot",
+        "fields": {
+            "score": null,
+            "level": -1,
+            "player": null,
+            "bracket": 3,
+            "winner_goes_to": null,
+            "loser_goes_to": null,
+            "table": ""
+        }
+    },
+    {
+        "pk": 8,
+        "model": "competition.bracketslot",
+        "fields": {
+            "score": null,
+            "level": -1,
+            "player": null,
+            "bracket": 3,
+            "winner_goes_to": null,
+            "loser_goes_to": null,
+            "table": ""
+        }
+    },
+    {
+        "pk": 1,
+        "model": "competition.grouptobrackettransition",
+        "fields": {
+            "slot": 1,
+            "place": 1,
+            "group": 1
+        }
+    },
+    {
+        "pk": 2,
+        "model": "competition.grouptobrackettransition",
+        "fields": {
+            "slot": 2,
+            "place": 2,
+            "group": 1
+        }
+    },
+    {
+        "pk": 3,
+        "model": "competition.grouptobrackettransition",
+        "fields": {
+            "slot": 7,
+            "place": 3,
+            "group": 1
+        }
+    }
+]
