@@ -149,3 +149,20 @@ h1 {
 .bracket {
     overflow: hidden;
 }
+
+.groupscores {
+    border-spacing: 0;
+    border-left: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
+
+.groupscores td {
+    width: 100px;
+    padding: 2px;
+    border-top: 1px solid #333;
+    border-right: 1px solid #333;
+}
+
+.groupscores td.dark {
+    background-color: #333;
+}

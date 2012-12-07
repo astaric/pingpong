@@ -6,20 +6,18 @@
 {% regroup members by group__name as member_list %}
 {% for members in member_list %}
 <h2>{{ members.grouper }}</h2>
-<table border=1>
+<table class="groupscores">
     <tr>
         <td></td>
         {% for member in members.list %}
-        <td>{{ member.player__name }} {{ member.player__surname }}</td>
+        <td class="header">{{ member.player__name }} {{ member.player__surname }}</td>
         {% endfor %}
     </tr>
     {% for member in members.list %}
     <tr>
-        <td>{{ member.player__name }} {{ member.player__surname }}</td>
+        <td class="header">{{ member.player__name }} {{ member.player__surname }}</td>
         {% for member in members.list %}
-        <td>{% ifequal forloop.parentloop.counter forloop.counter %}
-            ...
-            {% endifequal %}</td>
+        <td{% ifequal forloop.parentloop.counter forloop.counter %} class="dark"{% endifequal %}></td>
         {% endfor %}
     </tr>
     {% endfor %}

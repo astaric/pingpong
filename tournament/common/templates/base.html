@@ -18,10 +18,9 @@
         <div id="navigation">
             <ul>
                 <li><a href="{% url home %}"{% if request.path == '/' %} class="active"{% endif %}>Home</a></li>
-                {{ user.is_authenticated }}
                 {% block navigation %}
-                    <li><a href="{% url player_index %}"{% if request.path|startswith:'/player' %} class="active"{% endif %}>Prijave</a></li>
-                    <li><a href="{% url group_index %}"{% if request.path|startswith:'/group' %} class="active"{% endif %}>Tekmovanje</a></li>
+                    <li><a href="{% url player_index %}"{% if request.path|startswith:'/registration' %} class="active"{% endif %}>Prijave</a></li>
+                    <li><a href="{% url group_index %}"{% if request.path|startswith:'/competition' %} class="active"{% endif %}>Tekmovanje</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="{% url admin:index %}">Admin</a></li>
                     {% endif %}
@@ -32,8 +31,8 @@
         {% if user.is_authenticated %}
         <div id="sidebar">
             <ul>
-                <li><a href="#">Nov igralec</a></li>
-                <li><a href="#">Nova kategorija</a></li>
+                {% block sidebar %}
+                {% endblock %}
             </ul>
         </div>
         {% endif %}

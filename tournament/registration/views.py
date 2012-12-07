@@ -12,7 +12,7 @@ def index(request):
     return render(request, "index.html", {"categories": players_by_categories})
 
 
-def details(request, id):
+def player_details(request, id):
     player = get_object_or_404(models.Player, id=id)
 
     return render(request, "details.html", {"player": player})
