@@ -1,0 +1,14 @@
+{% extends 'registration_base.html' %}
+
+{% block main %}
+    <form action="{% url player_edit player.id %}" method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="fieldWrapper">
+                {{ field.errors }}
+                {{ field.label_tag }}&nbsp; {{ field }}
+            </div>
+        {% endfor %}
+        <p><input type="submit" value="Save" /></p>
+    </form>
+{% endblock %}

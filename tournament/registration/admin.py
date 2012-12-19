@@ -55,4 +55,4 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Player, PlayerAdmin)
 admin.site.register(group_models.GroupMember, GroupMemberAdmin)
 admin.site.register(Category, CategoryAdmin)
-admin.site.admin_view(views.details)
+admin.site.admin_view(views.player_details)

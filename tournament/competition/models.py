@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from ..registration import models as player_models
 
@@ -70,3 +71,13 @@ class SetScore(models.Model):
 
     set = models.IntegerField()
     score = models.IntegerField()
+
+
+class Table(models.Model):
+    ORIENTATIONS = ((0, _("Potrait")), (1, _('Landscape')))
+
+    name = models.CharField(max_length=50)
+
+    orientation = models.IntegerField(choices=ORIENTATIONS, default=1)
+    x = models.IntegerField()
+    y = models.IntegerField()
