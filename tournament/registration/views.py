@@ -18,6 +18,7 @@ def player_details(request, id):
 
     return render(request, "player/details.html", {"player": player})
 
+
 def player_edit(request, player_id):
     player = get_object_or_404(models.Player, id=player_id)
     if request.POST:

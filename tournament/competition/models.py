@@ -59,6 +59,14 @@ class BracketSlot(models.Model):
     winner_goes_to = models.ForeignKey('BracketSlot', null=True, related_name='+')
     loser_goes_to = models.ForeignKey('BracketSlot', null=True, related_name='+')
 
+    def label(self):
+        label = []
+        if self.transition is not None:
+            label.append('%s%s' % (self.transition.group.name, self.transition.place))
+        if self.player is not None:
+            label.append(self.player.full_name())
+        return " ".join(label)
+
 
 class GroupToBracketTransition(models.Model):
     class Meta:

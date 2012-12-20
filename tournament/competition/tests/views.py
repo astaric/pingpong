@@ -36,5 +36,3 @@ class PlayerViewsTestCase(TestCase):
         self.assertEqual(len(matches), 4)
         brackets = [m.winner_goes_to_id for m in matches]
         self.assertEqual(brackets, [2, 2, 5, 5])
-
-

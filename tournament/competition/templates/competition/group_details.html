@@ -1,21 +1,22 @@
 {% extends "competition/base.html" %}
+{% load bracket %}
 
 {% block main %}
 <h1>{{ category }}</h1>
 
-{% regroup members by group__name as member_list %}
+{% regroup members by group.name as member_list %}
 {% for members in member_list %}
 <h2>{{ members.grouper }}</h2>
 <table class="groupscores">
     <tr>
         <td></td>
         {% for member in members.list %}
-        <td class="header">{{ member.player__name }} {{ member.player__surname }}</td>
+        <td class="header">{{ member.player.full_name }}</td>
         {% endfor %}
     </tr>
     {% for member in members.list %}
     <tr>
-        <td class="header">{{ member.player__name }} {{ member.player__surname }}</td>
+        <td class="header">{{ member.player.full_name }}</td>
         {% for member in members.list %}
         <td{% ifequal forloop.parentloop.counter forloop.counter %} class="dark"{% endifequal %}></td>
         {% endfor %}
@@ -28,7 +29,11 @@
     Skupine za to kategorijo se niso bile dolocene.
 {% endfor %}
 
-{% for bracket in brackets %}
-    {% include 'competition/bracket.html' with rendered_bracket=bracket%}
+{% for name, bracket_info in brackets %}
+    <div class='bracket'>
+        <h2>{{ name }}</h2>
+        {% bracket bracket_info %}
+    </div>
+
 {% endfor %}
 {% endblock %}

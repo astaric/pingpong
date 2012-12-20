@@ -1,9 +1,8 @@
-from django.db.models import Count
+from django.db.models import Count, Max
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 
 from . import models
-from . import templates
 from ..registration import models as player_models
 
 
@@ -16,15 +15,23 @@ def index(request):
 def details(request, category_id):
     category = get_object_or_404(player_models.Category, id=category_id)
     members = models.GroupMember.objects.filter(group__category=category)\
-                                        .order_by('group', '-leader', 'player__surname')\
-                                        .select_related('player', 'group')
+                                        .select_related('player', 'group')\
+                                        .order_by('group', '-leader', 'player__surname')
 
-    brackets = models.Bracket.objects.filter(category=category)
-    brackets = [templates.render_bracket(b) for b in brackets]
+    brackets = []
+    for bracket, name, rounds in models.Bracket.objects.filter(category=category)\
+                                                       .values_list('id', 'name')\
+                                                       .annotate(rounds=Max('bracketslot__level')):
+        slots = models.BracketSlot.objects.filter(bracket=bracket)\
+                                          .select_related('transition', 'player')\
+                                          .prefetch_related('transition__group')\
+                                          .order_by('id')
+        brackets.append((name, (rounds, slots)))
 
     return render(request, 'competition/group_details.html', {'category': category,
                                                               'members': members,
                                                               'brackets': brackets})
+
 
 def upcoming_matches(request):
     matches = models.BracketSlot.objects.exclude(player=None).exclude(status__gt=1)\
