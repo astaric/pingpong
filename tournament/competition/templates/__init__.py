@@ -3,14 +3,27 @@ from django.template import Template
 from ..models import BracketSlot
 
 class Slot(object):
-    def __init__(self, s):
-        self.level = s['level'] + 1
-        g, p = s['transition__group__name'], s['transition__place']
-        self.label = '%s%s' % (g, p) if g and p else ''
+    def __init__(self, slot):
+        self.level = slot['level'] + 1
+        g, p = slot['transition__group__name'], slot['transition__place']
+        n, s = slot['player__name'], slot['player__surname']
+
+        label = []
+        if g and p:
+            label.append('%s%s' % (g, p))
+        if n:
+            label.append(n)
+        if s:
+            label.append(s)
+
+        self.label = ' '.join(label)
+
 
 def render_bracket(bracket):
     slots = BracketSlot.objects.filter(bracket=bracket).order_by('id')
-    slots = list(slots.values('id', 'level', 'transition__group__name', 'transition__place'))
+    slots = list(slots.values('id', 'level',
+                              'transition__group__name', 'transition__place',
+                              'player__name', 'player__surname'))
 
     rounds = 0
     for i,s in enumerate(slots):

@@ -1,0 +1,14 @@
+{% extends "competition/base.html" %}
+
+{% block main %}
+    <h1>Prihajajoči dvoboji</h1>
+    {% regroup matches by winner_goes_to_id as match_list %}
+    {% for match in match_list %}
+        {{ match.grouper }}
+        {% for player in match.list %}
+            {% cycle '-' '' as separator silent %}
+            {{ player.player.full_name }} {{ separator }}
+        {% endfor %}
+        <br>
+    {% endfor %}
+{% endblock %}

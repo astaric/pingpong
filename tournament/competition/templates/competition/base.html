@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% load tournament_extras %}
+
+{% block navigation %}
+    <li><a href="{% url group_index %}"{% if request.path|startswith:'/competition' %} class="active"{% endif %}>Tekmovanje</a></li>
+{% endblock %}

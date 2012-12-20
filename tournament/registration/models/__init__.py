@@ -41,6 +41,9 @@ class Player(models.Model):
     def __unicode__(self):
         return "{} {}".format(self.name, self.surname)
 
+    def full_name(self):
+        return '%s %s' % (self.name, self.surname)
+
 
 class Category(models.Model):
     class Meta:

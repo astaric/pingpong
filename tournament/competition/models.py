@@ -42,8 +42,15 @@ class Bracket(models.Model):
 
 
 class BracketSlot(models.Model):
+    STATUS = (
+        (0, ''),
+        (1, 'playing'),
+        (2, 'completed')
+    )
+
     bracket = models.ForeignKey(Bracket)
     level = models.IntegerField()
+    status = models.IntegerField(choices=STATUS, default=0)
 
     player = models.ForeignKey(player_models.Player, blank=True, null=True)
     table = models.CharField(max_length=50, blank=True)

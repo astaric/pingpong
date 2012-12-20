@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "competition/base.html" %}
 
 {% block main %}
 <h1>{{ category }}</h1>
@@ -29,6 +29,6 @@
 {% endfor %}
 
 {% for bracket in brackets %}
-    {% include 'bracket.html' with rendered_bracket=bracket%}
+    {% include 'competition/bracket.html' with rendered_bracket=bracket%}
 {% endfor %}
 {% endblock %}
