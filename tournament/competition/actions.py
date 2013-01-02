@@ -1,7 +1,6 @@
 from collections import deque, defaultdict
 from math import ceil, log
 from itertools import izip, chain
-from operator import add
 import string
 
 from django.db.models import Count
