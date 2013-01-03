@@ -1,4 +1,5 @@
 from django.db import models
+from django.core import urlresolvers
 from django.utils.translation import ugettext_lazy as _
 
 from ..registration import models as player_models
@@ -40,6 +41,9 @@ class Bracket(models.Model):
     category = models.ForeignKey(player_models.Category)
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return '%s - %s' % (self.category.name, self.name)
+
 
 class BracketSlot(models.Model):
     STATUS = (
@@ -66,6 +70,13 @@ class BracketSlot(models.Model):
         if self.player is not None:
             label.append(self.player.full_name())
         return " ".join(label)
+
+    def __str__(self):
+        return '%s' % self.id
+
+    def get_admin_url(self):
+        return urlresolvers.reverse("admin:%s_%s_change" %
+                                    (self._meta.app_label, self._meta.module_name), args=(self.id,))
 
 
 class GroupToBracketTransition(models.Model):
