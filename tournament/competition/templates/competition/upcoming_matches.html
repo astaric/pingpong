@@ -2,13 +2,10 @@
 
 {% block main %}
     <h1>Prihajajoči dvoboji</h1>
+
     {% regroup matches by winner_goes_to_id as match_list %}
-    {% for match in match_list %}
-        {{ match.grouper }}
-        {% for player in match.list %}
-            {% cycle '-' '' as separator silent %}
-            {{ player.player.full_name }} {{ separator }}
-        {% endfor %}
+    {% for match_id, slot in matches.lists %}
+        {% include 'competition/match.html' with id=match_id player1=slot.0.player player2=slot.1.player %}
         <br>
     {% endfor %}
 {% endblock %}

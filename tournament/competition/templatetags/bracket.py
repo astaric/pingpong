@@ -45,20 +45,30 @@ def render_bracket(bracket_info, label=id, hide_missing=True):
 @register.simple_tag()
 def bracket(bracket_info):
     def label(x):
-        return x.label()
+        template = (
+            '<div style="float:left; text-align:left; width:20px; padding-right: 5px; padding-left: 5px;">%s</div>'
+            '<div style="text-align:left; ">%s</div>'
+        )
+        return template % x.label()
 
-    return render_bracket(bracket_info, label)
+    return render_bracket(bracket_info, label, hide_missing=True)
 
 
 @register.simple_tag()
 def bracket_from_id(bracket_id):
-    rounds = models.Bracket.objects.filter(id=bracket_id).values().annotate(rounds=Max('bracketslot__level'))[0]['rounds']
+    rounds = models.Bracket.objects.filter(id=bracket_id).values() \
+                                   .annotate(rounds=Max('bracketslot__level'))[0]['rounds']
     slots = models.BracketSlot.objects.filter(bracket_id=bracket_id)\
                                       .select_related('transition', 'player')\
                                       .prefetch_related('transition__group')\
                                       .order_by('id')
 
     def label(x):
-        return '<a href="%s">%s</a>' % (x.get_admin_url(), x.id)
+        template = '<div style="text-align:left; padding-left:10px;"><a href="%(admin_url)s">%(label)s</a></div>'
+        params = {
+            'admin_url': x.get_admin_url(),
+            'label': '%s (%s)' % (x.id, ' '.join(x.label())),
+        }
+        return template % params
 
     return render_bracket((rounds, slots), label=label, hide_missing=False)

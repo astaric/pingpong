@@ -1,6 +1,8 @@
 from django.db.models import Count, Max
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
+from django.utils import datastructures
+import sys
 
 from . import models
 from ..registration import models as player_models
@@ -34,10 +36,13 @@ def details(request, category_id):
 
 
 def upcoming_matches(request):
-    matches = models.BracketSlot.objects.exclude(player=None).exclude(status__gt=1)\
-                                        .values('winner_goes_to_id').annotate(icount=Count('id'))\
-                                        .filter(icount=2).values('winner_goes_to_id')
-    matches = models.BracketSlot.objects.filter(winner_goes_to_id__in=matches).select_related('player')
+    matches_with_players = models.BracketSlot.objects.exclude(player=None).exclude(status__gt=1)\
+                                                     .values('winner_goes_to_id').annotate(icount=Count('id'))\
+                                                     .filter(icount=2).values('winner_goes_to_id')
+    matches_query = models.BracketSlot.objects.filter(winner_goes_to_id__in=matches_with_players).select_related('player')
+    matches = datastructures.MultiValueDict()
+    for match in matches_query:
+        matches.appendlist(match.winner_goes_to, match)
 
     return render(request, 'competition/upcoming_matches.html', {'matches': matches})
 

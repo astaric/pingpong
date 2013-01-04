@@ -2,5 +2,7 @@
 {% load tournament_extras %}
 
 {% block navigation %}
-    <li><a href="{% url group_index %}"{% if request.path|startswith:'/competition' %} class="active"{% endif %}>Tekmovanje</a></li>
+    <li><a href="{% url group_index %}"{% if request.path == '/competition/' %} class="active"{% endif %}>Tekmovanje</a></li>
+    <li><a href="{% url upcoming_matches %}"{% if request.path|startswith:'/competition/upcoming_matches' %} class="active"{% endif %}>Prihajajoci dvoboji</a></li>
+    <li><a href="{% url tables %}"{% if request.path|startswith:'/competition/tables' %} class="active"{% endif %}>Mize</a></li>
 {% endblock %}
