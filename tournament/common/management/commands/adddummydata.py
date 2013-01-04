@@ -1,7 +1,8 @@
 import random
 
 from django.core.management.base import BaseCommand
-from ...models import Category, Player
+from ....registration.models import Category, Player
+from ....competition.models import Table
 
 category_fields = ('name', 'gender', 'min_age', 'max_age')
 categories = (
@@ -51,3 +52,8 @@ class Command(BaseCommand):
         for p in players():
             player = dict(zip(player_fields, p))
             Player(**player).save()
+
+        for i in range(12):
+            row = i // 4 + 1
+            column = i % 4 + 1
+            Table(name='Table %d' % (i + 1), row=row, column=column).save()
