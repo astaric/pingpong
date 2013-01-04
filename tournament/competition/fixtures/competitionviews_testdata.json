@@ -227,7 +227,7 @@
             "bracket": 1,
             "winner_goes_to": null,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -240,7 +240,7 @@
             "bracket": 1,
             "winner_goes_to": 1,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -253,7 +253,7 @@
             "bracket": 1,
             "winner_goes_to": 2,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -266,7 +266,7 @@
             "bracket": 1,
             "winner_goes_to": 2,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -279,7 +279,7 @@
             "bracket": 1,
             "winner_goes_to": 1,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -292,7 +292,7 @@
             "bracket": 1,
             "winner_goes_to": 5,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -305,7 +305,7 @@
             "bracket": 1,
             "winner_goes_to": 5,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -318,7 +318,7 @@
             "bracket": 2,
             "winner_goes_to": null,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -331,7 +331,7 @@
             "bracket": 2,
             "winner_goes_to": 8,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -344,7 +344,7 @@
             "bracket": 2,
             "winner_goes_to": 9,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -357,7 +357,7 @@
             "bracket": 2,
             "winner_goes_to": 9,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -370,7 +370,7 @@
             "bracket": 2,
             "winner_goes_to": 8,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -383,7 +383,7 @@
             "bracket": 2,
             "winner_goes_to": 12,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {
@@ -396,7 +396,7 @@
             "bracket": 2,
             "winner_goes_to": 12,
             "loser_goes_to": null,
-            "table": ""
+            "table": null
         }
     },
     {

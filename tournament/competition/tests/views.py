@@ -33,6 +33,10 @@ class PlayerViewsTestCase(TestCase):
         self.assertIn('matches', resp.context)
 
         matches = resp.context['matches']
-        self.assertEqual(len(matches), 4)
-        brackets = [m.winner_goes_to_id for m in matches]
-        self.assertEqual(brackets, [2, 2, 5, 5])
+        self.assertEqual(len(matches), 2)
+        brackets = [m.id for m in matches]
+        self.assertEqual(brackets, [2, 5])
+
+    def test_tables(self):
+        resp = self.client.get(reverse('tables'))
+        self.assertIn('tables', resp.context)

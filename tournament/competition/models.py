@@ -57,26 +57,27 @@ class BracketSlot(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
 
     player = models.ForeignKey(player_models.Player, blank=True, null=True)
-    table = models.CharField(max_length=50, blank=True)
-    score = models.IntegerField(null=True)
+    table = models.ForeignKey('Table', blank=True, null=True)
+    score = models.IntegerField(null=True, blank=True)
 
-    winner_goes_to = models.ForeignKey('BracketSlot', null=True, related_name='+')
-    loser_goes_to = models.ForeignKey('BracketSlot', null=True, related_name='+')
+    winner_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
+    loser_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
 
     def label(self):
-        label = []
-        if self.transition is not None:
-            label.append('%s%s' % (self.transition.group.name, self.transition.place))
-        if self.player is not None:
-            label.append(self.player.full_name())
-        return " ".join(label)
+        return (
+            '%s%s' % (self.transition.group.name, self.transition.place) if self.transition is not None else '&nbsp;',
+            self.player.full_name() if self.player is not None else '&nbsp;',
+        )
 
-    def __str__(self):
-        return '%s' % self.id
+    def empty(self):
+        return self.transition is None and self.player is None
 
     def get_admin_url(self):
         return urlresolvers.reverse("admin:%s_%s_change" %
                                     (self._meta.app_label, self._meta.module_name), args=(self.id,))
+
+    def __str__(self):
+        return '%s' % self.id
 
 
 class GroupToBracketTransition(models.Model):
@@ -100,10 +101,23 @@ class SetScore(models.Model):
 
 
 class Table(models.Model):
-    ORIENTATIONS = ((0, _("Potrait")), (1, _('Landscape')))
-
     name = models.CharField(max_length=50)
 
-    orientation = models.IntegerField(choices=ORIENTATIONS, default=1)
-    x = models.IntegerField()
-    y = models.IntegerField()
+    row = models.IntegerField()
+    column = models.IntegerField()
+
+    _players = None
+
+    @property
+    def players(self):
+        print 'accessing players'
+        if self._players is None:
+            self._players = sorted([bracket.player for bracket in self.bracketslot_set.all()],
+                                   cmp=lambda x: x.id) or ['', '']
+        return self._players
+
+    def player1(self):
+        return self.players[0]
+
+    def player2(self):
+        return self.players[1]

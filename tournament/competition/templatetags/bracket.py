@@ -1,5 +1,4 @@
 from django import template
-from django.core import urlresolvers
 from django.db.models import Max
 
 from .. import models
@@ -24,7 +23,7 @@ def render_bracket(bracket_info, label=id, hide_missing=True):
             bt.append('<div class="round%d-%s%s">%s</div>' % (b.level + 1, location, winner, label(b)))
             if b.level == 1:
                 b1, b2 = bs.next(), bs.next()
-                style = 'style="border: 0px;" ' if hide_missing and not (b1.label() or b2.label()) else ''
+                style = 'style="border: 0px;" ' if hide_missing and b1.empty() and b2.empty() else ''
                 bt.append('<div %sclass="round%d-top">%s</div>' % (style, b1.level + 1, label(b1)))
                 bt.append('<div %sclass="round%d-bottom">%s</div>' % (style, b2.level + 1, label(b2)))
             else:

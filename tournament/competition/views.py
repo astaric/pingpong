@@ -47,6 +47,11 @@ def upcoming_matches(request):
     return render(request, 'competition/upcoming_matches.html', {'matches': matches})
 
 
+def tables(request):
+    tables = models.Table.objects.prefetch_related('bracketslot_set')
+    return render(request, 'competition/tables.html', {'tables': tables})
+
+
 match_template = ('',) * 19 + (
     '+-----------------------------------------------------------------+----------+',
     '|                                                                 | Miza     |',

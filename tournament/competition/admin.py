@@ -1,10 +1,9 @@
 from django.contrib import admin
+from django import http
+from django.core import urlresolvers
 
 from . import models
-
-
-class GroupAdmin(admin.ModelAdmin):
-    pass
+from ..registration import models as registration_models
 
 
 class GroupMemberAdmin(admin.ModelAdmin):
@@ -21,6 +20,27 @@ class GroupMemberAdmin(admin.ModelAdmin):
         self.list_display_links = (None, )
 
 
+class GroupMemberInline(admin.TabularInline):
+    model = models.GroupMember
+    fields = ('player', 'leader', 'place')
+    #readonly_fields = ('player', 'leader')
+    extra = 0
+
+    def queryset(self, request):
+        return self.model.objects.order_by('group', 'place', '-leader', 'player__surname')
+
+
+class GroupAdmin(admin.ModelAdmin):
+    ordering = ('category', 'id')
+
+    inlines = (
+        GroupMemberInline,
+    )
+
+    class Media:
+        css = {'all': ('css/hide_admin_original.css',)}
+
+
 class GroupToBracketTransitionInline(admin.TabularInline):
     model = models.GroupToBracketTransition
 
@@ -29,13 +49,26 @@ class BracketSlotAdmin(admin.ModelAdmin):
     def get_model_perms(self, request):
         return {}  # Return empty perms dict thus hiding the model from admin index.
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(BracketSlotAdmin, self).get_form(request, obj, **kwargs)
+        if obj:
+            form.base_fields['player'].queryset = registration_models.Player.objects.filter(bracketslot__winner_goes_to=obj)
+        return form
+
     inlines = (
         GroupToBracketTransitionInline,
     )
 
+    def response_change(self, request, obj):
+        if not obj:
+            return super(BracketSlotAdmin, self).response_change(request, obj)
+
+        return http.HttpResponseRedirect(urlresolvers.reverse('admin:competition_bracket_change', args=(obj.bracket_id,)))
+
 
 class BracketAdmin(admin.ModelAdmin):
     change_form_template = 'competition/bracket_admin_change.html'
+    ordering = ('category', 'id')
 
 
 class SetScoreAdmin(admin.ModelAdmin):
@@ -47,9 +80,7 @@ class TableAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Group, GroupAdmin)
-admin.site.register(models.GroupMember, GroupMemberAdmin)
 admin.site.register(models.Bracket, BracketAdmin)
 admin.site.register(models.BracketSlot, BracketSlotAdmin)
-#admin.site.register(models.GroupToBracketTransition, GroupToBracketTransitionAdmin)
 admin.site.register(models.SetScore, SetScoreAdmin)
 admin.site.register(models.Table, TableAdmin)
