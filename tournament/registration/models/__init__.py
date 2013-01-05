@@ -50,7 +50,8 @@ class Category(models.Model):
         verbose_name = _("category")
         verbose_name_plural = _("categories")
 
-    name = models.CharField(_("name"), max_length=50)
+    name = models.CharField(_("name"), max_length=10)
+    description = models.CharField(max_length=50, blank=True)
 
     gender = models.IntegerField(_("gender"), choices=GENDERS)
     min_age = models.IntegerField(_("min age"), blank=True, null=True)

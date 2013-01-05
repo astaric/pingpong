@@ -6,10 +6,10 @@ from ....competition.models import Table
 
 category_fields = ('name', 'gender', 'min_age', 'max_age')
 categories = (
-    ("moski do 45", 0, None, 45),
-    ("moski nad 46", 0, 46, None),
-    ("zenske do 45", 1, None, 45),
-    ("zenske nad 46", 1, 46, None),
+    ("M<45", 0, None, 45),
+    ("M>46", 0, 46, None),
+    ("Z<45", 1, None, 45),
+    ("Z>46", 1, 46, None),
 )
 
 MALE, FEMALE = 0, 1

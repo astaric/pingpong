@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-04 17:15+0100\n"
+"POT-Creation-Date: 2013-01-05 09:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,6 +23,14 @@ msgstr "Prijava"
 #: common/templates/base.html:24 competition/templates/competition/base.html:6
 msgid "Competition"
 msgstr "Tekmovanje"
+
+#: competition/actions.py:103
+msgid "WINNERS"
+msgstr "FINALNA"
+
+#: competition/actions.py:105
+msgid "LOSERS"
+msgstr "TOLAZILNA"
 
 #: competition/templates/competition/base.html:7
 msgid "Matches"
@@ -70,7 +78,7 @@ msgstr "ime"
 msgid "surname"
 msgstr "priimek"
 
-#: registration/models/__init__.py:20 registration/models/__init__.py:55
+#: registration/models/__init__.py:20 registration/models/__init__.py:56
 #, fuzzy
 msgid "gender"
 msgstr "spol"
@@ -87,11 +95,11 @@ msgstr "klub"
 msgid "category"
 msgstr "kategorija"
 
-#: registration/models/__init__.py:56
+#: registration/models/__init__.py:57
 msgid "min age"
 msgstr "najmanjša starost"
 
-#: registration/models/__init__.py:57
+#: registration/models/__init__.py:58
 msgid "max age"
 msgstr "največja starost"
 

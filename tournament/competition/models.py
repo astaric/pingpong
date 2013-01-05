@@ -6,7 +6,7 @@ from ..registration import models as player_models
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=10)
     category = models.ForeignKey(player_models.Category)
 
     def __unicode__(self):
@@ -39,7 +39,8 @@ class GroupMember(models.Model):
 
 class Bracket(models.Model):
     category = models.ForeignKey(player_models.Category)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=10)
+    description = models.CharField(max_length=50)
 
     def __str__(self):
         return '%s - %s' % (self.category.name, self.name)

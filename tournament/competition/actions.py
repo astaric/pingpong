@@ -4,6 +4,7 @@ from itertools import izip, chain
 import string
 
 from django.db.models import Count
+from django.utils.translation import ugettext_lazy as _
 
 from ..registration import models as player_models
 from .models import Group, GroupMember, Bracket, BracketSlot, GroupToBracketTransition
@@ -99,9 +100,9 @@ def create_brackets(category):
     all_members = list(utils.alternate(*[[(g, i + 1) for i in range(g.members__count)] for g in groups]))
 
     n_winners = 2 * len(groups)
-    winner_bracket = Bracket.objects.create(category=category, name='winners bracket')
+    winner_bracket = Bracket.objects.create(category=category, name=_("WINNERS"))
     w_slots = create_single_elimination_bracket_slots(winner_bracket, n_winners)
-    soother_bracket = Bracket.objects.create(category=category, name='loosers bracket')
+    soother_bracket = Bracket.objects.create(category=category, name=_("LOSERS"))
     s_slots = create_single_elimination_bracket_slots(soother_bracket, len(all_members) - n_winners)
 
     create_transitions(all_members[:n_winners], groups, w_slots)
