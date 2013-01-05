@@ -35,7 +35,7 @@ def details(request, category_id):
                                                               'brackets': brackets})
 
 
-def upcoming_matches(request):
+def match_index(request):
     matches_with_players = models.BracketSlot.objects.exclude(player=None).exclude(status__gt=1)\
                                                      .values('winner_goes_to_id').annotate(icount=Count('id'))\
                                                      .filter(icount=2).values('winner_goes_to_id')
@@ -51,6 +51,9 @@ def tables(request):
     tables = models.Table.objects.prefetch_related('bracketslot_set')
     return render(request, 'competition/tables.html', {'tables': tables})
 
+
+def match_details(request, match_id):
+    return render(request, 'competition/match_details.html')
 
 match_template = ('',) * 19 + (
     '+-----------------------------------------------------------------+----------+',

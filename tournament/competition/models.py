@@ -110,10 +110,10 @@ class Table(models.Model):
 
     @property
     def players(self):
-        print 'accessing players'
         if self._players is None:
             self._players = sorted([bracket.player for bracket in self.bracketslot_set.all()],
-                                   cmp=lambda x: x.id) or ['', '']
+                                   key=lambda x: x.id) or ['', '']
+
         return self._players
 
     def player1(self):
@@ -121,3 +121,9 @@ class Table(models.Model):
 
     def player2(self):
         return self.players[1]
+
+    def occupied(self):
+        return self.players != ['', '']
+
+    def __str__(self):
+        return self.name

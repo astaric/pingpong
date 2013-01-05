@@ -40,3 +40,6 @@ class PlayerViewsTestCase(TestCase):
     def test_tables(self):
         resp = self.client.get(reverse('tables'))
         self.assertIn('tables', resp.context)
+
+    def test_match(self):
+        resp = self.client.get(reverse('match_details', kwargs={'match_id': 1}))
