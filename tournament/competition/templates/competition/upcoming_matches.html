@@ -5,7 +5,7 @@
 
     {% regroup matches by winner_goes_to_id as match_list %}
     {% for match_id, slot in matches.lists %}
-        {% include 'competition/match.html' with id=match_id player1=slot.0.player player2=slot.1.player %}
+        {% include 'competition/snippets/match.html' with id=match_id player1=slot.0.player player2=slot.1.player %}
         <br>
     {% endfor %}
 {% endblock %}

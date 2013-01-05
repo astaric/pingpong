@@ -5,7 +5,7 @@
         <tr>
             {% for table in tables %}
                 {% cycle 0 0 0 1 as new_row silent%}
-                <td>{% include 'competition/table.html' %}</td>
+                <td>{% include 'competition/snippets/table.html' %}</td>
                 {% if new_row %}
         </tr><tr>
                 {% endif %}
