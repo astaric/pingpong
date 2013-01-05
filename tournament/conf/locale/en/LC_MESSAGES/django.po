@@ -3,11 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-06 10:41+0100\n"
+"POT-Creation-Date: 2013-01-04 17:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,72 +17,83 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: player/admin/player.py:25
-msgid "Refresh categories"
-msgstr "Refresh categories"
+#: common/templates/base.html:23
+msgid "Registration"
+msgstr ""
 
-#: player/admin/player.py:71
-msgid "Create groups"
-msgstr "Create groups"
+#: common/templates/base.html:24 competition/templates/competition/base.html:6
+msgid "Competition"
+msgstr ""
 
-#: player/models/__init__.py:7
-msgid "Male"
-msgstr "Male"
+#: competition/templates/competition/base.html:7
+msgid "Matches"
+msgstr ""
 
-#: player/models/__init__.py:8
-msgid "Female"
-msgstr "Female"
+#: competition/templates/competition/base.html:8
+msgid "Tables"
+msgstr ""
 
-#: player/models/__init__.py:14
-msgid "player"
-msgstr "player"
-
-#: player/models/__init__.py:15 player/templates/index.html:3
-msgid "players"
-msgstr "players"
-
-#: player/models/__init__.py:17 player/models/__init__.py:57
-msgid "name"
-msgstr "name"
-
-#: player/models/__init__.py:18
-#, fuzzy
-msgid "surname"
-msgstr "surname"
-
-#: player/models/__init__.py:20 player/models/__init__.py:59
-#, fuzzy
-msgid "gender"
-msgstr "gender"
-
-#: player/models/__init__.py:21
-msgid "age"
-msgstr "age"
-
-#: player/models/__init__.py:23
-msgid "club"
-msgstr "club"
-
-#: player/models/__init__.py:24 player/models/__init__.py:54
-msgid "category"
-msgstr "category"
-
-#: player/models/__init__.py:48
-msgid "player by group"
-msgstr "player"
-
-#: player/models/__init__.py:49
-msgid "players by groups"
-msgstr "players by groups"
-
-#: player/models/__init__.py:55
+#: competition/templates/competition/group_index.html:5
+#: registration/models/__init__.py:51
 msgid "categories"
-msgstr "categories"
+msgstr ""
 
-#: player/models/__init__.py:60
+#: registration/admin.py:21
+msgid "Refresh categories"
+msgstr ""
+
+#: registration/admin.py:31
+msgid "Create groups"
+msgstr ""
+
+#: registration/models/__init__.py:7
+msgid "Male"
+msgstr ""
+
+#: registration/models/__init__.py:8
+msgid "Female"
+msgstr ""
+
+#: registration/models/__init__.py:14
+msgid "player"
+msgstr ""
+
+#: registration/models/__init__.py:15
+msgid "players"
+msgstr ""
+
+#: registration/models/__init__.py:17 registration/models/__init__.py:53
+msgid "name"
+msgstr ""
+
+#: registration/models/__init__.py:18
+msgid "surname"
+msgstr ""
+
+#: registration/models/__init__.py:20 registration/models/__init__.py:55
+msgid "gender"
+msgstr ""
+
+#: registration/models/__init__.py:21
+msgid "age"
+msgstr ""
+
+#: registration/models/__init__.py:23
+msgid "club"
+msgstr ""
+
+#: registration/models/__init__.py:24 registration/models/__init__.py:50
+msgid "category"
+msgstr ""
+
+#: registration/models/__init__.py:56
 msgid "min age"
-msgstr "min age"
+msgstr ""
 
-#: player/models/__init__.py:61
+#: registration/models/__init__.py:57
 msgid "max age"
-msgstr "max age"
+msgstr ""
+
+#: registration/templates/index.html:5
+msgid "Prijavljeni igralci po kategorijah"
+msgstr ""

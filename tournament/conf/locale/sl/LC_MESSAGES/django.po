@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-06 10:41+0100\n"
+"POT-Creation-Date: 2013-01-04 17:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,73 +16,91 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: player/admin/player.py:25
+#: common/templates/base.html:23
+msgid "Registration"
+msgstr "Prijava"
+
+#: common/templates/base.html:24 competition/templates/competition/base.html:6
+msgid "Competition"
+msgstr "Tekmovanje"
+
+#: competition/templates/competition/base.html:7
+msgid "Matches"
+msgstr "Tekme"
+
+#: competition/templates/competition/base.html:8
+msgid "Tables"
+msgstr "Mize"
+
+#: competition/templates/competition/group_index.html:5
+#: registration/models/__init__.py:51
+msgid "categories"
+msgstr "kategorije"
+
+#: registration/admin.py:21
 msgid "Refresh categories"
 msgstr "Posodobi kategorije"
 
-#: player/admin/player.py:71
+#: registration/admin.py:31
 msgid "Create groups"
 msgstr "Generiraj skupine"
 
-#: player/models/__init__.py:7
+#: registration/models/__init__.py:7
 msgid "Male"
 msgstr "moški"
 
-#: player/models/__init__.py:8
+#: registration/models/__init__.py:8
 msgid "Female"
 msgstr "ženski"
 
-#: player/models/__init__.py:14
+#: registration/models/__init__.py:14
 msgid "player"
 msgstr "igralec"
 
-#: player/models/__init__.py:15 player/templates/index.html:3
+#: registration/models/__init__.py:15
 msgid "players"
 msgstr "igralci"
 
-#: player/models/__init__.py:17 player/models/__init__.py:57
+#: registration/models/__init__.py:17 registration/models/__init__.py:53
 msgid "name"
 msgstr "ime"
 
-#: player/models/__init__.py:18
+#: registration/models/__init__.py:18
 #, fuzzy
 msgid "surname"
 msgstr "priimek"
 
-#: player/models/__init__.py:20 player/models/__init__.py:59
+#: registration/models/__init__.py:20 registration/models/__init__.py:55
 #, fuzzy
 msgid "gender"
 msgstr "spol"
 
-#: player/models/__init__.py:21
+#: registration/models/__init__.py:21
 msgid "age"
 msgstr "starost"
 
-#: player/models/__init__.py:23
+#: registration/models/__init__.py:23
 msgid "club"
 msgstr "klub"
 
-#: player/models/__init__.py:24 player/models/__init__.py:54
+#: registration/models/__init__.py:24 registration/models/__init__.py:50
 msgid "category"
 msgstr "kategorija"
 
-#: player/models/__init__.py:48
-msgid "player by group"
-msgstr "igralec"
-
-#: player/models/__init__.py:49
-msgid "players by groups"
-msgstr "igralci po skupinah"
-
-#: player/models/__init__.py:55
-msgid "categories"
-msgstr "kategorije"
-
-#: player/models/__init__.py:60
+#: registration/models/__init__.py:56
 msgid "min age"
 msgstr "najmanjša starost"
 
-#: player/models/__init__.py:61
+#: registration/models/__init__.py:57
 msgid "max age"
 msgstr "največja starost"
 
+#: registration/templates/index.html:5
+msgid "Prijavljeni igralci po kategorijah"
+msgstr ""
+
+#~ msgid "player by group"
+#~ msgstr "igralec"
+
+#~ msgid "players by groups"
+#~ msgstr "igralci po skupinah"
