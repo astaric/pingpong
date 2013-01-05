@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django import http
 from django.core import urlresolvers
+from django.db.models import Q
 
 from . import models
 from ..registration import models as registration_models
@@ -52,7 +53,8 @@ class BracketSlotAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super(BracketSlotAdmin, self).get_form(request, obj, **kwargs)
         if obj:
-            form.base_fields['player'].queryset = registration_models.Player.objects.filter(bracketslot__winner_goes_to=obj)
+            form.base_fields['player'].queryset = \
+                registration_models.Player.objects.filter(Q(bracketslot__winner_goes_to=obj) | Q(id=obj.player_id))
         return form
 
     inlines = (
