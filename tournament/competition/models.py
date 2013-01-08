@@ -30,9 +30,12 @@ class GroupMember(models.Model):
             return
         try:
             BracketSlot.objects.filter(player=self.player_id).update(player=None)
-            bracket_slot = BracketSlot.objects.get(transition__group_id=self.group_id, transition__place=self.place)
-            bracket_slot.player_id = self.player_id
-            bracket_slot.save()
+            slot = BracketSlot.objects.get(transition__group_id=self.group_id, transition__place=self.place)
+            slot.player_id = self.player_id
+            slot.save()
+            slot2 = BracketSlot.objects.exclude(id=slot.id).get(winner_goes_to=slot.winner_goes_to)
+            if slot2.no_player:
+                BracketSlot.objects.filter(id=slot.winner_goes_to_id).update(player=self.player_id)
         except BracketSlot.DoesNotExist:
             pass
 
@@ -41,6 +44,8 @@ class Bracket(models.Model):
     category = models.ForeignKey(player_models.Category)
     name = models.CharField(max_length=10)
     description = models.CharField(max_length=50)
+
+    levels = models.IntegerField(default=0)
 
     def __str__(self):
         return '%s - %s' % (self.category.name, self.name)
@@ -57,6 +62,7 @@ class BracketSlot(models.Model):
     level = models.IntegerField()
     status = models.IntegerField(choices=STATUS, default=0)
 
+    no_player = models.BooleanField(default=False)
     player = models.ForeignKey(player_models.Player, blank=True, null=True)
     table = models.ForeignKey('Table', blank=True, null=True)
     score = models.IntegerField(null=True, blank=True)

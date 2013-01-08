@@ -1,13 +1,11 @@
-* {
-	margin:0;
-	padding:0;
-	outline:0;
-}
 body {
 	font-size:12px;
 	line-height:20px;
 	font-family: "Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
 	color:#333;
+    margin:0;
+    padding:0;
+    outline:0;
 }
 a {
 	color:#ff0000;
@@ -73,6 +71,12 @@ textarea {
 	border-top:1px solid #dbdbdb;
 	border-bottom:1px solid #dbdbdb;
 }
+#navigation * {
+    margin:0;
+    padding:0;
+    outline:0;
+}
+
 #navigation ul {
 	list-style:none;
 }

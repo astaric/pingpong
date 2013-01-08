@@ -1,5 +1,10 @@
 {% extends "competition/base.html" %}
-{% load bracket %}
+{% load staticfiles %}
+{% load competition_extras %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/competition_extras.css' %}" type="text/css" media="all" />
+{% endblock %}
 
 {% block main %}
 <h1>{{ category }}</h1>
@@ -29,11 +34,9 @@
     Skupine za to kategorijo se niso bile dolocene.
 {% endfor %}
 
-{% for name, bracket_info in brackets %}
-    <div class='bracket'>
-        <h2>{{ name }}</h2>
-        {% bracket bracket_info %}
-    </div>
-
+{% for bracket in brackets %}
+    <h2>{{ bracket.name }}</h2>
+    {% show_bracket2 bracket %}
 {% endfor %}
+
 {% endblock %}

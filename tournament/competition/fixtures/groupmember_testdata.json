@@ -123,7 +123,8 @@
             "bracket": 2,
             "winner_goes_to": 7,
             "loser_goes_to": 8,
-            "table": null
+            "table": null,
+            "no_player": true
         }
     },
     {
@@ -200,7 +201,7 @@
         "pk": 3,
         "model": "competition.grouptobrackettransition",
         "fields": {
-            "slot": 7,
+            "slot": 3,
             "place": 3,
             "group": 1
         }

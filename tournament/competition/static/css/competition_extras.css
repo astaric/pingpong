@@ -1,0 +1,30 @@
+.bracket {
+    border-spacing: 0;
+}
+
+.bracket td {
+    padding-top: 10px;
+    vertical-align: bottom;
+}
+
+.bracket td{
+    min-width:150px;
+    padding-left:5px;
+}
+
+.bracket tr.odd td:first-child{
+    min-width:15px;
+    padding-left:2px;
+}
+
+.bracket td.halfline {
+    height: .5em;
+}
+
+.bracket td.b {
+    border-bottom: 1px solid #333;
+}
+
+.bracket td.r {
+    border-right: 1px solid #333;
+}

@@ -93,36 +93,35 @@ def create_brackets(category):
     # First two players from each group go to the winners
     # bracket, the rest go to the losers bracket.
     Bracket.objects.filter(category=category).delete()
-    groups = Group.objects.filter(category=category).annotate(Count('members'))
+    groups = Group.objects.filter(category=category).annotate(member_count=Count('members'))
     for group in groups:
-        assert group.members__count >= 2
+        assert group.member_count >= 2
 
-    all_members = list(utils.alternate(*[[(g, i + 1) for i in range(g.members__count)] for g in groups]))
+    all_members = list(utils.alternate(*[[(g, i + 1) for i in range(g.member_count)] for g in groups]))
 
     n_winners = 2 * len(groups)
-    winner_bracket = Bracket.objects.create(category=category, name=_("WINNERS"))
+    n_soothers = len(all_members) - n_winners
+    winner_bracket = Bracket.objects.create(category=category, name=_("WINNERS"), levels=levels(n_winners))
     w_slots = create_single_elimination_bracket_slots(winner_bracket, n_winners)
-    soother_bracket = Bracket.objects.create(category=category, name=_("LOSERS"))
-    s_slots = create_single_elimination_bracket_slots(soother_bracket, len(all_members) - n_winners)
+    soother_bracket = Bracket.objects.create(category=category, name=_("SOOTHERS"), levels=levels(n_soothers))
+    s_slots = create_single_elimination_bracket_slots(soother_bracket, n_soothers)
 
     create_transitions(all_members[:n_winners], groups, w_slots)
     create_transitions(all_members[n_winners:], groups, s_slots)
+
+
+def levels(n_players):
+    return int(ceil(log(n_players, 2))) + 1
 
 
 def create_transitions(candidates, groups, slots):
     n = len(candidates)
     placements = list(create_tournament_seeds(n, len(groups)))
 
-    for (p1, p2), (s1, s2) in zip(utils.group(placements, 2), utils.group(slots[0], 2)):
-        order = None
-        if p2 is None:
-            group, place = candidates[p1]
-            GroupToBracketTransition.objects.create(group=group, place=place, slot=s1.winner_goes_to)
-        elif p1 is None:
-            group, place = candidates[p2]
-            GroupToBracketTransition.objects.create(group=group, place=place, slot=s1.winner_goes_to)
+    for placement, slot in zip(placements, slots[0]):
+        if placement is not None:
+            group, place = candidates[placement]
+            GroupToBracketTransition.objects.create(group=group, place=place, slot=slot)
         else:
-            group, place = candidates[p1]
-            GroupToBracketTransition.objects.create(group=group, place=place, slot=s1)
-            group, place = candidates[p2]
-            GroupToBracketTransition.objects.create(group=group, place=place, slot=s2)
+            slot.no_player = True
+            slot.save()

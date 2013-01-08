@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django import template
 from django.db.models import Max
 
@@ -42,7 +44,7 @@ def render_bracket(bracket_info, label=id, hide_missing=True):
 
 
 @register.simple_tag()
-def bracket(bracket_info):
+def show_bracket(bracket_info):
     def label(x):
         template = (
             '<div style="float:left; text-align:left; width:20px; padding-right: 5px; padding-left: 5px;">%s</div>'
@@ -71,3 +73,47 @@ def bracket_from_id(bracket_id):
         return template % params
 
     return render_bracket((rounds, slots), label=label, hide_missing=False)
+
+
+@register.simple_tag()
+def show_bracket2(bracket):
+    slots = defaultdict(list)
+    for slot in models.BracketSlot.objects.filter(bracket=bracket)\
+                                          .select_related('transition', 'player')\
+                                          .prefetch_related('transition__group')\
+                                          .order_by('level', 'id'):
+        slots[slot.level].append(slot)
+
+    result = []
+    result.append('<table class="bracket">')
+
+    for i in range(len(slots[0])):
+        result.append('<tr class="odd">')
+        id, name = slots[0][i].label()
+        result.append('<td rowspan="2">%s</td>' % id)
+
+        classes = ["b"]
+        if i % 2 == 1:
+            classes.append("r")
+        classes = " ".join(classes)
+        result.append('<td rowspan="2" class="%s">%s</td>' % (classes, name))
+        if i == 0:
+            for j in range(bracket.levels - 1):
+                result.append('<td class="halfline"></td>')
+        result.append('</tr>')
+        result.append('<tr>')
+        for j in range(bracket.levels - 1):
+            classes, name = [], ''
+            if i % 2 ** (j + 1) == 2 ** j - 1:
+                classes.append("b")
+                id, name = slots[j + 1][i // 2 ** (j + 1)].label()
+            if 2 ** j <= i % 2 ** (j + 2) < 3 * 2 ** j and j != bracket.levels - 2:
+                classes.append("r")
+            classes = ' '.join(classes)
+
+            result.append('<td class="%s" rowspan="2">%s</td>' % (classes, name))
+
+        result.append('</tr>')
+
+    result.append('</table>')
+    return '\n'.join(result)

@@ -115,9 +115,9 @@ class TestCreateBrackets(TestCase):
         self.assertEqual(len(slots[2]), 2)
 
         for level, slots in enumerate(slots[:-1]):
-            for bracket in slots:
-                self.assertEqual(bracket.level, level)
-                self.assertEqual(bracket.winner_goes_to.level, level + 1)
+            for slot in slots:
+                self.assertEqual(slot.level, level)
+                self.assertEqual(slot.winner_goes_to.level, level + 1)
 
     def test_create_tournament_seeds(self):
         seeds = actions.create_tournament_seeds
@@ -140,3 +140,16 @@ class TestCreateBrackets(TestCase):
 
         transitions = actions.create_brackets(category)
         # print "\n".join(map(unicode, transitions))
+
+    def test_levels(self):
+        self.assertEqual(actions.levels(1), 1)
+        self.assertEqual(actions.levels(2), 2)
+        self.assertEqual(actions.levels(3), 3)
+        self.assertEqual(actions.levels(4), 3)
+        self.assertEqual(actions.levels(5), 4)
+        self.assertEqual(actions.levels(7), 4)
+        self.assertEqual(actions.levels(8), 4)
+        self.assertEqual(actions.levels(9), 5)
+        self.assertEqual(actions.levels(15), 5)
+        self.assertEqual(actions.levels(16), 5)
+        self.assertEqual(actions.levels(17), 6)

@@ -32,7 +32,18 @@ class GroupMemberTest(TestCase):
         self.assertTrue(slot.exists())
 
         # Correcting player's place should update slot
-        member2.place = place3
+        member2.place = place1
         member2.save()
         slot.exists()
         self.assertEqual(slot.count(), 1)
+
+    def test_saving_a_player_without_a_match_in_bracket_automatically_promotes_him(self):
+        place = 3
+        group, = Group.objects.all()
+        p1, p2, p3 = player_models.Player.objects.all()
+        member = GroupMember.objects.create(group=group, place=place, player=p1)
+
+        slots = BracketSlot.objects.filter(player=p1)
+        self.assertTrue(slots.exists())
+        self.assertEqual(slots.count(), 2)
+        self.assertTrue([slot for slot in slots if slot.level != 0])

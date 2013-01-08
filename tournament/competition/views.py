@@ -2,7 +2,6 @@ from django.db.models import Count, Max
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import datastructures
-import sys
 
 from . import models
 from ..registration import models as player_models
@@ -19,20 +18,12 @@ def details(request, category_id):
     members = models.GroupMember.objects.filter(group__category=category)\
                                         .select_related('player', 'group')\
                                         .order_by('group', '-leader', 'player__surname')
-
-    brackets = []
-    for bracket, name, rounds in models.Bracket.objects.filter(category=category)\
-                                                       .values_list('id', 'name')\
-                                                       .annotate(rounds=Max('bracketslot__level')):
-        slots = models.BracketSlot.objects.filter(bracket=bracket)\
-                                          .select_related('transition', 'player')\
-                                          .prefetch_related('transition__group')\
-                                          .order_by('id')
-        brackets.append((name, (rounds, slots)))
+    brackets = models.Bracket.objects.filter(category=category)\
+                                     .annotate(rounds=Max('bracketslot__level'))
 
     return render(request, 'competition/group_details.html', {'category': category,
                                                               'members': members,
-                                                              'brackets': brackets})
+                                                              'brackets': brackets, })
 
 
 def match_index(request):
@@ -53,7 +44,7 @@ def tables(request):
 
 
 def match_details(request, match_id):
-    return render(request, 'competition/match_details.html')
+    return render(request, 'competition/match_details.html', {'players': range(16)})
 
 match_template = ('',) * 19 + (
     '+-----------------------------------------------------------------+----------+',

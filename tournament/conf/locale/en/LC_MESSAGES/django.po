@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-05 09:45+0100\n"
+"POT-Creation-Date: 2013-01-07 17:53+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,20 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: common/templates/base.html:23
+#: common/templates/base.html:24
 msgid "Registration"
 msgstr ""
 
-#: common/templates/base.html:24 competition/templates/competition/base.html:6
+#: common/templates/base.html:25 competition/templates/competition/base.html:6
 msgid "Competition"
 msgstr ""
 
-#: competition/actions.py:103
+#: competition/actions.py:104
 msgid "WINNERS"
 msgstr ""
 
-#: competition/actions.py:105
-msgid "LOSERS"
+#: competition/actions.py:106
+msgid "SOOTHERS"
 msgstr ""
 
 #: competition/templates/competition/base.html:7
