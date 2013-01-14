@@ -30,14 +30,6 @@
             </ul>
             <div class="cl">&nbsp;</div>
         </div>
-        {% if user.is_authenticated %}
-        <div id="sidebar">
-            <ul>
-                {% block sidebar %}
-                {% endblock %}
-            </ul>
-        </div>
-        {% endif %}
         <div id="main">
             {% block main %}
             {% endblock %}

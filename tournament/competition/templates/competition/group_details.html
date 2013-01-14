@@ -12,23 +12,7 @@
 {% regroup members by group.name as member_list %}
 {% for members in member_list %}
 <h2>{{ members.grouper }}</h2>
-<table class="groupscores">
-    <tr>
-        <td></td>
-        {% for member in members.list %}
-        <td class="header">{{ member.player.full_name }}</td>
-        {% endfor %}
-    </tr>
-    {% for member in members.list %}
-    <tr>
-        <td class="header">{{ member.player.full_name }}</td>
-        {% for member in members.list %}
-        <td{% ifequal forloop.parentloop.counter forloop.counter %} class="dark"{% endifequal %}></td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-
-</table>
+{% include 'competition/snippets/groupscores.html' with members=members.list %}
 
 {% empty %}
     Skupine za to kategorijo se niso bile dolocene.

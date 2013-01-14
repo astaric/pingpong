@@ -1,4 +1,5 @@
 {% extends "competition/base.html" %}
+{% load competition_extras %}
 
 {% block main %}
     <h1>Prihajajoči dvoboji</h1>
@@ -11,16 +12,6 @@
     {% endfor %}
     </div>
     <div style='float: right;'>
-        <table style='border-spacing: 5px; margin-top: -6px;'>
-            <tr>
-                {% for table in tables %}
-                    {% cycle 0 0 1 as new_row silent%}
-                    <td>{% include 'competition/snippets/table.html' %}</td>
-                    {% if new_row %}
-                        </tr><tr>
-                    {% endif %}
-                {% endfor %}
-                </tr>
-        </table>
+        {% show_tables %}
     </div>
 {% endblock %}

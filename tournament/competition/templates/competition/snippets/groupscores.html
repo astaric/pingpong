@@ -1,0 +1,17 @@
+<table class="groupscores">
+    <tr>
+        <td></td>
+        {% for member in members %}
+            <td class="header">{{ member.player.full_name }}</td>
+        {% endfor %}
+    </tr>
+    {% for member in members %}
+        <tr>
+            <td class="header">{{ member.player.full_name }}</td>
+            {% for member in members %}
+                <td{% ifequal forloop.parentloop.counter forloop.counter %} class="dark"{% endifequal %}></td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+
+</table>

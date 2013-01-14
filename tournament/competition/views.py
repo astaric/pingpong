@@ -44,7 +44,6 @@ def match_index(request, filter=''):
     for match in matches_query:
         matches.appendlist(match.winner_goes_to_id, match)
 
-    tables = models.Table.objects.prefetch_related('bracketslot_set')
     available_tables = models.Table.objects.annotate(count=Count('bracketslot'))\
                                            .filter(count=0)\
                                            .order_by('sort_order')

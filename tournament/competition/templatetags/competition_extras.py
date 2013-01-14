@@ -117,3 +117,9 @@ def show_bracket2(bracket):
 
     result.append('</table>')
     return '\n'.join(result)
+
+
+@register.inclusion_tag('competition/snippets/tables.html')
+def show_tables():
+    tables = models.Table.objects.prefetch_related('bracketslot_set')
+    return {'tables': tables}

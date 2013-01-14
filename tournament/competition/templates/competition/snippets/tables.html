@@ -1,0 +1,11 @@
+<table style='border-spacing: 5px; margin-top: -6px;'>
+    <tr>
+        {% for table in tables %}
+            {% cycle 0 0 1 as new_row silent%}
+            <td>{% include 'competition/snippets/table.html' %}</td>
+            {% if new_row %}
+                </tr><tr>
+            {% endif %}
+        {% endfor %}
+        </tr>
+</table>
