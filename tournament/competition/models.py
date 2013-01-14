@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 from django.core import urlresolvers
 from django.utils.translation import ugettext_lazy as _
@@ -67,6 +69,9 @@ class BracketSlot(models.Model):
     table = models.ForeignKey('Table', blank=True, null=True)
     score = models.IntegerField(null=True, blank=True)
 
+    match_start = models.DateTimeField(null=True, blank=True)
+    match_end = models.DateTimeField(null=True, blank=True)
+
     winner_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
     loser_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
 
@@ -76,11 +81,14 @@ class BracketSlot(models.Model):
         self.advance_player()
 
     def set_status(self):
-        if self.table_id is not None:
+        if self.table_id is not None and self.status != 1:
             self.status = 1
-        if self.score is not None:
+            self.match_start = datetime.datetime.now()
+
+        if self.score is not None and self.status != 2:
             self.table = None
             self.status = 2
+            self.match_end = datetime.datetime.now()
 
     def advance_player(self):
         if self.score is None:
@@ -97,10 +105,6 @@ class BracketSlot(models.Model):
             if other.loser_goes_to is not None:
                 other.loser_goes_to.player_id = last.player_id
                 other.loser_goes_to.save()
-
-
-
-
 
     def label(self):
         return (
@@ -161,6 +165,13 @@ class Table(models.Model):
 
     def occupied(self):
         return self.players != ['', '']
+
+    def match_started(self):
+        brackets = self.bracketslot_set.all()
+        if len(brackets) == 0:
+            return ''
+        else:
+            return brackets[0].match_start.strftime('%H:%M')
 
     def __unicode__(self):
         return self.name
