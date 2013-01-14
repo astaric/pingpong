@@ -2,7 +2,8 @@ import random
 
 from django.core.management.base import BaseCommand
 from ....registration.models import Category, Player
-from ....competition.models import Table
+from ....competition.models import Table, Group, GroupMember
+from ....competition.actions import create_groups_from_leaders, create_brackets
 
 category_fields = ('name', 'gender', 'min_age', 'max_age')
 categories = (
@@ -53,6 +54,19 @@ class Command(BaseCommand):
             player = dict(zip(player_fields, p))
             Player(**player).save()
 
+        # create groups
+        category = Category.objects.all()[0]
+        n_players = Player.objects.filter(category=category).count()
+        n_groups = (n_players - 1) // 4 + 1
+        leader_ids = Player.objects.filter(category=category).values_list('id', flat=True)[:n_groups]
+        create_groups_from_leaders(category.id, Player.objects.filter(id__in=leader_ids))
+        create_brackets(category)
+
+        # create group results
+        for group in Group.objects.all():
+            for i, member in enumerate(GroupMember.objects.filter(group=group)):
+                member.place = i + 1
+                member.save()
 
         for id in [10,11,12,7,8,9,4,5,6,1,2,3]:
             Table(name='Table %d' % (id), sort_order=id).save()
