@@ -59,6 +59,7 @@ def tables(request):
     tables = models.Table.objects.prefetch_related('bracketslot_set')
     return render(request, 'competition/tables.html', {'tables': tables})
 
+
 @login_required(login_url='/admin')
 def set_table(request):
     match_id = request.POST.get('match_id', None)
@@ -88,6 +89,7 @@ def set_score(request):
                 slot.save()
 
     return redirect(urlresolvers.reverse('current_matches'))
+
 
 def match_details(request, match_id):
     return render(request, 'competition/match_details.html', {'players': range(16)})

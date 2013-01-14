@@ -63,7 +63,7 @@ def render_bracket(bracket, slots, render_slot):
         result.append(u'<td rowspan="2" class="%(class)s">%(value)s</td>' % {
             'class': visible_borders(i, -1),
             'value': render_slot(get_slot(slots, i, -1)),
-            })
+        })
         if i == 0:
             for j in range(bracket.levels - 1):
                 result.append(u'<td class="halfline"></td>')
@@ -73,10 +73,11 @@ def render_bracket(bracket, slots, render_slot):
             result.append(u'<td rowspan="2" class="%(class)s">%(value)s</td>' % {
                 'class': visible_borders(i, j),
                 'value': render_slot(get_slot(slots, i, j)),
-                })
+            })
         result.append(u'</tr>')
     result.append(u'</table>')
     return u'\n'.join(result)
+
 
 @register.inclusion_tag('competition/snippets/tables.html')
 def show_tables():

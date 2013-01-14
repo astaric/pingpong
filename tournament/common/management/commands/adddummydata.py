@@ -68,7 +68,5 @@ class Command(BaseCommand):
                 member.place = i + 1
                 member.save()
 
-        for id in [10,11,12,7,8,9,4,5,6,1,2,3]:
+        for id in [10, 11, 12, 7, 8, 9, 4, 5, 6, 1, 2, 3]:
             Table(name='Table %d' % (id), sort_order=id).save()
-
-
