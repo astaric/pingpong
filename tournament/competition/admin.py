@@ -72,6 +72,9 @@ class BracketAdmin(admin.ModelAdmin):
     change_form_template = 'competition/bracket_admin_change.html'
     ordering = ('category', 'id')
 
+    class Media:
+        css = {'all': ('css/competition_extras.css',)}
+
 
 class SetScoreAdmin(admin.ModelAdmin):
     pass

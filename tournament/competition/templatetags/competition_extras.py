@@ -1,82 +1,14 @@
 from collections import defaultdict
 
 from django import template
-from django.db.models import Max
 
 from .. import models
 
 register = template.Library()
 
 
-def id(x):
-    return x
-
-
-def render_bracket(bracket_info, label=id, hide_missing=True):
-    rounds, slots = bracket_info
-    bt = []
-    try:
-        bs = slots.__iter__()
-        bt.append('<div class="tournament%d-wrap">' % 2 ** rounds)
-
-        def r(location='top'):
-            b = bs.next()
-            winner = ' winner%d' % b.level if (b.level - 1) == rounds else ''
-            bt.append('<div class="round%d-%s%s">%s</div>' % (b.level + 1, location, winner, label(b)))
-            if b.level == 1:
-                b1, b2 = bs.next(), bs.next()
-                style = 'style="border: 0px;" ' if hide_missing and b1.empty() and b2.empty() else ''
-                bt.append('<div %sclass="round%d-top">%s</div>' % (style, b1.level + 1, label(b1)))
-                bt.append('<div %sclass="round%d-bottom">%s</div>' % (style, b2.level + 1, label(b2)))
-            else:
-                bt.append('<div class="round%d-topwrap">' % b.level)
-                r('top')
-                bt.append('</div>')
-                bt.append('<div class="round%d-bottomwrap">' % b.level)
-                r('bottom')
-                bt.append('</div>')
-
-        r()
-        bt.append('</div>')
-    except StopIteration:
-        pass
-    return '\n'.join(bt)
-
-
 @register.simple_tag()
-def show_bracket(bracket_info):
-    def label(x):
-        template = (
-            '<div style="float:left; text-align:left; width:20px; padding-right: 5px; padding-left: 5px;">%s</div>'
-            '<div style="text-align:left; ">%s</div>'
-        )
-        return template % x.label()
-
-    return render_bracket(bracket_info, label, hide_missing=True)
-
-
-@register.simple_tag()
-def bracket_from_id(bracket_id):
-    rounds = models.Bracket.objects.filter(id=bracket_id).values() \
-                                   .annotate(rounds=Max('bracketslot__level'))[0]['rounds']
-    slots = models.BracketSlot.objects.filter(bracket_id=bracket_id)\
-                                      .select_related('transition', 'player')\
-                                      .prefetch_related('transition__group')\
-                                      .order_by('id')
-
-    def label(x):
-        template = '<div style="text-align:left; padding-left:10px;"><a href="%(admin_url)s">%(label)s</a></div>'
-        params = {
-            'admin_url': x.get_admin_url(),
-            'label': '%s (%s)' % (x.id, ' '.join(x.label())),
-        }
-        return template % params
-
-    return render_bracket((rounds, slots), label=label, hide_missing=False)
-
-
-@register.simple_tag()
-def show_bracket2(bracket):
+def show_bracket(bracket, admin_view=False):
     slots = defaultdict(list)
     for slot in models.BracketSlot.objects.filter(bracket=bracket)\
                                           .select_related('transition', 'player')\
@@ -84,40 +16,67 @@ def show_bracket2(bracket):
                                           .order_by('level', 'id'):
         slots[slot.level].append(slot)
 
+    def render_slot(slot):
+        if slot is None:
+            return u"&nbsp;"
+
+        name = slot.player.full_name() if slot.player is not None else ''
+        score = slot.score if slot.score is not None else ''
+
+        if admin_view:
+            name = name or u'(empty)'
+            name = u'<a href="%(admin_url)s">%(name)s</a>' % {
+                'admin_url': slot.get_admin_url(),
+                'name': name,
+            }
+
+        if name:
+            name = u'<div class="player">%s</div>' % name
+        if score:
+            score = u'<div class="score">%s</div>' % slot.score
+
+        return u'%s%s' % (score, name)
+
+    return render_bracket(bracket, slots, render_slot)
+
+
+def render_bracket(bracket, slots, render_slot):
+    def get_slot(slots, i, j):
+        if not i % 2 ** (j + 1) == int(2 ** j - 1):
+            return None
+        return slots[j + 1][i // 2 ** (j + 1)]
+
+    def visible_borders(i, j):
+        borders = []
+        if i % 2 ** (j + 1) == int(2 ** j - 1):
+            borders.append("b")
+        if 2 ** j <= i % 2 ** (j + 2) < 3 * 2 ** j and j != bracket.levels - 2:
+            borders.append("r")
+        return " ".join(borders)
+
     result = []
-    result.append('<table class="bracket">')
-
+    result.append(u'<table class="bracket">')
     for i in range(len(slots[0])):
-        result.append('<tr class="odd">')
+        result.append(u'<tr class="odd">')
         id, name = slots[0][i].label()
-        result.append('<td rowspan="2">%s</td>' % id)
-
-        classes = ["b"]
-        if i % 2 == 1:
-            classes.append("r")
-        classes = " ".join(classes)
-        result.append('<td rowspan="2" class="%s"><strong>%s</strong></td>' % (classes, name))
+        result.append(u'<td rowspan="2">%s</td>' % id)
+        result.append(u'<td rowspan="2" class="%(class)s">%(value)s</td>' % {
+            'class': visible_borders(i, -1),
+            'value': render_slot(get_slot(slots, i, -1)),
+            })
         if i == 0:
             for j in range(bracket.levels - 1):
-                result.append('<td class="halfline"></td>')
-        result.append('</tr>')
-        result.append('<tr>')
+                result.append(u'<td class="halfline"></td>')
+        result.append(u'</tr>')
+        result.append(u'<tr class="even">')
         for j in range(bracket.levels - 1):
-            classes, name = [], ''
-            if i % 2 ** (j + 1) == 2 ** j - 1:
-                classes.append("b")
-                id, name = slots[j + 1][i // 2 ** (j + 1)].label()
-            if 2 ** j <= i % 2 ** (j + 2) < 3 * 2 ** j and j != bracket.levels - 2:
-                classes.append("r")
-            classes = ' '.join(classes)
-
-            result.append('<td class="%s" rowspan="2"><strong>%s</strong></td>' % (classes, name))
-
-        result.append('</tr>')
-
-    result.append('</table>')
-    return '\n'.join(result)
-
+            result.append(u'<td rowspan="2" class="%(class)s">%(value)s</td>' % {
+                'class': visible_borders(i, j),
+                'value': render_slot(get_slot(slots, i, j)),
+                })
+        result.append(u'</tr>')
+    result.append(u'</table>')
+    return u'\n'.join(result)
 
 @register.inclusion_tag('competition/snippets/tables.html')
 def show_tables():
