@@ -34,8 +34,7 @@ class PlayerViewsTestCase(TestCase):
 
         matches = resp.context['matches']
         self.assertEqual(len(matches), 2)
-        brackets = [m.id for m in matches]
-        self.assertEqual(brackets, [2, 5])
+        self.assertEqual(matches.keys(), [2, 5])
 
     def test_tables(self):
         resp = self.client.get(reverse('tables'))
