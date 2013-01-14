@@ -96,7 +96,7 @@ def show_bracket2(bracket):
         if i % 2 == 1:
             classes.append("r")
         classes = " ".join(classes)
-        result.append('<td rowspan="2" class="%s">%s</td>' % (classes, name))
+        result.append('<td rowspan="2" class="%s"><strong>%s</strong></td>' % (classes, name))
         if i == 0:
             for j in range(bracket.levels - 1):
                 result.append('<td class="halfline"></td>')
@@ -111,7 +111,7 @@ def show_bracket2(bracket):
                 classes.append("r")
             classes = ' '.join(classes)
 
-            result.append('<td class="%s" rowspan="2">%s</td>' % (classes, name))
+            result.append('<td class="%s" rowspan="2"><strong>%s</strong></td>' % (classes, name))
 
         result.append('</tr>')
 

@@ -4,6 +4,6 @@
 
 {% block navigation %}
     <li><a href="{% url group_index %}"{% if request.path == '/competition/' %} class="active"{% endif %}>{% blocktrans %}Competition{% endblocktrans %}</a></li>
-    <li><a href="{% url upcoming_matches %}"{% if request.path|startswith:'/competition/upcoming_matches' %} class="active"{% endif %}>{% blocktrans %}Matches{% endblocktrans %}</a></li>
-    <li><a href="{% url tables %}"{% if request.path|startswith:'/competition/tables' %} class="active"{% endif %}>{% blocktrans %}Tables{% endblocktrans %}</a></li>
+    <li><a href="{% url upcoming_matches %}"{% if request.path|startswith:'/competition/matches/upcoming' %} class="active"{% endif %}>{% blocktrans %}Upcoming{% endblocktrans %}</a></li>
+    <li><a href="{% url current_matches %}"{% if request.path|startswith:'/competition/matches/current' %} class="active"{% endif %}>{% blocktrans %}Current{% endblocktrans %}</a></li>
 {% endblock %}

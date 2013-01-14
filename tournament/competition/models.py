@@ -70,6 +70,38 @@ class BracketSlot(models.Model):
     winner_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
     loser_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
 
+    def save(self, *args, **kwargs):
+        self.set_status()
+        super(BracketSlot, self).save(*args, **kwargs)
+        self.advance_player()
+
+    def set_status(self):
+        if self.table_id is not None:
+            self.status = 1
+        if self.score is not None:
+            self.table = None
+            self.status = 2
+
+    def advance_player(self):
+        if self.score is None:
+            return
+
+        other = BracketSlot.objects.exclude(id=self.id)\
+                                   .filter(winner_goes_to=self.winner_goes_to)\
+                                   .select_related('winner_goes_to', 'loser_goes_to')[0]
+        if other.score is not None:
+            first, last = (self, other) if self.score > other.score else (other, self)
+            if other.winner_goes_to is not None:
+                other.winner_goes_to.player_id = first.player_id
+                other.winner_goes_to.save()
+            if other.loser_goes_to is not None:
+                other.loser_goes_to.player_id = last.player_id
+                other.loser_goes_to.save()
+
+
+
+
+
     def label(self):
         return (
             '%s%s' % (self.transition.group.name, self.transition.place) if self.transition is not None else '&nbsp;',

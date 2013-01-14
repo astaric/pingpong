@@ -1,7 +1,11 @@
+import re
+
+from django.core import urlresolvers
 from django.db.models import Count, Max
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import datastructures
+from django.contrib.auth.decorators import login_required
 
 from . import models
 from ..registration import models as player_models
@@ -26,22 +30,65 @@ def details(request, category_id):
                                                               'brackets': brackets, })
 
 
-def match_index(request):
-    matches_with_players = models.BracketSlot.objects.exclude(player=None).exclude(status__gt=1)\
-                                                     .values('winner_goes_to_id').annotate(icount=Count('id'))\
-                                                     .filter(icount=2).values('winner_goes_to_id')
-    matches_query = models.BracketSlot.objects.filter(winner_goes_to_id__in=matches_with_players).select_related('player')
+def match_index(request, filter=''):
+    matches = models.BracketSlot.objects.exclude(player=None)
+    if filter == 'upcoming':
+        matches = matches.filter(status=0)
+    elif filter == 'current':
+        matches = matches.filter(status=1)
+    matches = matches.values('winner_goes_to_id').annotate(icount=Count('id')).filter(icount=2)\
+                     .values('winner_goes_to_id')
+    matches_query = models.BracketSlot.objects.filter(winner_goes_to_id__in=matches)\
+                                              .select_related('player', 'bracket__category')
     matches = datastructures.MultiValueDict()
     for match in matches_query:
-        matches.appendlist(match.winner_goes_to, match)
+        matches.appendlist(match.winner_goes_to_id, match)
 
-    return render(request, 'competition/upcoming_matches.html', {'matches': matches})
+    tables = models.Table.objects.prefetch_related('bracketslot_set')
+    available_tables = models.Table.objects.annotate(count=Count('bracketslot'))\
+                                           .filter(count=0)\
+                                           .order_by('sort_order')
+    return render(request, 'competition/match_index.html',
+                  {
+                      'matches': matches,
+                      'tables': tables,
+                      'available_tables': available_tables,
+                  })
 
 
 def tables(request):
     tables = models.Table.objects.prefetch_related('bracketslot_set')
     return render(request, 'competition/tables.html', {'tables': tables})
 
+@login_required(login_url='/admin')
+def set_table(request):
+    match_id = request.POST.get('match_id', None)
+    table_id = request.POST.get('table_id', None)
+
+    if match_id and table_id:
+        for slot in models.BracketSlot.objects.filter(winner_goes_to=match_id):
+            slot.table_id = table_id
+            slot.save()
+
+    return redirect(urlresolvers.reverse("upcoming_matches"))
+
+score_re = re.compile(r'(\d+)[^\d]+(\d+)')
+
+
+@login_required(login_url='/admin')
+def set_score(request):
+    match_id = request.POST.get('match_id', None)
+    score = request.POST.get('score', None)
+
+    if match_id and score:
+        scores = score_re.match(score)
+        if scores:
+            slots = models.BracketSlot.objects.filter(winner_goes_to=match_id)
+            for slot, score in zip(slots, scores.groups()):
+                slot.score = int(score)
+                slot.save()
+
+    return redirect(urlresolvers.reverse('current_matches'))
 
 def match_details(request, match_id):
     return render(request, 'competition/match_details.html', {'players': range(16)})

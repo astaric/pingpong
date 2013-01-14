@@ -1,0 +1,26 @@
+{% extends "competition/base.html" %}
+
+{% block main %}
+    <h1>Prihajajoči dvoboji</h1>
+
+    <div>
+    <div style='float:left;'>
+    {% for match_id, slot in matches.lists %}
+        {% include 'competition/snippets/match.html' with id=match_id slot1=slot.0 slot2=slot.1 %}
+        <br>
+    {% endfor %}
+    </div>
+    <div style='float: right;'>
+        <table style='border-spacing: 5px; margin-top: -6px;'>
+            <tr>
+                {% for table in tables %}
+                    {% cycle 0 0 1 as new_row silent%}
+                    <td>{% include 'competition/snippets/table.html' %}</td>
+                    {% if new_row %}
+                        </tr><tr>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+        </table>
+    </div>
+{% endblock %}
