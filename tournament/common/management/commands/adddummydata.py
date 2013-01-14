@@ -53,7 +53,8 @@ class Command(BaseCommand):
             player = dict(zip(player_fields, p))
             Player(**player).save()
 
-        for i in range(12):
-            row = i // 4 + 1
-            column = i % 4 + 1
-            Table(name='Table %d' % (i + 1), row=row, column=column).save()
+
+        for id in [10,11,12,7,8,9,4,5,6,1,2,3]:
+            Table(name='Table %d' % (id), sort_order=id).save()
+
+

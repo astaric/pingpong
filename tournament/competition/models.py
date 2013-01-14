@@ -47,7 +47,7 @@ class Bracket(models.Model):
 
     levels = models.IntegerField(default=0)
 
-    def __str__(self):
+    def __unicode__(self):
         return '%s - %s' % (self.category.name, self.name)
 
 
@@ -83,7 +83,7 @@ class BracketSlot(models.Model):
         return urlresolvers.reverse("admin:%s_%s_change" %
                                     (self._meta.app_label, self._meta.module_name), args=(self.id,))
 
-    def __str__(self):
+    def __unicode__(self):
         return '%s' % self.id
 
 
@@ -109,9 +109,7 @@ class SetScore(models.Model):
 
 class Table(models.Model):
     name = models.CharField(max_length=50)
-
-    row = models.IntegerField()
-    column = models.IntegerField()
+    sort_order = models.IntegerField()
 
     _players = None
 
@@ -132,5 +130,5 @@ class Table(models.Model):
     def occupied(self):
         return self.players != ['', '']
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name

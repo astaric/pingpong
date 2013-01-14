@@ -1,10 +1,10 @@
 {% extends "competition/base.html" %}
 
 {% block main %}
-    <table class="tables">
+    <table>
         <tr>
             {% for table in tables %}
-                {% cycle 0 0 0 1 as new_row silent%}
+                {% cycle 0 0 1 as new_row silent%}
                 <td>{% include 'competition/snippets/table.html' %}</td>
                 {% if new_row %}
         </tr><tr>
