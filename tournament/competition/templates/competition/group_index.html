@@ -2,11 +2,15 @@
 {% load i18n %}
 
 {% block main %}
-<h1>{% trans "categories" %}</h1>
+{% regroup members by group.category as category_members %}
 
-<ul>
-{% for category in categories %}
-    <li><a href="{% url group_details category.id %}">{{ category }}</a></li>
+{% for category in category_members %}
+    <div>
+    <div>{{ category.grouper }}</div>
+    {% regroup category.list by group as group_members %}
+    {% for group in group_members %}
+        {% include 'competition/snippets/group.html' with group=group.grouper members=group.list %}
+    {% endfor %}
+    </div>
 {% endfor %}
-</ul>
 {% endblock %}

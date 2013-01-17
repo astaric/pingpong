@@ -6,14 +6,14 @@
 .bracket td {
     padding: 10px 0 2px 0;
     padding-top: 10px;
-    min-width:150px;
+    min-width: 150px;
     vertical-align: bottom;
     border: 0;
 }
 
 .bracket tr.odd td:first-child {
-    min-width:15px;
-    padding-left:2px;
+    min-width: 15px;
+    padding-left: 2px;
     border-bottom: 1px solid transparent;
 }
 
@@ -39,4 +39,35 @@
     display: inline-block;
     float: right;
     padding-right: 5px;
+}
+
+.group {
+    display: inline-block;
+    border: 1px solid #333;
+    vertical-align: top;
+    padding: 5px;
+    min-width: 120px;
+}
+
+.group .place {
+    display: inline-block;
+}
+
+.group .place input {
+    width: 20px;
+    border: 0;
+    border-bottom: 1px solid #666;
+    text-align: right;
+}
+
+.group input[type='submit'] {
+    width: 50px;
+}
+
+.group .player {
+    display: inline-block;
+}
+
+.group .leader {
+    font-weight: bold;
 }

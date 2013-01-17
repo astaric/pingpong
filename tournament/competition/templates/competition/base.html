@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load staticfiles %}
 {% load tournament_extras %}
+
+{% block extrahead %}
+    <link rel="stylesheet" href="{% static 'css/competition_extras.css' %}" type="text/css" media="all" />
+{% endblock %}
 
 {% block navigation %}
     <li><a href="{% url group_index %}"{% if request.path == '/competition/' %} class="active"{% endif %}>{% blocktrans %}Competition{% endblocktrans %}</a></li>

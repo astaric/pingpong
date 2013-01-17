@@ -6,15 +6,17 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import datastructures
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from . import models
 from ..registration import models as player_models
 
 
 def index(request):
-    categories = player_models.Category.objects.all()
+    members = models.GroupMember.objects.order_by('group__category', 'group', 'place', '-leader', 'player__surname')\
+                                        .prefetch_related('group', 'group__category', 'player')
 
-    return render(request, "competition/group_index.html", {"categories": list(categories)})
+    return render(request, "competition/group_index.html", {"members": list(members)})
 
 
 def details(request, category_id):
@@ -89,6 +91,38 @@ def set_score(request):
                 slot.save()
 
     return redirect(urlresolvers.reverse('current_matches'))
+
+@login_required(login_url='/admin')
+def set_places(request):
+    members = [key for key in request.POST.keys() if key.startswith("member_")]
+
+    if members:
+        member_id = members[0].split('_')[1]
+        member_group = models.GroupMember.objects.filter(id=member_id).values_list('group_id', flat=True)
+        max_placement = models.GroupMember.objects.filter(group_id=member_group).count()
+
+        for member in members:
+            prefix, member_id, suffix = member.split('_')
+            member_place = request.POST[member]
+            if member_place.isdigit():
+                member_place = int(member_place)
+                if not (1 <= member_place <= max_placement):
+                    messages.add_message(
+                        request, messages.INFO,
+                        'Neveljavna uvrstitev (%s), ni med 1 in %s' % (member_place, max_placement)
+                    )
+                    continue
+            elif member_place == "":
+                member_place = None
+            else:
+                messages.add_message(
+                    request, messages.ERROR,
+                    'Neveljavna uvrstitev (%s)' % member_place
+                )
+            models.GroupMember.objects.filter(id=member_id).update(place=member_place)
+
+    return redirect(urlresolvers.reverse('group_index'))
+
 
 
 def match_details(request, match_id):

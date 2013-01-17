@@ -10,6 +10,7 @@ urlpatterns = patterns('',
     url(r'^tables', views.tables, name='tables'),
     url(r'^match/set_table', views.set_table, name='set_table'),
     url(r'^match/set_scores', views.set_score, name='set_score'),
+    url(r'^match/set_places', views.set_places, name='set_places'),
     url(r'^match/(?P<match_id>\d+)/', views.match_details, name='match_details'),
     url(r'^(\d+)/print_match.txt', views.print_match, name='print_match'),
 )
