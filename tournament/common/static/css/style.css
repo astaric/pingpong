@@ -181,3 +181,12 @@ h1 {
     background-color: #333;
 }
 
+.messages ul {
+    padding-left: 24px;
+}
+
+.messages li {
+    list-style: none;
+    color: red;
+}
+
