@@ -119,7 +119,10 @@ def set_places(request):
                     request, messages.ERROR,
                     'Neveljavna uvrstitev (%s)' % member_place
                 )
-            models.GroupMember.objects.filter(id=member_id).update(place=member_place)
+            members = models.GroupMember.objects.filter(id=member_id)
+            for member in members:
+                member.place = member_place
+                member.save()
 
     return redirect(urlresolvers.reverse('group_index'))
 
