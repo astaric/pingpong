@@ -3,13 +3,11 @@
 {% load competition_extras %}
 
 {% block main %}
-<h1>{{ category }}</h1>
+<h1>{{ category.description }}</h1>
 
-{% regroup members by group.name as member_list %}
-{% for members in member_list %}
-<h2>{{ members.grouper }}</h2>
-{% include 'competition/snippets/groupscores.html' with members=members.list %}
-
+{% regroup members by group as group_members %}
+{% for group in group_members %}
+    {% include 'competition/snippets/group.html' with group=group.grouper members=group.list %}
 {% empty %}
     Skupine za to kategorijo se niso bile dolocene.
 {% endfor %}

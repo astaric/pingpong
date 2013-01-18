@@ -1,3 +1,4 @@
+# coding=utf-8
 import random
 
 from django.core.management.base import BaseCommand
@@ -5,12 +6,12 @@ from ....registration.models import Category, Player
 from ....competition.models import Table, Group, GroupMember
 from ....competition.actions import create_groups_from_leaders, create_brackets
 
-category_fields = ('name', 'gender', 'min_age', 'max_age')
+category_fields = ('name', 'description', 'gender', 'min_age', 'max_age')
 categories = (
-    ("M<45", 0, None, 45),
-    ("M>46", 0, 46, None),
-    ("Z<45", 1, None, 45),
-    ("Z>46", 1, 46, None),
+    ("M<45", u"Moški do 45", 0, None, 45),
+    ("M>46", u"Moški nad 45", 0, 46, None),
+    ("Z<45", u"Ženske do 45", 1, None, 45),
+    ("Z>46", u"Ženske nad 45", 1, 46, None),
 )
 
 MALE, FEMALE = 0, 1

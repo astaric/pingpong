@@ -16,8 +16,9 @@
         <div class='player{% if member.leader %} leader{% endif %}'>{{ member.player.full_name }}</div>
     </div>
 {% endfor %}
+
+{% if user.is_authenticated %}
     <input type="submit" value="shrani">
-    {% if user.is_authenticated %}
     </form>
-    {% endif %}
+{% endif %}
 </div>

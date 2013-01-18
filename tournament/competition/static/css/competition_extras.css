@@ -47,6 +47,7 @@
     vertical-align: top;
     padding: 5px;
     min-width: 120px;
+    margin-bottom: 5px;
 }
 
 .group .place {
@@ -61,7 +62,7 @@
 }
 
 .group input[type='submit'] {
-    width: 50px;
+    width: 60px;
 }
 
 .group .player {
