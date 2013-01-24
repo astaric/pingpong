@@ -8,7 +8,7 @@ class PlayerQuerySet(QuerySet):
         if category.min_age is not None:
             filters["age__gte"] = category.min_age
         if category.max_age is not None:
-            filters["age__lte"] = category.max_age
+            filters["age__lt"] = category.max_age
 
         return self.filter(**filters)
 
@@ -22,7 +22,7 @@ class CategoryQuerySet(QuerySet):
     def matching_player(self, player):
         return self.filter(gender=player.gender)\
                    .exclude(min_age__gt=player.age)\
-                   .exclude(max_age__lt=player.age)
+                   .exclude(max_age__lte=player.age)
 
 
 class CategoryManager(models.Manager):
