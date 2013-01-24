@@ -176,7 +176,7 @@ match_template = ('',) * 19 + (
 
 
 def print_group(request, category_id):
-    members = models.GroupMember.objects.filter(group__category=category_id)
+    members = models.GroupMember.objects.filter(group__category=category_id).select_related('group', 'player')
     return render(request, 'competition/print_group.html', {'members': members})
 
 def print_match(request, id=0):
