@@ -1,4 +1,4 @@
-import datetime
+from django.utils import timezone
 
 from django.db import models
 from django.core import urlresolvers
@@ -83,12 +83,12 @@ class BracketSlot(models.Model):
     def set_status(self):
         if self.table_id is not None and self.status != 1:
             self.status = 1
-            self.match_start = datetime.datetime.now()
+            self.match_start = timezone.now()
 
         if self.score is not None and self.status != 2:
             self.table = None
             self.status = 2
-            self.match_end = datetime.datetime.now()
+            self.match_end = timezone.now()
 
     def advance_player(self):
         if self.score is None:
