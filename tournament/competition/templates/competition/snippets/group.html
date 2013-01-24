@@ -5,7 +5,7 @@
         {% csrf_token %}
         <input type="hidden" name="redirect" value="{{ request.path }}" />
     {% endif %}
-    <div style='font-weight: bold;'>{{ group.name }}</div>
+    <div style='font-weight: bold;'>{{ group.category.name }} - {{ group.name }}</div>
 {% for member in members %}
     <div>
         {% if user.is_authenticated %}

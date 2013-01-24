@@ -21,7 +21,7 @@ class Group(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
 
     def member_list(self):
-        return GroupMember.objects.filter(group=self).order_by('place', '-leader', 'player__surname').prefetch_related('group', 'group__category', 'player')
+        return GroupMember.objects.filter(group=self).order_by('place', '-leader', 'player__surname').select_related('group', 'group__category', 'player')
 
     def save(self, *args, **kwargs):
         self.update_status()

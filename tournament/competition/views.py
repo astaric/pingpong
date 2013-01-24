@@ -45,7 +45,7 @@ def category_details(request, category_id):
 
 def match_index(request, filter=''):
     matches = models.BracketSlot.objects.exclude(player=None)
-    groups = models.Group.objects
+    groups = models.Group.objects.select_related('category')
     if filter == 'upcoming':
         matches = matches.filter(status=0)
         groups = groups.filter(status=0)
