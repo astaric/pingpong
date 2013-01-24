@@ -1,29 +1,28 @@
 <div class='match'>
-    <div class='player1'>{{ slot1.player }}</div>
+    <div class='player1'>{{ player1 }}</div>
     <div class='dash'>-</div>
-    <div class='player2'>{{ slot2.player }}</div>
-    <div class='category'>{{ slot1.player.category }}</div>
-    <div class='type'>FF</div>
-    {% if user.is_authenticated %}
-        {% if slot1.status == 0 %}
-            <form method="POST" action="{% url set_table %}">
-                {% csrf_token %}
-                <input type="hidden" name="match_id" value="{{ id }}">
-                <select name="table_id">
-                    <option value=''></option>
-                    {% for table in available_tables %}
-                        <option value='{{ table.id }}'>{{ table.name }}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit" name="submit" value="Save" />
-            </form>
-        {% elif slot1.status == 1 %}
-            <form style='display: inline-block;' method="POST" action="{% url set_score %}" novalidate="">
-                {% csrf_token %}
-                <input type="hidden" name="match_id" value="{{ id }}">
-                <input type="tel" name="score" />
-                <input type="submit" name="submit" value="Save" />
-            </form>
-        {% endif %}
+    <div class='player2'>{{ player2 }}</div>
+    <div class='category'>{{ category }}</div>
+    <div class='type'>{{ extra }}</div>
+    {% if edit_form == 'set_table' %}
+        <form method="POST" action="{% url set_table %}">
+            {% csrf_token %}
+            <input type="hidden" name="match_id" value="{{ id }}">
+            <select name="table_id">
+                <option value=''></option>
+                {% for table in available_tables %}
+                    <option value='{{ table.id }}'>{{ table.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" name="submit" value="Save" />
+        </form>
+    {% elif edit_form == 'set_score' %}
+        <form style='display: inline-block;' method="POST" action="{% url set_score %}" novalidate="">
+            {% csrf_token %}
+            <input type="hidden" name="match_id" value="{{ id }}">
+            <input type="tel" name="score" />
+            <input type="submit" name="submit" value="Save" />
+        </form>
     {% endif %}
+
 </div>

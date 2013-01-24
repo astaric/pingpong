@@ -55,8 +55,7 @@ def render_bracket(bracket, slots, render_slot):
             borders.append("r")
         return " ".join(borders)
 
-    result = []
-    result.append(u'<table class="bracket">')
+    result = [u'<table class="bracket">']
     for i in range(len(slots[0])):
         result.append(u'<tr class="odd">')
         id, name = slots[0][i].label()
@@ -94,13 +93,22 @@ def show_group(context, group, members):
     }
 
 @register.inclusion_tag('competition/snippets/match.html', takes_context=True)
-def show_match(context, id, slot1, slot2, available_tables):
+def show_match(context, slots):
+    slot1, slot2 = slots
+    edit_form = None
+    if context['request'].user.is_authenticated():
+        if slot1.status == 0:
+            edit_form = 'set_table'
+        elif slot1.status == 1:
+            edit_form = 'set_score'
     return {
-        'id': id,
-        'slot1': slot1,
-        'slot2': slot2,
-        'available_tables': available_tables,
-        'user': context['request'].user,
+        'id': slot1.winner_goes_to,
+        'player1': slot1.player,
+        'player2': slot2.player,
+        'category': slot1.player.category,
+        'extra': '',
+        'available_tables': context['available_tables'],
+        'edit_form': edit_form,
     }
 
 @register.inclusion_tag('competition/snippets/players.html', takes_context=True)

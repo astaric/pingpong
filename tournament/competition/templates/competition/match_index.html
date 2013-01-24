@@ -6,8 +6,8 @@
 
     <div>
     <div style='float:left;'>
-    {% for match_id, slot in matches.lists %}
-        {% show_match match_id slot.0 slot.1 available_tables%}
+    {% for match_id, slots in matches.lists %}
+        {% show_match slots %}
     {% endfor %}
     </div>
     <div style='float: right;'>
