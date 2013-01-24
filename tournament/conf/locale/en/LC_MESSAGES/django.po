@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-07 17:53+0100\n"
+"POT-Creation-Date: 2013-01-24 15:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,33 +17,29 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: common/templates/base.html:24
-msgid "Registration"
-msgstr ""
-
-#: common/templates/base.html:25 competition/templates/competition/base.html:6
-msgid "Competition"
-msgstr ""
-
-#: competition/actions.py:104
+#: competition/actions.py:105
 msgid "WINNERS"
 msgstr ""
 
-#: competition/actions.py:106
+#: competition/actions.py:110
 msgid "SOOTHERS"
 msgstr ""
 
-#: competition/templates/competition/base.html:7
-msgid "Matches"
+#: competition/templates/competition/base.html:11
+msgid "Categories"
 msgstr ""
 
-#: competition/templates/competition/base.html:8
-msgid "Tables"
+#: competition/templates/competition/base.html:12
+msgid "Upcoming"
 msgstr ""
 
-#: competition/templates/competition/group_index.html:5
-#: registration/models/__init__.py:51
-msgid "categories"
+#: competition/templates/competition/base.html:13
+msgid "Current"
+msgstr ""
+
+#: competition/templates/competition/category_index.html:10
+#, python-format
+msgid "(%(member_count)s members)"
 msgstr ""
 
 #: registration/admin.py:21
@@ -94,6 +90,10 @@ msgstr ""
 msgid "category"
 msgstr ""
 
+#: registration/models/__init__.py:51
+msgid "categories"
+msgstr ""
+
 #: registration/models/__init__.py:57
 msgid "min age"
 msgstr ""
@@ -104,4 +104,8 @@ msgstr ""
 
 #: registration/templates/index.html:5
 msgid "Prijavljeni igralci po kategorijah"
+msgstr ""
+
+#: registration/templates/admin/submit_line.html:3
+msgid "Save and add another"
 msgstr ""

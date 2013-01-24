@@ -3,12 +3,13 @@ from django.conf.urls import patterns, url
 from . import views
 
 urlpatterns = patterns('',
-    url(r'^category/$', views.group_index, name='group_index'),
-    url(r'^category/(?P<category_id>\d+)/$', views.group_details, name='group_details'),
+    url(r'^$', views.index, name='home'),
+    url(r'^category/$', views.category_index, name='category_index'),
+    url(r'^category/(?P<category_id>\d+)/$', views.category_details, name='group_details'),
     url(r'^category/(?P<category_id>\d+)/print$', views.print_group, name='print_group'),
     url(r'^matches/upcoming', views.match_index, name='upcoming_matches', kwargs={'filter': 'upcoming'}),
     url(r'^matches/current', views.match_index, name='current_matches', kwargs={'filter': 'current'}),
-    url(r'^tables', views.tables, name='tables'),
+    #url(r'^tables', views.tables, name='tables'),
     url(r'^match/set_table', views.set_table, name='set_table'),
     url(r'^match/set_scores', views.set_score, name='set_score'),
     url(r'^match/set_places', views.set_places, name='set_places'),

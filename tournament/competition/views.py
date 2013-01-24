@@ -12,8 +12,11 @@ from . import models
 from . import actions
 from ..registration import models as player_models
 
+def index(request):
+    return redirect(urlresolvers.reverse("category_index"))
 
-def group_index(request):
+
+def category_index(request):
     category_members = {
         category: []
         for category in player_models.Category.objects.annotate(player_count=Count('player'))
@@ -23,10 +26,10 @@ def group_index(request):
                                     .prefetch_related('group', 'group__category', 'player'):
         category_members[member.group.category].append(member)
 
-    return render(request, "competition/group_index.html", {"category_members": category_members.items()})
+    return render(request, "competition/category_index.html", {"category_members": category_members.items()})
 
 
-def group_details(request, category_id):
+def category_details(request, category_id):
     category = get_object_or_404(player_models.Category, id=category_id)
     members = models.GroupMember.objects.filter(group__category=category)\
                                         .select_related('player', 'group')\
@@ -34,7 +37,7 @@ def group_details(request, category_id):
     brackets = models.Bracket.objects.filter(category=category)\
                                      .annotate(rounds=Max('bracketslot__level'))
 
-    return render(request, 'competition/group_details.html', {'category': category,
+    return render(request, 'competition/category_details.html', {'category': category,
                                                               'members': members,
                                                               'brackets': brackets, })
 
@@ -59,14 +62,8 @@ def match_index(request, filter=''):
     return render(request, 'competition/match_index.html',
                   {
                       'matches': matches,
-                      'tables': tables,
                       'available_tables': available_tables,
                   })
-
-
-def tables(request):
-    tables = models.Table.objects.prefetch_related('bracketslot_set')
-    return render(request, 'competition/tables.html', {'tables': tables})
 
 
 @login_required(login_url='/admin')

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-07 17:53+0100\n"
+"POT-Creation-Date: 2013-01-24 15:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,34 +16,30 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: common/templates/base.html:24
-msgid "Registration"
-msgstr "Prijava"
-
-#: common/templates/base.html:25 competition/templates/competition/base.html:6
-msgid "Competition"
-msgstr "Tekmovanje"
-
-#: competition/actions.py:104
+#: competition/actions.py:105
 msgid "WINNERS"
-msgstr "FINALNA"
+msgstr "FINALNA SKUPINA"
 
-#: competition/actions.py:106
+#: competition/actions.py:110
 msgid "SOOTHERS"
-msgstr "TOLAZILNA"
+msgstr "TOLAZILNA SKUPINA"
 
-#: competition/templates/competition/base.html:7
-msgid "Matches"
-msgstr "Tekme"
+#: competition/templates/competition/base.html:11
+msgid "Categories"
+msgstr "Kategorije"
 
-#: competition/templates/competition/base.html:8
-msgid "Tables"
-msgstr "Mize"
+#: competition/templates/competition/base.html:12
+msgid "Upcoming"
+msgstr "Neodigrano"
 
-#: competition/templates/competition/group_index.html:5
-#: registration/models/__init__.py:51
-msgid "categories"
-msgstr "kategorije"
+#: competition/templates/competition/base.html:13
+msgid "Current"
+msgstr "Trenutno"
+
+#: competition/templates/competition/category_index.html:10
+#, python-format
+msgid "(%(member_count)s members)"
+msgstr "(%(member_count)s tekmovalcev)"
 
 #: registration/admin.py:21
 msgid "Refresh categories"
@@ -95,6 +91,10 @@ msgstr "klub"
 msgid "category"
 msgstr "kategorija"
 
+#: registration/models/__init__.py:51
+msgid "categories"
+msgstr "kategorije"
+
 #: registration/models/__init__.py:57
 msgid "min age"
 msgstr "najmanjša starost"
@@ -106,6 +106,25 @@ msgstr "največja starost"
 #: registration/templates/index.html:5
 msgid "Prijavljeni igralci po kategorijah"
 msgstr ""
+
+#: registration/templates/admin/submit_line.html:3
+msgid "Save and add another"
+msgstr ""
+
+#~ msgid "(%(contestant_count)s contestants)"
+#~ msgstr "(%(contestant_count)s tekmovalcev)"
+
+#~ msgid "Registration"
+#~ msgstr "Prijava"
+
+#~ msgid "Competition"
+#~ msgstr "Tekmovanje"
+
+#~ msgid "Matches"
+#~ msgstr "Tekme"
+
+#~ msgid "Tables"
+#~ msgstr "Mize"
 
 #~ msgid "LOSERS"
 #~ msgstr "TOLAZILNA"
