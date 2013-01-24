@@ -101,13 +101,15 @@ def create_brackets(category):
 
     n_winners = 2 * len(groups)
     n_soothers = len(all_members) - n_winners
-    winner_bracket = Bracket.objects.create(category=category, name=_("WINNERS"), levels=levels(n_winners))
-    w_slots = create_single_elimination_bracket_slots(winner_bracket, n_winners)
-    soother_bracket = Bracket.objects.create(category=category, name=_("SOOTHERS"), levels=levels(n_soothers))
-    s_slots = create_single_elimination_bracket_slots(soother_bracket, n_soothers)
+    if n_winners > 0:
+        winner_bracket = Bracket.objects.create(category=category, name=_("WINNERS"), levels=levels(n_winners))
+        w_slots = create_single_elimination_bracket_slots(winner_bracket, n_winners)
+        create_transitions(all_members[:n_winners], groups, w_slots)
 
-    create_transitions(all_members[:n_winners], groups, w_slots)
-    create_transitions(all_members[n_winners:], groups, s_slots)
+    if n_soothers > 0:
+        soother_bracket = Bracket.objects.create(category=category, name=_("SOOTHERS"), levels=levels(n_soothers))
+        s_slots = create_single_elimination_bracket_slots(soother_bracket, n_soothers)
+        create_transitions(all_members[n_winners:], groups, s_slots)
 
 
 def levels(n_players):
