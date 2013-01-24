@@ -11,25 +11,51 @@
             padding: 0;
         }
 
-        #card {
-            page-break-after: always;
-            margin-left: 1cm;
-            margin-top: 1cm;
+        #back_button {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            border:  1px solid black;
+            background-color: white;
+            font-size: 3em;
+            padding: 1em;
+        }
 
+        #back_button a {
+            text-decoration: none;
+        }
+    </style>
+    <style media="print">
+        .card {
+            page-break-before: always;
+        }
+
+        .card:first-of-type {
+            page-break-before: avoid;
+        }
+
+        #back_button {
+            display: none;
         }
     </style>
 </head>
 <body>
 {% regroup members by group as group_members %}
 {% for group in group_members %}
-<div id="card">
+<div class="card">
     <h2>Skupina {{ group.grouper.name }}</h2>
     {% group_play_card group.list %}
 </div>
 {% endfor %}
+<div id="back_button">
+    <a href="{% url category_index %}">NAZAJ</a>
+</div>
 <script type="text/javascript">
     window.print();
-    location.href='{% url category_index %}'
+
+    if (!(navigator.userAgent.match(/Android/i) || navigator.userAgent.match(/iPhone|iPad|iPod/i))) {
+        location.href='{% url category_index %}'
+    }
 </script>
 </body>
 </html>

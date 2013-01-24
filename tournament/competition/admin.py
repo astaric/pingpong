@@ -54,7 +54,8 @@ class BracketSlotAdmin(admin.ModelAdmin):
         form = super(BracketSlotAdmin, self).get_form(request, obj, **kwargs)
         if obj:
             form.base_fields['player'].queryset = \
-                registration_models.Player.objects.filter(Q(bracketslot__winner_goes_to=obj) | Q(id=obj.player_id))
+                registration_models.Player.objects.filter(Q(bracketslot__winner_goes_to=obj) | Q(id=obj.player_id))\
+                                                  .distinct()
         return form
 
     inlines = (

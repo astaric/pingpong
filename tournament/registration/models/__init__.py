@@ -23,6 +23,8 @@ class Player(models.Model):
     club = models.CharField(_("club"), max_length=50, blank=True)
     category = models.ForeignKey('Category', verbose_name=_("category"), blank=True, null=True)
 
+    part_of_double = models.ForeignKey('Player', null=True)
+
     objects = PlayerManager()
 
     def save(self, *args, **kwargs):
@@ -37,6 +39,26 @@ class Player(models.Model):
             self.category = Category.objects.all().matching_player(self).get()
         except Category.DoesNotExist:
             pass
+
+    @classmethod
+    def double_from_players(cls, players):
+        if len(players) != 2:
+            raise ValueError("Invalid number of players")
+        player1, player2 = players
+        player = Player()
+        player.name = unicode(player1)
+        player.surname = unicode(player2)
+        player.age = min(player1.age, player2.age)
+        player.gender = min(player1.gender, player2.gender) + 2
+        player.save()
+
+        player1.part_of_double = player
+        player1.save()
+        player2.part_of_double = player
+        player2.save()
+
+        return player
+
 
     def __unicode__(self):
         return u"{} {}".format(self.name, self.surname)

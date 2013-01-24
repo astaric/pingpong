@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^match/set_scores', views.set_score, name='set_score'),
     url(r'^match/set_places', views.set_places, name='set_places'),
     url(r'^match/set_leaders', views.set_leaders, name='set_leaders'),
+    url(r'^match/create_pair_bracket', views.create_pair_bracket, name='create_pair_bracket'),
     url(r'^match/(?P<match_id>\d+)/', views.match_details, name='match_details'),
     url(r'^(\d+)/print_match.txt', views.print_match, name='print_match'),
 )

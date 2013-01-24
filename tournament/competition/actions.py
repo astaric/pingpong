@@ -109,7 +109,6 @@ def create_brackets(category):
         s_slots = create_single_elimination_bracket_slots(soother_bracket, n_soothers)
         create_transitions(all_members[n_winners:], groups, s_slots)
 
-
 def levels(n_players):
     return int(ceil(log(n_players, 2))) + 1
 
@@ -125,3 +124,23 @@ def create_transitions(candidates, groups, slots):
         else:
             slot.no_player = True
             slot.save()
+
+def create_pair_brackets(category_id):
+    Bracket.objects.filter(category=category_id).delete()
+    players = player_models.Player.objects.filter(category=category_id)
+    n_players = len(players)
+    bracket = Bracket.objects.create(category_id=category_id, name=_("DVOJICE"), levels=levels(n_players))
+    slots = create_single_elimination_bracket_slots(bracket, n_players)
+    fill_bracket(players, slots)
+
+def fill_bracket(players, slots):
+    players = utils.shuffled(players)
+    placements = list(create_tournament_seeds(len(players)))
+    for placement, slot in zip(placements, slots[0]):
+        if placement is not None:
+            slot.player = players[placement]
+            slot.save()
+        else:
+            slot.no_player = True
+            slot.save()
+

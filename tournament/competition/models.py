@@ -1,6 +1,8 @@
 from django.utils import timezone
 
 from django.db import models
+from django.db.models import Count, Max
+from django.db.models.query import QuerySet
 from django.core import urlresolvers
 from django.utils.translation import ugettext_lazy as _
 
@@ -96,6 +98,22 @@ class Bracket(models.Model):
         return '%s - %s' % (self.category.name, self.name)
 
 
+class BracketSlotQuerySet(QuerySet):
+    def with_two_players(self):
+        subquery = BracketSlot.objects.exclude(player=None)\
+                                      .values('winner_goes_to_id')\
+                                      .annotate(icount=Count('id'))\
+                                      .filter(icount=2)\
+                                      .values('winner_goes_to_id')
+        return self.filter(winner_goes_to_id__in=subquery)
+
+class BracketSlotManager(models.Manager):
+    def get_query_set(self):
+        return BracketSlotQuerySet(self.model)
+
+    def with_two_players(self):
+        return self.all().with_two_players()
+
 class BracketSlot(models.Model):
     STATUS = (
         (0, ''),
@@ -117,6 +135,8 @@ class BracketSlot(models.Model):
 
     winner_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
     loser_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
+
+    objects = BracketSlotManager()
 
     def save(self, *args, **kwargs):
         self.set_status()

@@ -1,21 +1,24 @@
 <div class='players'>
 {% if user.is_authenticated %}
-<form method="POST" action="{% url set_leaders %}">
+    {% if category.gender < 2 %}
+        <form method="POST" action="{% url set_leaders %}">
+    {% elif category.gender < 4 %}
+        <form method="POST" action="{% url create_pair_bracket %}">
+    {% endif %}
 {% csrf_token %}
 <input type="hidden" name="category_id" value="{{ category.id }}" />
 {% endif %}
 {% for player in players %}
     <div>
-    {% if user.is_authenticated %}
-    <div class='player_group'>
-        <input type="text" name="player_{{ player.id }}_group" />
-    </div>
-    {% endif %}
-    <div class='player'>{{ player.full_name }}</div>
+    <div class='player'>{{ player }}</div>
     </div>
 {% endfor %}
 {% if user.is_authenticated %}
-<input type=submit value='Kreiraj skupine' />
+    {% if category.gender < 2 %}
+        <input type=submit value='Kreiraj skupine' />
+    {% elif category.gender < 4 %}
+        <input type=submit value='Žrebaj razvrstitev' />
+    {% endif %}
 </form>
 {% endif %}
 </div>

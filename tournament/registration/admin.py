@@ -8,7 +8,7 @@ from .models import Player, Category
 
 
 class PlayerAdmin(admin.ModelAdmin):
-    actions = ['refresh_categories', 'create_groups_from_leaders']
+    actions = ['refresh_categories', 'create_groups_from_leaders', 'create_a_double']
     list_display = ['__unicode__', 'category']
     list_filter = ['category']
 
@@ -30,6 +30,9 @@ class PlayerAdmin(admin.ModelAdmin):
             group_actions.create_brackets(category)
     create_groups_from_leaders.short_description = _("Create groups")
 
+    def create_a_double(self, request, players):
+        Player.double_from_players(players)
+    create_a_double.short_description = _("Create a pair")
 
 class CategoryAdmin(admin.ModelAdmin):
     ordering = ('gender', 'min_age')

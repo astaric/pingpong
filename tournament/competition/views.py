@@ -44,21 +44,33 @@ def category_details(request, category_id):
 
 
 def match_index(request, filter=''):
-    matches = models.BracketSlot.objects.exclude(player=None)
-    groups = models.Group.objects.select_related('category')
-    if filter == 'upcoming':
-        matches = matches.filter(status=0)
-        groups = groups.filter(status=0)
-    elif filter == 'current':
-        matches = matches.filter(status=1)
-        groups = groups.filter(status=1)
-    matches = matches.values('winner_goes_to_id').annotate(icount=Count('id')).filter(icount=2)\
-                     .values('winner_goes_to_id')
-    matches_query = models.BracketSlot.objects.filter(winner_goes_to_id__in=matches)\
+    status = 0 if filter == 'upcoming' else 1
+
+    groups = models.Group.objects.filter(status=status).select_related('category')
+
+    singles_query = models.BracketSlot.objects.filter(status=status, bracket__category__gender__lt=2)\
+                                              .with_two_players()\
                                               .select_related('player', 'bracket__category')
-    matches = datastructures.MultiValueDict()
-    for match in matches_query:
-        matches.appendlist(match.winner_goes_to_id, match)
+    single_matches = datastructures.MultiValueDict()
+    for match in singles_query:
+        single_matches.appendlist(match.winner_goes_to_id, match)
+
+    pairs_query = models.BracketSlot.objects.raw(
+        '''SELECT s.*
+             FROM competition_bracketslot s
+       INNER JOIN competition_bracket b ON b.id = s.bracket_id
+       INNER JOIN registration_category c ON c.id = b.category_id
+       INNER JOIN competition_bracketslot s2 ON s2.winner_goes_to_id = s.winner_goes_to_id
+       INNER JOIN registration_player p ON p.id = s2.player_id
+       INNER JOIN registration_player p2 ON p2.part_of_double_id = p.id
+        LEFT JOIN competition_bracketslot s3 ON s3.player_id = p2.id AND s3.status < 2
+            WHERE c.gender >= 2
+         GROUP BY s.id
+           HAVING COUNT(s2.id) = 4
+              AND COUNT(s3.id) = 0''')
+    pair_matches = datastructures.MultiValueDict()
+    for match in pairs_query:
+        pair_matches.appendlist(match.winner_goes_to_id, match)
 
     available_tables = models.Table.objects.annotate(count1=Count('bracketslot'), count2=Count('group'))\
                                            .filter(count1=0, count2=0)\
@@ -66,8 +78,9 @@ def match_index(request, filter=''):
     return render(request, 'competition/match_index.html',
                   {
                       'mode': filter,
-                      'matches': matches,
+                      'matches': single_matches,
                       'groups': groups,
+                      'pairs': pair_matches,
                       'available_tables': available_tables,
                   })
 
@@ -170,6 +183,12 @@ def set_leaders(request):
         actions.create_brackets(player_models.Category.objects.get(id=category_id))
 
     return redirect(urlresolvers.reverse('print_group', kwargs={"category_id": category_id}))
+
+@login_required(login_url='/admin')
+def create_pair_bracket(request):
+    category_id = request.POST['category_id']
+    actions.create_pair_brackets(category_id)
+    return redirect(urlresolvers.reverse('category_index'))
 
 def match_details(request, match_id):
     return render(request, 'competition/match_details.html', {'players': range(16)})

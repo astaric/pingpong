@@ -17,6 +17,10 @@
     {% for match_id, slots in matches.lists %}
         {% show_match slots %}
     {% endfor %}
+
+    {% for match_id, slots in pairs.lists %}
+        {% show_match slots %}
+    {% endfor %}
     </div>
     <div style='float: right;'>
         {% show_tables %}
