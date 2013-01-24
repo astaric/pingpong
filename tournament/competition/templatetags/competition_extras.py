@@ -94,11 +94,14 @@ def show_table(table):
     }
 
 @register.inclusion_tag('competition/snippets/group.html', takes_context=True)
-def show_group(context, group, members):
+def show_group(context, group, members=None):
+    if members is None:
+        members = group.member_list()
     return {
         'group': group,
         'members': members,
         'user': context['request'].user,
+        'request': context['request'],
     }
 
 @register.inclusion_tag('competition/snippets/match.html', takes_context=True)

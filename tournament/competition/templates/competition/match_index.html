@@ -7,7 +7,11 @@
     <div>
     <div style='float:left;'>
     {% for group in groups %}
-        {% show_group_match group %}
+        {% if mode == 'upcoming' %}
+            {% show_group_match group %}
+        {% else %}
+            {% show_group group %}
+        {% endif %}
     {% endfor %}
 
     {% for match_id, slots in matches.lists %}

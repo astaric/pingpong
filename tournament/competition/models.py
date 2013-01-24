@@ -20,6 +20,19 @@ class Group(models.Model):
     table = models.ForeignKey('Table', blank=True, null=True)
     status = models.IntegerField(choices=STATUS, default=0)
 
+    def member_list(self):
+        return GroupMember.objects.filter(group=self).order_by('place', '-leader', 'player__surname').prefetch_related('group', 'group__category', 'player')
+
+    def save(self, *args, **kwargs):
+        self.update_status()
+        super(Group, self).save(*args, **kwargs)
+
+    def update_status(self):
+        if self.table is None:
+            return
+        else:
+            self.status = 1
+
     def __unicode__(self):
         return '{} - {}'.format(self.category, self.name)
 
@@ -35,6 +48,7 @@ class GroupMember(models.Model):
         super(GroupMember, self).save(*args, **kwargs)
 
         self.add_to_bracket()
+        self.update_group_status()
 
     def add_to_bracket(self):
         if self.place is None:
@@ -48,6 +62,18 @@ class GroupMember(models.Model):
             if slot2.no_player:
                 BracketSlot.objects.filter(id=slot.winner_goes_to_id).update(player=self.player_id)
         except BracketSlot.DoesNotExist:
+            pass
+
+    def update_group_status(self):
+        if self.place is None:
+            return
+        try:
+            group = Group.objects.get(id=self.group_id)
+            if group.status < 2:
+                group.table = None
+                group.status = 2
+                group.save()
+        except Group.DoesNotExist:
             pass
 
     @staticmethod

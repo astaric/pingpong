@@ -3,6 +3,7 @@
     {% if user.is_authenticated %}
     <form method="POST" action="{% url set_places %}">
         {% csrf_token %}
+        <input type="hidden" name="redirect" value="{{ request.path }}" />
     {% endif %}
     <div style='font-weight: bold;'>{{ group.name }}</div>
 {% for member in members %}

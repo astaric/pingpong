@@ -1,6 +1,7 @@
 import re
 
 from django.core import urlresolvers
+from django.db import transaction
 from django.db.models import Count, Max
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -50,7 +51,7 @@ def match_index(request, filter=''):
         groups = groups.filter(status=0)
     elif filter == 'current':
         matches = matches.filter(status=1)
-        groups = groups.none()
+        groups = groups.filter(status=1)
     matches = matches.values('winner_goes_to_id').annotate(icount=Count('id')).filter(icount=2)\
                      .values('winner_goes_to_id')
     matches_query = models.BracketSlot.objects.filter(winner_goes_to_id__in=matches)\
@@ -59,11 +60,12 @@ def match_index(request, filter=''):
     for match in matches_query:
         matches.appendlist(match.winner_goes_to_id, match)
 
-    available_tables = models.Table.objects.annotate(count=Count('bracketslot'))\
-                                           .filter(count=0)\
+    available_tables = models.Table.objects.annotate(count1=Count('bracketslot'), count2=Count('group'))\
+                                           .filter(count1=0, count2=0)\
                                            .order_by('sort_order')
     return render(request, 'competition/match_index.html',
                   {
+                      'mode': filter,
                       'matches': matches,
                       'groups': groups,
                       'available_tables': available_tables,
@@ -89,7 +91,6 @@ def set_table(request):
         if group_id:
             group = models.Group.objects.get(id=group_id)
             group.table_id = table_id
-            group.status = 1
             group.save()
     except ValueError as err:
         messages.add_message(request, messages.ERROR, err.message)
@@ -122,6 +123,7 @@ def set_score(request):
 
 member_place_re = re.compile(r'member_([\d]+)_place')
 @login_required(login_url='/admin')
+@transaction.commit_on_success
 def set_places(request):
     try:
         max_placement = None
@@ -133,21 +135,20 @@ def set_places(request):
             member_id, = match.groups()
             if max_placement is None:
                 max_placement = models.GroupMember.with_same_group_as(member_id).count()
-            placement = int('0' + placement) or None
+            placement = int(placement)
             if placement is not None and not (1 <= placement <= max_placement):
-                messages.add_message(request, messages.ERROR, "Invalid placement (%s)" % placement)
-                continue
+                raise ValueError("Invalid placement (%s)" % placement)
 
             member = models.GroupMember.objects.get(id=member_id)
             member.place = placement
             member.save()
-            group = models.Group.objects.get(id=member.id)
-            group.table = None
-            group.status = 2
-            group.save()
-    except:
+    except ValueError as err:
+        transaction.rollback()
+        messages.add_message(request, messages.ERROR, err.message)
+    except Exception as err:
+        transaction.rollback()
         messages.add_message(request, messages.ERROR, "Invalid request")
-    return redirect(urlresolvers.reverse('category_index'))
+    return redirect(request.POST.get('redirect', '/'))
 
 player_re = re.compile(r'player_([\d]+)_group')
 @login_required(login_url='/admin')
