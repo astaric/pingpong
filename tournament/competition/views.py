@@ -120,40 +120,37 @@ def set_score(request):
 
     return redirect(urlresolvers.reverse('current_matches'))
 
+member_place_re = re.compile(r'member_([\d]+)_place')
 @login_required(login_url='/admin')
 def set_places(request):
     try:
-        members = [(name.split('_')[1], placement)
-                   for name, placement in request.POST.items()
-                   if name.startswith('member_')]
-    except ValueError:
-        members = ()
+        max_placement = None
+        for name, placement in request.POST.items():
+            match = member_place_re.match(name)
+            if not match:
+                continue
+
+            member_id, = match.groups()
+            if max_placement is None:
+                max_placement = models.GroupMember.with_same_group_as(member_id).count()
+            placement = int('0' + placement) or None
+            if placement is not None and not (1 <= placement <= max_placement):
+                messages.add_message(request, messages.ERROR, "Invalid placement (%s)" % placement)
+                continue
+
+            member = models.GroupMember.objects.get(id=member_id)
+            member.place = placement
+            member.save()
+            group = models.Group.objects.get(id=member.id)
+            group.table = None
+            group.status = 2
+            group.save()
+    except:
         messages.add_message(request, messages.ERROR, "Invalid request")
-
-    member_id = members[0][0] if len(members) else None
-    max_placement = models.GroupMember.with_same_group_as(member_id).count()
-    for member_id, placement in members:
-        valid = True
-        if placement.isdigit():
-            placement = int(placement)
-            if not 1 <= placement <= max_placement:
-                valid = False
-        elif placement == '':
-            placement = None
-        else:
-            valid = False
-
-        if valid:
-            members = models.GroupMember.objects.filter(id=member_id)
-            for member in members:
-                member.place = placement
-                member.save()
-        else:
-            messages.add_message(request, messages.ERROR, "Invalid placement (%s)" % placement)
-
-    return redirect(urlresolvers.reverse('group_index'))
+    return redirect(urlresolvers.reverse('category_index'))
 
 player_re = re.compile(r'player_([\d]+)_group')
+@login_required(login_url='/admin')
 def set_leaders(request):
     category_id = request.POST['category_id']
 
@@ -171,7 +168,7 @@ def set_leaders(request):
         actions.create_groups_from_leaders(category_id, leaders)
         actions.create_brackets(player_models.Category.objects.get(id=category_id))
 
-    return redirect(urlresolvers.reverse('group_index'))
+    return redirect(urlresolvers.reverse('category_index'))
 
 def match_details(request, match_id):
     return render(request, 'competition/match_details.html', {'players': range(16)})
