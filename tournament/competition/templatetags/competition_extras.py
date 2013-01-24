@@ -3,6 +3,7 @@ from collections import defaultdict
 from django import template
 
 from .. import models
+from ...registration import models as player_models
 
 register = template.Library()
 
@@ -83,3 +84,49 @@ def render_bracket(bracket, slots, render_slot):
 def show_tables():
     tables = models.Table.objects.prefetch_related('bracketslot_set')
     return {'tables': tables}
+
+@register.inclusion_tag('competition/snippets/group.html', takes_context=True)
+def show_group(context, group, members):
+    return {
+        'group': group,
+        'members': members,
+        'user': context['request'].user,
+    }
+
+@register.inclusion_tag('competition/snippets/match.html', takes_context=True)
+def show_match(context, id, slot1, slot2, available_tables):
+    return {
+        'id': id,
+        'slot1': slot1,
+        'slot2': slot2,
+        'available_tables': available_tables,
+        'user': context['request'].user,
+    }
+
+@register.inclusion_tag('competition/snippets/players.html', takes_context=True)
+def show_players(context, category):
+    players = player_models.Player.objects.filter(category=category).order_by('surname')
+    return {
+        'category': category,
+        'players': players,
+        'user': context['request'].user,
+    }
+
+@register.inclusion_tag('competition/snippets/groupscores.html')
+def group_play_card(members):
+    berger_tables = {
+        3: [(2, 3), (1, 2), (3, 1)],
+        4: [(1, 4), (2, 3), (4, 3), (1, 2), (2, 4), (3, 1)],
+        5: [(2, 5), (3, 4), (5, 3), (1, 2), (3, 1), (4, 5), (1, 4), (2, 3), (4, 2), (5, 1)],
+        6: [(1, 6), (2, 5), (3, 4), (6, 4), (5, 3), (1, 2), (2, 6), (3, 1), (4, 5), (6, 5), (1, 4), (2, 3), (3, 6), (4, 2), (5, 1)],
+    }
+
+    matches = []
+    if 3 <= len(members) <= 6:
+        for p1, p2 in berger_tables[len(members)]:
+            matches.append((members[p1 - 1], members[p2 - 1]))
+
+    return {
+        'members': members,
+        'matches': matches,
+    }

@@ -1,17 +1,19 @@
 {% extends "competition/base.html" %}
 {% load i18n %}
+{% load competition_extras %}
 
 {% block main %}
-{% regroup members by group.category as category_members %}
-
-{% for category in category_members %}
+{% for category, members in category_members %}
     <div>
-    <div><a href="{% url group_details category_id=category.grouper.id %}">{{ category.grouper.description }}</a></div>
-    {% regroup category.list by group as group_members %}
+    <div><a href="{% url group_details category_id=category.id %}">{{ category.description }}</a>
+    ({{ category.player_count }} tekmovalcev)
+    </div>
+
+    {% regroup members by group as group_members %}
     {% for group in group_members %}
-        {% include 'competition/snippets/group.html' with group=group.grouper members=group.list %}
+        {% show_group group=group.grouper members=group.list %}
     {% empty %}
-        Skupine še niso bile dolocene.
+        {% show_players category %}
     {% endfor %}
     </div>
 {% endfor %}

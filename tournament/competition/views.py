@@ -9,17 +9,24 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from . import models
+from . import actions
 from ..registration import models as player_models
 
 
-def index(request):
-    members = models.GroupMember.objects.order_by('group__category', 'group', 'place', '-leader', 'player__surname')\
-                                        .prefetch_related('group', 'group__category', 'player')
+def group_index(request):
+    category_members = {
+        category: []
+        for category in player_models.Category.objects.annotate(player_count=Count('player'))
+    }
+    for member in models.GroupMember.objects\
+                                    .order_by('group__category', 'group', 'place', '-leader', 'player__surname')\
+                                    .prefetch_related('group', 'group__category', 'player'):
+        category_members[member.group.category].append(member)
 
-    return render(request, "competition/group_index.html", {"members": list(members)})
+    return render(request, "competition/group_index.html", {"category_members": category_members.items()})
 
 
-def details(request, category_id):
+def group_details(request, category_id):
     category = get_object_or_404(player_models.Category, id=category_id)
     members = models.GroupMember.objects.filter(group__category=category)\
                                         .select_related('player', 'group')\
@@ -68,9 +75,14 @@ def set_table(request):
     table_id = request.POST.get('table_id', None)
 
     if match_id and table_id:
-        for slot in models.BracketSlot.objects.filter(winner_goes_to=match_id):
-            slot.table_id = table_id
-            slot.save()
+        if not models.BracketSlot.objects.filter(table_id=table_id).exists():
+            for slot in models.BracketSlot.objects.filter(winner_goes_to=match_id):
+                slot.table_id = table_id
+                slot.save()
+        else:
+            messages.add_message(request, messages.ERROR, "Table (%s) is already occupied." % table_id)
+    else:
+        messages.add_message(request, messages.ERROR, "Invalid request")
 
     return redirect(urlresolvers.reverse("upcoming_matches"))
 
@@ -89,44 +101,65 @@ def set_score(request):
             for slot, score in zip(slots, scores.groups()):
                 slot.score = int(score)
                 slot.save()
+        else:
+            messages.add_message(request, messages.ERROR, "Invalid score. (%s)" % score)
+    else:
+        messages.add_message(request, messages.ERROR, "Invalid request")
 
     return redirect(urlresolvers.reverse('current_matches'))
 
 @login_required(login_url='/admin')
 def set_places(request):
-    members = [key for key in request.POST.keys() if key.startswith("member_")]
+    try:
+        members = [(name.split('_')[1], placement)
+                   for name, placement in request.POST.items()
+                   if name.startswith('member_')]
+    except ValueError:
+        members = ()
+        messages.add_message(request, messages.ERROR, "Invalid request")
 
-    if members:
-        member_id = members[0].split('_')[1]
-        member_group = models.GroupMember.objects.filter(id=member_id).values_list('group_id', flat=True)
-        max_placement = models.GroupMember.objects.filter(group_id=member_group).count()
+    member_id = members[0][0] if len(members) else None
+    max_placement = models.GroupMember.with_same_group_as(member_id).count()
+    for member_id, placement in members:
+        valid = True
+        if placement.isdigit():
+            placement = int(placement)
+            if not 1 <= placement <= max_placement:
+                valid = False
+        elif placement == '':
+            placement = None
+        else:
+            valid = False
 
-        for member in members:
-            prefix, member_id, suffix = member.split('_')
-            member_place = request.POST[member]
-            if member_place.isdigit():
-                member_place = int(member_place)
-                if not (1 <= member_place <= max_placement):
-                    messages.add_message(
-                        request, messages.INFO,
-                        'Neveljavna uvrstitev (%s), ni med 1 in %s' % (member_place, max_placement)
-                    )
-                    continue
-            elif member_place == "":
-                member_place = None
-            else:
-                messages.add_message(
-                    request, messages.ERROR,
-                    'Neveljavna uvrstitev (%s)' % member_place
-                )
+        if valid:
             members = models.GroupMember.objects.filter(id=member_id)
             for member in members:
-                member.place = member_place
+                member.place = placement
                 member.save()
+        else:
+            messages.add_message(request, messages.ERROR, "Invalid placement (%s)" % placement)
 
     return redirect(urlresolvers.reverse('group_index'))
 
+player_re = re.compile(r'player_([\d]+)_group')
+def set_leaders(request):
+    category_id = request.POST['category_id']
 
+    leaders = []
+    for name, value in request.POST.items():
+        match = player_re.match(name)
+        if match and value:
+            id, = match.groups()
+            leaders.append((value, id))
+
+    leaders.sort()
+    if leaders:
+        leaders = [player_models.Player.objects.get(id=id)
+                   for group, id in leaders]
+        actions.create_groups_from_leaders(category_id, leaders)
+        actions.create_brackets(player_models.Category.objects.get(id=category_id))
+
+    return redirect(urlresolvers.reverse('group_index'))
 
 def match_details(request, match_id):
     return render(request, 'competition/match_details.html', {'players': range(16)})
@@ -141,6 +174,10 @@ match_template = ('',) * 19 + (
     '+----------+----------+----------+----------+----------+----------+----------+',
 )
 
+
+def print_group(request, category_id):
+    members = models.GroupMember.objects.filter(group__category=category_id)
+    return render(request, 'competition/print_group.html', {'members': members})
 
 def print_match(request, id=0):
     template = map(list, match_template)

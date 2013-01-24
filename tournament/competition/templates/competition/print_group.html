@@ -1,0 +1,31 @@
+{% load static %}
+{% load competition_extras %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="{% static 'css/competition_extras.css' %}" id="">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        #card {
+            page-break-after: always;
+            margin-left: 1cm;
+            margin-top: 1cm;
+
+        }
+    </style>
+</head>
+<body>
+{% regroup members by group as group_members %}
+{% for group in group_members %}
+<div id="card">
+    <h2>Skupina {{ group.grouper.name }}</h2>
+    {% group_play_card group.list %}
+</div>
+{% endfor %}
+</body>
+</html>

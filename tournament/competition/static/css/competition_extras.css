@@ -1,6 +1,7 @@
 .bracket {
     border-spacing: 0;
     border-collapse: separate;
+    page-break-before: always;
 }
 
 .bracket td {

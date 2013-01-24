@@ -41,6 +41,14 @@ class GroupMember(models.Model):
         except BracketSlot.DoesNotExist:
             pass
 
+    @staticmethod
+    def with_same_group_as(member):
+        if isinstance(member, GroupMember):
+            member_group = member.group_id
+        else:
+            member_group = GroupMember.objects.filter(id=member).values_list('group_id', flat=True)
+        return GroupMember.objects.filter(group_id=member_group)
+
 
 class Bracket(models.Model):
     category = models.ForeignKey(player_models.Category)

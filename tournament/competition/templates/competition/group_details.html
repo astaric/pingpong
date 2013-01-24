@@ -7,7 +7,7 @@
 
 {% regroup members by group as group_members %}
 {% for group in group_members %}
-    {% include 'competition/snippets/group.html' with group=group.grouper members=group.list %}
+    {% show_group group=group.grouper members=group.list %}
 {% empty %}
     Skupine za to kategorijo se niso bile dolocene.
 {% endfor %}

@@ -1,13 +1,12 @@
-<div style='cursor:pointer; border:1px solid #333;  line-height: 2em;'>
-    <!-- <div style='display:inline-block; width: 20px; text-align: right;  vertical-align: middle;'>{{ id }}</div> -->
-    <div style='display:inline-block; padding-left: 5px; width: 100px; text-align: right;'>{{ slot1.player }}</div>
-    <div style='display:inline-block; padding-left: 5px; padding-right:5px;'>-</div>
-    <div style='display:inline-block; padding-left: 5px; width: 100px;'>{{ slot2.player }}</div>
-    <div style='display:inline-block; width:50px'>{{ slot1.player.category }}</div>
-    <div style='display:inline-block; width:30px'>FF</div>
+<div class='match'>
+    <div class='player1'>{{ slot1.player }}</div>
+    <div class='dash'>-</div>
+    <div class='player2'>{{ slot2.player }}</div>
+    <div class='category'>{{ slot1.player.category }}</div>
+    <div class='type'>FF</div>
     {% if user.is_authenticated %}
         {% if slot1.status == 0 %}
-            <form style='display: inline-block;' method="POST" action="{% url set_table %}">
+            <form method="POST" action="{% url set_table %}">
                 {% csrf_token %}
                 <input type="hidden" name="match_id" value="{{ id }}">
                 <select name="table_id">
