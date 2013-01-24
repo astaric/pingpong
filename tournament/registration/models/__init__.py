@@ -39,7 +39,7 @@ class Player(models.Model):
             pass
 
     def __unicode__(self):
-        return "{} {}".format(self.name, self.surname)
+        return u"{} {}".format(self.name, self.surname)
 
     def full_name(self):
         return '%s %s' % (self.name, self.surname)
