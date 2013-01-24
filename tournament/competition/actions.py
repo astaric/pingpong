@@ -94,12 +94,10 @@ def create_brackets(category):
     # bracket, the rest go to the losers bracket.
     Bracket.objects.filter(category=category).delete()
     groups = Group.objects.filter(category=category).annotate(member_count=Count('members'))
-    for group in groups:
-        assert group.member_count >= 2
 
     all_members = list(utils.alternate(*[[(g, i + 1) for i in range(g.member_count)] for g in groups]))
 
-    n_winners = 2 * len(groups)
+    n_winners = min(2 * len(groups), len(all_members))
     n_soothers = len(all_members) - n_winners
     if n_winners > 0:
         winner_bracket = Bracket.objects.create(category=category, name=_("WINNERS"), levels=levels(n_winners))
