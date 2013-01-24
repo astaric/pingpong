@@ -72,3 +72,94 @@
 .group .leader {
     font-weight: bold;
 }
+
+.match {
+    border: 1px solid #333;
+    line-height: 2em;
+    margin-bottom: 10px;
+}
+
+.match div {
+    display: inline-block;
+    padding-left: 5px;
+}
+
+.match .player1 {
+    width: 100px;
+    text-align: right;
+}
+
+.match .dash {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.match .player2 {
+    width: 100px;
+}
+
+.match .category {
+    width: 50px;
+}
+
+.match .type {
+    padding-left: 0;
+    width: 30px;
+}
+
+.match form {
+    display: inline-block;
+}
+
+.players {
+
+}
+
+.players .player_group,
+.players .player{
+    display: inline-block;
+}
+
+.players .player_group input {
+    width: 20px;
+    border: 0;
+    border-bottom: 1px solid #666;
+}
+
+.groupplay,
+.groupscores {
+    border-spacing: 0;
+    border-left: 1px solid #333;
+    border-bottom: 1px solid #333;
+}
+
+.groupplay td,
+.groupscores td {
+    line-height: 2em;
+    padding: 2px;
+    border-top: 1px solid #333;
+    border-right: 1px solid #333;
+}
+
+.groupscores .score {
+    width: 3em;
+    text-align: center;
+}
+
+.groupscores .player {
+    width: 200px;
+}
+
+.groupscores td.dark {
+    padding: 0;
+}
+
+.groupscores td.dark div {
+    border-top: 1.1em solid black;
+    border-bottom: 1.1em solid black;
+    margin: 0;
+}
+
+.groupplay td {
+    line-height: 1em;
+}
