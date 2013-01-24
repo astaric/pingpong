@@ -102,6 +102,21 @@ def show_group(context, group, members):
     }
 
 @register.inclusion_tag('competition/snippets/match.html', takes_context=True)
+def show_group_match(context, group):
+    edit_form = None
+    if context['request'].user.is_authenticated():
+        if group.status == 0:
+            edit_form = 'set_table'
+    return {
+        'id': group.id,
+        'id_prefix': 'group',
+        'player1': group.category.description,
+        'player2': group.name,
+        'available_tables': context['available_tables'],
+        'edit_form': edit_form,
+        }
+
+@register.inclusion_tag('competition/snippets/match.html', takes_context=True)
 def show_match(context, slots):
     slot1, slot2 = slots
     edit_form = None
@@ -112,6 +127,7 @@ def show_match(context, slots):
             edit_form = 'set_score'
     return {
         'id': slot1.winner_goes_to,
+        'id_prefix': 'match',
         'player1': slot1.player,
         'player2': slot2.player,
         'category': slot1.player.category,

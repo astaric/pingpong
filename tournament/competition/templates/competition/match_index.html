@@ -6,6 +6,10 @@
 
     <div>
     <div style='float:left;'>
+    {% for group in groups %}
+        {% show_group_match group %}
+    {% endfor %}
+
     {% for match_id, slots in matches.lists %}
         {% show_match slots %}
     {% endfor %}

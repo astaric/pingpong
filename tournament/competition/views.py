@@ -44,10 +44,13 @@ def category_details(request, category_id):
 
 def match_index(request, filter=''):
     matches = models.BracketSlot.objects.exclude(player=None)
+    groups = models.Group.objects
     if filter == 'upcoming':
         matches = matches.filter(status=0)
+        groups = groups.filter(status=0)
     elif filter == 'current':
         matches = matches.filter(status=1)
+        groups = groups.none()
     matches = matches.values('winner_goes_to_id').annotate(icount=Count('id')).filter(icount=2)\
                      .values('winner_goes_to_id')
     matches_query = models.BracketSlot.objects.filter(winner_goes_to_id__in=matches)\
@@ -62,23 +65,35 @@ def match_index(request, filter=''):
     return render(request, 'competition/match_index.html',
                   {
                       'matches': matches,
+                      'groups': groups,
                       'available_tables': available_tables,
                   })
 
 
 @login_required(login_url='/admin')
 def set_table(request):
-    match_id = request.POST.get('match_id', None)
-    table_id = request.POST.get('table_id', None)
+    try:
+        table_id = request.POST['table_id']
+        match_id = request.POST.get('match_id', None)
+        group_id = request.POST.get('group_id', None)
+        if bool(match_id) == bool(group_id):  # exactly one should be set
+            raise KeyError
 
-    if match_id and table_id:
-        if not models.BracketSlot.objects.filter(table_id=table_id).exists():
+        if models.Table.objects.get(id=table_id).occupied():
+            raise ValueError("Table (%s) is already occupied." % table_id)
+
+        if match_id:
             for slot in models.BracketSlot.objects.filter(winner_goes_to=match_id):
                 slot.table_id = table_id
                 slot.save()
-        else:
-            messages.add_message(request, messages.ERROR, "Table (%s) is already occupied." % table_id)
-    else:
+        if group_id:
+            group = models.Group.objects.get(id=group_id)
+            group.table_id = table_id
+            group.status = 1
+            group.save()
+    except ValueError as err:
+        messages.add_message(request, messages.ERROR, err.message)
+    except Exception:
         messages.add_message(request, messages.ERROR, "Invalid request")
 
     return redirect(urlresolvers.reverse("upcoming_matches"))
