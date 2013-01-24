@@ -169,7 +169,7 @@ def set_leaders(request):
         actions.create_groups_from_leaders(category_id, leaders)
         actions.create_brackets(player_models.Category.objects.get(id=category_id))
 
-    return redirect(urlresolvers.reverse('category_index'))
+    return redirect(urlresolvers.reverse('print_group', kwargs={"category_id": category_id}))
 
 def match_details(request, match_id):
     return render(request, 'competition/match_details.html', {'players': range(16)})
