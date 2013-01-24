@@ -9,7 +9,7 @@
 
 {% block navigation %}
     <li><a href="{% url category_index %}"{% if request.path|startswith:'/category/' %} class="active"{% endif %}>{% blocktrans %}Posamezno{% endblocktrans %}</a></li>
-    <li><a href="{% url category_index %}"{% if request.path|startswith:'/category/' %} class="active"{% endif %}>{% blocktrans %}Dvojice{% endblocktrans %}</a></li>
+    <li><a href="{% url pairs_index %}"{% if request.path|startswith:'/category/pairs/' %} class="active"{% endif %}>{% blocktrans %}Dvojice{% endblocktrans %}</a></li>
     <li><a href="{% url upcoming_matches %}"{% if request.path|startswith:'/matches/upcoming' %} class="active"{% endif %}>{% blocktrans %}Upcoming{% endblocktrans %}</a></li>
     <li><a href="{% url current_matches %}"{% if request.path|startswith:'/matches/current' %} class="active"{% endif %}>{% blocktrans %}Current{% endblocktrans %}</a></li>
 {% endblock %}

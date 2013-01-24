@@ -17,12 +17,18 @@ def index(request):
     return redirect(urlresolvers.reverse("category_index"))
 
 
-def category_index(request):
+def category_index(request, filter='singles'):
+    categories = player_models.Category.objects.annotate(player_count=Count('player'))
+    if filter == 'singles':
+        categories = categories.filter(gender__lt=2)
+    elif filter == 'pairs':
+        categories = categories.filter(gender__gte=2)
     category_members = {
         category: []
-        for category in player_models.Category.objects.annotate(player_count=Count('player'))
+        for category in categories
     }
     for member in models.GroupMember.objects\
+                                    .filter(group__category__in=categories)\
                                     .order_by('group__category', 'group', 'place', '-leader', 'player__surname')\
                                     .prefetch_related('group', 'group__category', 'player'):
         category_members[member.group.category].append(member)

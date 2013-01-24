@@ -5,6 +5,7 @@ from . import views
 urlpatterns = patterns('',
     url(r'^$', views.index, name='home'),
     url(r'^category/$', views.category_index, name='category_index'),
+    url(r'^category/pairs/$', views.category_index, name='pairs_index', kwargs={'filter': 'pairs'}),
     url(r'^category/(?P<category_id>\d+)/$', views.category_details, name='group_details'),
     url(r'^category/(?P<category_id>\d+)/print$', views.print_group, name='print_group'),
     url(r'^matches/upcoming', views.match_index, name='upcoming_matches', kwargs={'filter': 'upcoming'}),
