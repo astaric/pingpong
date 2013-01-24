@@ -81,8 +81,17 @@ def render_bracket(bracket, slots, render_slot):
 
 @register.inclusion_tag('competition/snippets/tables.html')
 def show_tables():
-    tables = models.Table.objects.prefetch_related('bracketslot_set')
+    tables = models.Table.objects.prefetch_related('bracketslot_set', 'group_set', 'group_set__category')
     return {'tables': tables}
+
+@register.inclusion_tag('competition/snippets/table.html')
+def show_table(table):
+    return {
+        'table': table,
+        'player1': table.player1(),
+        'player2': table.player2(),
+        'occupied': table.occupied(),
+    }
 
 @register.inclusion_tag('competition/snippets/group.html', takes_context=True)
 def show_group(context, group, members):

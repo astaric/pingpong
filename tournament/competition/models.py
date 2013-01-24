@@ -8,8 +8,17 @@ from ..registration import models as player_models
 
 
 class Group(models.Model):
+    STATUS = (
+        (0, ''),
+        (1, 'playing'),
+        (2, 'completed')
+    )
+
     name = models.CharField(max_length=10)
     category = models.ForeignKey(player_models.Category)
+
+    table = models.ForeignKey('Table', blank=True, null=True)
+    status = models.IntegerField(choices=STATUS, default=0)
 
     def __unicode__(self):
         return '{} - {}'.format(self.category, self.name)
@@ -156,12 +165,17 @@ class Table(models.Model):
     sort_order = models.IntegerField()
 
     _players = None
-
     @property
     def players(self):
         if self._players is None:
-            self._players = sorted([bracket.player for bracket in self.bracketslot_set.all()],
-                                   key=lambda x: x.id) or ['', '']
+            if self.bracketslot_set.exists():
+                self._players = sorted([bracket.player for bracket in self.bracketslot_set.all()],
+                                       key=lambda x: x.id if hasattr(x, 'id') else '')
+            elif self.group_set.exists():
+                group = self.group_set.all()[0]
+                self._players = group.category.description, group.name
+            else:
+                self._players = ('','')
 
         return self._players
 
@@ -172,14 +186,13 @@ class Table(models.Model):
         return self.players[1]
 
     def occupied(self):
-        return self.players != ['', '']
+        return self.players != ('', '')
 
     def match_started(self):
-        brackets = self.bracketslot_set.all()
-        if len(brackets) == 0:
-            return ''
+        if self.bracketslot_set.exists():
+            return self.bracketslot_set.all()[0].match_start.strftime('%H:%M')
         else:
-            return brackets[0].match_start.strftime('%H:%M')
+            return ''
 
     def __unicode__(self):
         return self.name
