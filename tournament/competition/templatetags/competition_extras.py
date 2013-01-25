@@ -15,7 +15,7 @@ def show_bracket(bracket, admin_view=False):
                                           .select_related('transition', 'player')\
                                           .prefetch_related('transition__group')\
                                           .order_by('level', 'id'):
-        slots[bracket.levels-1-slot.level].append(slot)
+        slots[bracket.levels - 1 - slot.level].append(slot)
 
     def render_slot(slot):
         if slot is None:
@@ -84,6 +84,7 @@ def show_tables():
     tables = models.Table.objects.prefetch_related('bracketslot_set', 'group_set', 'group_set__category')
     return {'tables': tables}
 
+
 @register.inclusion_tag('competition/snippets/table.html')
 def show_table(table):
     return {
@@ -92,6 +93,7 @@ def show_table(table):
         'player2': table.player2(),
         'occupied': table.occupied(),
     }
+
 
 @register.inclusion_tag('competition/snippets/group.html', takes_context=True)
 def show_group(context, group, members=None):
@@ -103,6 +105,7 @@ def show_group(context, group, members=None):
         'user': context['request'].user,
         'request': context['request'],
     }
+
 
 @register.inclusion_tag('competition/snippets/match.html', takes_context=True)
 def show_group_match(context, group):
@@ -117,7 +120,8 @@ def show_group_match(context, group):
         'player2': group.name,
         'available_tables': context['available_tables'],
         'edit_form': edit_form,
-        }
+    }
+
 
 @register.inclusion_tag('competition/snippets/match.html', takes_context=True)
 def show_match(context, slots):
@@ -139,6 +143,7 @@ def show_match(context, slots):
         'edit_form': edit_form,
     }
 
+
 @register.inclusion_tag('competition/snippets/players.html', takes_context=True)
 def show_players(context, category):
     players = player_models.Player.objects.filter(category=category).order_by('surname')
@@ -147,6 +152,7 @@ def show_players(context, category):
         'players': players,
         'user': context['request'].user,
     }
+
 
 @register.inclusion_tag('competition/snippets/group_play_card.html')
 def group_play_card(members):
@@ -167,9 +173,10 @@ def group_play_card(members):
         'matches': matches,
     }
 
+
 @register.inclusion_tag('competition/snippets/match_card.html')
 def match_card(slots):
-    slot1, slot2 = sorted(slots, key=lambda x:x.winner_goes_to)
+    slot1, slot2 = sorted(slots, key=lambda x: x.winner_goes_to)
     return {
         'player1': slot1.player,
         'player2': slot2.player,

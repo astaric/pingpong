@@ -61,7 +61,6 @@ class Player(models.Model):
 
         return player
 
-
     def __unicode__(self):
         return u"{} {}".format(self.name, self.surname)
 

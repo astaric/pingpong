@@ -23,7 +23,9 @@ class Group(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
 
     def member_list(self):
-        return GroupMember.objects.filter(group=self).order_by('place', '-leader', 'player__surname').select_related('group', 'group__category', 'player')
+        return GroupMember.objects.filter(group=self)\
+                                  .order_by('place', '-leader', 'player__surname')\
+                                  .select_related('group', 'group__category', 'player')
 
     def save(self, *args, **kwargs):
         self.update_status()
@@ -108,6 +110,7 @@ class BracketSlotQuerySet(QuerySet):
                                       .filter(icount=2)\
                                       .values('winner_goes_to_id')
         return self.filter(winner_goes_to_id__in=subquery)
+
 
 class BracketSlotManager(models.Manager):
     def get_query_set(self):
@@ -223,6 +226,7 @@ class Table(models.Model):
     sort_order = models.IntegerField()
 
     _players = None
+
     @property
     def players(self):
         if self._players is None:
@@ -233,7 +237,7 @@ class Table(models.Model):
                 group = self.group_set.all()[0]
                 self._players = group.category.description, group.name
             else:
-                self._players = ('','')
+                self._players = ('', '')
 
         return self._players
 

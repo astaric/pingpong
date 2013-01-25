@@ -1,17 +1,17 @@
-import itertools, re
+import itertools
+import re
 
 from django.core import urlresolvers
 from django.db import transaction
 from django.db.models import Count, Max
-from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils import datastructures
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from . import models
 from . import actions
 from ..registration import models as player_models
+
 
 def index(request):
     return redirect(urlresolvers.reverse("category_index"))
@@ -44,9 +44,11 @@ def category_details(request, category_id):
     brackets = models.Bracket.objects.filter(category=category)\
                                      .annotate(rounds=Max('bracketslot__level'))
 
-    return render(request, 'competition/category_details.html', {'category': category,
-                                                              'members': members,
-                                                              'brackets': brackets, })
+    return render(request, 'competition/category_details.html', {
+        'category': category,
+        'members': members,
+        'brackets': brackets,
+    })
 
 
 def match_index(request, filter=''):
@@ -116,6 +118,7 @@ def set_table(request):
 
     return redirect(urlresolvers.reverse("upcoming_matches"))
 
+
 score_re = re.compile(r'(\d+)[^\d]+(\d+)')
 
 
@@ -138,7 +141,10 @@ def set_score(request):
 
     return redirect(urlresolvers.reverse('current_matches'))
 
+
 member_place_re = re.compile(r'member_([\d]+)_place')
+
+
 @login_required(login_url='/admin')
 @transaction.commit_on_success
 def set_places(request):
@@ -167,7 +173,10 @@ def set_places(request):
         messages.add_message(request, messages.ERROR, "Invalid request")
     return redirect(request.POST.get('redirect', '/'))
 
+
 player_re = re.compile(r'player_([\d]+)_group')
+
+
 @login_required(login_url='/admin')
 def set_leaders(request):
     category_id = request.POST['category_id']
@@ -188,29 +197,22 @@ def set_leaders(request):
 
     return redirect(urlresolvers.reverse('print_group', kwargs={"category_id": category_id}))
 
+
 @login_required(login_url='/admin')
 def create_pair_bracket(request):
     category_id = request.POST['category_id']
     actions.create_pair_brackets(category_id)
     return redirect(urlresolvers.reverse('category_index'))
 
+
 def match_details(request, match_id):
     return render(request, 'competition/match_details.html', {'players': range(16)})
-
-match_template = ('',) * 19 + (
-    '+-----------------------------------------------------------------+----------+',
-    '|                                                                 | Miza     |',
-    '+-----------------------------------------------------------------+----------+',
-    '|                                                                            |',
-    '+----------+----------+----------+----------+----------+----------+----------+',
-    '|          |          |          |          |          | Skupaj:  |          |',
-    '+----------+----------+----------+----------+----------+----------+----------+',
-)
 
 
 def print_group(request, category_id):
     members = models.GroupMember.objects.filter(group__category=category_id).select_related('group', 'player')
     return render(request, 'competition/print_group.html', {'members': members})
+
 
 def print_match(request, match_id):
     matches = models.BracketSlot.objects.filter(winner_goes_to=match_id).select_related('player', 'table')

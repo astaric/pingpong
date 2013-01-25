@@ -34,6 +34,7 @@ class PlayerAdmin(admin.ModelAdmin):
         Player.double_from_players(players)
     create_a_double.short_description = _("Create a pair")
 
+
 class CategoryAdmin(admin.ModelAdmin):
     ordering = ('gender', 'min_age')
     prepopulated_fields = {"name": ("gender", "min_age", "max_age")}
