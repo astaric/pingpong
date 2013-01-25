@@ -1,4 +1,4 @@
-import re
+import itertools, re
 
 from django.core import urlresolvers
 from django.db import transaction
@@ -50,22 +50,31 @@ def category_details(request, category_id):
 
 
 def match_index(request, filter=''):
-    status = 0 if filter == 'upcoming' else 1
+    if filter == 'upcoming':
+        groups = models.Group.objects.filter(status=0).select_related('category')
 
-    groups = models.Group.objects.filter(status=status).select_related('category')
+        single_matches = models.BracketSlot.objects.filter(status=0, bracket__category__gender__lt=2)\
+                                                   .with_two_players()\
+                                                   .select_related('player', 'bracket__category')
+        single_matches = [(a, list(b)) for a, b in itertools.groupby(single_matches, lambda x:x.winner_goes_to_id)]
+        single_matches = [(match, slots) for match, slots in single_matches if len(slots) == 2]
 
-    singles_query = models.BracketSlot.objects.filter(status=status, bracket__category__gender__lt=2)\
-                                              .with_two_players()\
-                                              .select_related('player', 'bracket__category')
-    single_matches = datastructures.MultiValueDict()
-    for match in singles_query:
-        single_matches.appendlist(match.winner_goes_to_id, match)
+        pair_matches = models.BracketSlot.objects.available_pairs().filter(status=0, bracket__category__gender__gte=2)\
+                                                 .select_related('player', 'bracket__category')
+        pair_matches = [(a, list(b)) for a, b in itertools.groupby(pair_matches, lambda x:x.winner_goes_to_id)]
+        pair_matches = [(match, slots) for match, slots in pair_matches if len(slots) == 2]
+    else:
+        groups = models.Group.objects.filter(status=1).select_related('category')
 
+        single_matches = models.BracketSlot.objects.filter(status=1, bracket__category__gender__lt=2)\
+                                                   .select_related('player', 'bracket__category')
+        single_matches = [(a, list(b)) for a, b in itertools.groupby(single_matches, lambda x:x.winner_goes_to_id)]
+        single_matches = [(match, slots) for match, slots in single_matches if len(slots) == 2]
 
-    pair_matches = datastructures.MultiValueDict()
-    for match in models.BracketSlot.objects.available_pair_matches():
-        pair_matches.appendlist(match.winner_goes_to_id, match)
-    pair_matches = [(match, slots) for match, slots in pair_matches.lists() if len(slots) == 2]
+        pair_matches = models.BracketSlot.objects.filter(status=1, bracket__category__gender__gte=2)\
+                                                 .select_related('player', 'bracket__category')
+        pair_matches = [(a, list(b)) for a, b in itertools.groupby(pair_matches, lambda x:x.winner_goes_to_id)]
+        pair_matches = [(match, slots) for match, slots in pair_matches if len(slots) == 2]
 
     available_tables = models.Table.objects.annotate(count1=Count('bracketslot'), count2=Count('group'))\
                                            .filter(count1=0, count2=0)\

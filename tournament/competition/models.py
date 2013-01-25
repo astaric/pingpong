@@ -1,7 +1,7 @@
 from django.utils import timezone
 
 from django.db import models
-from django.db.models import Count, Max
+from django.db.models import Count, Min, Q
 from django.db.models.query import QuerySet
 from django.core import urlresolvers
 from django.utils.translation import ugettext_lazy as _
@@ -116,40 +116,12 @@ class BracketSlotManager(models.Manager):
     def with_two_players(self):
         return self.all().with_two_players()
 
-    def available_matches(self):
+    def available_pairs(self):
+        return (self.filter(winner_goes_to__winner_set__player_id__isnull=False)
+                    .annotate(known_players=Count('winner_goes_to__winner_set', distinct=True),
+                              minimal_status=Min('player__double_members__bracketslot__status'))
+                    .filter(Q(minimal_status=2) | Q(minimal_status__isnull=True), known_players=2))
 
-        return self.raw(
-            '''SELECT s.*
-                 FROM competition_bracketslot s
-           INNER JOIN competition_bracket b ON b.id = s.bracket_id
-           INNER JOIN registration_category c ON c.id = b.category_id
-           INNER JOIN competition_bracketslot s2 ON s2.winner_goes_to_id = s.winner_goes_to_id
-                WHERE c.gender < 2
-                  AND s2.player_id IS NOT NULL
-                  AND s.status = 0
-             GROUP BY s.id
-               HAVING COUNT(s2.id) = 2''',
-            [0]
-        )
-        return self.filter(bracket__category__gender__lt=2)
-
-    def available_pair_matches(self):
-        return self.raw(
-            '''SELECT s.*
-                 FROM competition_bracketslot s
-           INNER JOIN competition_bracket b ON b.id = s.bracket_id
-           INNER JOIN registration_category c ON c.id = b.category_id
-           INNER JOIN registration_player p ON p.id = s.player_id
-           INNER JOIN competition_bracketslot s2 ON s2.winner_goes_to_id = s.winner_goes_to_id
-           INNER JOIN registration_player p3 ON p3.part_of_double_id = p.id
-           LEFT JOIN competition_bracketslot s3 ON s3.player_id = p3.id
-                WHERE c.gender >= 2
-                  AND s.status = 0
-                  AND s2.player_id IS NOT NULL
-             GROUP BY s.id
-               HAVING COUNT(DISTINCT s2.id) = 2
-                  AND coalesce(MIN(s3.status), 2) = 2'''
-        )
 
 class BracketSlot(models.Model):
     STATUS = (

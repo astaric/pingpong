@@ -148,7 +148,7 @@ def show_players(context, category):
         'user': context['request'].user,
     }
 
-@register.inclusion_tag('competition/snippets/groupscores.html')
+@register.inclusion_tag('competition/snippets/group_play_card.html')
 def group_play_card(members):
     berger_tables = {
         3: [(2, 3), (1, 2), (3, 1)],
