@@ -55,14 +55,14 @@ def create_single_elimination_bracket_slots(bracket, n):
     slots = [[] for i in range(levels)]
 
     def recursively_create_slots(parent, level):
-        if level < 0:
+        if level > levels:
             return
         for i in range(2):
             slot = BracketSlot.objects.create(bracket=bracket, level=level, winner_goes_to=parent)
-            slots[level].append(slot)
-            recursively_create_slots(slot, level - 1)
-    bracket_winner = BracketSlot.objects.create(bracket=bracket, level=levels)
-    recursively_create_slots(bracket_winner, levels - 1)
+            slots[levels - level].append(slot)
+            recursively_create_slots(slot, level + 1)
+    bracket_winner = BracketSlot.objects.create(bracket=bracket, level=0)
+    recursively_create_slots(bracket_winner, 1)
     return slots
 
 

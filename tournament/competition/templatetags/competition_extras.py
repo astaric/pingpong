@@ -15,7 +15,7 @@ def show_bracket(bracket, admin_view=False):
                                           .select_related('transition', 'player')\
                                           .prefetch_related('transition__group')\
                                           .order_by('level', 'id'):
-        slots[slot.level].append(slot)
+        slots[bracket.levels-1-slot.level].append(slot)
 
     def render_slot(slot):
         if slot is None:

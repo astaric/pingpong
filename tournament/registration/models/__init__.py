@@ -6,6 +6,8 @@ from .managers import PlayerManager, CategoryManager
 GENDERS = (
     (0, _("Male")),
     (1, _("Female")),
+    (2, ""),
+    (3, ""),
 )
 
 
@@ -23,7 +25,7 @@ class Player(models.Model):
     club = models.CharField(_("club"), max_length=50, blank=True)
     category = models.ForeignKey('Category', verbose_name=_("category"), blank=True, null=True)
 
-    part_of_double = models.ForeignKey('Player', null=True)
+    part_of_double = models.ForeignKey('Player', blank=True, null=True, related_name='double_members')
 
     objects = PlayerManager()
 
