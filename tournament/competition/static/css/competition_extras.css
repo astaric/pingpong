@@ -164,3 +164,43 @@
 .groupplay td {
     line-height: 1em;
 }
+
+#tables {
+    border-spacing: 5px;
+    margin-top: -6px;
+}
+
+#tables .table {
+    width:110px;
+    min-height:75px;
+    border: 1px solid #333;
+    padding:3px;
+}
+
+#tables .occupied {
+    background-color: #f88;
+}
+#tables .table {
+    position: relative;
+}
+
+#tables .table .starttime {
+    float:right;
+}
+#tables .table .player {
+    font-weight: bold;
+}
+
+.delete_button {
+    position:absolute;
+    left: 0;
+    top: 0;
+    padding-left: 2px;
+    background-color: white;
+    width: 100%;
+    display: none;
+}
+
+.show_delete_button .delete_button {
+    display: block;
+}

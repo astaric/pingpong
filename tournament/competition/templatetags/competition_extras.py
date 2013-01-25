@@ -79,19 +79,23 @@ def render_bracket(bracket, slots, render_slot):
     return u'\n'.join(result)
 
 
-@register.inclusion_tag('competition/snippets/tables.html')
-def show_tables():
+@register.inclusion_tag('competition/snippets/tables.html', takes_context=True)
+def show_tables(context):
     tables = models.Table.objects.prefetch_related('bracketslot_set', 'group_set', 'group_set__category')
-    return {'tables': tables}
+    return {
+        'tables': tables,
+        'request': context['request'],
+    }
 
 
-@register.inclusion_tag('competition/snippets/table.html')
-def show_table(table):
+@register.inclusion_tag('competition/snippets/table.html', takes_context=True)
+def show_table(context, table):
     return {
         'table': table,
         'player1': table.player1(),
         'player2': table.player2(),
         'occupied': table.occupied(),
+        'request': context['request'],
     }
 
 
@@ -125,7 +129,7 @@ def show_group_match(context, group):
 
 @register.inclusion_tag('competition/snippets/match.html', takes_context=True)
 def show_match(context, slots):
-    slot1, slot2 = slots
+    slot1, slot2 = sorted(slots, key=lambda x:x.id)
     edit_form = None
     if context['request'].user.is_authenticated():
         if slot1.status == 0:
@@ -176,7 +180,7 @@ def group_play_card(members):
 
 @register.inclusion_tag('competition/snippets/match_card.html')
 def match_card(slots):
-    slot1, slot2 = sorted(slots, key=lambda x: x.winner_goes_to)
+    slot1, slot2 = sorted(slots, key=lambda x: x.id)
     return {
         'player1': slot1.player,
         'player2': slot2.player,

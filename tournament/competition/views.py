@@ -119,6 +119,14 @@ def set_table(request):
     return redirect(urlresolvers.reverse("upcoming_matches"))
 
 
+def clear_table(request, table_id):
+    models.Group.objects.filter(table=table_id).update(status=0, table=None)
+    models.BracketSlot.objects.filter(table=table_id).update(status=0, table=None)
+
+    redirect_url = request.META.get('HTTP_REFERER',  urlresolvers.reverse("upcoming_matches"))
+    return redirect(redirect_url)
+
+
 score_re = re.compile(r'(\d+)[^\d]+(\d+)')
 
 
