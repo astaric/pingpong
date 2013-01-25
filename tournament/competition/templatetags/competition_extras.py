@@ -166,3 +166,12 @@ def group_play_card(members):
         'members': members,
         'matches': matches,
     }
+
+@register.inclusion_tag('competition/snippets/match_card.html')
+def match_card(slots):
+    slot1, slot2 = sorted(slots, key=lambda x:x.winner_goes_to)
+    return {
+        'player1': slot1.player,
+        'player2': slot2.player,
+        'table': slot1.table,
+    }

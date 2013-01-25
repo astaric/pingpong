@@ -212,11 +212,7 @@ def print_group(request, category_id):
     members = models.GroupMember.objects.filter(group__category=category_id).select_related('group', 'player')
     return render(request, 'competition/print_group.html', {'members': members})
 
-def print_match(request, id=0):
-    template = map(list, match_template)
-    template[20][2:66] = "Anze Staric".ljust(64)
-    template[22][2:66] = "Filip Evgen Trdan Staric".ljust(64)
-    template[20][-4:-2] = "15".rjust(2)
-    template = map(lambda x: u"".join(x), template)
+def print_match(request, match_id):
+    matches = models.BracketSlot.objects.filter(winner_goes_to=match_id).select_related('player', 'table')
 
-    return HttpResponse(u"\n".join(template), content_type="text/plain; charset=utf-8")
+    return render(request, 'competition/print_match.html', {'matches': matches})
