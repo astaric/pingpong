@@ -62,6 +62,8 @@ class GroupMember(models.Model):
             slot.save()
             slot2 = BracketSlot.objects.exclude(id=slot.id).get(winner_goes_to=slot.winner_goes_to)
             if slot2.no_player:
+                slot.status = 2
+                slot.save()
                 BracketSlot.objects.filter(id=slot.winner_goes_to_id).update(player=self.player_id)
         except BracketSlot.DoesNotExist:
             pass
@@ -114,6 +116,41 @@ class BracketSlotManager(models.Manager):
     def with_two_players(self):
         return self.all().with_two_players()
 
+    def available_matches(self):
+
+        return self.raw(
+            '''SELECT s.*
+                 FROM competition_bracketslot s
+           INNER JOIN competition_bracket b ON b.id = s.bracket_id
+           INNER JOIN registration_category c ON c.id = b.category_id
+           INNER JOIN competition_bracketslot s2 ON s2.winner_goes_to_id = s.winner_goes_to_id
+                WHERE c.gender < 2
+                  AND s2.player_id IS NOT NULL
+                  AND s.status = 0
+             GROUP BY s.id
+               HAVING COUNT(s2.id) = 2''',
+            [0]
+        )
+        return self.filter(bracket__category__gender__lt=2)
+
+    def available_pair_matches(self):
+        return self.raw(
+            '''SELECT s.*
+                 FROM competition_bracketslot s
+           INNER JOIN competition_bracket b ON b.id = s.bracket_id
+           INNER JOIN registration_category c ON c.id = b.category_id
+           INNER JOIN registration_player p ON p.id = s.player_id
+           INNER JOIN competition_bracketslot s2 ON s2.winner_goes_to_id = s.winner_goes_to_id
+           INNER JOIN registration_player p3 ON p3.part_of_double_id = p.id
+           LEFT JOIN competition_bracketslot s3 ON s3.player_id = p3.id
+                WHERE c.gender >= 2
+                  AND s.status = 0
+                  AND s2.player_id IS NOT NULL
+             GROUP BY s.id
+               HAVING COUNT(DISTINCT s2.id) = 2
+                  AND coalesce(MIN(s3.status), 2) = 2'''
+        )
+
 class BracketSlot(models.Model):
     STATUS = (
         (0, ''),
@@ -133,8 +170,8 @@ class BracketSlot(models.Model):
     match_start = models.DateTimeField(null=True, blank=True)
     match_end = models.DateTimeField(null=True, blank=True)
 
-    winner_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
-    loser_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='+')
+    winner_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='winner_set')
+    loser_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='loser_set')
 
     objects = BracketSlotManager()
 

@@ -61,22 +61,11 @@ def match_index(request, filter=''):
     for match in singles_query:
         single_matches.appendlist(match.winner_goes_to_id, match)
 
-    pairs_query = models.BracketSlot.objects.raw(
-        '''SELECT s.*
-             FROM competition_bracketslot s
-       INNER JOIN competition_bracket b ON b.id = s.bracket_id
-       INNER JOIN registration_category c ON c.id = b.category_id
-       INNER JOIN competition_bracketslot s2 ON s2.winner_goes_to_id = s.winner_goes_to_id
-       INNER JOIN registration_player p ON p.id = s2.player_id
-       INNER JOIN registration_player p2 ON p2.part_of_double_id = p.id
-        LEFT JOIN competition_bracketslot s3 ON s3.player_id = p2.id AND s3.status < 2
-            WHERE c.gender >= 2
-         GROUP BY s.id
-           HAVING COUNT(s2.id) = 4
-              AND COUNT(s3.id) = 0''')
+
     pair_matches = datastructures.MultiValueDict()
-    for match in pairs_query:
+    for match in models.BracketSlot.objects.available_pair_matches():
         pair_matches.appendlist(match.winner_goes_to_id, match)
+    pair_matches = [(match, slots) for match, slots in pair_matches.lists() if len(slots) == 2]
 
     available_tables = models.Table.objects.annotate(count1=Count('bracketslot'), count2=Count('group'))\
                                            .filter(count1=0, count2=0)\
