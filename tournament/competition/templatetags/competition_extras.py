@@ -34,7 +34,7 @@ def show_bracket(bracket, admin_view=False):
         if name:
             cls = " playing" if slot.table else ""
             name = u'<div class="player%s">%s</div>' % (cls, name)
-        if score:
+        if score != '':
             score = u'<div class="score">%s</div>' % slot.score
 
         return u'%s%s' % (score, name)
