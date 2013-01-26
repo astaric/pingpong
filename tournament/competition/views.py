@@ -40,7 +40,7 @@ def category_details(request, category_id):
     category = get_object_or_404(player_models.Category, id=category_id)
     members = models.GroupMember.objects.filter(group__category=category)\
                                         .select_related('player', 'group')\
-                                        .order_by('group', '-leader', 'player__surname')
+                                        .order_by('group', 'place', '-leader', 'player__surname')
     brackets = models.Bracket.objects.filter(category=category)\
                                      .annotate(rounds=Max('bracketslot__level'))
 
