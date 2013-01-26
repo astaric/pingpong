@@ -1,12 +1,11 @@
 .bracket {
     border-spacing: 0;
     border-collapse: separate;
-    page-break-before: always;
 }
 
 .bracket td {
-    padding: 10px 0 2px 0;
-    padding-top: 10px;
+    padding: 0px 0 2px 0;
+    /* padding-top: 10px; */
     min-width: 150px;
     vertical-align: bottom;
     border: 0;
@@ -32,8 +31,11 @@
 
 .bracket .player {
     display: inline-block;
-    font-weight: bold;
     padding-left: 5px;
+}
+
+.bracket .playing {
+    font-weight: bold;
 }
 
 .bracket .score {
@@ -75,10 +77,13 @@
 }
 
 .match {
-    background-color: #4f4;
     border: 1px solid #333;
     line-height: 2em;
     margin-bottom: 10px;
+}
+
+.winner {
+    background-color: #4f4;
 }
 
 .match div {

@@ -9,9 +9,9 @@ from .models import Player, Category
 
 class PlayerAdmin(admin.ModelAdmin):
     actions = ['refresh_categories', 'create_groups_from_leaders', 'create_a_double']
-    list_display = ['__unicode__', 'category']
+    list_display = ['full_name', 'category']
     ordering = ['id']
-    list_filter = ['category']
+    list_filter = ['category', 'type']
 
     def refresh_categories(self, request, queryset):
         selected_ids = list(queryset.values_list('id', flat=True))

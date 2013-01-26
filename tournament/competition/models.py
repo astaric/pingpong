@@ -173,8 +173,8 @@ class BracketSlot(models.Model):
             return
 
         other = BracketSlot.objects.exclude(id=self.id)\
-                                   .get(winner_goes_to=self.winner_goes_to)\
-                                   .select_related('winner_goes_to', 'loser_goes_to')
+                                   .filter(winner_goes_to=self.winner_goes_to)\
+                                   .select_related('winner_goes_to', 'loser_goes_to')[0]
         if other.score is not None:
             first, last = (self, other) if self.score > other.score else (other, self)
             if other.winner_goes_to is not None:

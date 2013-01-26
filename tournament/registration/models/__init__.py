@@ -55,7 +55,8 @@ class Player(models.Model):
         player.name = unicode(player1)
         player.surname = unicode(player2)
         player.age = min(player1.age, player2.age)
-        player.gender = min(player1.gender, player2.gender) + 2
+        player.gender = min(player1.gender, player2.gender)
+        player.type = 1
         player.save()
 
         player1.part_of_double = player
@@ -70,7 +71,7 @@ class Player(models.Model):
 
     def full_name(self):
         return '%s %s' % (self.name, self.surname)
-
+    full_name.admin_order_field = 'surname'
 
 class Category(models.Model):
     class Meta:

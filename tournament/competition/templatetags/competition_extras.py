@@ -32,7 +32,8 @@ def show_bracket(bracket, admin_view=False):
             }
 
         if name:
-            name = u'<div class="player">%s</div>' % name
+            cls = " playing" if slot.table else ""
+            name = u'<div class="player%s">%s</div>' % (cls, name)
         if score:
             score = u'<div class="score">%s</div>' % slot.score
 
@@ -139,6 +140,7 @@ def show_match(context, slots):
             edit_form = 'set_table'
         elif slot1.status == 1:
             edit_form = 'set_score'
+    winners = slot1.bracket.name.startswith("F")
     return {
         'id': slot1.winner_goes_to,
         'id_prefix': 'match',
@@ -148,6 +150,7 @@ def show_match(context, slots):
         'extra': '',
         'available_tables': context['available_tables'],
         'edit_form': edit_form,
+        'winners': winners,
     }
 
 
@@ -168,6 +171,8 @@ def group_play_card(members):
         4: [(1, 4), (2, 3), (4, 3), (1, 2), (2, 4), (3, 1)],
         5: [(2, 5), (3, 4), (5, 3), (1, 2), (3, 1), (4, 5), (1, 4), (2, 3), (4, 2), (5, 1)],
         6: [(1, 6), (2, 5), (3, 4), (6, 4), (5, 3), (1, 2), (2, 6), (3, 1), (4, 5), (6, 5), (1, 4), (2, 3), (3, 6), (4, 2), (5, 1)],
+        7: [(2, 7), (3, 6), (4, 5), (6, 4), (7, 3), (1, 2), (3, 1), (4, 7), (5, 6), (7, 5), (1, 4), (2, 3), (4, 2), (5, 1), (6, 7), (1, 6), (2, 5), (3, 4), (5, 3), (6, 2), (7, 1)],
+        8: [],
     }
 
     matches = []

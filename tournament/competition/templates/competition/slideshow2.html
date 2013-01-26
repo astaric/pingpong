@@ -21,8 +21,8 @@
 {% for category in category_brackets %}
     <div id="page{{ forloop.counter }}">
     {% for bracket in category.list %}
-            <div style="float:{% cycle "left" "right" %}">
-            <h2>{{ bracket.category.description }} - {{ bracket.name }}</h2>
+            <div {# style="float:{% cycle "left" "right" %}" #}>
+            <!--<h2>{{ bracket.category.description }} - {{ bracket.name }}</h2>-->
                 {% show_bracket bracket %}
             </div>
     {% endfor %}
@@ -44,6 +44,9 @@
             setTimeout(change_page, 10000);
         }
         change_page();
+        setTimeout(function() {
+            location.href = '{% url slide_show_brackets %}'
+        }, 60000)
     })
 </script>
 </body>

@@ -109,10 +109,13 @@ def set_table(request):
             for slot in models.BracketSlot.objects.filter(winner_goes_to=match_id):
                 slot.table_id = table_id
                 slot.save()
+
         if group_id:
             group = models.Group.objects.get(id=group_id)
             group.table_id = table_id
             group.save()
+        if match_id:
+            return redirect(urlresolvers.reverse("print_match", kwargs={'match_id': match_id}))
     except ValueError as err:
         messages.add_message(request, messages.ERROR, err.message)
     except Exception:
@@ -203,7 +206,8 @@ def set_leaders(request):
         leaders = [player_models.Player.objects.get(id=id)
                    for group, id in leaders]
         actions.create_groups_from_leaders(category_id, leaders)
-        actions.create_brackets(player_models.Category.objects.get(id=category_id))
+        if len(leaders) > 1:
+            actions.create_brackets(player_models.Category.objects.get(id=category_id))
 
     return redirect(urlresolvers.reverse('print_group', kwargs={"category_id": category_id}))
 
@@ -278,8 +282,9 @@ def slide_show(request):
     )
 
 def slide_show2(request):
-    brackets = models.Bracket.objects.order_by('category', 'id')\
-                             .annotate(rounds=Max('bracketslot__level'))
+    brackets = models.Bracket.objects.filter(category__in=[8,9])\
+                                     .order_by('category', 'id')\
+                                     .annotate(rounds=Max('bracketslot__level'))
 
     return render(request, 'competition/slideshow2.html', {
         "brackets": brackets
