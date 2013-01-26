@@ -6,17 +6,18 @@ from ....registration.models import Category, Player
 from ....competition.models import Table, Group, GroupMember
 from ....competition.actions import create_groups_from_leaders, create_brackets
 
-category_fields = ('name', 'description', 'gender', 'min_age', 'max_age')
+category_fields = ('name', 'description', 'gender', 'min_age', 'max_age', 'type')
 categories = (
-    ("M <40",   u"Moški do 39",      0, None, 40),
-    ("M 40-50", u"Moški 40 do 50",   0, 40,   50),
-    ("M 50-60", u"Moški 50 do 60",   0, 50,   60),
-    ("M 60-70", u"Moški 60 do 70",   0, 60,   70),
-    ("M >70",   u"Moški nad 70",     0, 70,   None),
-    ("Z <40",   u"Ženske do 40",     1, None, 40),
-    ("Z >40",   u"Ženske nad 40",    1, 40,   None),
-    ("D <50",   u"Dvojice do 50",    2, None, 50),
-    ("D <50",   u"Dvojice nad 50",   2, 50,   None),
+    ("M <40",   u"Moški do 39",      0, None, 40,   0),
+    ("M 40-50", u"Moški 40 do 50",   0, 40,   50,   0),
+    ("M 50-60", u"Moški 50 do 60",   0, 50,   60,   0),
+    ("M 60-70", u"Moški 60 do 70",   0, 60,   70,   0),
+    ("M >70",   u"Moški nad 70",     0, 70,   None, 0),
+    ("Z <40",   u"Ženske do 40",     1, None, 40,   0),
+    ("Z >40",   u"Ženske nad 40",    1, 40,   None, 0),
+    ("DM <50",  u"Dvojice Moški do 50",  0, None, 50,   1),
+    ("DM <50",  u"Dvojice Moški nad 50", 0, 50,   None, 1),
+    ("DZ",      u"Dvojice Ženske",       1, 50,   None, 1),
 )
 
 MALE, FEMALE = 0, 1
@@ -74,5 +75,5 @@ class Command(BaseCommand):
                 member.place = i + 1
                 member.save()
 
-        for id in [10, 11, 12, 7, 8, 9, 4, 5, 6, 1, 2, 3]:
-            Table(name='Table %d' % (id), sort_order=id).save()
+        for id, order in zip(range(12), [9, 10, 11, 12, 5, 6, 7, 8, 1, 2, 3, 4]):
+            Table(name='Table %d' % (id+1), display_order=order).save()

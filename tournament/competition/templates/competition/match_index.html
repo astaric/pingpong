@@ -2,7 +2,11 @@
 {% load competition_extras %}
 
 {% block main %}
+    {% if mode == 'upcoming' %}
     <h1>Prihajajoči dvoboji</h1>
+    {% else %}
+    <h1>Trenutno igrajo</h1>
+    {% endif %}
 
     <div>
     <div style='float:left;'>
@@ -14,7 +18,7 @@
         {% endif %}
     {% endfor %}
 
-    {% for match_id, slots in matches.lists %}
+    {% for match_id, slots in matches %}
         {% show_match slots %}
     {% endfor %}
 

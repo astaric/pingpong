@@ -43,7 +43,7 @@
 {% regroup members by group as group_members %}
 {% for group in group_members %}
 <div class="card">
-    <h2>Skupina {{ group.grouper.name }}</h2>
+    <h2>{{ group.grouper.category.description }} - Skupina {{ group.grouper.name }}</h2>
     {% group_play_card group.list %}
 </div>
 {% endfor %}

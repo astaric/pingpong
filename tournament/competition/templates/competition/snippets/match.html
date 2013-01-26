@@ -3,7 +3,7 @@
     <div class='dash'>-</div>
     <div class='player2'>{{ player2 }}</div>
     <div class='category'>{{ category }}</div>
-    <div class='type'>{{ extra }}</div>
+    <!--<div class='type'>{{ extra }}</div>-->
     {% if edit_form == 'set_table' %}
         <form method="POST" action="{% url set_table %}">
             {% csrf_token %}

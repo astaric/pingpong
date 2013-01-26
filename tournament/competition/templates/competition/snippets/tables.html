@@ -3,7 +3,7 @@
 <table id="tables">
     <tr>
         {% for table in tables %}
-            {% cycle 0 0 1 as new_row silent%}
+            {% cycle 0 0 0 1 as new_row silent%}
             <td>{% show_table table %}</td>
             {% if new_row %}
                 </tr><tr>

@@ -6,8 +6,11 @@ from .managers import PlayerManager, CategoryManager
 GENDERS = (
     (0, _("Male")),
     (1, _("Female")),
-    (2, ""),
-    (3, ""),
+)
+
+TYPES = (
+    (0, _("Single")),
+    (1, _("Pair"))
 )
 
 
@@ -25,6 +28,7 @@ class Player(models.Model):
     club = models.CharField(_("club"), max_length=50, blank=True)
     category = models.ForeignKey('Category', verbose_name=_("category"), blank=True, null=True)
 
+    type = models.IntegerField(_("type"), default=0, choices=TYPES)
     part_of_double = models.ForeignKey('Player', blank=True, null=True, related_name='double_members')
 
     objects = PlayerManager()
@@ -79,6 +83,7 @@ class Category(models.Model):
     gender = models.IntegerField(_("gender"), choices=GENDERS)
     min_age = models.IntegerField(_("min age"), blank=True, null=True)
     max_age = models.IntegerField(_("max age"), blank=True, null=True)
+    type = models.IntegerField(_("type"), default=0, choices=TYPES)
 
     objects = CategoryManager()
 

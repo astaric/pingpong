@@ -10,6 +10,11 @@
 {% endif %}
 {% for player in players %}
     <div>
+    {% if user.is_authenticated and category.gender < 2 %}
+        <div class='player_group'>
+            <input type="text" name="player_{{ player.id }}_group" />
+        </div>
+    {% endif %}
     <div class='player'>{{ player }}</div>
     </div>
 {% endfor %}

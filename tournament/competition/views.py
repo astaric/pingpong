@@ -20,9 +20,9 @@ def index(request):
 def category_index(request, filter='singles'):
     categories = player_models.Category.objects.annotate(player_count=Count('player'))
     if filter == 'singles':
-        categories = categories.filter(gender__lt=2)
+        categories = categories.filter(type=0)
     elif filter == 'pairs':
-        categories = categories.filter(gender__gte=2)
+        categories = categories.filter(type=1)
     category_members = {
         category: []
         for category in categories
@@ -53,7 +53,9 @@ def category_details(request, category_id):
 
 def match_index(request, filter=''):
     if filter == 'upcoming':
-        groups = models.Group.objects.filter(status=0).select_related('category')
+        groups = models.Group.objects.filter(status=0).select_related('category')\
+                                                      .annotate(member_count=Count("members"))\
+                                                      .order_by('member_count', 'id')
 
         single_matches = models.BracketSlot.objects.filter(status=0, bracket__category__gender__lt=2)\
                                                    .with_two_players()\
@@ -80,7 +82,7 @@ def match_index(request, filter=''):
 
     available_tables = models.Table.objects.annotate(count1=Count('bracketslot'), count2=Count('group'))\
                                            .filter(count1=0, count2=0)\
-                                           .order_by('sort_order')
+                                           .order_by('id')
     return render(request, 'competition/match_index.html',
                   {
                       'mode': filter,
@@ -218,7 +220,9 @@ def match_details(request, match_id):
 
 
 def print_group(request, category_id):
-    members = models.GroupMember.objects.filter(group__category=category_id).select_related('group', 'player')
+    members = models.GroupMember.objects.filter(group__category=category_id)\
+                                        .select_related('group', 'player')\
+                                        .order_by('group', '-leader', 'player__surname')
     return render(request, 'competition/print_group.html', {'members': members})
 
 
@@ -226,3 +230,57 @@ def print_match(request, match_id):
     matches = models.BracketSlot.objects.filter(winner_goes_to=match_id).select_related('player', 'table')
 
     return render(request, 'competition/print_match.html', {'matches': matches})
+
+def slide_show(request):
+    males = player_models.Category.objects.filter(type=0, gender=0).annotate(player_count=Count('player'))
+
+    male_members = {
+        category: []
+        for category in males
+    }
+    for member in models.GroupMember.objects\
+                                    .filter(group__category__in=males)\
+                                    .order_by('group__category', 'group', 'place', '-leader', 'player__surname')\
+                                    .prefetch_related('group', 'group__category', 'player'):
+        male_members[member.group.category].append(member)
+
+    females = player_models.Category.objects.filter(type=0, gender=1).annotate(player_count=Count('player'))
+    female_members = {
+        category: []
+        for category in females
+    }
+    for member in models.GroupMember.objects\
+                                    .filter(group__category__in=females)\
+                                    .order_by('group__category', 'group', 'place', '-leader', 'player__surname')\
+                                    .prefetch_related('group', 'group__category', 'player'):
+        female_members[member.group.category].append(member)
+
+    groups = models.Group.objects.filter(status=1).select_related('category')
+
+    single_matches = models.BracketSlot.objects.filter(status=1, bracket__category__gender__lt=2)\
+                                               .select_related('player', 'bracket__category')
+    single_matches = [(a, list(b)) for a, b in itertools.groupby(single_matches, lambda x:x.winner_goes_to_id)]
+    single_matches = [(match, slots) for match, slots in single_matches if len(slots) == 2]
+
+    pair_matches = models.BracketSlot.objects.filter(status=1, bracket__category__gender__gte=2)\
+                                             .select_related('player', 'bracket__category')
+    pair_matches = [(a, list(b)) for a, b in itertools.groupby(pair_matches, lambda x:x.winner_goes_to_id)]
+    pair_matches = [(match, slots) for match, slots in pair_matches if len(slots) == 2]
+
+    return render(request, 'competition/slideshow.html', {
+        'males': male_members.items(),
+        'females': female_members.items(),
+        'groups': groups,
+        'single_matches': single_matches,
+        'pair_matches': pair_matches,
+
+    }
+    )
+
+def slide_show2(request):
+    brackets = models.Bracket.objects.order_by('category', 'id')\
+                             .annotate(rounds=Max('bracketslot__level'))
+
+    return render(request, 'competition/slideshow2.html', {
+        "brackets": brackets
+    })

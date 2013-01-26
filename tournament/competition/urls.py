@@ -18,4 +18,6 @@ urlpatterns = patterns('',
     url(r'^match/set_leaders', views.set_leaders, name='set_leaders'),
     url(r'^match/create_pair_bracket', views.create_pair_bracket, name='create_pair_bracket'),
     url(r'^match/(?P<match_id>\d+)/print', views.print_match, name='print_match'),
+    url(r'^slideshow$', views.slide_show, name='slide_show'),
+    url(r'^slideshow2$', views.slide_show2, name='slide_show_brackets'),
 )

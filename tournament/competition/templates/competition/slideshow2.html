@@ -1,0 +1,50 @@
+{% load i18n %}
+{% load static %}
+{% load competition_extras %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/competition_extras.css' %}" id="">
+    <script type="text/javascript" src="{% static 'js/jquery-1.4.2.min.js' %}"></script>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+{%  regroup brackets by category as category_brackets %}
+{% for category in category_brackets %}
+    <div id="page{{ forloop.counter }}">
+    {% for bracket in category.list %}
+            <div style="float:{% cycle "left" "right" %}">
+            <h2>{{ bracket.category.description }} - {{ bracket.name }}</h2>
+                {% show_bracket bracket %}
+            </div>
+    {% endfor %}
+    </div>
+{% endfor %}
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        var current_page, page;
+        for (var i= 1; i<={{ category_brackets|length }}; i++) {
+            $("#page" + i).addClass("hidden");
+        }
+        page = current_page = 0;
+        var change_page = function() {
+            page = (page % {{ category_brackets|length }}) + 1;
+            $("#page" + current_page).addClass("hidden");
+            $("#page" + page).removeClass("hidden");
+            current_page = page;
+            setTimeout(change_page, 10000);
+        }
+        change_page();
+    })
+</script>
+</body>
+</html>

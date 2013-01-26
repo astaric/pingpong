@@ -10,6 +10,7 @@ from .models import Player, Category
 class PlayerAdmin(admin.ModelAdmin):
     actions = ['refresh_categories', 'create_groups_from_leaders', 'create_a_double']
     list_display = ['__unicode__', 'category']
+    ordering = ['id']
     list_filter = ['category']
 
     def refresh_categories(self, request, queryset):

@@ -81,7 +81,7 @@ def render_bracket(bracket, slots, render_slot):
 
 @register.inclusion_tag('competition/snippets/tables.html', takes_context=True)
 def show_tables(context):
-    tables = models.Table.objects.prefetch_related('bracketslot_set', 'group_set', 'group_set__category')
+    tables = models.Table.objects.order_by('display_order').prefetch_related('bracketslot_set', 'group_set', 'group_set__category')
     return {
         'tables': tables,
         'request': context['request'],
@@ -103,7 +103,10 @@ def show_table(context, table):
 def show_group(context, group, members=None):
     if members is None:
         members = group.member_list()
+
+    table_id = group.table.id if group.table is not None else None
     return {
+        'table_id': table_id,
         'group': group,
         'members': members,
         'user': context['request'].user,

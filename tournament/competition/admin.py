@@ -82,7 +82,8 @@ class SetScoreAdmin(admin.ModelAdmin):
 
 
 class TableAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['name', 'display_order']
+    list_editable = ['display_order']
 
 
 admin.site.register(models.Group, GroupAdmin)

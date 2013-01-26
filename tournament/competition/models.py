@@ -223,7 +223,7 @@ class SetScore(models.Model):
 
 class Table(models.Model):
     name = models.CharField(max_length=50)
-    sort_order = models.IntegerField()
+    display_order = models.IntegerField()
 
     _players = None
 
