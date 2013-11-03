@@ -81,4 +81,4 @@ class Command(BaseCommand):
                 new_name = (name + surname) not in existing_players
             else:
                 existing_players.add(name + surname)
-            yield Player.objects.create(**dict(zip(player_fields, (name, surname, gender))))
+            yield Player.objects.create(category=category, **dict(zip(player_fields, (name, surname, gender))))
