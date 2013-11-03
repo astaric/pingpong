@@ -25,7 +25,7 @@ surnames = ('Novak', 'Horvat', 'Kranjc', 'Mlakar', 'Vidmar', 'Kos', 'Golob', 'Tu
             'Bizjak', 'Hribar', 'Kotnik', 'Rozman', 'Petek', 'Kastelic', 'Kolar', 'Koren', 'Zajc', 'Medved')
 male_proportion = .7
 
-player_fields = ('name', 'surname', 'gender', 'age')
+player_fields = ('name', 'surname', 'gender')
 
 existing_players = {''}
 
@@ -47,7 +47,6 @@ class Command(BaseCommand):
     help = 'Adds dummy data to the database'
 
     def handle(self, *args, **options):
-        print options
         if options['all']:
             options['players'] = 40
             options['categories'] = 7
@@ -82,6 +81,4 @@ class Command(BaseCommand):
                 new_name = (name + surname) not in existing_players
             else:
                 existing_players.add(name + surname)
-            age = random.randint(16, 90) if category is None else random.randint(category.min_age or 16,
-                                                                                 category.max_age or 90)
-            yield Player.objects.create(**dict(zip(player_fields, (name, surname, gender, age))))
+            yield Player.objects.create(**dict(zip(player_fields, (name, surname, gender))))
