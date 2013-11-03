@@ -18,7 +18,7 @@ class Player(models.Model):
     gender = models.IntegerField(_("gender"), choices=GENDER_CHOICES, null=True)
 
     club = models.CharField(_("club"), max_length=50, blank=True)
-    category = models.ForeignKey('Category', verbose_name=_("category"), blank=True, null=True)
+    category = models.ForeignKey('Category', verbose_name=_("category"), related_name='players', blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.fill_gender()
