@@ -1,0 +1,15 @@
+{% extends 'pingpong/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div>
+        <p>
+        {% blocktrans with category_name=category.name category_description=category.description %}
+            Do you really want to delete category {{ category_name }} ({{ category_description }})?{% endblocktrans %}
+        </p>
+        <div class="btn-group">
+            <input type="submit" name="yes" class="btn btn-danger" value="{% trans 'Yes' %}"/>
+            <input type="submit" name="no" class="btn btn-default" value="{% trans 'No' %}"/>
+        </div>
+    </div>
+{% endblock %}

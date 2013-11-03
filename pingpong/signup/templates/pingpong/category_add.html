@@ -1,0 +1,22 @@
+{% extends 'pingpong/base.html' %}
+
+{% block subnavigation %}
+    <div class="btn-group">
+    {% for c in categories %}
+        <a href="{% url 'category_edit' id=c.id %}"
+           class="btn {% if c.id == category.id %}btn-primary{% else %}btn-default{% endif %}">{{ c }}
+            ({{ c.player_count }})</a>
+    {% endfor %}
+    </div>
+
+    <div class="btn-group">
+        <input type="submit" class="btn btn-primary" value="Shrani"/>
+    </div>
+{% endblock %}
+
+
+{% block content %}
+<table>
+{{ form }}
+</table>
+{% endblock %}

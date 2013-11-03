@@ -1,35 +1,87 @@
 from django.core.urlresolvers import reverse
 from django.db.models import Count
+from django import forms
 from django.forms.models import modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from pingpong.models import Category, Player
 
 
 def index(request):
-    categories = Category.objects.all()
+    try:
+        category = Category.objects.all()[0]
+        return redirect(reverse('category_edit', kwargs=dict(id=category.id)))
+    except IndexError:
+        pass
 
-    return render(request, 'pingpong/category_list.html',
-                  dict(categories=categories))
+    return redirect('pingpong/category_add.html')
 
 
-def edit_category(request, id, name=''):
+class CategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+
+
+class SimpleCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ['name', 'description']
+
+
+def edit_category(request, id):
     category = get_object_or_404(Category, id=id)
 
     PlayerFormSet = modelformset_factory(Player, extra=3, fields=['name', 'surname', 'club'])
     if request.method == 'POST':
-        formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category))
-        if formset.is_valid():
+        if 'delete' in request.POST:
+            return redirect(reverse("category_delete", kwargs=dict(id=category.id)))
+
+        formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category), prefix='players')
+        form = SimpleCategoryForm(request.POST, instance=category)
+        if form.is_valid() and formset.is_valid():
+            form.save()
+
             instances = formset.save(commit=False)
             for instance in instances:
                 if instance.category_id is None:
                     instance.category = category
                 instance.save()
-            return redirect(reverse("signup_category", kwargs=dict(id=category.id, name=category.name)))
+            return redirect(reverse("category_edit", kwargs=dict(id=category.id)))
     else:
-        formset = PlayerFormSet(queryset=Player.objects.order_by('id').filter(category=category))
+        formset = PlayerFormSet(queryset=Player.objects.order_by('id').filter(category=category), prefix='players')
+        form = SimpleCategoryForm(instance=category)
 
     categories = Category.objects.annotate(player_count=Count('players__id'))
-    return render(request, 'pingpong/edit_category.html',
+    return render(request, 'pingpong/category_edit.html',
                   dict(categories=categories,
                        category=category,
-                       formset=formset))
+                       formset=formset,
+                       form=form))
+
+
+def add_category(request):
+    if request.method == 'POST':
+        form = CategoryForm(request.POST)
+        if form.is_valid():
+            category = form.save()
+            redirect(reverse('category_edit', kwargs=dict(id=category.id)))
+    else:
+        form = CategoryForm()
+
+    categories = Category.objects.all()
+    return render(request, 'pingpong/category_add.html',
+                  dict(form=form,
+                       categories=categories))
+
+
+def delete_category(request, id):
+    category = get_object_or_404(Category, id=id)
+
+    if request.method == 'POST':
+        if 'yes' in request.POST:
+            category.delete()
+            return redirect(reverse('signup'))
+        else:
+            return redirect(reverse('category_edit', kwargs=dict(id=category.id)))
+
+    return render(request, 'pingpong/category_delete.html',
+                  dict(category=category))

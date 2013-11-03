@@ -1,22 +1,33 @@
 {% extends 'pingpong/base.html' %}
 
-{% block content %}
-    <form method="post" action="">
-    {% csrf_token %}
-
-    <div class="navbar navbar-fixed-top navbar-absolute">
-        <div class="btn-group btn-group-lg">
-        {% for c in categories %}
-            <a href="{% url 'signup_category' id=c.id name=c.name %}" class="btn {% if c.id == category.id %}btn-primary{% else %}btn-default{% endif %}">{{ c }} ({{ c.player_count }})</a>
-        {% endfor %}
-        </div>
-        <div class="btn-group btn-group-lg">
-        <input type="submit" class="btn btn-primary disabled" value="Shrani" />
-        </div>
+{% block subnavigation %}
+    <div class="btn-group">
+        <input type="submit" name="save" class="btn btn-primary" value="Shrani"/>
+        <input type="submit" name="delete" class="btn btn-danger" value="Izbrisi"/>
     </div>
-    <div style="margin-top:50px;">
+
+    <ul class="nav nav-pills">
+        {% for c in categories %}
+            <li{% if c.id == category.id %} class="active"{% endif %}>
+                <a href="{% url 'category_edit' id=c.id %}">{{ c }}
+                ({{ c.player_count }})</a>
+            </li>
+        {% endfor %}
+         <li><a href="{% url 'category_add' %}"><i class="icon-plus">+</i></a></li>
+    </ul>
+
+
+
+
+{% endblock %}
+
+{% block content %}
+    <div class="pull-left">
+        <h3>Players</h3>
+
         {{ formset.management_form }}
         {{ formset.non_form_errors.as_ul }}
+
         <table id="formset" class="form">
             {% for form in formset.forms %}
                 {% if forloop.first %}
@@ -45,5 +56,10 @@
             {% endfor %}
         </table>
     </div>
-    </form>
+    <div class="pull-left">
+        <h3>Category</h3>
+        <table>
+            {{ form }}
+        </table>
+    </div>
 {% endblock %}
