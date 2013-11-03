@@ -13,7 +13,7 @@ def index(request):
     except IndexError:
         pass
 
-    return redirect('pingpong/category_add.html')
+    return redirect(reverse('category_add'))
 
 
 class CategoryForm(forms.ModelForm):
