@@ -126,6 +126,7 @@ INSTALLED_APPS = (
     'south',
 
     'pingpong',
+    'pingpong.signup',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
