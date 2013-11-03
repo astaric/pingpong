@@ -63,7 +63,7 @@ def add_category(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             category = form.save()
-            redirect(reverse('category_edit', kwargs=dict(id=category.id)))
+            return redirect(reverse('category_edit', kwargs=dict(id=category.id)))
     else:
         form = CategoryForm()
 
