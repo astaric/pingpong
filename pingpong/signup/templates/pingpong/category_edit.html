@@ -1,30 +1,30 @@
 {% extends 'pingpong/base.html' %}
+{% load staticfiles %}
+
+{% block additional_header %}
+    <link href="{% static 'css/pingpong.signup.css' %}" rel="stylesheet" media="screen">
+{% endblock %}
 
 {% block subnavigation %}
-    <div class="btn-group">
-        <input type="submit" name="save" class="btn btn-primary" value="Shrani"/>
-        <input type="submit" name="delete" class="btn btn-danger" value="Izbrisi"/>
-    </div>
-
-    <ul class="nav nav-pills">
-        {% for c in categories %}
-            <li{% if c.id == category.id %} class="active"{% endif %}>
-                <a href="{% url 'category_edit' id=c.id %}">{{ c }}
+    {% for c in categories %}
+        <li{% if c.id == category.id %} class="active"{% endif %}>
+            <a href="{% url 'category_edit' id=c.id %}">{{ c }}
                 ({{ c.player_count }})</a>
-            </li>
-        {% endfor %}
-         <li><a href="{% url 'category_add' %}"><i class="icon-plus">+</i></a></li>
-    </ul>
-
-
-
-
+        </li>
+    {% endfor %}
+    <li><a href="{% url 'category_add' %}"><i class="icon-plus">+</i></a></li>
 {% endblock %}
 
 {% block content %}
-    <div class="pull-left">
-        <h3>Players</h3>
-
+    <div class="btn-group-vertical pull-right">
+        <input type="submit" name="save" class="btn btn-primary" value="Shrani"/>
+        <input type="submit" name="delete" class="btn btn-danger" value="Izbrisi"/>
+    </div>
+    <div id="common_fields">
+            {{ form.description }}
+            ({{ form.name }})
+    </div>
+    <div>
         {{ formset.management_form }}
         {{ formset.non_form_errors.as_ul }}
 
@@ -54,12 +54,6 @@
                     {% endfor %}
                 </tr>
             {% endfor %}
-        </table>
-    </div>
-    <div class="pull-left">
-        <h3>Category</h3>
-        <table>
-            {{ form }}
         </table>
     </div>
 {% endblock %}

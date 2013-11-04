@@ -50,7 +50,7 @@ def edit_category(request, id):
         formset = PlayerFormSet(queryset=Player.objects.order_by('id').filter(category=category), prefix='players')
         form = SimpleCategoryForm(instance=category)
 
-    categories = Category.objects.annotate(player_count=Count('players__id'))
+    categories = Category.objects.annotate(player_count=Count('players'))
     return render(request, 'pingpong/category_edit.html',
                   dict(categories=categories,
                        category=category,
@@ -67,7 +67,7 @@ def add_category(request):
     else:
         form = CategoryForm()
 
-    categories = Category.objects.all()
+    categories = Category.objects.annotate(player_count=Count('players'))
     return render(request, 'pingpong/category_add.html',
                   dict(form=form,
                        categories=categories))
