@@ -35,8 +35,8 @@ def edit_category(request, id):
         if 'delete' in request.POST:
             return redirect(reverse("category_delete", kwargs=dict(id=category.id)))
 
-        formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category), prefix='players')
-        form = SimpleCategoryForm(request.POST, instance=category)
+        formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category), prefix='player')
+        form = SimpleCategoryForm(request.POST, instance=category, prefix='category')
         if form.is_valid() and formset.is_valid():
             form.save()
 
@@ -47,8 +47,8 @@ def edit_category(request, id):
                 instance.save()
             return redirect(reverse("category_edit", kwargs=dict(id=category.id)))
     else:
-        formset = PlayerFormSet(queryset=Player.objects.order_by('id').filter(category=category), prefix='players')
-        form = SimpleCategoryForm(instance=category)
+        formset = PlayerFormSet(queryset=Player.objects.order_by('id').filter(category=category), prefix='player')
+        form = SimpleCategoryForm(instance=category, prefix='category')
 
     categories = Category.objects.annotate(player_count=Count('players'))
     return render(request, 'pingpong/category_edit.html',
