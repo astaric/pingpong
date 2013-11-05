@@ -2,7 +2,15 @@
 {% load staticfiles %}
 
 {% block additional_header %}
-    <link href="{% static 'css/pingpong.signup.css' %}" rel="stylesheet" media="screen">
+    <style>
+        table.players > tbody > tr > td {
+            padding: 2px;
+        }
+
+        table.players input {
+            border: 0;
+        }
+    </style>
 {% endblock %}
 
 {% block subnavigation %}
@@ -17,18 +25,18 @@
 
 {% block content %}
     <div class="btn-group-vertical pull-right">
-        <input type="submit" name="save" class="btn btn-primary" value="Shrani"/>
-        <input type="submit" name="delete" class="btn btn-danger" value="Izbrisi"/>
+
     </div>
-    <div id="common_fields">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div id="common_fields" class="panel-heading">
             {{ form.description }}
-            ({{ form.name }})
-    </div>
-    <div>
+            {{ form.name }}
+        </div>
         {{ formset.management_form }}
         {{ formset.non_form_errors.as_ul }}
 
-        <table id="formset" class="form">
+        <table id="formset" class="table players">
             {% for form in formset.forms %}
                 {% if forloop.first %}
                     <thead>
@@ -36,6 +44,7 @@
                         {% for field in form.visible_fields %}
                             <th>{{ field.label|capfirst }}</th>
                         {% endfor %}
+                        <th width="100%"></th>
                     </tr>
                     </thead>
                 {% endif %}
@@ -55,5 +64,10 @@
                 </tr>
             {% endfor %}
         </table>
+        <div class="panel-footer">
+            <input type="submit" name="save" class="btn btn-primary btn-sm" value="Shrani"/>
+            <input type="submit" name="delete" class="btn btn-danger btn-sm" value="Izbrisi"/>
+        </div>
+
     </div>
 {% endblock %}

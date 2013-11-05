@@ -12,10 +12,17 @@
 
 
 {% block content %}
-    <div class="btn-group-vertical pull-right">
-        <input type="submit" class="btn btn-primary" value="Shrani"/>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            Nova kategorija
+        </div>
+        <div class="panel-body">
+            <table>
+                {{ form }}
+            </table>
+        </div>
+        <div class="panel-footer">
+            <input type="submit" class="btn btn-primary" value="Dodaj kategorijo"/>
+        </div>
     </div>
-    <table>
-        {{ form }}
-    </table>
 {% endblock %}
