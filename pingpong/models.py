@@ -55,3 +55,11 @@ class Category(models.Model):
 
     def __unicode__(self):
         return self.name
+
+
+class Table(models.Model):
+    name = models.CharField(max_length=50)
+    display_order = models.IntegerField()
+
+    def __unicode__(self):
+        return self.name
