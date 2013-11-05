@@ -1,5 +1,13 @@
 {% extends 'pingpong/base.html' %}
 
+{% block additional_header %}
+    <style>
+        ul.leaders {
+            list-style-type: none;
+        }
+    </style>
+{% endblock %}
+
 {% block subnavigation %}
     {% for c in categories %}
         <li{% if c.id == category.id %} class="active"{% endif %}>
@@ -20,7 +28,7 @@
 
         </div>
         <div class="panel-body">
-            <ul>
+            <ul class="leaders">
                 {% for form in formset.forms %}
                     <li>
                         {% for hidden in form.hidden_fields %}
