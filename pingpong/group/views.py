@@ -15,7 +15,7 @@ def index(request):
 
     group_members = GroupMember.for_category(category)
     if len(group_members) == 0:
-        return redirect(reverse('groups_create', kwargs=dict(id=category.id)))
+        return redirect(reverse('groups_create', kwargs=dict(category_id=category.id)))
 
     return render(request, 'pingpong/category.html',
                   dict(category=category,

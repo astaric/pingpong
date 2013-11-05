@@ -9,7 +9,7 @@ from pingpong.models import Category, Player
 def index(request):
     try:
         category = Category.objects.all()[0]
-        return redirect(reverse('category_edit', kwargs=dict(id=category.id)))
+        return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
     except IndexError:
         pass
 
@@ -27,13 +27,13 @@ class SimpleCategoryForm(forms.ModelForm):
         fields = ['name', 'description']
 
 
-def edit_category(request, id):
-    category = get_object_or_404(Category, id=id)
+def edit_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
 
     PlayerFormSet = modelformset_factory(Player, extra=3, fields=['name', 'surname', 'club'])
     if request.method == 'POST':
         if 'delete' in request.POST:
-            return redirect(reverse("category_delete", kwargs=dict(id=category.id)))
+            return redirect(reverse("category_delete", kwargs=dict(category_id=category.id)))
 
         formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category), prefix='player')
         form = SimpleCategoryForm(request.POST, instance=category, prefix='category')
@@ -45,7 +45,7 @@ def edit_category(request, id):
                 if instance.category_id is None:
                     instance.category = category
                 instance.save()
-            return redirect(reverse("category_edit", kwargs=dict(id=category.id)))
+            return redirect(reverse("category_edit", kwargs=dict(category_id=category.id)))
     else:
         formset = PlayerFormSet(queryset=Player.objects.order_by('id').filter(category=category), prefix='player')
         form = SimpleCategoryForm(instance=category, prefix='category')
@@ -63,7 +63,7 @@ def add_category(request):
         form = CategoryForm(request.POST)
         if form.is_valid():
             category = form.save()
-            return redirect(reverse('category_edit', kwargs=dict(id=category.id)))
+            return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
     else:
         form = CategoryForm()
 
@@ -73,15 +73,15 @@ def add_category(request):
                        categories=categories))
 
 
-def delete_category(request, id):
-    category = get_object_or_404(Category, id=id)
+def delete_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
 
     if request.method == 'POST':
         if 'yes' in request.POST:
             category.delete()
             return redirect(reverse('signup'))
         else:
-            return redirect(reverse('category_edit', kwargs=dict(id=category.id)))
+            return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
 
     return render(request, 'pingpong/category_delete.html',
                   dict(category=category))

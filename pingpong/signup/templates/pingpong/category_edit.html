@@ -16,7 +16,7 @@
 {% block subnavigation %}
     {% for c in categories %}
         <li{% if c.id == category.id %} class="active"{% endif %}>
-            <a href="{% url 'category_edit' id=c.id %}">{{ c }}
+            <a href="{% url 'category_edit' category_id=c.id %}">{{ c }}
                 ({{ c.player_count }})</a>
         </li>
     {% endfor %}

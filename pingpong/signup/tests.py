@@ -13,14 +13,14 @@ class SignupViewsTestCase(TestCase):
         category = Category.objects.create(name="Sample category", gender=0)
         resp = self.client.get(reverse('signup'))
 
-        self.assertRedirects(resp, reverse('category_edit', kwargs=dict(id=category.id)))
+        self.assertRedirects(resp, reverse('category_edit', kwargs=dict(category_id=category.id)))
 
     def test_edit_category_view(self):
         expected_category = Category.objects.create(name="Sample category", gender=0)
         unexpected_category = Category.objects.create(name="Different category", gender=0)
         expected_players = self.create_players(expected_category, 3)
         unexpected_players = self.create_players(unexpected_category, 3)
-        category_edit_url = reverse('category_edit', kwargs=dict(id=expected_category.id))
+        category_edit_url = reverse('category_edit', kwargs=dict(category_id=expected_category.id))
 
         resp = self.client.get(category_edit_url)
 
@@ -61,11 +61,11 @@ class SignupViewsTestCase(TestCase):
                                                        gender=0))
         self.assertEqual(Category.objects.count(), 1)
         category = Category.objects.all()[0]
-        self.assertRedirects(resp, reverse('category_edit', kwargs=dict(id=category.id)))
+        self.assertRedirects(resp, reverse('category_edit', kwargs=dict(category_id=category.id)))
 
     def test_delete_category(self):
         category = Category.objects.create(name="Sample category", gender=0)
-        delete_category_url = reverse('category_delete', kwargs=dict(id=category.id))
+        delete_category_url = reverse('category_delete', kwargs=dict(category_id=category.id))
         self.create_players(category, 3)
 
         # GET displays a confirmation page
@@ -78,10 +78,10 @@ class SignupViewsTestCase(TestCase):
         # Answering no redirects to edit page
         resp = self.client.post(delete_category_url, dict(no='No'))
 
-        self.assertRedirects(resp, reverse('category_edit', kwargs=dict(id=category.id)))
+        self.assertRedirects(resp, reverse('category_edit', kwargs=dict(category_id=category.id)))
 
         # Answering yes deletes category and redirects to index
-        resp = self.client.post(reverse('category_delete', kwargs=dict(id=category.id)), dict(yes='Yes'))
+        resp = self.client.post(reverse('category_delete', kwargs=dict(category_id=category.id)), dict(yes='Yes'))
 
         self.assertRedirects(resp, reverse('signup'), target_status_code=302)
         self.assertEqual(Category.objects.count(), 0)
