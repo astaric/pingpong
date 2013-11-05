@@ -7,8 +7,8 @@ from django.conf.urls import patterns, include, url
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'pingpong.views.home', name='home'),
-    url(r'^signup/', include('pingpong.signup.urls')),
-    url(r'^groups/', include('pingpong.group.urls')),
+    url(r'', include('pingpong.signup.urls')),
+    url(r'', include('pingpong.group.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
