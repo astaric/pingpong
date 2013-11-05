@@ -1,6 +1,8 @@
 from django.core.urlresolvers import reverse
-from django.forms.models import modelformset_factory
+from django.forms import CharField, Form, BooleanField, HiddenInput
+from django.forms.formsets import formset_factory
 from django.shortcuts import redirect, render, get_object_or_404
+from django.utils.safestring import SafeText, mark_safe
 from pingpong.group.models import GroupMember, Group
 from pingpong.models import Category, Player
 
@@ -20,10 +22,24 @@ def index(request):
                        group_members=group_members))
 
 
+class ReadOnlyWidget(HiddenInput):
+    is_hidden = False
+    def render(self, name, value, attrs=None):
+        return mark_safe(value) + super(ReadOnlyWidget, self).render(name, value, attrs)
+
+
+class SelectLeadersForm(Form):
+    leader = BooleanField()
+
+    id = CharField(widget=HiddenInput)
+    name = CharField(widget=ReadOnlyWidget)
+    surname = CharField(widget=ReadOnlyWidget)
+
+
 def create_groups(request, category_id):
     category = get_object_or_404(Category, id=category_id)
-    PlayerFormSet = modelformset_factory(Player, extra=3, fields=['name', 'surname', 'club'])
-    formset = PlayerFormSet(queryset=Player.objects.order_by('id').filter(category=category), prefix='players')
+    PlayerFormSet = formset_factory(SelectLeadersForm)
+    formset = PlayerFormSet(initial=Player.objects.order_by('id').filter(category=category).values('id', 'name', 'surname'))
     return render(request, 'pingpong/groups_create.html',
                   dict(formset=formset))
 

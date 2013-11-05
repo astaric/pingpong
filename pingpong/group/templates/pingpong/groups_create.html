@@ -1,7 +1,33 @@
 {% extends 'pingpong/base.html' %}
 
 {% block content %}
-    <table>
-        {{ formset }}
-    </table>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+
+
+            <h4 style="display: inline;">Izberi nosilce skupin
+
+            </h4>
+
+        </div>
+        <div class="panel-body">
+            <ul>
+                {% for form in formset.forms %}
+                    <li>
+                        {% for hidden in form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
+                        {% for field in form.visible_fields %}
+                            {{ field.errors.as_ul }}
+                            {{ field }}
+                        {% endfor %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    <div class="panel-footer">
+        <input type="submit" class="btn btn-default btn-sm" value="Kreiraj skupine"/>
+    </div>
+    </div>
 {% endblock %}
