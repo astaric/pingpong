@@ -38,10 +38,12 @@ class SelectLeadersForm(Form):
 
 def create_groups(request, category_id):
     category = get_object_or_404(Category, id=category_id)
-    PlayerFormSet = formset_factory(SelectLeadersForm)
+    PlayerFormSet = formset_factory(SelectLeadersForm, extra=0)
     formset = PlayerFormSet(initial=Player.objects.order_by('id').filter(category=category).values('id', 'name', 'surname'))
+    categories = Category.objects.all()
     return render(request, 'pingpong/groups_create.html',
-                  dict(formset=formset))
+                  dict(formset=formset,
+                       categories=categories))
 
 
 def edit_group(request, group_id):
