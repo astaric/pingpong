@@ -25,7 +25,7 @@ class TestGroupViewsTestCase(TestCase):
 
     def test_groups_delete(self):
 
-        resp = self.client.get(reverse('groups_delete', kwargs=dict(category_id=self.category.id)))
+        resp = self.client.get(reverse('delete_groups', kwargs=dict(category_id=self.category.id)))
         self.assertEqual(resp.status_code, 200)
 
 
