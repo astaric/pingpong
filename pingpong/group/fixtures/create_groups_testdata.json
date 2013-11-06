@@ -1,0 +1,406 @@
+[
+    {
+        "pk": 1,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "0",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 2,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "1",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 3,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "2",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 4,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "3",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 5,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "0",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 6,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "1",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 7,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "2",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 8,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "3",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 9,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "0",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 10,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "1",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 11,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "2",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 12,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "3",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 13,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "0",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 14,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "1",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 15,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "2",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 16,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 1,
+            "surname": "Player",
+            "name": "A",
+            "club": "3",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 20,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 21,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 22,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 23,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 24,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 25,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 26,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 27,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 28,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 29,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 30,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 31,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 32,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 2,
+            "surname": "Player",
+            "name": "A",
+            "club": "",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 33,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 3,
+            "surname": "Player",
+            "name": "A",
+            "club": "1",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 34,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 3,
+            "surname": "Player",
+            "name": "A",
+            "club": "1",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 35,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 3,
+            "surname": "Player",
+            "name": "A",
+            "club": "1",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 36,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 3,
+            "surname": "Player",
+            "name": "A",
+            "club": "1",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 37,
+        "model": "pingpong.player",
+        "fields": {
+            "category": 3,
+            "surname": "Player",
+            "name": "A",
+            "club": "1",
+            "gender": 0
+        }
+    },
+    {
+        "pk": 1,
+        "model": "pingpong.category",
+        "fields": {
+            "max_age": 20,
+            "gender": 0,
+            "name": "Category with clubs",
+            "min_age": 11
+        }
+    },
+    {
+        "pk": 2,
+        "model": "pingpong.category",
+        "fields": {
+            "max_age": 30,
+            "gender": 0,
+            "name": "Category without clubs",
+            "min_age": 21
+        }
+    },
+    {
+        "pk": 3,
+        "model": "pingpong.category",
+        "fields": {
+            "max_age": 40,
+            "gender": 0,
+            "name": "Category with too many from the same club",
+            "min_age": 31
+        }
+    }
+]

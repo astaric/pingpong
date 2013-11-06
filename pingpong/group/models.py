@@ -15,7 +15,7 @@ class Group(models.Model):
                                   .select_related('group', 'group__category', 'player')
 
     def __unicode__(self):
-        return '{} - {}'.format(self.category, self.name)
+        return u'Skupina {}'.format(self.name)
 
 
 class GroupMember(models.Model):
