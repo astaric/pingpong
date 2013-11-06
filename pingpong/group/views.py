@@ -87,11 +87,15 @@ class GroupsView(View):
                            categories=categories))
 
 
-def edit_group(request, group_id):
+def edit_group(request, category_id, group_id):
+    category = get_object_or_404(Category, id=category_id)
     group = get_object_or_404(Group, id=group_id)
 
+    groups = Group.objects.filter(category_id=group.category_id).annotate(member_count=Count('members'))
     return render(request, 'pingpong/group_edit.html',
-                  dict(group=group))
+                  dict(category=category,
+                       group=group,
+                       groups=groups))
 
 
 def delete_groups(request, category_id):

@@ -1,1 +1,14 @@
-{% extends 'pingpong/base.html' %}
+{% extends 'pingpong/base_groups.html' %}
+
+{% block navigation_items %}
+    <li>
+        <a href="{% url 'groups' category_id=category.id %}">{{ category }}</a>
+    </li>
+    {% for g in groups %}
+        <li{% if g.id == group.id %} class="active"{% endif %}>
+            <a href="{% url 'edit_group' category_id=g.category_id group_id=g.id %}">
+                {{ g }} ({{ g.member_count }})
+            </a>
+        </li>
+    {% endfor %}
+{% endblock %}
