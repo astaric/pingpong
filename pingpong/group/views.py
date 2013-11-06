@@ -62,7 +62,8 @@ class GroupsView(View):
             formset = SelectLeadersFormSet(
                 initial=Player.objects.order_by('id').filter(category=category).values('id', 'name', 'surname'))
             return render(request, 'pingpong/create_groups.html',
-                          dict(formset=formset,
+                          dict(category=category,
+                               formset=formset,
                                categories=categories))
         else:
             return render(request, 'pingpong/groups.html',
@@ -81,7 +82,8 @@ class GroupsView(View):
 
         categories = Category.objects.annotate(player_count=Count('players'))
         return render(request, 'pingpong/create_groups.html',
-                      dict(formset=formset,
+                      dict(category=category,
+                           formset=formset,
                            categories=categories))
 
 

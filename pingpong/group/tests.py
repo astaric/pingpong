@@ -13,13 +13,13 @@ class TestGroupViewsTestCase(TestCase):
         pass
 
     def test_groups_create(self):
-        resp = self.client.get(reverse('groups_create', kwargs=dict(category_id=self.category.id)))
+        resp = self.client.get(reverse('groups', kwargs=dict(category_id=self.category.id)))
 
         self.assertEqual(resp.status_code, 200)
 
     def test_group_edit(self):
         group = Group.objects.create(category=self.category)
-        resp = self.client.get(reverse('group_edit', kwargs=dict(group_id=group.id)))
+        resp = self.client.get(reverse('edit_group', kwargs=dict(group_id=group.id)))
 
         self.assertEqual(resp.status_code, 200)
 
