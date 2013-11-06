@@ -1,15 +1,4 @@
-{% extends 'pingpong/base.html' %}
-
-{% block subnavigation %}
-    {% for c in categories %}
-        <li{% if c.id == category.id %} class="active"{% endif %}>
-            <a href="{% url 'category_edit' id=c.id %}">{{ c }}
-                ({{ c.player_count }})</a>
-        </li>
-    {% endfor %}
-    <li><a href="{% url 'category_add' %}"><i class="icon-plus">+</i></a></li>
-{% endblock %}
-
+{% extends 'pingpong/base_signup.html' %}
 
 {% block content %}
     <div class="panel panel-default">

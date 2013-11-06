@@ -1,4 +1,4 @@
-{% extends 'pingpong/base.html' %}
+{% extends 'pingpong/base_signup.html' %}
 {% load staticfiles %}
 
 {% block additional_header %}
@@ -11,16 +11,6 @@
             border: 0;
         }
     </style>
-{% endblock %}
-
-{% block subnavigation %}
-    {% for c in categories %}
-        <li{% if c.id == category.id %} class="active"{% endif %}>
-            <a href="{% url 'category_edit' category_id=c.id %}">{{ c }}
-                ({{ c.player_count }})</a>
-        </li>
-    {% endfor %}
-    <li><a href="{% url 'category_add' %}"><i class="icon-plus">+</i></a></li>
 {% endblock %}
 
 {% block content %}
