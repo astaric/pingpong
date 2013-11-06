@@ -52,7 +52,9 @@
             {% empty %}
                 <a class="btn btn-default" href="{% url 'groups_create' category_id=category.id %}">Doloci skupine</a>
             {% endfor %}
-
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-default" href="{% url 'groups_delete' category_id=category.id %}">Ponovno doloci skupine</a>
         </div>
     </div>
 {% endblock %}

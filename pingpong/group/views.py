@@ -75,5 +75,12 @@ def edit_group(request, group_id):
 def delete_groups(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
+    if request.method == 'POST':
+        if 'yes' in request.POST:
+            Group.objects.filter(category=category).delete()
+            return redirect(reverse('groups_create', kwargs=dict(category_id=category.id)))
+        else:
+            return redirect(reverse('groups_list', kwargs=dict(category_id=category.id)))
+
     return render(request, 'pingpong/groups_delete.html',
                   dict(category=category))

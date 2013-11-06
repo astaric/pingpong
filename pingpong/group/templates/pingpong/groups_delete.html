@@ -1,1 +1,19 @@
 {% extends 'pingpong/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Potrditev brisanja
+      </div>
+      <div class="panel-body">
+         Res zelite izbrisati obstojece skupine za kategorijo {{ category }}?
+      </div>
+      <div class="panel-footer">
+        <div class="btn-group">
+            <input type="submit" name="yes" class="btn btn-danger" value="{% trans 'Yes' %}"/>
+            <input type="submit" name="no" class="btn btn-default" value="{% trans 'No' %}"/>
+        </div>
+      </div>
+    </div>
+{% endblock %}
