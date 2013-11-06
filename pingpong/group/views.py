@@ -1,9 +1,11 @@
 from django.core.urlresolvers import reverse
 from django.db.models import Count
+from django import forms
 from django.forms import CharField, Form, BooleanField, HiddenInput
-from django.forms.formsets import formset_factory
+from django.forms.formsets import formset_factory, BaseFormSet
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.safestring import mark_safe
+from django.views.generic import View
 from pingpong.group.helpers import create_groups_from_leaders
 from pingpong.group.models import GroupMember, Group
 from pingpong.models import Category, Player
@@ -15,11 +17,7 @@ def index(request):
     except IndexError:
         return redirect(reverse('category_add'))
 
-    group_members = GroupMember.for_category(category)
-    if len(group_members) == 0:
-        return redirect(reverse('groups_create', kwargs=dict(category_id=category.id)))
-
-    return redirect(reverse('groups_list', kwargs=dict(category_id=category.id)))
+    return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
 
 
 class ReadOnlyWidget(HiddenInput):
@@ -37,32 +35,54 @@ class SelectLeadersForm(Form):
     surname = CharField(widget=ReadOnlyWidget)
 
 
-def list_groups(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
+class BaseArticleFormSet(BaseFormSet):
+    def clean(self):
+        """Checks that no two articles have the same title."""
+        if any(self.errors):
+            # Don't bother validating the formset unless each form is valid on its own
+            return
+        has_leaders = False
+        for form in self.forms:
+            if form.cleaned_data['leader']:
+                has_leaders = True
+        if not has_leaders:
+            raise forms.ValidationError("You have to select at least one leader.")
 
-    categories = Category.objects.annotate(player_count=Count('players'))
-    return render(request, 'pingpong/groups.html',
-                  dict(category=category,
-                       categories=categories,
-                       group_members=GroupMember.for_category(category)))
+
+SelectLeadersFormSet = formset_factory(SelectLeadersForm, formset=BaseArticleFormSet, extra=0)
 
 
-def create_groups(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
-    SelectLeadersFormSet = formset_factory(SelectLeadersForm, extra=0)
-    if request.method == 'POST':
+class GroupsView(View):
+    def get(self, request, category_id):
+        category = get_object_or_404(Category, id=category_id)
+        categories = Category.objects.annotate(player_count=Count('players'))
+
+        group_members = GroupMember.for_category(category)
+        if len(group_members) == 0:
+            formset = SelectLeadersFormSet(
+                initial=Player.objects.order_by('id').filter(category=category).values('id', 'name', 'surname'))
+            return render(request, 'pingpong/create_groups.html',
+                          dict(formset=formset,
+                               categories=categories))
+        else:
+            return render(request, 'pingpong/groups.html',
+                          dict(category=category,
+                               categories=categories,
+                               group_members=GroupMember.for_category(category)))
+
+    def post(self, request, category_id):
+        category = get_object_or_404(Category, id=category_id)
         formset = SelectLeadersFormSet(request.POST)
         if formset.is_valid():
             leader_ids = [int(f.cleaned_data['id']) for f in formset.forms if f.cleaned_data['leader']]
             leaders = Player.objects.filter(id__in=leader_ids)
             create_groups_from_leaders(category, leaders)
-            return redirect(reverse('groups_list', kwargs=dict(category_id=category.id)))
-    else:
-        formset = SelectLeadersFormSet(initial=Player.objects.order_by('id').filter(category=category).values('id', 'name', 'surname'))
-    categories = Category.objects.annotate(player_count=Count('players'))
-    return render(request, 'pingpong/groups_create.html',
-                  dict(formset=formset,
-                       categories=categories))
+            return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
+
+        categories = Category.objects.annotate(player_count=Count('players'))
+        return render(request, 'pingpong/create_groups.html',
+                      dict(formset=formset,
+                           categories=categories))
 
 
 def edit_group(request, group_id):
@@ -78,9 +98,8 @@ def delete_groups(request, category_id):
     if request.method == 'POST':
         if 'yes' in request.POST:
             Group.objects.filter(category=category).delete()
-            return redirect(reverse('groups_create', kwargs=dict(category_id=category.id)))
-        else:
-            return redirect(reverse('groups_list', kwargs=dict(category_id=category.id)))
 
-    return render(request, 'pingpong/groups_delete.html',
+        return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
+
+    return render(request, 'pingpong/delete_groups.html',
                   dict(category=category))
