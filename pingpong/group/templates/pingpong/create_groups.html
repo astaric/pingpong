@@ -1,4 +1,5 @@
-{% extends 'pingpong/base.html' %}
+{% extends 'pingpong/base_groups.html' %}
+
 
 {% block additional_header %}
     <style>
@@ -6,15 +7,6 @@
             list-style-type: none;
         }
     </style>
-{% endblock %}
-
-{% block subnavigation %}
-    {% for c in categories %}
-        <li{% if c.id == category.id %} class="active"{% endif %}>
-            <a href="{% url 'groups_create' category_id=c.id %}">{{ c }}
-                ({{ c.player_count }})</a>
-        </li>
-    {% endfor %}
 {% endblock %}
 
 {% block content %}

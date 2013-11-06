@@ -1,4 +1,4 @@
-{% extends 'pingpong/base.html' %}
+{% extends 'pingpong/base_groups.html' %}
 
 {% block additional_header %}
     <style>
@@ -22,15 +22,6 @@
     </style>
 {% endblock %}
 
-{% block subnavigation %}
-    {% for c in categories %}
-        <li{% if c.id == category.id %} class="active"{% endif %}>
-            <a href="{% url 'groups_list' category_id=c.id %}">{{ c }}
-                ({{ c.player_count }})</a>
-        </li>
-    {% endfor %}
-{% endblock %}
-
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -49,8 +40,6 @@
                         {% endfor %}
                     </ul>
                 </div>
-            {% empty %}
-                <a class="btn btn-default" href="{% url 'groups_create' category_id=category.id %}">Doloci skupine</a>
             {% endfor %}
         </div>
         <div class="panel-footer">

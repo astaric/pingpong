@@ -1,0 +1,14 @@
+{% extends 'pingpong/base.html' %}
+
+{% block current_mode %}
+    Groups
+{% endblock %}
+
+{% block navigation_items %}
+    {% for c in categories %}
+        <li{% if c.id == category.id %} class="active"{% endif %}>
+            <a href="{% url 'groups' category_id=c.id %}">{{ c }}
+                ({{ c.player_count }})</a>
+        </li>
+    {% endfor %}
+{% endblock %}
