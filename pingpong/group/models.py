@@ -31,5 +31,11 @@ class GroupMember(models.Model):
                           .order_by('group', 'place', '-leader', 'player__surname')\
                           .prefetch_related('group', 'group__category', 'player')
 
+    @classmethod
+    def for_group(cls, group):
+        return cls.objects.filter(group=group)\
+                          .order_by('-leader', 'player__surname')\
+                          .prefetch_related('player')
+
     def __unicode__(self):
         return unicode(self.player)

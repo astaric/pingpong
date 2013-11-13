@@ -6,7 +6,7 @@ from django.forms.formsets import formset_factory, BaseFormSet
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.generic import View
-from pingpong.group.helpers import create_groups_from_leaders
+from pingpong.group.helpers import create_groups_from_leaders, berger_tables
 from pingpong.group.models import GroupMember, Group
 from pingpong.models import Category, Player
 
@@ -92,10 +92,16 @@ def edit_group(request, category_id, group_id):
     group = get_object_or_404(Group, id=group_id)
 
     groups = Group.objects.filter(category_id=group.category_id).annotate(member_count=Count('members'))
+    members = GroupMember.for_group(group)
+
+    matches = [(members[p1], members[p2])
+               for p1, p2 in berger_tables(len(members))]
     return render(request, 'pingpong/group_edit.html',
                   dict(category=category,
                        group=group,
-                       groups=groups))
+                       groups=groups,
+                       group_members=members,
+                       matches=matches))
 
 
 def delete_groups(request, category_id):

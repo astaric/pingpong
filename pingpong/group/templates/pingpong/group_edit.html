@@ -1,5 +1,57 @@
 {% extends 'pingpong/base_groups.html' %}
 
+{% block additional_header %}
+    <style>
+        h1 {
+            font-size: 36px;
+        }
+
+        table {
+            border-spacing: 0;
+            border-collapse: collapse;
+            border: 1px solid;
+        }
+
+        .full {
+            background-color: black;
+        }
+
+        .header td {
+            text-align: center;
+        }
+
+        td {
+            padding-top: 3px;
+            padding-left: 5px;
+            line-height: 20px;
+            width: 40px;
+            border: 1px solid;
+        }
+
+        .sets {
+            border-left: 3px solid;
+        }
+
+        .place {
+            border-left: 3px solid;
+        }
+
+        .name {
+            width: 200px;
+        }
+
+        .result {
+            width: 80px;
+        }
+    </style>
+
+    <style type="text/css" media="print">
+        nav {
+            display: none;
+        }
+    </style>
+{% endblock %}
+
 {% block navigation_items %}
     <li>
         <a href="{% url 'groups' category_id=category.id %}">{{ category }}</a>
@@ -11,4 +63,58 @@
             </a>
         </li>
     {% endfor %}
+{% endblock %}
+
+{% block content %}
+    <h2>{{ category.description }} - Skupina {{ group.name }}</h2>
+    <table class="group">
+        <thead>
+        <tr class="header">
+            <td></td>
+            {% for m2 in group_members %}
+                <td>{{ forloop.counter }}.</td>
+            {% endfor %}
+            <td class="sets">Nizi</td>
+            <td class="points">Točke</td>
+            <td class="place">Mesto</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for m1 in group_members %}
+
+            <tr>
+                <td class="name">{{ forloop.counter }}. {{ m1.player }}</td>
+                {% for m3 in group_members %}
+                    <td{% if m1 == m3 %} class="full"{% endif %}></td>
+                {% endfor %}
+                <td class="sets"></td>
+                <td class="points"></td>
+                <td class="place"></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <br />
+    <table class="groupplay">
+        <tr>
+            <td class="name"></td>
+            <td class="result">1. niz</td>
+            <td class="result">2. niz</td>
+            <td class="result">3. niz</td>
+            <td class="result">4. niz</td>
+            <td class="result">5. niz</td>
+            <td class="result">Rezultat</td>
+        </tr>
+        {% for match in matches %}
+            <tr>
+                <td>{{ match.0.player.full_name }} : {{ match.1.player.full_name }}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
