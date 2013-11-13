@@ -43,6 +43,12 @@
         .result {
             width: 80px;
         }
+
+        input[type=text] {
+            border: 0px;
+            width: 40px;
+            padding: 0px;
+        }
     </style>
 
     <style type="text/css" media="print">
@@ -66,7 +72,10 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{{ category.description }} - Skupina {{ group.name }}</h2>
+    {{ formset.management_form }}
+    {{ formset.non_form_errors.as_ul }}
+
+    <h2>{{ category.description }} - Skupina {{ group.name }} <input type="submit" value="Shrani" /></h2>
     <table class="group">
         <thead>
         <tr class="header">
@@ -80,16 +89,18 @@
         </tr>
         </thead>
         <tbody>
-        {% for m1 in group_members %}
-
+        {% for form in formset %}
             <tr>
-                <td class="name">{{ forloop.counter }}. {{ m1.player }}</td>
-                {% for m3 in group_members %}
-                    <td{% if m1 == m3 %} class="full"{% endif %}></td>
+                <td class="name">
+                    {{ form.id }}
+                    {{ forloop.counter }}. {{ form.instance.player }}
+                </td>
+                {% for f in formset %}
+                    <td{% if f == form %} class="full"{% endif %}></td>
                 {% endfor %}
                 <td class="sets"></td>
-                <td class="points"></td>
-                <td class="place"></td>
+                <td class="points">{{ form.points }}</td>
+                <td class="place">{{ form.place }}</td>
             </tr>
         {% endfor %}
         </tbody>

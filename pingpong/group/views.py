@@ -1,7 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django import forms
-from django.forms import CharField, Form, BooleanField, HiddenInput
+from django.forms import CharField, Form, BooleanField, HiddenInput, ModelForm
+from django.forms.models import modelformset_factory
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.safestring import mark_safe
@@ -86,6 +87,11 @@ class GroupsView(View):
                            formset=formset,
                            categories=categories))
 
+class GroupScoresForm(ModelForm):
+    class Meta:
+        model = GroupMember
+        fields = ['id', 'place']
+
 
 def edit_group(request, category_id, group_id):
     category = get_object_or_404(Category, id=category_id)
@@ -94,6 +100,16 @@ def edit_group(request, category_id, group_id):
     groups = Group.objects.filter(category_id=group.category_id).annotate(member_count=Count('members'))
     members = GroupMember.for_group(group)
 
+    GroupScoresFormset = modelformset_factory(GroupMember, form=GroupScoresForm, extra=0)
+    if request.method == 'POST':
+        formset = GroupScoresFormset(request.POST, queryset=members)
+        if formset.is_valid():
+            formset.save()
+            return redirect(reverse('edit_group', kwargs=dict(category_id=category.id, group_id=group.id)))
+    else:
+        formset = GroupScoresFormset(queryset=members)
+
+
     matches = [(members[p1], members[p2])
                for p1, p2 in berger_tables(len(members))]
     return render(request, 'pingpong/group_edit.html',
@@ -101,7 +117,7 @@ def edit_group(request, category_id, group_id):
                        group=group,
                        groups=groups,
                        group_members=members,
-                       matches=matches))
+                       matches=matches, formset=formset))
 
 
 def delete_groups(request, category_id):
