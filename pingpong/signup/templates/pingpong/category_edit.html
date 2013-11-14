@@ -30,6 +30,7 @@
                 {% if forloop.first %}
                     <thead>
                     <tr>
+                        <th></th>
                         {% for field in form.visible_fields %}
                             <th>{{ field.label|capfirst }}</th>
                         {% endfor %}
@@ -38,6 +39,7 @@
                     </thead>
                 {% endif %}
                 <tr class="{% cycle row1,row2 %}">
+                        <td style="text-align: right;">{{ forloop.counter }}. </td>
                     {% for field in form.visible_fields %}
                         <td>
                             {% if forloop.first %}

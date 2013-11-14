@@ -1,6 +1,9 @@
 {% extends 'pingpong/base_groups.html' %}
+{% load brackets %}
+{% load staticfiles %}
 
 {% block additional_header %}
+    <link rel="stylesheet" href="{% static 'css/brackets.css' %}">
     <style>
         .player_group {
             display: inline-block;
@@ -46,4 +49,15 @@
             <a class="btn btn-default" href="{% url 'delete_groups' category_id=category.id %}">Ponovno doloci skupine</a>
         </div>
     </div>
+
+    {% for bracket in brackets %}
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        {{ bracket.name }}
+      </div>
+      <div class="panel-body">
+        {% show_bracket bracket %}
+      </div>
+    </div>
+    {% endfor %}
 {% endblock %}

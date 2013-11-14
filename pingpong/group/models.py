@@ -39,3 +39,12 @@ class GroupMember(models.Model):
 
     def __unicode__(self):
         return unicode(self.player)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        from pingpong.bracket.models import BracketSlot
+
+        super(GroupMember, self).save(force_insert, force_update, using, update_fields)
+        for slot in BracketSlot.objects.filter(transition__group=self.group_id, transition__place=self.place):
+            slot.player_id = self.player_id
+            slot.save()

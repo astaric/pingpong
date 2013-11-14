@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-03 14:05+0100\n"
+"POT-Creation-Date: 2013-11-14 22:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -63,4 +63,30 @@ msgstr ""
 
 #: models.py:54
 msgid "max age"
+msgstr ""
+
+#: bracket/helpers.py:62
+msgid "WINNERS"
+msgstr ""
+
+#: bracket/helpers.py:67
+msgid "SOOTHERS"
+msgstr ""
+
+#: group/templates/pingpong/delete_groups.html:16
+#: signup/templates/pingpong/category_delete.html:14
+msgid "Yes"
+msgstr ""
+
+#: group/templates/pingpong/delete_groups.html:17
+#: signup/templates/pingpong/category_delete.html:15
+msgid "No"
+msgstr ""
+
+#: signup/templates/pingpong/category_delete.html:10
+#, python-format
+msgid ""
+"\n"
+"            Do you really want to delete category %(category_name)s "
+"(%(category_description)s)?"
 msgstr ""

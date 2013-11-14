@@ -7,6 +7,8 @@ from django.forms.formsets import formset_factory, BaseFormSet
 from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.generic import View
+from pingpong.bracket.helpers import create_brackets
+from pingpong.bracket.models import Bracket
 from pingpong.group.helpers import create_groups_from_leaders, berger_tables
 from pingpong.group.models import GroupMember, Group
 from pingpong.models import Category, Player
@@ -67,10 +69,12 @@ class GroupsView(View):
                                formset=formset,
                                categories=categories))
         else:
+            brackets = Bracket.objects.filter(category=category)
             return render(request, 'pingpong/groups.html',
                           dict(category=category,
                                categories=categories,
-                               group_members=GroupMember.for_category(category)))
+                               group_members=GroupMember.for_category(category),
+                               brackets=brackets))
 
     def post(self, request, category_id):
         category = get_object_or_404(Category, id=category_id)
@@ -79,6 +83,8 @@ class GroupsView(View):
             leader_ids = [int(f.cleaned_data['id']) for f in formset.forms if f.cleaned_data['leader']]
             leaders = Player.objects.filter(id__in=leader_ids)
             create_groups_from_leaders(category, leaders)
+            create_brackets(category)
+
             return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
 
         categories = Category.objects.annotate(player_count=Count('players'))
@@ -105,7 +111,7 @@ def edit_group(request, category_id, group_id):
         formset = GroupScoresFormset(request.POST, queryset=members)
         if formset.is_valid():
             formset.save()
-            return redirect(reverse('edit_group', kwargs=dict(category_id=category.id, group_id=group.id)))
+            return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
     else:
         formset = GroupScoresFormset(queryset=members)
 
