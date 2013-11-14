@@ -1,0 +1,25 @@
+
+<div class='group'>
+    {% if user.is_authenticated %}
+    <form method="POST" action="{% url set_places %}">
+        {% csrf_token %}
+        <input type="hidden" name="redirect" value="{{ request.path }}" />
+    {% endif %}
+    {% if group.table %} <div style="float:right;">{{ table_id }}</div> {% endif %}<div style='font-weight: bold;'>{{ group.category.name }} - {{ group.name }}</div>
+{% for member in members %}
+    <div>
+        {% if user.is_authenticated %}
+            <div class='place'>
+                <input type='tel' name='member_{{ member.id }}_place' value='{{ member.place|default_if_none:'' }}' /></div>
+        {% else %}
+            {% if member.place %}<div class='place'>{{ member.place }}</div>{% endif %}
+        {% endif %}
+        <div class='player{% if member.leader %} leader{% endif %}'>{{ member.player.full_name }}</div>
+    </div>
+{% endfor %}
+
+{% if user.is_authenticated %}
+    <input type="submit" value="shrani">
+    </form>
+{% endif %}
+</div>

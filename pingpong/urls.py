@@ -10,6 +10,9 @@ urlpatterns = patterns('',
     url(r'', include('pingpong.signup.urls')),
     url(r'', include('pingpong.group.urls')),
 
+    url(r'^brackets_slideshow', 'pingpong.slideshow.views.brackets_slideshow', name='brackets_slideshow'),
+    url(r'^groups_slideshow', 'pingpong.slideshow.views.groups_slideshow', name='groups_slideshow'),
+
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

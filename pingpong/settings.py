@@ -129,6 +129,7 @@ INSTALLED_APPS = (
     'pingpong.signup',
     'pingpong.group',
     'pingpong.bracket',
+    'pingpong.slideshow',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

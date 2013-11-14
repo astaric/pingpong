@@ -1,0 +1,10 @@
+<div class="table{% if occupied %} occupied{% endif %}">
+    <div class="starttime">{{ table.match_started }}</div><div>{{ table.name }}</div>
+    <div class="player">{{ player1 }}</div>
+    <div class="player">{{ player2 }}</div>
+{% if occupied and request.user.is_authenticated %}
+    <div class="delete_button">
+    <a href="{% url clear_table table_id=table.id %}">Izprazni mizo</a>
+    </div>
+{% endif %}
+</div>

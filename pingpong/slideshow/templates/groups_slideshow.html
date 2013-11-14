@@ -1,0 +1,94 @@
+{% load i18n %}
+{% load static %}
+{% load groups %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css" media="all" />
+    <link rel="stylesheet" href="{% static 'css/groups.css' %}" id="">
+    <script type="text/javascript" src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="page1">
+        {% for category, members in males %}
+            <div>
+                <div>{{ category.description }}
+                    {% blocktrans with member_count=category.player_count%}({{ member_count }} members){% endblocktrans %}
+                </div>
+
+                {% regroup members by group as group_members %}
+                {% for group in group_members %}
+                    {% show_group group=group.grouper members=group.list %}
+                {% empty %}
+                    {% show_players category %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <div id="page2">
+        {% for category, members in females %}
+            <div>
+                <div>{{ category.description }}
+
+                    {% blocktrans with member_count=category.player_count%}({{ member_count }} members){% endblocktrans %}
+                </div>
+
+                {% regroup members by group as group_members %}
+                {% for group in group_members %}
+                    {% show_group group=group.grouper members=group.list %}
+                {% empty %}
+                    {% show_players category %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+    <div id="page3">
+        <div>
+            <div style='float:left;'>
+                {% for group in groups %}
+                    {% if mode == 'upcoming' %}
+                        {% show_group_match group %}
+                    {% else %}
+                        {% show_group group %}
+                    {% endif %}
+                {% endfor %}
+
+                {% for match_id, slots in matches %}
+                    {% show_match slots %}
+                {% endfor %}
+
+                {% for match_id, slots in pairs %}
+                    {% show_match slots %}
+                {% endfor %}
+            </div>
+            <div style='float: right;'>
+                {% show_tables %}
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var current_page, page;
+            for (var i= 1; i<=3; i++) {
+                $("#page" + i).addClass("hidden");
+            }
+            page = current_page = 0;
+            var change_page = function() {
+                page = (page % 3) + 1;
+                $("#page" + current_page).addClass("hidden");
+                $("#page" + page).removeClass("hidden");
+                current_page = page;
+                setTimeout(change_page, 10000);
+            }
+            change_page();
+        })
+    </script>
+</body>
+</html>

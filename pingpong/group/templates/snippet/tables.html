@@ -1,0 +1,36 @@
+{% load groups %}
+
+<table id="tables">
+    <tr>
+        {% for table in tables %}
+            {% cycle 0 0 0 1 as new_row silent%}
+            <td>{% show_table table %}</td>
+            {% if new_row %}
+                </tr><tr>
+            {% endif %}
+        {% endfor %}
+        </tr>
+</table>
+<script type="text/javascript">
+    var timer, tables=$("#tables"), holddelay=500;
+    var hold = false;
+    tables.mousedown(function() {
+        hold = false;
+        timer = setTimeout(function() {
+            $("#tables").addClass("show_delete_button")
+            hold = true;
+        }, holddelay);
+        return false;
+    });
+    tables.mouseup(function () {
+        clearTimeout(timer);
+    });
+    tables.mouseout(function () {
+        clearTimeout(timer);
+    });
+    $('body').click(function() {
+        if (!hold) {
+            $("#tables").removeClass("show_delete_button");
+        }
+    })
+</script>
