@@ -1,15 +1,13 @@
-import itertools
 import re
 
 from django.core.exceptions import ValidationError
-from django.db.models import Count
+from django.db.models import Q
 from django.forms import CharField, HiddenInput, Form
 from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory, ModelForm, ModelChoiceField
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 
-from pingpong.bracket.models import BracketSlot
 from pingpong.group.models import Group
 from pingpong.models import Table, Category, Match
 from pingpong.printing.helpers import print_matches
@@ -64,13 +62,11 @@ def current_matches(request):
     else:
         formset = UpcomingMatchesFromset(queryset=matches)
 
-    return render(request, 'current_matches.html',
-                  {
-                      'category': category,
-                      'matches': matches,
-                      'formset': formset,
-
-                  })
+    return render(request, 'current_matches.html', {
+        'category': category,
+        'matches': matches,
+        'formset': formset,
+    })
 
 
 class UpcomingMatchForm(Form):
@@ -88,11 +84,18 @@ def upcoming_matches(request):
         return redirect('category_add')
 
     match_groups = Match.objects.filter(status=Match.READY, group__isnull=False).values('group').distinct()
-    matches = [dict(group=group.id, description=group, table=None) for group in Group.objects.filter(id__in=match_groups)]
-    matches.extend(
-        dict(id=match.id, description='%s : %s' % (match.player1, match.player2), table=match.table)
-        for match in Match.objects.filter(status=Match.READY, group__isnull=True)
-    )
+    group_matches = [dict(group=group.id, description=group, table=None) for group in
+                     Group.objects.filter(id__in=match_groups)]
+    bracket_matches = [dict(id=match.id, description='%s : %s' % (match.player1, match.player2), table=match.table)
+                       for match in Match.objects.filter(status=Match.READY, group__isnull=True)]
+    double_matches = []
+    for m in Match.objects.filter(status=Match.DOUBLE).exclude(Q(player1__isnull=True) | Q(player2__isnull=True)).select_related('player1', 'player2'):
+        d1, d2 = m.player1.double, m.player2.double
+        blocking_matches = Match.objects.filter(Q(player1=d1.player1) | Q(player1=d1.player2) | Q(player1=d2.player1) | Q(player1=d1.player2) |
+                                                Q(player2=d1.player1) | Q(player2=d1.player2) | Q(player2=d2.player1) | Q(player2=d1.player2), status__lt=Match.COMPLETE)
+        if not blocking_matches:
+            double_matches.append(dict(id=m.id, description='%s : %s' % (m.player1, m.player2), table=m.table))
+
     UpcomingMatchesFromset = formset_factory(UpcomingMatchForm, extra=0)
     if request.method == 'POST':
         formset = UpcomingMatchesFromset(request.POST)
@@ -113,10 +116,9 @@ def upcoming_matches(request):
                 print_matches(matches_to_print)
             return redirect(upcoming_matches)
     else:
-        formset = UpcomingMatchesFromset(initial=matches)
+        formset = UpcomingMatchesFromset(initial=group_matches + bracket_matches + double_matches)
 
     return render(request, 'upcoming_matches.html', {
         'category': category,
-        'matches': matches,
         'formset': formset,
     })

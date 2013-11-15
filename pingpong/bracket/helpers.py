@@ -1,12 +1,13 @@
 from math import ceil, log
 from itertools import chain, izip, izip_longest
+import random
 
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.utils.translation import ugettext_lazy as _
 
 from pingpong.bracket.models import BracketSlot, Bracket, GroupToBracketTransition
 from pingpong.group.models import Group
-from pingpong.models import Match
+from pingpong.models import Match, Player
 
 
 def create_single_elimination_bracket_slots(bracket, n):
@@ -86,9 +87,34 @@ def create_transitions(candidates, groups, slots):
             group, place = candidates[placement]
             GroupToBracketTransition.objects.create(group=group, place=place, slot=slot)
         else:
+            Match.objects.filter(Q(player1_bracket_slot=slot) | Q(player2_bracket_slot=slot)).update(status=Match.COMPLETE)
             slot.no_player = True
             slot.save()
 
+
+def create_pair_brackets(category):
+    Bracket.objects.filter(category=category).delete()
+    players = Player.objects.filter(category=category)
+    n_players = len(players)
+    bracket = Bracket.objects.create(category=category, name=_("DOUBLES"), levels=levels(n_players))
+    slots = create_single_elimination_bracket_slots(bracket, n_players)
+    Match.objects.filter(Q(player1_bracket_slot__bracket=bracket) | Q(player2_bracket_slot__bracket=bracket)) \
+                 .update(status=Match.DOUBLE)
+    fill_bracket(players, slots)
+    for s in slots[0]:
+        s.advance_player()
+
+
+def fill_bracket(players, slots):
+    players = shuffled(players)
+    placements = list(create_tournament_seeds(len(players)))
+    for placement, slot in zip(placements, slots[0]):
+        if placement is not None:
+            slot.player = players[placement]
+            slot.save()
+        else:
+            slot.no_player = True
+            slot.save()
 
 def invert(xs, length=0):
     ys = [None] * (length or len(xs))
@@ -104,3 +130,7 @@ def alternate(*iterables):
         for element in tuple:
             if element is not MISSING:
                 yield element
+
+def shuffled(xs):
+    xs = list(xs)
+    return random.sample(xs, len(xs))

@@ -43,14 +43,23 @@ class Player(models.Model):
 
 
 class Category(models.Model):
+    SINGLE = 0
+    DOUBLE = 1
+    TYPE_CHOICES = (
+        (SINGLE, _("Single")),
+        (DOUBLE, _("Double")),
+    )
+
     class Meta:
         verbose_name = _("category")
         verbose_name_plural = _("categories")
 
     name = models.CharField(_("name"), max_length=10)
-    description = models.CharField(max_length=50, blank=True)
+    description = models.CharField(_("description"), max_length=50, blank=True)
 
-    gender = models.IntegerField(_("gender"), choices=GENDER_CHOICES)
+    type = models.IntegerField(_("type"), choices=TYPE_CHOICES, default=0)
+
+    gender = models.IntegerField(_("gender"), choices=GENDER_CHOICES, null=True)
     min_age = models.IntegerField(_("min age"), blank=True, null=True)
     max_age = models.IntegerField(_("max age"), blank=True, null=True)
 
@@ -105,12 +114,14 @@ class Match(models.Model):
     READY = 1
     PLAYING = 2
     COMPLETE = 3
+    DOUBLE = 4
 
     STATUS_CHOICES = (
         (PENDING, 'Pending'),
         (READY, 'Ready'),
         (PLAYING, 'Playing'),
         (COMPLETE, 'Complete'),
+        (COMPLETE, 'Double'),
     )
 
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
@@ -132,7 +143,7 @@ class Match(models.Model):
         if self.status == Match.PENDING:
             if self.player1_id and self.player2_id:
                 self.status = Match.READY
-        elif self.status == Match.READY:
+        elif self.status == Match.READY or self.status == Match.DOUBLE:
             if self.table_id is not None:
                 self.status = Match.PLAYING
         elif self.status == Match.PLAYING:
@@ -148,9 +159,15 @@ class Match(models.Model):
 
         super(Match, self).save(force_insert, force_update, using, update_fields)
 
-
-
     def __unicode__(self):
         return '%s %s' % (self.player1, self.player2)
 
 
+class Double(Player):
+    player1 = models.ForeignKey(Player, related_name='+')
+    player2 = models.ForeignKey(Player, related_name='+')
+
+    def save(self, *args, **kwargs):
+        self.name = '%s. %s' % (self.player1.name[0], self.player1.surname)
+        self.surname = '%s. %s' % (self.player2.name[0], self.player2.surname)
+        super(Double, self).save(*args, **kwargs)

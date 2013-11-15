@@ -15,105 +15,107 @@
 {% endblock %}
 
 {% block javascript %}
-    <script src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
-    <script>
-        $(function () {
-            var known_players = [
-                {name: "Jože", surname: "Hafner"},
-                {name: "Bojan", surname: "Vidmar"},
-                {name: "Jana", surname: "Drašler"},
-                {name: "Zdenko", surname: "Petrovič"},
-                {name: "Jože", surname: "Pogačar"},
-                {name: "Domen", surname: "Prijatelj"},
-                {name: "Bojan", surname: "Kuhelj"},
-                {name: "Miran", surname: "Merc"},
-                {name: "Boris", surname: "Škoberne"},
-                {name: "Marjan", surname: "Prijatelj"},
-                {name: "Franc Branko", surname: "Vidmar"},
-                {name: "Marjan", surname: "Šurca"},
-                {name: "Janez", surname: "Košir"},
-                {name: "Aleš", surname: "Smrekar"},
-                {name: "Bojan", surname: "Rauh"},
-                {name: "Matevž", surname: "Žgank"},
-                {name: "Bojan", surname: "Vokal"},
-                {name: "Iztok", surname: "Nadoh"},
-                {name: "Rado", surname: "Selan"},
-                {name: "Igor", surname: "Žgur"},
-                {name: "Nejc", surname: "Kovačič"},
-                {name: "Gregor", surname: "Svetec"},
-                {name: "Peter", surname: "Vrbančič"},
-                {name: "Franc", surname: "Strnišnik"},
-                {name: "Aleksander", surname: "Budič"},
-                {name: "Matic", surname: "Golavšek"},
-                {name: "Dragan", surname: "Živulovič"},
-                {name: "Iztok", surname: "Zupančič"},
-                {name: "Tone", surname: "Starc"},
-                {name: "Polde", surname: "Šuštar"},
-                {name: "Vojteh", surname: "Štor"},
-                {name: "Matjaž", surname: "Bavdek"},
-                {name: "Robert", surname: "Mali"},
-                {name: "Jernej", surname: "Lenko"},
-                {name: "Ciril", surname: "Omahen"},
-                {name: "Erih", surname: "Günther"},
-                {name: "Ljubo", surname: "Kovačič"},
-                {name: "Vinko", surname: "Pretnar"},
-                {name: "Franc", surname: "Žmavc"},
-                {name: "Damjan", surname: "Miklavčič"},
-                {name: "Tanja", surname: "Možek"},
-                {name: "Ciril", surname: "Kozjek"},
-                {name: "Jani", surname: "Lisac"},
-                {name: "Edo", surname: "Horvat"},
-                {name: "Marko", surname: "Bazovičar"},
-                {name: "Jaka", surname: "Bavdek"},
-                {name: "Primož", surname: "Prijatelj"},
-                {name: "Slobodan", surname: "Kukič"},
-                {name: "Nika", surname: "Možek"},
-                {name: "Iztok", surname: "Tuma"},
-                {name: "Matej", surname: "Cvetko"},
-                {name: "Dragica", surname: "Lapajne"},
-                {name: "Janez", surname: "Močan"},
-                {name: "Brane", surname: "Kralj"},
-                {name: "Luka", surname: "Mlakar"},
-                {name: "Stane", surname: "Glažar"},
-                {name: "Janez", surname: "Čekada"},
-                {name: "Tone", surname: "Meglen"},
-                {name: "Darko", surname: "Makovec"},
-                {name: "Jože", surname: "Miklavčič"},
-                {name: "Janez", surname: "Obštetar"},
-                {name: "Anja", surname: "Černe"},
-                {name: "Lojze", surname: "Zore"},
-                {name: "Janez", surname: "Erčulj"},
-                {name: "Gregor", surname: "Mlakar"},
-                {name: "Rastislav", surname: "Šuštaršič"},
-                {name: "Bojan", surname: "Supanič"},
-                {name: "Marjan", surname: "Zupančič"}
-            ];
-            var players = [];
-            for (var i = 0; i < known_players.length; i++) {
-                players.push({label: known_players[i].name + ' ' + known_players[i].surname, value: known_players[i]});
-            }
+    {% if category.type == category.SINGLE %}
+        <script src="{% static 'js/jquery-ui-1.10.3.custom.min.js' %}"></script>
+        <script>
+            $(function () {
+                var known_players = [
+                    {name: "Jože", surname: "Hafner"},
+                    {name: "Bojan", surname: "Vidmar"},
+                    {name: "Jana", surname: "Drašler"},
+                    {name: "Zdenko", surname: "Petrovič"},
+                    {name: "Jože", surname: "Pogačar"},
+                    {name: "Domen", surname: "Prijatelj"},
+                    {name: "Bojan", surname: "Kuhelj"},
+                    {name: "Miran", surname: "Merc"},
+                    {name: "Boris", surname: "Škoberne"},
+                    {name: "Marjan", surname: "Prijatelj"},
+                    {name: "Franc Branko", surname: "Vidmar"},
+                    {name: "Marjan", surname: "Šurca"},
+                    {name: "Janez", surname: "Košir"},
+                    {name: "Aleš", surname: "Smrekar"},
+                    {name: "Bojan", surname: "Rauh"},
+                    {name: "Matevž", surname: "Žgank"},
+                    {name: "Bojan", surname: "Vokal"},
+                    {name: "Iztok", surname: "Nadoh"},
+                    {name: "Rado", surname: "Selan"},
+                    {name: "Igor", surname: "Žgur"},
+                    {name: "Nejc", surname: "Kovačič"},
+                    {name: "Gregor", surname: "Svetec"},
+                    {name: "Peter", surname: "Vrbančič"},
+                    {name: "Franc", surname: "Strnišnik"},
+                    {name: "Aleksander", surname: "Budič"},
+                    {name: "Matic", surname: "Golavšek"},
+                    {name: "Dragan", surname: "Živulovič"},
+                    {name: "Iztok", surname: "Zupančič"},
+                    {name: "Tone", surname: "Starc"},
+                    {name: "Polde", surname: "Šuštar"},
+                    {name: "Vojteh", surname: "Štor"},
+                    {name: "Matjaž", surname: "Bavdek"},
+                    {name: "Robert", surname: "Mali"},
+                    {name: "Jernej", surname: "Lenko"},
+                    {name: "Ciril", surname: "Omahen"},
+                    {name: "Erih", surname: "Günther"},
+                    {name: "Ljubo", surname: "Kovačič"},
+                    {name: "Vinko", surname: "Pretnar"},
+                    {name: "Franc", surname: "Žmavc"},
+                    {name: "Damjan", surname: "Miklavčič"},
+                    {name: "Tanja", surname: "Možek"},
+                    {name: "Ciril", surname: "Kozjek"},
+                    {name: "Jani", surname: "Lisac"},
+                    {name: "Edo", surname: "Horvat"},
+                    {name: "Marko", surname: "Bazovičar"},
+                    {name: "Jaka", surname: "Bavdek"},
+                    {name: "Primož", surname: "Prijatelj"},
+                    {name: "Slobodan", surname: "Kukič"},
+                    {name: "Nika", surname: "Možek"},
+                    {name: "Iztok", surname: "Tuma"},
+                    {name: "Matej", surname: "Cvetko"},
+                    {name: "Dragica", surname: "Lapajne"},
+                    {name: "Janez", surname: "Močan"},
+                    {name: "Brane", surname: "Kralj"},
+                    {name: "Luka", surname: "Mlakar"},
+                    {name: "Stane", surname: "Glažar"},
+                    {name: "Janez", surname: "Čekada"},
+                    {name: "Tone", surname: "Meglen"},
+                    {name: "Darko", surname: "Makovec"},
+                    {name: "Jože", surname: "Miklavčič"},
+                    {name: "Janez", surname: "Obštetar"},
+                    {name: "Anja", surname: "Černe"},
+                    {name: "Lojze", surname: "Zore"},
+                    {name: "Janez", surname: "Erčulj"},
+                    {name: "Gregor", surname: "Mlakar"},
+                    {name: "Rastislav", surname: "Šuštaršič"},
+                    {name: "Bojan", surname: "Supanič"},
+                    {name: "Marjan", surname: "Zupančič"}
+                ];
+                var players = [];
+                for (var i = 0; i < known_players.length; i++) {
+                    players.push({label: known_players[i].name + ' ' + known_players[i].surname, value: known_players[i]});
+                }
 
-            var update_player = function (event, ui) {
-                event.preventDefault();
-                var form_number = $(this)[0].id.split('-')[1];
-                var $name = $("#id_player-" + form_number + "-name")[0];
-                var $surname = $("#id_player-" + form_number + "-surname")[0];
+                var update_player = function (event, ui) {
+                    event.preventDefault();
+                    var form_number = $(this)[0].id.split('-')[1];
+                    var $name = $("#id_player-" + form_number + "-name")[0];
+                    var $surname = $("#id_player-" + form_number + "-surname")[0];
 
-                $name.value = ui.item.value.name;
-                $surname.value = ui.item.value.surname;
-            }
+                    $name.value = ui.item.value.name;
+                    $surname.value = ui.item.value.surname;
+                }
 
-            $(':text').autocomplete({
-                source: players,
-                delay: 0,
-                select:update_player,
-                focus: update_player
+                $(':text').autocomplete({
+                    source: players,
+                    delay: 0,
+                    select: update_player,
+                    focus: update_player
+                });
+
+                var form_number = $("#id_player-INITIAL_FORMS")[0].value;
+                $("#id_player-" + form_number + "-name").focus();
             });
-
-            var form_number = $("#id_player-INITIAL_FORMS")[0].value;
-            $("#id_player-" + form_number + "-name").focus();
-        });
-    </script>
+        </script>
+    {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -160,6 +162,9 @@
         <div class="panel-footer">
             <input type="submit" name="save" class="btn btn-primary btn-sm" value="Shrani"/>
             <input type="submit" name="delete" class="btn btn-danger btn-sm" value="Izbrisi"/>
+            {% if category.type == category.DOUBLE %}
+                <input type="submit" name="create_brackets" class="btn btn-default btn-sm" value="Žrebaj piramido"/>
+            {% endif %}
         </div>
 
     </div>

@@ -26,38 +26,41 @@
 {% endblock %}
 
 {% block content %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            Skupine za kategorijo {{ category }} {% if not group_members %} se niso bile dolocene.{% endif %}
+    {% if category.type == category.SINGLE %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Skupine za kategorijo {{ category }} {% if not group_members %} se niso bile dolocene.{% endif %}
+            </div>
+            <div class="panel-body">
+                {% regroup group_members by group as group_list %}
+                {% for group in group_list %}
+                    <div class="player_group">
+                        <a href="{% url 'edit_group' category_id=group.grouper.category_id group_id=group.grouper.id %}">{{ group.grouper }}</a>
+                        <ul>
+                            {% for member in group.list %}
+                                <li{% if member.leader %} class="leader"{% endif %}>
+                                    {% if member.place %}{{ member.place }}.{% endif %} {{ member }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="panel-footer">
+                <a class="btn btn-default" href="{% url 'delete_groups' category_id=category.id %}">Ponovno doloci
+                    skupine</a>
+            </div>
         </div>
-        <div class="panel-body">
-            {% regroup group_members by group as group_list %}
-            {% for group in group_list %}
-                <div class="player_group">
-                    <a href="{% url 'edit_group' category_id=group.grouper.category_id group_id=group.grouper.id %}">{{ group.grouper }}</a>
-                    <ul>
-                        {% for member in group.list %}
-                            <li{% if member.leader %} class="leader"{% endif %}>
-                                {% if member.place %}{{ member.place }}.{% endif %} {{ member }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-            {% endfor %}
-        </div>
-        <div class="panel-footer">
-            <a class="btn btn-default" href="{% url 'delete_groups' category_id=category.id %}">Ponovno doloci skupine</a>
-        </div>
-    </div>
+    {% endif %}
 
     {% for bracket in brackets %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        {{ bracket.name }}
-      </div>
-      <div class="panel-body">
-        {% show_bracket bracket %}
-      </div>
-    </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                {{ bracket.name }}
+            </div>
+            <div class="panel-body">
+                {% show_bracket bracket %}
+            </div>
+        </div>
     {% endfor %}
 {% endblock %}

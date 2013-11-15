@@ -62,7 +62,7 @@ class GroupsView(View):
         categories = Category.objects.annotate(player_count=Count('players'))
 
         group_members = GroupMember.for_category(category)
-        if len(group_members) == 0:
+        if category.type == Category.SINGLE and len(group_members) == 0:
             formset = SelectLeadersFormSet(
                 initial=Player.objects.order_by('id').filter(category=category).values('id', 'name', 'surname'))
             return render(request, 'pingpong/create_groups.html',
@@ -134,6 +134,7 @@ def delete_groups(request, category_id):
     if request.method == 'POST':
         if 'yes' in request.POST:
             Group.objects.filter(category=category).delete()
+            Bracket.objects.filter(category=category).delete()
 
         return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
 
