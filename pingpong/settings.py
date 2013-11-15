@@ -1,5 +1,6 @@
 # Django settings for pingpong project.
 import os.path
+
 SETTINGS_DIR = os.path.abspath(os.path.dirname(__file__))
 
 DEBUG = True
@@ -16,6 +17,7 @@ DATABASES = {}
 # Heroku settings
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
+
 DATABASES['default'] = dj_database_url.config(default='sqlite:///' + os.path.join(SETTINGS_DIR, 'db.sqlite'))
 
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
@@ -78,7 +80,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -88,7 +90,18 @@ SECRET_KEY = '08^s+)!8mkj0*9m^wn5^^h*wxh#!u%v(naojqz-5xizk-lwyss'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.contrib.messages.context_processors.messages",
+
+    "pingpong.context_processors.login_url_with_redirect",
 )
 
 MIDDLEWARE_CLASSES = (
@@ -107,9 +120,9 @@ ROOT_URLCONF = 'pingpong.urls'
 WSGI_APPLICATION = 'pingpong.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+# Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+# Always use forward slashes, even on Windows.
+# Don't forget to use absolute paths, not relative paths.
 )
 
 INSTALLED_APPS = (
@@ -130,6 +143,7 @@ INSTALLED_APPS = (
     'pingpong.group',
     'pingpong.bracket',
     'pingpong.slideshow',
+    'pingpong.live',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

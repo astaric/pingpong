@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from pingpong.bracket.models import BracketSlot, Bracket, GroupToBracketTransition
 from pingpong.group.models import Group
+from pingpong.models import Match
 
 
 def create_single_elimination_bracket_slots(bracket, n):
@@ -15,10 +16,13 @@ def create_single_elimination_bracket_slots(bracket, n):
     def recursively_create_slots(parent, level):
         if level > levels:
             return
+        s = []
         for i in range(2):
             slot = BracketSlot.objects.create(bracket=bracket, level=level, winner_goes_to=parent)
             slots[levels - level].append(slot)
+            s.append(slot)
             recursively_create_slots(slot, level + 1)
+        Match.objects.create(player1_bracket_slot=s[0], player2_bracket_slot=s[1])
 
     bracket_winner = BracketSlot.objects.create(bracket=bracket, level=0)
     recursively_create_slots(bracket_winner, 1)

@@ -2,7 +2,7 @@
 import random
 
 from django.core.management.base import BaseCommand, make_option
-from pingpong.models import Category, Player
+from pingpong.models import Category, Player, Table
 
 category_fields = ('name', 'description', 'gender', 'min_age', 'max_age')
 category_data = (
@@ -67,6 +67,9 @@ class Command(BaseCommand):
                     n = random.randint(0, n_players) if category != categories[-1] else n_players
                     players.extend(self.create_players(n=n, category=category))
                     n_players -= n
+
+        for i, order in zip(range(12), [9, 10, 11, 12, 5, 6, 7, 8, 1, 2, 3, 4]):
+            Table(name='Table %d' % (i+1), display_order=order).save()
 
     @staticmethod
     def create_players(n=40, category=None):

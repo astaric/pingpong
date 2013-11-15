@@ -28,12 +28,20 @@
                 {% block current_mode %} PP {% endblock %}
                 {% if category %}<span class="caret"></span>{% endif %}
             </a>
-            {% if category %}
-                <ul class="dropdown-menu">
+            <ul class="dropdown-menu">
+                {% if category %}
                     <li><a href="{% url 'category_edit' category_id=category.id %}">Signup</a></li>
                     <li><a href="{% url 'groups' category_id=category.id %}">Groups</a></li>
-                </ul>
-            {% endif %}
+                {% endif %}
+                <li><a href="{% url 'upcoming_matches' %}">Live</a></li>
+                <li>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'auth_logout' %}">Logout</a>
+                    {% else %}
+                        <a href="{{ login_url  }}">Login</a>
+                    {% endif %}
+                </li>
+            </ul>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

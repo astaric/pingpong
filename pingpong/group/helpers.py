@@ -2,7 +2,7 @@ from collections import deque, defaultdict
 import random
 import string
 from pingpong.group.models import Group, GroupMember
-from pingpong.models import Player
+from pingpong.models import Player, Match
 
 
 def create_groups_from_leaders(category, leaders):
@@ -41,6 +41,18 @@ def create_groups_from_leaders(category, leaders):
         groups.rotate(-1)
 
     GroupMember.objects.bulk_create(members)
+    group_members = defaultdict(list)
+    for member in GroupMember.objects.filter(group__category=category).select_related('group'):
+        group_members[member.group].append(member)
+
+    matches = []
+    for group in groups:
+        for p1, p2 in berger_tables(len(group_members[group])):
+            matches.append(Match(player1=group_members[group][p1].player,
+                                 player2=group_members[group][p2].player,
+                                 group=group,
+                                 status=Match.READY))
+    Match.objects.bulk_create(matches)
 
 
 def shuffled(xs):

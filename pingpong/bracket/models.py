@@ -3,7 +3,7 @@ from django.db.models import Count, Min, Q
 from django.db.models.query import QuerySet
 from django.utils import timezone
 
-from pingpong.models import Category, Player, Table
+from pingpong.models import Category, Player, Table, Match
 from pingpong.group.models import Group
 
 
@@ -69,6 +69,14 @@ class BracketSlot(models.Model):
     def save(self, *args, **kwargs):
         self.set_status()
         super(BracketSlot, self).save(*args, **kwargs)
+
+        if self.player:
+            for match in Match.objects.filter(player1_bracket_slot=self):
+                match.player1 = self.player
+                match.save()
+            for match in Match.objects.filter(player2_bracket_slot=self):
+                match.player2 = self.player
+                match.save()
         self.advance_player()
 
     def set_status(self):

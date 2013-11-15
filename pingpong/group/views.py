@@ -11,7 +11,7 @@ from pingpong.bracket.helpers import create_brackets
 from pingpong.bracket.models import Bracket
 from pingpong.group.helpers import create_groups_from_leaders, berger_tables
 from pingpong.group.models import GroupMember, Group
-from pingpong.models import Category, Player
+from pingpong.models import Category, Player, Match
 
 
 def index(request):
@@ -116,8 +116,7 @@ def edit_group(request, category_id, group_id):
         formset = GroupScoresFormset(queryset=members)
 
 
-    matches = [(members[p1], members[p2])
-               for p1, p2 in berger_tables(len(members))]
+    matches = Match.objects.filter(group=group).select_related('player1', 'player2')
     return render(request, 'pingpong/group_edit.html',
                   dict(category=category,
                        group=group,

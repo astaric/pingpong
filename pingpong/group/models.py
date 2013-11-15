@@ -3,10 +3,19 @@ from pingpong.models import Category, Table, Player
 
 
 class Group(models.Model):
+    STATUS = (
+        (0, ''),
+        (1, 'playing'),
+        (2, 'completed')
+    )
+
     name = models.CharField(max_length=10)
     category = models.ForeignKey(Category)
 
+    table = models.ForeignKey('Table', blank=True, null=True)
+
     table = models.ForeignKey(Table, blank=True, null=True)
+    status = models.IntegerField(choices=STATUS, default=0)
 
     @property
     def members(self):

@@ -15,9 +15,7 @@ def show_tables(context):
 def show_table(context, table):
     return {
         'table': table,
-        'player1': table.player1(),
-        'player2': table.player2(),
-        'occupied': table.occupied(),
+        'matches': table.matches.all(),
     }
 
 
@@ -38,7 +36,7 @@ def show_group(context, group, members=None):
 @register.inclusion_tag('snippet/match.html', takes_context=True)
 def show_group_match(context, group):
     edit_form = None
-    if context['request'].user.is_authenticated():
+    if context['user'].is_authenticated():
         if group.status == 0:
             edit_form = 'set_table'
     return {
@@ -55,7 +53,7 @@ def show_group_match(context, group):
 def show_match(context, slots):
     slot1, slot2 = sorted(slots, key=lambda x:x.id)
     edit_form = None
-    if context['request'].user.is_authenticated():
+    if context['user'].is_authenticated():
         if slot1.status == 0:
             edit_form = 'set_table'
         elif slot1.status == 1:

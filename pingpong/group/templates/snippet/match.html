@@ -5,24 +5,20 @@
     <div class='category'>{{ category }}</div>
     <!--<div class='type'>{{ extra }}</div>-->
     {% if edit_form == 'set_table' %}
-        <form method="POST" action="{% url set_table %}">
-            {% csrf_token %}
-            <input type="hidden" name="{{ id_prefix }}_id" value="{{ id }}">
-            <select name="table_id">
-                <option value=''></option>
-                {% for table in available_tables %}
-                    <option value='{{ table.id }}'>{{ table.name }}</option>
-                {% endfor %}
-            </select>
-            <input type="submit" name="submit" value="Save" />
-        </form>
+        {% csrf_token %}
+        <input type="hidden" name="{{ id_prefix }}_id" value="{{ id }}">
+        <select name="table_id">
+            <option value=''></option>
+            {% for table in available_tables %}
+                <option value='{{ table.id }}'>{{ table.name }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" name="submit" value="Save"/>
     {% elif edit_form == 'set_score' %}
-        <form style='display: inline-block;' method="POST" action="{% url set_score %}" novalidate="">
-            {% csrf_token %}
-            <input type="hidden" name="{{ id_prefix }}_id" value="{{ id }}">
-            <input type="tel" name="score" />
-            <input type="submit" name="submit" value="Save" />
-        </form>
+        {% csrf_token %}
+        <input type="hidden" name="{{ id_prefix }}_id" value="{{ id }}">
+        <input type="tel" name="score"/>
+        <input type="submit" name="submit" value="Save"/>
     {% endif %}
 
 </div>
