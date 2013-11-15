@@ -96,6 +96,9 @@ class Table(models.Model):
         else:
             return ''
 
+    def matches(self):
+        return self.all_matches.filter(status=Match.PLAYING)
+
 
 class Match(models.Model):
     PENDING = 0
@@ -122,7 +125,7 @@ class Match(models.Model):
     player2_score = models.IntegerField(null=True)
     player2_bracket_slot = models.ForeignKey('bracket.BracketSlot', null=True, related_name='+')
 
-    table = models.ForeignKey(Table, blank=True, null=True, related_name='matches')
+    table = models.ForeignKey(Table, blank=True, null=True, related_name='all_matches')
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):

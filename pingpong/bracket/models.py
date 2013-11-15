@@ -104,12 +104,12 @@ class BracketSlot(models.Model):
 
         if self.score is not None and other.score is not None:
             first, last = (self, other) if self.score > other.score else (other, self)
-            if other.winner_goes_to is not None:
-                other.winner_goes_to.player_id = first.player_id
-                other.winner_goes_to.save()
-            if other.loser_goes_to is not None:
-                other.loser_goes_to.player_id = last.player_id
-                other.loser_goes_to.save()
+            if first.winner_goes_to is not None:
+                first.winner_goes_to.player_id = first.player_id
+                first.winner_goes_to.save()
+            if last.loser_goes_to is not None:
+                last.loser_goes_to.player_id = last.player_id
+                last.loser_goes_to.save()
 
     def label(self):
         try:

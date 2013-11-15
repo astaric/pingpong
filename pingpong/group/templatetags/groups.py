@@ -15,7 +15,6 @@ def show_tables(context):
 def show_table(context, table):
     return {
         'table': table,
-        'matches': table.matches.all(),
     }
 
 

@@ -1,5 +1,6 @@
 from django.db import models
-from pingpong.models import Category, Table, Player
+from django.db.models import Q
+from pingpong.models import Category, Table, Player, Match
 
 
 class Group(models.Model):
@@ -54,6 +55,11 @@ class GroupMember(models.Model):
         from pingpong.bracket.models import BracketSlot
 
         super(GroupMember, self).save(force_insert, force_update, using, update_fields)
+
+        for match in Match.objects.filter(Q(player1=self.player) | Q(player2=self.player), group=self.group_id):
+            match.table = None
+            match.status = Match.COMPLETE
+            match.save()
         for slot in BracketSlot.objects.filter(transition__group=self.group_id, transition__place=self.place):
             slot.player_id = self.player_id
             slot.save()

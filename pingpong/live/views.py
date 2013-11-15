@@ -77,7 +77,7 @@ class UpcomingMatchForm(Form):
     group = CharField(widget=HiddenInput, required=False)
     description = CharField(widget=HiddenInput, required=False)
 
-    table = ModelChoiceField(required=False, queryset=Table.objects.filter(matches__isnull=True))
+    table = ModelChoiceField(required=False, queryset=Table.objects.filter(all_matches__isnull=True))
 
 
 def upcoming_matches(request):
