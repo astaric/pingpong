@@ -98,14 +98,14 @@
                 var form_number = $(this)[0].id.split('-')[1];
                 var $name = $("#id_player-" + form_number + "-name")[0];
                 var $surname = $("#id_player-" + form_number + "-surname")[0];
-                console.log($name, $surname);
 
                 $name.value = ui.item.value.name;
                 $surname.value = ui.item.value.surname;
             }
 
-            $('input').autocomplete({
+            $(':text').autocomplete({
                 source: players,
+                delay: 0,
                 select:update_player,
                 focus: update_player
             });

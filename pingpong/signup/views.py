@@ -30,7 +30,7 @@ class SimpleCategoryForm(forms.ModelForm):
 def edit_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
-    PlayerFormSet = modelformset_factory(Player, extra=3, fields=['name', 'surname', 'club'], can_delete=True)
+    PlayerFormSet = modelformset_factory(Player, extra=10, fields=['name', 'surname', 'club'], can_delete=True)
     if request.method == 'POST':
         if 'delete' in request.POST:
             return redirect(reverse("category_delete", kwargs=dict(category_id=category.id)))
