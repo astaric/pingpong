@@ -13,10 +13,11 @@ while [[ true ]]
             if [[ $f == match* ]]
             then
               wkhtmltopdf -O Landscape "$f" "$pdf"
+              lpr -o landscape "$pdf"
             else
               wkhtmltopdf "$f" "$pdf"
+              lpr "$pdf"
             fi
-            lpr "$pdf"
             mv "$f" "printed/$f"
           fi
         done
