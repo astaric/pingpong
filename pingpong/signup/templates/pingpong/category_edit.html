@@ -109,6 +109,9 @@
                 select:update_player,
                 focus: update_player
             });
+
+            var form_number = $("#id_player-INITIAL_FORMS")[0].value;
+            $("#id_player-" + form_number + "-name").focus();
         });
     </script>
 {% endblock %}
