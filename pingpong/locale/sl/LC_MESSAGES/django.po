@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-14 22:26+0100\n"
+"POT-Creation-Date: 2013-11-15 20:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,61 +19,65 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
 
-#: models.py:5
+#: models.py:6
 msgid "Male"
 msgstr "moški"
 
-#: models.py:6
+#: models.py:7
 msgid "Female"
 msgstr "ženski"
 
-#: models.py:12
+#: models.py:13
 msgid "player"
 msgstr "tekmovalec"
 
-#: models.py:13
+#: models.py:14
 msgid "players"
 msgstr "tekmovalci"
 
-#: models.py:15 models.py:49
+#: models.py:16 models.py:50
 msgid "name"
 msgstr "ime"
 
-#: models.py:16
+#: models.py:17
 msgid "surname"
 msgstr "priimek"
 
-#: models.py:18 models.py:52
+#: models.py:19 models.py:53
 msgid "gender"
 msgstr "spol"
 
-#: models.py:20
+#: models.py:21
 msgid "club"
 msgstr "klub"
 
-#: models.py:21 models.py:46
+#: models.py:22 models.py:47
 msgid "category"
 msgstr "kategorija"
 
-#: models.py:47
+#: models.py:48
 msgid "categories"
 msgstr "kategorije"
 
-#: models.py:53
+#: models.py:54
 msgid "min age"
 msgstr "najnižja starost"
 
-#: models.py:54
+#: models.py:55
 msgid "max age"
 msgstr "najvišja starost"
 
-#: bracket/helpers.py:62
+#: bracket/helpers.py:66
 msgid "WINNERS"
 msgstr "ZMAGOVALNA SKUPINA"
 
-#: bracket/helpers.py:67
+#: bracket/helpers.py:71
 msgid "SOOTHERS"
 msgstr "TOLAZILNA SKUPINA"
+
+#: group/templates/pingpong/base_groups.html:5 templates/pingpong/base.html:34
+msgid "Groups"
+msgstr "Skupine"
 
 #: group/templates/pingpong/delete_groups.html:16
 #: signup/templates/pingpong/category_delete.html:14
@@ -85,6 +89,15 @@ msgstr "Da"
 msgid "No"
 msgstr "Ne"
 
+#: live/templates/live_base.html:5 templates/pingpong/base.html:36
+msgid "Live"
+msgstr "Tekmovanje"
+
+#: signup/templates/pingpong/base_signup.html:5
+#: templates/pingpong/base.html:33
+msgid "Signup"
+msgstr "Prijave"
+
 #: signup/templates/pingpong/category_delete.html:10
 #, python-format
 msgid ""
@@ -94,3 +107,37 @@ msgid ""
 msgstr ""
 "\n"
 "Res želite izbrisati kategorijo %(category_name)s (%(category_description)s)?"
+
+#: slideshow/templates/groups_slideshow.html:23
+#: slideshow/templates/groups_slideshow.html:40
+#, python-format
+msgid "(%(member_count)s members)"
+msgstr "(%(member_count)s igralcev)"
+
+#: templates/pingpong/base.html:21
+msgid "Toggle navigation"
+msgstr "Odpri navigacijo"
+
+#: templates/pingpong/base.html:28
+msgid "Unknown"
+msgstr "Neznano"
+
+#: templates/pingpong/base.html:39
+msgid "Logout"
+msgstr "Odjava"
+
+#: templates/pingpong/base.html:41 templates/registration/login.html:5
+#: templates/registration/login.html:29
+msgid "Login"
+msgstr "Prijava"
+
+#: templates/registration/logged_out.html:9
+msgid ""
+"\n"
+"        You have been logged out!\n"
+"    "
+msgstr "\nBili ste odjavljeni!"
+
+#: templates/registration/login.html:15
+msgid "Your username and password didn't match. Please try again."
+msgstr "Napačno uporabniško ime ali geslo. Poizkusite ponovno."

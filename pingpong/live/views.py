@@ -12,6 +12,7 @@ from django.utils.safestring import mark_safe
 from pingpong.bracket.models import BracketSlot
 from pingpong.group.models import Group
 from pingpong.models import Table, Category, Match
+from pingpong.printing.helpers import print_matches
 
 
 class ReadOnlyWidget(HiddenInput):
@@ -87,8 +88,8 @@ def upcoming_matches(request):
         return redirect('category_add')
 
     match_groups = Match.objects.filter(status=Match.READY, group__isnull=False).values('group').distinct()
-    all_matches = [dict(group=group.id, description=group, table=None) for group in Group.objects.filter(id__in=match_groups)]
-    all_matches.extend(
+    matches = [dict(group=group.id, description=group, table=None) for group in Group.objects.filter(id__in=match_groups)]
+    matches.extend(
         dict(id=match.id, description='%s : %s' % (match.player1, match.player2), table=match.table)
         for match in Match.objects.filter(status=Match.READY, group__isnull=True)
     )
@@ -96,6 +97,7 @@ def upcoming_matches(request):
     if request.method == 'POST':
         formset = UpcomingMatchesFromset(request.POST)
         if formset.is_valid():
+            matches_to_print = []
             for form in formset:
                 if form.cleaned_data['table']:
                     if form.cleaned_data['group']:
@@ -105,60 +107,16 @@ def upcoming_matches(request):
                         match = Match.objects.get(id=form.cleaned_data['id'])
                         match.table = form.cleaned_data['table']
                         match.save()
+                        matches_to_print.append(match)
+
+            if matches_to_print:
+                print_matches(matches_to_print)
             return redirect(upcoming_matches)
     else:
-        formset = UpcomingMatchesFromset(initial=all_matches)
+        formset = UpcomingMatchesFromset(initial=matches)
 
     return render(request, 'upcoming_matches.html', {
         'category': category,
         'matches': matches,
         'formset': formset,
     })
-
-
-def matches(request, filter=''):
-    try:
-        category = Category.objects.all()[:1].get()
-    except Category.DoesNotExist:
-        return redirect('category_add')
-
-    if filter == 'upcoming':
-        groups = Group.objects.filter(status=0).select_related('category') \
-            .annotate(member_count=Count("members")) \
-            .order_by('member_count', 'id')
-
-        single_matches = BracketSlot.objects.filter(status=0, bracket__category__gender__lt=2) \
-            .with_two_players() \
-            .select_related('player', 'bracket__category')
-        single_matches = [(a, list(b)) for a, b in itertools.groupby(single_matches, lambda x: x.winner_goes_to_id)]
-        single_matches = [(match, slots) for match, slots in single_matches if len(slots) == 2]
-
-        #pair_matches = BracketSlot.objects.available_pairs().filter(status=0, bracket__category__gender__gte=2)\
-        #                                         .select_related('player', 'bracket__category')
-        #pair_matches = [(a, list(b)) for a, b in itertools.groupby(pair_matches, lambda x:x.winner_goes_to_id)]
-        #pair_matches = [(match, slots) for match, slots in pair_matches if len(slots) == 2]
-    else:
-        groups = Group.objects.filter(status=1).select_related('category')
-
-        single_matches = BracketSlot.objects.filter(status=1, bracket__category__gender__lt=2) \
-            .select_related('player', 'bracket__category')
-        single_matches = [(a, list(b)) for a, b in itertools.groupby(single_matches, lambda x: x.winner_goes_to_id)]
-        single_matches = [(match, slots) for match, slots in single_matches if len(slots) == 2]
-
-        #pair_matches = BracketSlot.objects.filter(status=1, bracket__category__gender__gte=2)\
-        #                                         .select_related('player', 'bracket__category')
-        #pair_matches = [(a, list(b)) for a, b in itertools.groupby(pair_matches, lambda x:x.winner_goes_to_id)]
-        #pair_matches = [(match, slots) for match, slots in pair_matches if len(slots) == 2]
-
-    available_tables = Table.objects.annotate(count1=Count('bracketslot'), count2=Count('group')) \
-        .filter(count1=0, count2=0) \
-        .order_by('id')
-    return render(request, 'matches.html',
-                  {
-                      'category': category,
-                      'mode': filter,
-                      'matches': single_matches,
-                      'groups': groups,
-                      #'pairs': pair_matches,
-                      'available_tables': available_tables,
-                  })

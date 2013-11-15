@@ -70,8 +70,6 @@ class GroupsView(View):
                                formset=formset,
                                categories=categories))
         else:
-            matches = Match.objects.filter(group__category=category)
-            print_matches(matches)
             brackets = Bracket.objects.filter(category=category)
             return render(request, 'pingpong/groups.html',
                           dict(category=category,
@@ -87,6 +85,8 @@ class GroupsView(View):
             leaders = Player.objects.filter(id__in=leader_ids)
             create_groups_from_leaders(category, leaders)
             create_brackets(category)
+
+            print_groups(category)
 
             return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
 

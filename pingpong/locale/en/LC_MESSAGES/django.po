@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-14 22:26+0100\n"
+"POT-Creation-Date: 2013-11-15 20:30+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,60 +17,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:5
+#: models.py:6
 msgid "Male"
 msgstr ""
 
-#: models.py:6
+#: models.py:7
 msgid "Female"
 msgstr ""
 
-#: models.py:12
+#: models.py:13
 msgid "player"
 msgstr ""
 
-#: models.py:13
+#: models.py:14
 msgid "players"
 msgstr ""
 
-#: models.py:15 models.py:49
+#: models.py:16 models.py:50
 msgid "name"
 msgstr "name"
 
-#: models.py:16
+#: models.py:17
 msgid "surname"
 msgstr ""
 
-#: models.py:18 models.py:52
+#: models.py:19 models.py:53
 msgid "gender"
 msgstr ""
 
-#: models.py:20
+#: models.py:21
 msgid "club"
 msgstr ""
 
-#: models.py:21 models.py:46
+#: models.py:22 models.py:47
 msgid "category"
 msgstr ""
 
-#: models.py:47
+#: models.py:48
 msgid "categories"
 msgstr ""
 
-#: models.py:53
+#: models.py:54
 msgid "min age"
 msgstr ""
 
-#: models.py:54
+#: models.py:55
 msgid "max age"
 msgstr ""
 
-#: bracket/helpers.py:62
+#: bracket/helpers.py:66
 msgid "WINNERS"
 msgstr ""
 
-#: bracket/helpers.py:67
+#: bracket/helpers.py:71
 msgid "SOOTHERS"
+msgstr ""
+
+#: group/templates/pingpong/base_groups.html:5 templates/pingpong/base.html:34
+msgid "Groups"
 msgstr ""
 
 #: group/templates/pingpong/delete_groups.html:16
@@ -83,10 +87,53 @@ msgstr ""
 msgid "No"
 msgstr ""
 
+#: live/templates/live_base.html:5 templates/pingpong/base.html:36
+msgid "Live"
+msgstr ""
+
+#: signup/templates/pingpong/base_signup.html:5
+#: templates/pingpong/base.html:33
+msgid "Signup"
+msgstr ""
+
 #: signup/templates/pingpong/category_delete.html:10
 #, python-format
 msgid ""
 "\n"
 "            Do you really want to delete category %(category_name)s "
 "(%(category_description)s)?"
+msgstr ""
+
+#: slideshow/templates/groups_slideshow.html:23
+#: slideshow/templates/groups_slideshow.html:40
+#, python-format
+msgid "(%(member_count)s members)"
+msgstr ""
+
+#: templates/pingpong/base.html:21
+msgid "Toggle navigation"
+msgstr ""
+
+#: templates/pingpong/base.html:28
+msgid "Unknown"
+msgstr ""
+
+#: templates/pingpong/base.html:39
+msgid "Logout"
+msgstr ""
+
+#: templates/pingpong/base.html:41 templates/registration/login.html:5
+#: templates/registration/login.html:29
+msgid "Login"
+msgstr ""
+
+#: templates/registration/logged_out.html:9
+msgid ""
+"\n"
+"        You have been logged out!\n"
+"    "
+msgstr ""
+
+#: templates/registration/login.html:15
+msgid "Your username and password didn't match. Please try again."
 msgstr ""

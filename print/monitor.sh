@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir -p printed
+
 while [[ true ]]
     do
         for f in *.html
@@ -14,6 +16,7 @@ while [[ true ]]
             else
               wkhtmltopdf "$f" "$pdf"
             fi
+            lpr "$pdf"
             mv "$f" "printed/$f"
           fi
         done

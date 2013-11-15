@@ -69,7 +69,7 @@ class Command(BaseCommand):
                     n_players -= n
 
         for i, order in zip(range(12), [9, 10, 11, 12, 5, 6, 7, 8, 1, 2, 3, 4]):
-            Table(name='Table %d' % (i+1), display_order=order).save()
+            Table(name='Miza %d' % (i+1), display_order=order).save()
 
     @staticmethod
     def create_players(n=40, category=None):

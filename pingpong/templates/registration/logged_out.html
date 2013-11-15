@@ -1,11 +1,12 @@
 {% extends "pingpong/base.html" %}
+{% load i18n %}
 
 {% block current_mode %}
-    Logged out
+    {% trans 'Logout' %}
 {% endblock %}
 
 {% block content %}
-
-You have been logged out!
-
+    {% blocktrans %}
+        You have been logged out!
+    {% endblocktrans %}
 {% endblock %}

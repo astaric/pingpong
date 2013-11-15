@@ -15,8 +15,6 @@ urlpatterns = patterns('',
     url(r'^brackets_slideshow', 'pingpong.slideshow.views.brackets_slideshow', name='brackets_slideshow'),
     url(r'^groups_slideshow', 'pingpong.slideshow.views.groups_slideshow', name='groups_slideshow'),
 
-    url(r'^live$', 'pingpong.live.views.matches', kwargs={'filter': 'upcoming'}, name='live_matches'),
-
     url(r'^live/upcoming', 'pingpong.live.views.upcoming_matches', name='upcoming_matches'),
     url(r'^live/current', 'pingpong.live.views.current_matches', name='current_matches'),
 

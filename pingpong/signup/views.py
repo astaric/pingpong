@@ -35,7 +35,7 @@ def edit_category(request, category_id):
         if 'delete' in request.POST:
             return redirect(reverse("category_delete", kwargs=dict(category_id=category.id)))
 
-        formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category), prefix='player')
+        formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category), prefix='player', can_delete=True)
         form = SimpleCategoryForm(request.POST, instance=category, prefix='category')
         if form.is_valid() and formset.is_valid():
             form.save()
