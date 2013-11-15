@@ -12,6 +12,7 @@ from pingpong.bracket.models import Bracket
 from pingpong.group.helpers import create_groups_from_leaders, berger_tables
 from pingpong.group.models import GroupMember, Group
 from pingpong.models import Category, Player, Match
+from pingpong.printing.helpers import print_groups, print_matches
 
 
 def index(request):
@@ -69,6 +70,8 @@ class GroupsView(View):
                                formset=formset,
                                categories=categories))
         else:
+            matches = Match.objects.filter(group__category=category)
+            print_matches(matches)
             brackets = Bracket.objects.filter(category=category)
             return render(request, 'pingpong/groups.html',
                           dict(category=category,

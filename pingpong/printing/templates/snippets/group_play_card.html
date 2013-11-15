@@ -1,0 +1,49 @@
+<table class="groupscores">
+    <tr>
+        <td></td>
+        <td class="player">IGRALEC</td>
+        <td>KLUB</td>
+        {% for member in members %}
+        <td class="score">{{ forloop.counter }}</td>
+        {% endfor %}
+        <td class="score">NIZI</td>
+        <td>TOČKE</td>
+        <td>MESTO</td>
+
+    </tr>
+    {% for member in members %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td class="header">{{ member.player.full_name }}</td>
+            <td>{{ member.player.club }}</td>
+            {% for member in members %}
+                <td{% ifequal forloop.parentloop.counter forloop.counter %} class='dark'><div></div>{% else %}>{% endifequal %}</td>
+            {% endfor %}
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    {% endfor %}
+</table>
+<br />
+<br />
+<table class="groupplay">
+    <tr>
+        <td></td><td></td><td></td><td></td>
+        <td>1. niz</td><td>2. niz</td><td>3. niz</td><td>4. niz</td><td>5. niz</td><td>Rezultat</td>
+    </tr>
+{% for match in matches %}
+    <tr>
+        <td>{{ match.0.player.full_name }}</td>
+        <td>:</td>
+        <td>{{ match.1.player.full_name }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+{% endfor %}
+</table>

@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'pingpong.bracket',
     'pingpong.slideshow',
     'pingpong.live',
+    'pingpong.printing',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
@@ -176,3 +177,5 @@ LOGGING = {
         },
     }
 }
+
+PRINT_DIRECTORY = "/Users/anze/dev/pingpong/print/"
