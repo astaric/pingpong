@@ -42,10 +42,6 @@ class Command(BaseCommand):
         make_option('-c', '--categories',
                     type='int',
                     help='Create categories.'),
-        make_option('-t', '--tables',
-                    type='store_true',
-                    default=False,
-                    help='Create tables.'),
     )
     args = ''
     help = 'Adds dummy data to the database'
