@@ -42,6 +42,10 @@ class Command(BaseCommand):
         make_option('-c', '--categories',
                     type='int',
                     help='Create categories.'),
+        make_option('-t', '--tables',
+                    type='store_true',
+                    default=False,
+                    help='Create tables.'),
     )
     args = ''
     help = 'Adds dummy data to the database'
@@ -68,7 +72,7 @@ class Command(BaseCommand):
                     players.extend(self.create_players(n=n, category=category))
                     n_players -= n
 
-        for i, order in zip(range(12), [9, 10, 11, 12, 5, 6, 7, 8, 1, 2, 3, 4]):
+        for i, order in zip(range(12), [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]):
             Table(name='Miza %d' % (i+1), display_order=order).save()
 
     @staticmethod
