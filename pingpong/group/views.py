@@ -79,6 +79,12 @@ class GroupsView(View):
 
     def post(self, request, category_id):
         category = get_object_or_404(Category, id=category_id)
+
+        if 'recreate_brackets' in request.POST:
+            Bracket.objects.filter(category=category).delete()
+            create_brackets(category)
+            return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
+
         formset = SelectLeadersFormSet(request.POST)
         if formset.is_valid():
             sorted_forms = sorted((f for f in formset.forms if f.cleaned_data['leader']), key=lambda x: x.cleaned_data['leader'])

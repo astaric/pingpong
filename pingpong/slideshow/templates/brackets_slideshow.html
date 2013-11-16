@@ -17,10 +17,9 @@
 </head>
 <body>
 
-{%  regroup brackets by category as category_brackets %}
-{% for category in category_brackets %}
+{% for bracket_set in bracket_groups %}
     <div id="page{{ forloop.counter }}">
-    {% for bracket in category.list %}
+    {% for bracket in bracket_set %}
             <div style="float:{% cycle "left" "right" %}">
             <h2>{{ bracket.category.description }} - {{ bracket.name }}</h2>
                 {% show_bracket bracket %}
@@ -32,12 +31,14 @@
 <script type="text/javascript">
     $(document).ready(function() {
         var current_page, page;
-        for (var i= 1; i<={{ category_brackets|length }}; i++) {
+        console.log({{ bracket_groups|length }});
+        for (var i= 1; i<={{ bracket_groups|length }}; i++) {
             $("#page" + i).addClass("hidden");
         }
         page = current_page = 0;
         var change_page = function() {
-            page = (page % {{ category_brackets|length }}) + 1;
+            page = (page % {{ bracket_groups|length }}) + 1;
+            console.log("Changing page to " + page)
             $("#page" + current_page).addClass("hidden");
             $("#page" + page).removeClass("hidden");
             current_page = page;
@@ -46,7 +47,7 @@
         change_page();
         setTimeout(function() {
             location.href = '{% url 'brackets_slideshow' %}'
-        }, 60000)
+        }, 80000)
     })
 </script>
 </body>

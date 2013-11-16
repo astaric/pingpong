@@ -131,11 +131,6 @@ class BracketSlot(models.Model):
 
 
 class GroupToBracketTransition(models.Model):
-    class Meta:
-        unique_together = (
-            ('group', 'place'),
-            ('slot',)
-        )
 
     group = models.ForeignKey(Group)
     place = models.IntegerField()

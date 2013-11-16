@@ -7,9 +7,15 @@ from pingpong.models import Category
 
 
 def brackets_slideshow(request):
-    brackets = Bracket.objects.order_by('category', 'id') \
-        .annotate(rounds=Max('bracketslot__level'))
-    return render(request, 'brackets_slideshow.html', dict(brackets=brackets))
+    bracket_groups = []
+    for category in Category.objects.filter(type=Category.SINGLE):
+        new_brackets = list(Bracket.objects.filter(category=category).annotate(rounds=Max('bracketslot__level')))
+        if bracket_groups and len(bracket_groups[-1]) == 2:
+            bracket_groups[-1].extend(new_brackets)
+        else:
+            bracket_groups.append(new_brackets)
+
+    return render(request, 'brackets_slideshow.html', dict(bracket_groups=bracket_groups))
 
 
 def groups_slideshow(request):

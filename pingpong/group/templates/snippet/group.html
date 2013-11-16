@@ -1,7 +1,7 @@
 
 <div class='group'>
     {% if user.is_authenticated %}
-    <form method="POST" action="{% url set_places %}">
+    <form method="POST" action="">
         {% csrf_token %}
         <input type="hidden" name="redirect" value="{{ request.path }}" />
     {% endif %}

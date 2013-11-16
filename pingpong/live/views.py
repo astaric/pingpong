@@ -84,10 +84,15 @@ def upcoming_matches(request):
         return redirect('category_add')
 
     match_groups = Match.objects.filter(status=Match.READY, group__isnull=False).values('group').distinct()
+
+    bracket_matches = []
+    for match in Match.objects.filter(status=Match.READY, group__isnull=True):
+        b = match.player1_bracket_slot.bracket.name[0]
+        c = match.player1.category.name
+        bracket_matches.append(dict(id=match.id, description='%s %s %s : %s' % (b, c, match.player1, match.player2), table=match.table))
+
     group_matches = [dict(group=group.id, description=group, table=None) for group in
                      Group.objects.filter(id__in=match_groups)]
-    bracket_matches = [dict(id=match.id, description='%s : %s' % (match.player1, match.player2), table=match.table)
-                       for match in Match.objects.filter(status=Match.READY, group__isnull=True)]
     double_matches = []
     for m in Match.objects.filter(status=Match.DOUBLE).exclude(Q(player1__isnull=True) | Q(player2__isnull=True)).select_related('player1', 'player2'):
         d1, d2 = m.player1.double, m.player2.double

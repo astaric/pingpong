@@ -4,6 +4,7 @@ from django import forms
 from django.forms.models import modelformset_factory
 from django.shortcuts import render, get_object_or_404, redirect
 from pingpong.bracket.helpers import create_pair_brackets
+from pingpong.bracket.models import Bracket
 from pingpong.models import Category, Player, Double
 
 
@@ -41,6 +42,10 @@ def edit_category(request, category_id):
 def edit_single_category(request, category):
     PlayerFormSet = modelformset_factory(Player, extra=10, fields=['name', 'surname', 'club'], can_delete=True)
     if request.method == 'POST':
+        if 'delete_brackets' in request.POST:
+            Bracket.objects.filter(category=category).delete()
+            return redirect(reverse("category_edit", kwargs=dict(category_id=category.id)))
+
         if 'delete' in request.POST:
             return redirect(reverse("category_delete", kwargs=dict(category_id=category.id)))
 
