@@ -8,7 +8,7 @@ from pingpong.models import Category
 
 def brackets_slideshow(request):
     bracket_groups = []
-    for category in Category.objects.all():
+    for category in Category.objects.filter(type=Category.DOUBLE):
         new_brackets = list(Bracket.objects.filter(category=category).annotate(rounds=Max('bracketslot__level')))
         if category.type == Category.SINGLE and bracket_groups and len(bracket_groups[-1]) == 2:
             bracket_groups[-1].extend(new_brackets)

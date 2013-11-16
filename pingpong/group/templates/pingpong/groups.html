@@ -23,11 +23,17 @@
             font-weight: bold;
         }
     </style>
+
+    <style media="print">
+        .panel {
+            page-break-before: always;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
     {% if category.type == category.SINGLE %}
-        <div class="panel panel-default">
+        <div class="groups panel panel-default">
             <div class="panel-heading">
                 Skupine za kategorijo {{ category }} {% if not group_members %} se niso bile dolocene.{% endif %}
             </div>
@@ -57,7 +63,7 @@
     {% for bracket in brackets %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                {{ bracket.name }}
+                {{ bracket.category }} {{ bracket.name }}
             </div>
             <div class="panel-body">
                 {% show_bracket bracket %}
