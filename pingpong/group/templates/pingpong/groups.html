@@ -63,7 +63,7 @@
     {% for bracket in brackets %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                {{ bracket.category }} {{ bracket.name }}
+                {{ bracket.category.description }} {{ bracket.name }}
             </div>
             <div class="panel-body">
                 {% show_bracket bracket %}

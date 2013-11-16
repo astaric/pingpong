@@ -1,4 +1,5 @@
 from django import template
+from pingpong.group.models import GroupMember
 from pingpong.models import Table, Player
 
 register = template.Library()
@@ -78,4 +79,18 @@ def show_players(context, category):
         'category': category,
         'players': players,
         'user': context['user'],
+    }
+
+@register.inclusion_tag('snippet/category_groups.html', takes_context=True)
+def show_groups(context, category):
+    members = GroupMember.objects.filter(group__category=category).order_by('group', 'place', '-leader', 'player__surname')
+
+    class AnonymousUser:
+        @staticmethod
+        def is_authenticated():
+            return False
+
+    return {
+        'members': members,
+        'user': AnonymousUser,
     }

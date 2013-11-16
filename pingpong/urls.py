@@ -22,6 +22,7 @@ urlpatterns = patterns('',
     url(r'^accounts/logout/$', logout, name='auth_logout'),
 
     url(r'^report/$', 'pingpong.printing.views.print_report'),
+    url(r'^results/$', 'pingpong.printing.views.print_results'),
     # Uncomment the admin/doc line below to enable admin documentation:
     # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 

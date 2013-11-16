@@ -1,0 +1,42 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load brackets %}
+{% load groups %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
+    <link href="{% static 'css/brackets.css' %}" rel="stylesheet" media="screen">
+<link href="{% static 'css/groups.css' %}" rel="stylesheet" media="screen">
+    <style>
+        .panel {
+            page-break-after: always;
+            border-right: 0;
+        }
+    </style>
+    {% block additional_header %}{% endblock %}
+</head>
+<body>
+{% for bracket in brackets %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ bracket.category.name }} - {{ bracket.name }}
+        </div>
+        {% show_bracket bracket %}
+    </div>
+{% endfor %}
+
+{% for category in categories_without_groups %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            {{ category.description }}
+        </div>
+        {% show_groups category %}
+    </div>
+{% endfor %}
+
+</body>
+</html>

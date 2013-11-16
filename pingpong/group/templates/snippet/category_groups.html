@@ -1,0 +1,8 @@
+{% load groups %}
+
+{% regroup members by group as group_members %}
+{% for group in group_members %}
+    {% show_group group=group.grouper members=group.list %}
+{% empty %}
+    {% show_players category %}
+{% endfor %}
