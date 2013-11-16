@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models import Count, Min, Q
 from django.db.models.query import QuerySet
@@ -125,6 +126,9 @@ class BracketSlot(models.Model):
 
     def empty(self):
         return self.transition is None and self.player is None
+
+    def get_admin_url(self):
+        return reverse("admin:%s_%s_change" % (self._meta.app_label, self._meta.module_name), args=(self.id,))
 
     def __unicode__(self):
         return '%s' % self.id

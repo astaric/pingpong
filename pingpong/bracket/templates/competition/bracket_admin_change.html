@@ -1,0 +1,13 @@
+{% extends "admin/change_form.html" %}
+{% load staticfiles %}
+{% load brackets %}
+
+{% block extrahead %}{{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/bracket.css' %}" type="text/css" media="all" />
+{% endblock %}
+
+{% block after_related_objects %}
+    <div>
+        {% show_bracket original 1 %}
+    </div>
+{% endblock %}

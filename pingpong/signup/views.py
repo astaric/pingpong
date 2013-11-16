@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django import forms
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, ModelChoiceField
 from django.shortcuts import render, get_object_or_404, redirect
 from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.bracket.models import Bracket
@@ -72,8 +72,18 @@ def edit_single_category(request, category):
                        form=form))
 
 
+class SimpleDoubleForm(forms.ModelForm):
+    player1 = ModelChoiceField(required=False, queryset=Player.objects.order_by('surname'))
+    player2 = ModelChoiceField(required=False, queryset=Player.objects.order_by('surname'))
+
+    class Meta:
+        model = Double
+        fields = ['player1', 'player2']
+
+
+
 def edit_double_category(request, category):
-    PlayerFormSet = modelformset_factory(Double, extra=10, fields=['player1', 'player2'], can_delete=True)
+    PlayerFormSet = modelformset_factory(Double, extra=10, form=SimpleDoubleForm, can_delete=True)
     if request.method == 'POST':
         if 'delete' in request.POST:
             return redirect(reverse("category_delete", kwargs=dict(category_id=category.id)))

@@ -1,3 +1,4 @@
+from collections import defaultdict
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django import forms
@@ -8,7 +9,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.utils.safestring import mark_safe
 from django.views.generic import View
 from pingpong.bracket.helpers import create_brackets
-from pingpong.bracket.models import Bracket
+from pingpong.bracket.models import Bracket, BracketSlot
 from pingpong.group.helpers import create_groups_from_leaders, berger_tables
 from pingpong.group.models import GroupMember, Group
 from pingpong.models import Category, Player, Match
@@ -83,6 +84,20 @@ class GroupsView(View):
         if 'recreate_brackets' in request.POST:
             Bracket.objects.filter(category=category).delete()
             create_brackets(category)
+            return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
+
+        if 'recreate_matches' in request.POST:
+            matches = defaultdict(list)
+            Match.objects.filter(player1_bracket_slot__bracket__category__type=1).delete()
+            for bs in BracketSlot.objects.filter(bracket__category__type=1):
+                if bs.winner_goes_to_id:
+                    matches[bs.winner_goes_to_id].append(bs)
+            for s in matches.values():
+                if len(s) != 2:
+                    continue
+                s1, s2 = s
+                Match.objects.create(status=Match.DOUBLE, player1_bracket_slot=s1, player2_bracket_slot=s2, player1=s1.player, player2=s2.player)
+            print matches
             return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
 
         formset = SelectLeadersFormSet(request.POST)

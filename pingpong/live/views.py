@@ -88,18 +88,19 @@ def upcoming_matches(request):
     bracket_matches = []
     for match in Match.objects.filter(status=Match.READY, group__isnull=True):
         b = match.player1_bracket_slot.bracket.name[0]
+        l = match.player1_bracket_slot.level
         c = match.player1.category.name
-        bracket_matches.append(dict(id=match.id, description='%s %s %s : %s' % (b, c, match.player1, match.player2), table=match.table))
+        bracket_matches.append(dict(id=match.id, description=mark_safe('%s <b>%s</b> %s %s : %s' % (b, l, c, match.player1, match.player2)), table=match.table))
 
     group_matches = [dict(group=group.id, description=group, table=None) for group in
                      Group.objects.filter(id__in=match_groups)]
     double_matches = []
     for m in Match.objects.filter(status=Match.DOUBLE).exclude(Q(player1__isnull=True) | Q(player2__isnull=True)).select_related('player1', 'player2'):
         d1, d2 = m.player1.double, m.player2.double
-        blocking_matches = Match.objects.filter(Q(player1=d1.player1) | Q(player1=d1.player2) | Q(player1=d2.player1) | Q(player1=d1.player2) |
-                                                Q(player2=d1.player1) | Q(player2=d1.player2) | Q(player2=d2.player1) | Q(player2=d1.player2), status__lt=Match.COMPLETE)
-        if not blocking_matches:
-            double_matches.append(dict(id=m.id, description='%s : %s' % (m.player1, m.player2), table=m.table))
+        #blocking_matches = Match.objects.filter(Q(player1=d1.player1) | Q(player1=d1.player2) | Q(player1=d2.player1) | Q(player1=d1.player2) |
+        #                                        Q(player2=d1.player1) | Q(player2=d1.player2) | Q(player2=d2.player1) | Q(player2=d1.player2), status__lt=Match.COMPLETE)
+        #if not blocking_matches:
+        double_matches.append(dict(id=m.id, description='%s : %s' % (m.player1, m.player2), table=m.table))
 
     UpcomingMatchesFromset = formset_factory(UpcomingMatchForm, extra=0)
     if request.method == 'POST':

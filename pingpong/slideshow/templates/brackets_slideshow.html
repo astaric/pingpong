@@ -42,12 +42,12 @@
             $("#page" + current_page).addClass("hidden");
             $("#page" + page).removeClass("hidden");
             current_page = page;
-            setTimeout(change_page, 10000);
+            setTimeout(change_page, 20000);
         }
         change_page();
         setTimeout(function() {
             location.href = '{% url 'brackets_slideshow' %}'
-        }, 80000)
+        }, 200000)
     })
 </script>
 </body>
