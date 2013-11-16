@@ -81,9 +81,9 @@ class GroupsView(View):
         category = get_object_or_404(Category, id=category_id)
         formset = SelectLeadersFormSet(request.POST)
         if formset.is_valid():
-            sorted_forms = sorted((f for f in formset.forms if f.cleaned_data['leader']), key=lambda x: x.cleaned_data['leader'], reverse=True)
+            sorted_forms = sorted((f for f in formset.forms if f.cleaned_data['leader']), key=lambda x: x.cleaned_data['leader'])
             leader_ids = [int(f.cleaned_data['id']) for f in sorted_forms]
-            leaders = Player.objects.filter(id__in=leader_ids)
+            leaders = [Player.objects.get(id=id) for id in leader_ids]
             create_groups_from_leaders(category, leaders)
             create_brackets(category)
 

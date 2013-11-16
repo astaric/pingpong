@@ -178,4 +178,4 @@ LOGGING = {
     }
 }
 
-PRINT_DIRECTORY = "/Users/anze/dev/pingpong/print/"
+PRINT_DIRECTORY = "/Users/anze/dev/pingpong_produkcija/print/"
