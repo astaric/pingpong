@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 GENDER_CHOICES = (
@@ -138,6 +139,9 @@ class Match(models.Model):
 
     table = models.ForeignKey(Table, blank=True, null=True, related_name='all_matches')
 
+    start_time = models.DateTimeField(null=True)
+    end_time = models.DateTimeField(null=True)
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self.status == Match.PENDING:
@@ -145,6 +149,7 @@ class Match(models.Model):
                 self.status = Match.READY
         elif self.status == Match.READY or self.status == Match.DOUBLE:
             if self.table_id is not None:
+                self.start_time = now()
                 self.status = Match.PLAYING
         elif self.status == Match.PLAYING:
             if self.player1_score is not None and self.player2_score is not None:
@@ -155,6 +160,7 @@ class Match(models.Model):
                     self.player2_bracket_slot.score = self.player2_score
                     self.player2_bracket_slot.save()
                 self.table = None
+                self.end_time = now()
                 self.status = Match.COMPLETE
 
         super(Match, self).save(force_insert, force_update, using, update_fields)

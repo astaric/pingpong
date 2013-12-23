@@ -7,6 +7,7 @@ from django.forms.formsets import formset_factory
 from django.forms.models import modelformset_factory, ModelForm, ModelChoiceField
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
+from django.utils.timezone import now
 
 from pingpong.group.models import Group
 from pingpong.models import Table, Category, Match
@@ -114,7 +115,8 @@ def upcoming_matches(request):
                 if form.cleaned_data['table']:
                     if form.cleaned_data['group']:
                         Match.objects.filter(group=form.cleaned_data['group']).update(table=form.cleaned_data['table'],
-                                                                                      status=Match.PLAYING)
+                                                                                      status=Match.PLAYING,
+                                                                                      start_time=now())
                     elif form.cleaned_data['id']:
                         match = Match.objects.get(id=form.cleaned_data['id'])
                         match.table = form.cleaned_data['table']
