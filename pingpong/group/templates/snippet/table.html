@@ -1,11 +1,20 @@
-<div class="table{% if table.matches.all %} occupied{% endif %}">
-    <div class="starttime">{{ table.match_started }}</div><div>{{ table.name }}</div>
-    {% if table.matches.all %}
-        <div class="player">{{ table.matches.all.0 }}</div>
-    {% endif %}
-{% if occupied and request.user.is_authenticated %}
-    <div class="delete_button">
-    <a href="{% url clear_table table_id=table.id %}">Izprazni mizo</a>
+{% with table.matches.all.0 as match %}
+    <div class="table{% if match %} occupied{% endif %}">
+        <div class="starttime">{{ match.start_time }}</div>
+        <div>{{ table.name }}</div>
+        {% if match %}
+            <div class="player">
+                {% if match.group %}
+                    {{ match.group }}
+                {% else %}
+                    {{ match }}
+                {% endif %}
+            </div>
+        {% endif %}
+        {% if occupied and request.user.is_authenticated %}
+            <div class="delete_button">
+                <a href="{% url clear_table table_id=table.id %}">Izprazni mizo</a>
+            </div>
+        {% endif %}
     </div>
-{% endif %}
-</div>
+{% endwith %}
