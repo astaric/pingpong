@@ -2,7 +2,7 @@ from collections import defaultdict
 from django.core.urlresolvers import reverse
 from django.db.models import Count
 from django import forms
-from django.forms import CharField, Form, BooleanField, HiddenInput, ModelForm
+from django.forms import CharField, Form, HiddenInput, ModelForm
 from django.forms.models import modelformset_factory
 from django.forms.formsets import formset_factory, BaseFormSet
 from django.shortcuts import redirect, render, get_object_or_404
@@ -10,10 +10,10 @@ from django.utils.safestring import mark_safe
 from django.views.generic import View
 from pingpong.bracket.helpers import create_brackets
 from pingpong.bracket.models import Bracket, BracketSlot
-from pingpong.group.helpers import create_groups_from_leaders, berger_tables
+from pingpong.group.helpers import create_groups_from_leaders
 from pingpong.group.models import GroupMember, Group
 from pingpong.models import Category, Player, Match
-from pingpong.printing.helpers import print_groups, print_matches
+from pingpong.printing.helpers import print_groups
 
 
 def index(request):
@@ -40,9 +40,8 @@ class SelectLeadersForm(Form):
     surname = CharField(widget=ReadOnlyWidget)
 
 
-class BaseArticleFormSet(BaseFormSet):
+class BaseLeaderFormSet(BaseFormSet):
     def clean(self):
-        """Checks that no two articles have the same title."""
         if any(self.errors):
             # Don't bother validating the formset unless each form is valid on its own
             return
@@ -54,7 +53,7 @@ class BaseArticleFormSet(BaseFormSet):
             raise forms.ValidationError("You have to select at least one leader.")
 
 
-SelectLeadersFormSet = formset_factory(SelectLeadersForm, formset=BaseArticleFormSet, extra=0)
+SelectLeadersFormSet = formset_factory(SelectLeadersForm, formset=BaseLeaderFormSet, extra=0)
 
 
 class GroupsView(View):
