@@ -1,3 +1,4 @@
+import string
 from django.test import TestCase
 from pingpong.bracket.helpers import create_tournament_seeds, create_brackets, levels, create_single_elimination_bracket_slots
 from pingpong.bracket.models import Bracket
@@ -22,8 +23,8 @@ class TestCreateBrackets(TestCase):
 
         for level, slots in enumerate(slots[:-1]):
             for slot in slots:
-                self.assertEqual(slot.level, level)
-                self.assertEqual(slot.winner_goes_to.level, level + 1)
+                self.assertEqual(slot.level, 3-level)
+                self.assertEqual(slot.winner_goes_to.level, (3 - level) - 1)
 
     def test_create_tournament_seeds(self):
         seeds = create_tournament_seeds
@@ -41,7 +42,7 @@ class TestCreateBrackets(TestCase):
         groups = [x.id for x in [Group.objects.create(category=category, name=string.ascii_uppercase[i])
                                  for i in range(5)]]
         for i in range(20):
-            p = Player.objects.create(name='', surname='', age=0, gender=0, category=category)
+            p = Player.objects.create(name='', surname='', category=category)
             GroupMember.objects.create(group_id=groups[i % 5], player=p)
 
         transitions = create_brackets(category)

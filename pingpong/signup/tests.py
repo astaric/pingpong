@@ -56,7 +56,8 @@ class SignupViewsTestCase(TestCase):
         self.assertIn('form', resp.context)
 
         # POST creates the category
-        resp = self.client.post(add_category_url, dict(name='Name',
+        resp = self.client.post(add_category_url, dict(type='0',
+                                                       name='Name',
                                                        description='Description',
                                                        gender=0))
         self.assertEqual(Category.objects.count(), 1)

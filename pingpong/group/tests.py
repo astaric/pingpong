@@ -19,7 +19,8 @@ class TestGroupViewsTestCase(TestCase):
 
     def test_group_edit(self):
         group = Group.objects.create(category=self.category)
-        resp = self.client.get(reverse('edit_group', kwargs=dict(group_id=group.id)))
+        resp = self.client.get(reverse('edit_group', kwargs=dict(category_id=group.category_id,
+                                                                 group_id=group.id)))
 
         self.assertEqual(resp.status_code, 200)
 
