@@ -10,7 +10,6 @@ from django.utils.safestring import mark_safe
 from django.views.generic import View
 from pingpong.bracket.helpers import create_brackets
 from pingpong.bracket.models import Bracket, BracketSlot
-from pingpong.group.helpers import create_groups_from_leaders
 from pingpong.models import Category, Player, Match, Group, GroupMember
 from pingpong.printing.helpers import print_groups
 
@@ -103,7 +102,7 @@ class GroupsView(View):
             sorted_forms = sorted((f for f in formset.forms if f.cleaned_data['leader']), key=lambda x: x.cleaned_data['leader'])
             leader_ids = [int(f.cleaned_data['id']) for f in sorted_forms]
             leaders = [Player.objects.get(id=id) for id in leader_ids]
-            create_groups_from_leaders(category, leaders)
+            category.create_groups_from_leaders(leaders)
             create_brackets(category)
 
             print_groups(category)

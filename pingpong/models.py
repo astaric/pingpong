@@ -1,9 +1,12 @@
 import string
 from collections import deque, defaultdict
+
 from django.db import models
 from django.db.models import Q
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
+from pingpong.group.helpers import shuffled, berger_tables
+
 
 GENDER_CHOICES = (
     (0, _("Male")),
@@ -65,6 +68,61 @@ class Category(models.Model):
     gender = models.IntegerField(_("gender"), choices=GENDER_CHOICES, null=True)
     min_age = models.IntegerField(_("min age"), blank=True, null=True)
     max_age = models.IntegerField(_("max age"), blank=True, null=True)
+
+    def create_groups_from_leaders(self, leaders, number_of_groups=0):
+        Group.objects.filter(category=self).delete()
+
+        if number_of_groups == 0:
+            number_of_groups = len(leaders)
+
+        if number_of_groups == 0:
+            raise ValueError("Number of groups must be at least one.")
+
+        groups = deque([Group.objects.create(name=string.ascii_uppercase[i], category=self)
+                        for i in range(number_of_groups)])
+        members = []
+        clubs = defaultdict(set)
+
+        for leader, group in zip(leaders, groups):
+            members.append(GroupMember(player=leader, group=group, leader=True))
+            if leader.club:
+                clubs[group].add(leader.club)
+
+        leader_ids = [l.id for l in leaders]
+        unallocated_players = deque(shuffled(
+            Player.objects.filter(category=self).exclude(id__in=leader_ids)))
+
+        tried = 0
+        while unallocated_players:
+            group = groups[0]
+            player = unallocated_players.popleft()
+            if player.club:
+                if player.club in clubs[group]:
+                    unallocated_players.append(player)
+                    tried += 1
+                    if tried > len(unallocated_players):
+                        raise ValueError("Weird data")
+                    continue
+                else:
+                    clubs[group].add(player.club)
+                    tried = 0
+
+            members.append(GroupMember(player=player, group=group))
+            groups.rotate(-1)
+
+        GroupMember.objects.bulk_create(members)
+        group_members = defaultdict(list)
+        for member in GroupMember.objects.filter(group__category=self).select_related('group'):
+            group_members[member.group].append(member)
+
+        matches = []
+        for group in groups:
+            for p1, p2 in berger_tables(len(group_members[group])):
+                matches.append(Match(player1=group_members[group][p1].player,
+                                     player2=group_members[group][p2].player,
+                                     group=group,
+                                     status=Match.READY))
+        Match.objects.bulk_create(matches)
 
     def __unicode__(self):
         return self.name
@@ -196,9 +254,9 @@ class Group(models.Model):
 
     @property
     def members(self):
-        return GroupMember.objects.filter(group=self)\
-                                  .order_by('place', '-leader', 'player__surname')\
-                                  .select_related('group', 'group__category', 'player')
+        return GroupMember.objects.filter(group=self) \
+            .order_by('place', '-leader', 'player__surname') \
+            .select_related('group', 'group__category', 'player')
 
     def __unicode__(self):
         return u'{} - Skupina {}'.format(self.category, self.name)
@@ -213,15 +271,15 @@ class GroupMember(models.Model):
 
     @classmethod
     def for_category(cls, category):
-        return cls.objects.filter(group__category=category)\
-                          .order_by('group', 'place', '-leader', 'player__surname')\
-                          .prefetch_related('group', 'group__category', 'player')
+        return cls.objects.filter(group__category=category) \
+            .order_by('group', 'place', '-leader', 'player__surname') \
+            .prefetch_related('group', 'group__category', 'player')
 
     @classmethod
     def for_group(cls, group):
-        return cls.objects.filter(group=group)\
-                          .order_by('-leader', 'player__surname')\
-                          .prefetch_related('player')
+        return cls.objects.filter(group=group) \
+            .order_by('-leader', 'player__surname') \
+            .prefetch_related('player')
 
     def __unicode__(self):
         return unicode(self.player)
