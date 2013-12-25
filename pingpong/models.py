@@ -81,12 +81,19 @@ class Category(models.Model):
         groups = deque([Group.objects.create(name=string.ascii_uppercase[i], category=self)
                         for i in range(number_of_groups)])
         members = []
-        clubs = defaultdict(set)
+        clubs = {group: set() for group in groups}
+        has_leader = {group: False for group in groups}
 
-        for leader, group in zip(leaders, groups):
-            members.append(GroupMember(player=leader, group=group, leader=True))
+        for leader in leaders:
+            group = groups[0]
+            is_leader = not has_leader[group]
+            if is_leader:
+                has_leader[group] = True
+            members.append(GroupMember(player=leader, group=group, leader=is_leader))
             if leader.club:
                 clubs[group].add(leader.club)
+
+            groups.rotate(-1)
 
         leader_ids = [l.id for l in leaders]
         unallocated_players = deque(shuffled(

@@ -72,7 +72,23 @@ class CategoryCreateGroupsTests(TestCase):
 
         self.assertEqual(len(leaders.all()), 4)
 
+    def test_create_groups_with_multiple_leaders(self):
+        category = Category.objects.get(name="Category without clubs")
+        players = Player.objects.filter(category=category)
+        leaders = players[:8]
 
+        category.create_groups_from_leaders(leaders=leaders, number_of_groups=4)
+
+        groups = Group.objects.filter(category=category).order_by('name')
+        self.assertEqual(groups.count(), 4)
+        self.assertMemberCountsEqual(groups, [4, 3, 3, 3])
+
+        for i, player in enumerate(leaders):
+            group = groups[i % 4]
+            if i < 4:
+                self.assertIsLeader(player, group)
+            else:
+                self.assertIsMember(player, group)
 
     def assertMemberCountsEqual(self, groups, member_counts):
         for group, member_count in zip(groups, member_counts):
