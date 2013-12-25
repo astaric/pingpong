@@ -1,11 +1,13 @@
+from itertools import cycle, chain
 import string
-from collections import deque, defaultdict
+from collections import defaultdict
 
 from django.db import models
 from django.db.models import Q
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
-from pingpong.group.helpers import shuffled, berger_tables
+
+from pingpong.group.helpers import berger_tables, shuffled
 
 
 GENDER_CHOICES = (
@@ -76,46 +78,33 @@ class Category(models.Model):
             number_of_groups = len(leaders)
 
         if number_of_groups == 0:
-            raise ValueError("Number of groups must be at least one.")
+            raise ValueError("You have to specify leaders or non zero number of groups.")
 
-        groups = deque([Group.objects.create(name=string.ascii_uppercase[i], category=self)
-                        for i in range(number_of_groups)])
-        members = []
-        clubs = {group: set() for group in groups}
+        groups = [Group.objects.create(name=string.ascii_uppercase[i], category=self)
+                  for i in range(number_of_groups)]
         has_leader = {group: False for group in groups}
+        clubs = {group: set() for group in groups}
+        members = []
 
-        for leader in leaders:
-            group = groups[0]
-            is_leader = not has_leader[group]
-            if is_leader:
-                has_leader[group] = True
-            members.append(GroupMember(player=leader, group=group, leader=is_leader))
-            if leader.club:
-                clubs[group].add(leader.club)
-
-            groups.rotate(-1)
-
-        leader_ids = [l.id for l in leaders]
-        unallocated_players = deque(shuffled(
-            Player.objects.filter(category=self).exclude(id__in=leader_ids)))
-
-        tried = 0
-        while unallocated_players:
-            group = groups[0]
-            player = unallocated_players.popleft()
-            if player.club:
-                if player.club in clubs[group]:
-                    unallocated_players.append(player)
-                    tried += 1
-                    if tried > len(unallocated_players):
-                        raise ValueError("Weird data")
-                    continue
-                else:
+        leader_ids = set(l.id for l in leaders)
+        other_players = list(shuffled(self.players.exclude(id__in=leader_ids)))
+        first_skipped_player = None
+        group_iterator = iter(cycle(groups))
+        group = next(group_iterator)
+        for player in chain(leaders, other_players):
+            if player in leaders or player == first_skipped_player or player.club not in clubs[group]:
+                is_leader = not has_leader[group]
+                if is_leader:
+                    has_leader[group] = True
+                members.append(GroupMember(player=player, group=group, leader=is_leader))
+                if player.club:
                     clubs[group].add(player.club)
-                    tried = 0
-
-            members.append(GroupMember(player=player, group=group))
-            groups.rotate(-1)
+                first_skipped_player = None
+                group = next(group_iterator)
+            else:
+                if first_skipped_player is None:
+                    first_skipped_player = player
+                other_players.append(player)
 
         GroupMember.objects.bulk_create(members)
         group_members = defaultdict(list)

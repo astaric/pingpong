@@ -44,15 +44,15 @@ class CategoryCreateGroupsTests(TestCase):
             category.create_groups_from_leaders(Player.objects.none())
 
     def test_create_groups_with_too_many_players_from_same_club(self):
-        # If there are more players in a club than there are group leaders,
-        # requirement that players from the same club should not be in the
-        # same group cannot be fulfilled.
         category = Category.objects.get(name="Category with too many from the same club")
         players = Player.objects.filter(category=category)
         leaders = players[:4]
 
-        with self.assertRaises(ValueError):
-            category.create_groups_from_leaders(leaders)
+        category.create_groups_from_leaders(leaders)
+
+        groups = Group.objects.filter(category=category).order_by('name')
+        self.assertEqual(groups.count(), 4)
+        self.assertMemberCountsEqual(groups, [2, 1, 1, 1])
 
     def test_recreating_groups(self):
         category = Category.objects.get(name="Category without clubs")
