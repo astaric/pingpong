@@ -1,4 +1,5 @@
 from django.test import TestCase
+
 from pingpong.models import Table, Match, Player, Category, Group, GroupMember
 
 
@@ -11,19 +12,12 @@ class CategoryCreateGroupsTests(TestCase):
 
         category.create_groups_from_leaders(leaders)
 
-        groups = Group.objects.filter(category=category)
-        self.assertEqual(len(groups), 4)
-        # Check member counts
-        self.assertEqual(groups[0].members.count(), 4)
-        self.assertEqual(groups[1].members.count(), 3)
-        self.assertEqual(groups[2].members.count(), 3)
-        self.assertEqual(groups[3].members.count(), 3)
+        groups = Group.objects.filter(category=category).order_by('name')
+        self.assertEqual(groups.count(), 4)
+        self.assertMemberCountsEqual(groups, [4, 3, 3, 3])
 
-        # Check that leaders are marked as such
-        self.assertTrue(GroupMember.objects.get(player=leaders[0]).leader)
-        self.assertTrue(GroupMember.objects.get(player=leaders[1]).leader)
-        self.assertTrue(GroupMember.objects.get(player=leaders[2]).leader)
-        self.assertTrue(GroupMember.objects.get(player=leaders[3]).leader)
+        for leader, group in zip(leaders, groups):
+            self.assertIsLeader(leader, group)
 
         # Players from other groups should not be assigned to groups
         self.assertFalse(GroupMember.objects.exclude(player__category=category).exists())
@@ -36,19 +30,12 @@ class CategoryCreateGroupsTests(TestCase):
         category.create_groups_from_leaders(leaders)
 
         groups = Group.objects.filter(category=category)
-        self.assertEqual(len(groups), 4)
-        # Check member counts
-        self.assertEqual(groups[0].members.count(), 4)
-        self.assertEqual(groups[1].members.count(), 4)
-        self.assertEqual(groups[2].members.count(), 4)
-        self.assertEqual(groups[3].members.count(), 4)
+        self.assertEqual(groups.count(), 4)
+        self.assertMemberCountsEqual(groups, [4, 4, 4, 4])
 
-        # Each group should have members from all 4 clubs
-        member_clubs = lambda group: GroupMember.objects.filter(group=group).values_list("player__club", flat=True)
-        self.assertEqual(len(set(member_clubs(groups[0]))), 4)
-        self.assertEqual(len(set(member_clubs(groups[1]))), 4)
-        self.assertEqual(len(set(member_clubs(groups[2]))), 4)
-        self.assertEqual(len(set(member_clubs(groups[3]))), 4)
+        for group in groups:
+            clubs = set(GroupMember.objects.filter(group=group).values_list("player__club", flat=True))
+            self.assertEqual(len(clubs), 4)
 
     def test_create_groups_with_no_leaders(self):
         category = Category.objects.get(name="Category with clubs")
@@ -74,28 +61,31 @@ class CategoryCreateGroupsTests(TestCase):
         category.create_groups_from_leaders(leaders)
 
         groups = Group.objects.filter(category=category)
-        self.assertEqual(len(groups), 4)
-        # Check member counts
-        self.assertEqual(groups[0].members.count(), 4)
-        self.assertEqual(groups[1].members.count(), 3)
-        self.assertEqual(groups[2].members.count(), 3)
-        self.assertEqual(groups[3].members.count(), 3)
+        self.assertEqual(groups.count(), 4)
+        self.assertMemberCountsEqual(groups, [4, 3, 3, 3])
 
         category.create_groups_from_leaders(leaders)
 
         groups = Group.objects.filter(category=category)
-        self.assertEqual(len(groups), 4)
-        # Check member counts
-        self.assertEqual(groups[0].members.count(), 4)
-        self.assertEqual(groups[1].members.count(), 3)
-        self.assertEqual(groups[2].members.count(), 3)
-        self.assertEqual(groups[3].members.count(), 3)
+        self.assertEqual(groups.count(), 4)
+        self.assertMemberCountsEqual(groups, [4, 3, 3, 3])
 
         self.assertEqual(len(leaders.all()), 4)
 
 
-class MatchTests(TestCase):
 
+    def assertMemberCountsEqual(self, groups, member_counts):
+        for group, member_count in zip(groups, member_counts):
+            self.assertEqual(group.members.count(), member_count)
+
+    def assertIsLeader(self, player, group):
+        self.assertTrue(GroupMember.objects.filter(player=player, group=group, leader=True).exists())
+
+    def assertIsMember(self, player, group):
+        self.assertTrue(GroupMember.objects.filter(player=player, group=group, leader=False).exists())
+
+
+class MatchTests(TestCase):
     def test_assigning_table_sets_start_time(self):
         table = self.create_table()
         match = self.create_match_with_players()
@@ -131,6 +121,7 @@ class MatchTests(TestCase):
         match.player2 = Player.objects.create()
         match.save()
         return match
+
 
 if __name__ == '__main__':
     unittest.main()
