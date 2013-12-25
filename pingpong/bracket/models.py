@@ -4,8 +4,7 @@ from django.db.models import Count, Min, Q
 from django.db.models.query import QuerySet
 from django.utils import timezone
 
-from pingpong.models import Category, Player, Table, Match
-from pingpong.group.models import Group
+from pingpong.models import Category, Player, Table, Match, Group
 
 
 class Bracket(models.Model):

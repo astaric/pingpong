@@ -1,8 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from pingpong.group.helpers import create_groups_from_leaders, berger_tables
-from pingpong.group.models import Group, GroupMember
-from pingpong.models import Category, Player
+from pingpong.models import Category, Player, Group, GroupMember
 
 
 class TestGroupViewsTestCase(TestCase):

@@ -9,8 +9,7 @@ from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 
-from pingpong.group.models import Group
-from pingpong.models import Table, Category, Match
+from pingpong.models import Table, Category, Match, Group
 from pingpong.printing.helpers import print_matches
 
 

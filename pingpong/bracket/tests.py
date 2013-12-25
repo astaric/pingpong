@@ -2,8 +2,7 @@ import string
 from django.test import TestCase
 from pingpong.bracket.helpers import create_tournament_seeds, create_brackets, levels, create_single_elimination_bracket_slots
 from pingpong.bracket.models import Bracket
-from pingpong.group.models import Group, GroupMember
-from pingpong.models import Player, Category
+from pingpong.models import Player, Category, Group, GroupMember
 
 
 class TestCreateBrackets(TestCase):

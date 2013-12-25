@@ -1,8 +1,7 @@
 from collections import deque, defaultdict
 import random
 import string
-from pingpong.group.models import Group, GroupMember
-from pingpong.models import Player, Match
+from pingpong.models import Player, Match, Group, GroupMember
 
 
 def create_groups_from_leaders(category, leaders):

@@ -2,7 +2,7 @@ import codecs
 import os
 from django.conf import settings
 from django.template.loader import render_to_string
-from pingpong.group.models import GroupMember
+from pingpong.models import GroupMember
 
 
 def html_group_card(category):

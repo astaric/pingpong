@@ -6,8 +6,7 @@ from django.db.models import Count, Q
 from django.utils.translation import ugettext_lazy as _
 
 from pingpong.bracket.models import BracketSlot, Bracket, GroupToBracketTransition
-from pingpong.group.models import Group
-from pingpong.models import Match, Player
+from pingpong.models import Match, Player, Group
 
 
 def create_single_elimination_bracket_slots(bracket, n):

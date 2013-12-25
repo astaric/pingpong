@@ -1,6 +1,5 @@
 from django import template
-from pingpong.group.models import GroupMember
-from pingpong.models import Table, Player
+from pingpong.models import Table, Player, GroupMember
 
 register = template.Library()
 

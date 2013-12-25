@@ -11,8 +11,7 @@ from django.views.generic import View
 from pingpong.bracket.helpers import create_brackets
 from pingpong.bracket.models import Bracket, BracketSlot
 from pingpong.group.helpers import create_groups_from_leaders
-from pingpong.group.models import GroupMember, Group
-from pingpong.models import Category, Player, Match
+from pingpong.models import Category, Player, Match, Group, GroupMember
 from pingpong.printing.helpers import print_groups
 
 
