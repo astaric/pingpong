@@ -2,8 +2,6 @@ from collections import defaultdict
 
 from django.core.urlresolvers import reverse
 from django.db.models import Count
-from django.forms import ModelForm
-from django.forms.models import modelformset_factory
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views.generic import View
 
@@ -42,7 +40,7 @@ class GroupsView(View):
             return render(request, 'pingpong/groups.html',
                           dict(category=category,
                                categories=categories,
-                               group_members=GroupMember.for_category(category),
+                               group_members=group_members,
                                brackets=brackets))
 
     def post(self, request, category_id):

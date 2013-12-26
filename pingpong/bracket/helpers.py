@@ -91,9 +91,13 @@ def create_transitions(candidates, groups, slots):
             slot.save()
 
 
-def create_pair_brackets(category):
+def create_pair_brackets(category, seeds=None):
     Bracket.objects.filter(category=category).delete()
-    players = Player.objects.filter(category=category)
+    if seeds:
+        seed_ids = [s.id for s in seeds]
+        players = list(seeds) + shuffled(Player.objects.filter(category=category).exclude(id__in=seed_ids))
+    else:
+        players = shuffled(Player.objects.filter(category=category))
     n_players = len(players)
     bracket = Bracket.objects.create(category=category, name=_("DOUBLES"), levels=levels(n_players))
     slots = create_single_elimination_bracket_slots(bracket, n_players)
@@ -105,7 +109,6 @@ def create_pair_brackets(category):
 
 
 def fill_bracket(players, slots):
-    players = shuffled(players)
     placements = list(create_tournament_seeds(len(players)))
     for placement, slot in zip(placements, slots[0]):
         if placement is not None:

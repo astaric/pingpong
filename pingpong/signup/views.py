@@ -1,11 +1,12 @@
 from django.core.urlresolvers import reverse
 from django.db.models import Count
-from django import forms
-from django.forms.models import modelformset_factory, ModelChoiceField
+from django.forms import IntegerField
+from django.forms.models import modelformset_factory, ModelChoiceField, ModelForm
 from django.shortcuts import render, get_object_or_404, redirect
 from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.bracket.models import Bracket
 from pingpong.models import Category, Player, Double
+from pingpong.signup.forms import PlayerFormSet, SimpleCategoryForm, CategoryForm, DoubleFormSet
 
 
 def index(request):
@@ -18,18 +19,6 @@ def index(request):
     return redirect(reverse('category_add'))
 
 
-class CategoryForm(forms.ModelForm):
-    class Meta:
-        model = Category
-        fields = ['name', 'description', 'type']
-
-
-class SimpleCategoryForm(forms.ModelForm):
-    class Meta:
-        model = Category
-        fields = ['name', 'description']
-
-
 def edit_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
@@ -40,7 +29,6 @@ def edit_category(request, category_id):
 
 
 def edit_single_category(request, category):
-    PlayerFormSet = modelformset_factory(Player, extra=10, fields=['name', 'surname', 'club'], can_delete=True)
     if request.method == 'POST':
         if 'delete_brackets' in request.POST:
             Bracket.objects.filter(category=category).delete()
@@ -72,28 +60,19 @@ def edit_single_category(request, category):
                        form=form))
 
 
-class SimpleDoubleForm(forms.ModelForm):
-    player1 = ModelChoiceField(required=False, queryset=Player.objects.order_by('surname'))
-    player2 = ModelChoiceField(required=False, queryset=Player.objects.order_by('surname'))
-
-    class Meta:
-        model = Double
-        fields = ['player1', 'player2']
-
-
-
 def edit_double_category(request, category):
-    PlayerFormSet = modelformset_factory(Double, extra=10, form=SimpleDoubleForm, can_delete=True)
     if request.method == 'POST':
         if 'delete' in request.POST:
             return redirect(reverse("category_delete", kwargs=dict(category_id=category.id)))
 
-        if 'create_brackets' in request.POST:
-            create_pair_brackets(category)
-            return redirect(reverse("groups", kwargs=dict(category_id=category.id)))
-
-        formset = PlayerFormSet(request.POST, queryset=Double.objects.order_by('id').filter(category=category), prefix='player')
+        formset = DoubleFormSet(request.POST, queryset=Double.objects.order_by('id').filter(category=category), prefix='player')
         form = SimpleCategoryForm(request.POST, instance=category, prefix='category')
+
+        if 'create_brackets' in request.POST:
+            if formset.is_valid():
+                create_pair_brackets(category, seeds=formset.seeds())
+                return redirect(reverse("groups", kwargs=dict(category_id=category.id)))
+
         if form.is_valid() and formset.is_valid():
             form.save()
 
@@ -104,7 +83,7 @@ def edit_double_category(request, category):
                 instance.save()
             return redirect(reverse("category_edit", kwargs=dict(category_id=category.id)))
     else:
-        formset = PlayerFormSet(queryset=Double.objects.order_by('id').filter(category=category), prefix='player')
+        formset = DoubleFormSet(queryset=Double.objects.order_by('id').filter(category=category), prefix='player')
         form = SimpleCategoryForm(instance=category, prefix='category')
 
     categories = Category.objects.filter(type=category.type).annotate(player_count=Count('players'))
