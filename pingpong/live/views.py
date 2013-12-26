@@ -1,16 +1,13 @@
 import re
 
 from django.core.exceptions import ValidationError
-from django.db.models import Q
-from django.forms import CharField, HiddenInput, Form
-from django.forms.formsets import formset_factory
-from django.forms.models import modelformset_factory, ModelForm, ModelChoiceField
+from django.forms import CharField, HiddenInput
+from django.forms.models import modelformset_factory, ModelForm
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
-from django.utils.timezone import now
 
-from pingpong.models import Table, Category, Match, Group
-from pingpong.printing.helpers import print_matches
+from pingpong.live.forms import UpcomingMatchesFromset
+from pingpong.models import Category, Match
 
 
 class ReadOnlyWidget(HiddenInput):
@@ -69,14 +66,6 @@ def current_matches(request):
     })
 
 
-class UpcomingMatchForm(Form):
-    id = CharField(widget=HiddenInput, required=False)
-    group = CharField(widget=HiddenInput, required=False)
-    description = CharField(widget=HiddenInput, required=False)
-
-    table = ModelChoiceField(required=False, queryset=Table.objects.filter(all_matches__isnull=True))
-
-
 def upcoming_matches(request):
     try:
         category = Category.objects.all()[:1].get()
@@ -87,28 +76,21 @@ def upcoming_matches(request):
     bracket_matches = Match.ready_bracket_matches()
     doubles_matches = Match.ready_doubles_matches()
 
-    UpcomingMatchesFromset = formset_factory(UpcomingMatchForm, extra=0)
     if request.method == 'POST':
         formset = UpcomingMatchesFromset(request.POST)
         if formset.is_valid():
             matches_to_print = []
             for form in formset:
-                if form.cleaned_data['table']:
-                    if form.cleaned_data['group']:
-                        Match.objects.filter(group=form.cleaned_data['group']).update(table=form.cleaned_data['table'],
-                                                                                      status=Match.PLAYING,
-                                                                                      start_time=now())
-                    elif form.cleaned_data['id']:
-                        match = Match.objects.get(id=form.cleaned_data['id'])
-                        match.table = form.cleaned_data['table']
-                        match.save()
-                        matches_to_print.append(match)
+                form.save()
+                if form.instance.group is None:
+                    matches_to_print.append(form.instance)
 
             if matches_to_print:
+                from pingpong.printing.helpers import print_matches
                 print_matches(matches_to_print)
             return redirect(upcoming_matches)
     else:
-        formset = UpcomingMatchesFromset(initial=group_matches + bracket_matches + doubles_matches)
+        formset = UpcomingMatchesFromset(queryset=bracket_matches | group_matches | doubles_matches)
 
     return render(request, 'upcoming_matches.html', {
         'category': category,

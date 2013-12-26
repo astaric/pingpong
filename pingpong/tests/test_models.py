@@ -1,5 +1,5 @@
 from django.test import TestCase
-from pingpong.helpers import debug_sql
+from pingpong.helpers import debug_sql, debug_sql_wrapper
 
 from pingpong.models import Table, Match, Player, Category, Group, GroupMember
 
@@ -132,18 +132,16 @@ class MatchTests(TestCase):
         with self.assertNumQueries(1):
             group_matches = Match.ready_group_matches()
             for match in group_matches:
-                str(match)
-            # for group in set([m.group for m in group_matches]):
-            #     str(group)
+                match.description()
 
     def test_ready_bracket_matches_is_efficient(self):
         with self.assertNumQueries(1):
             bracket_matches = Match.ready_bracket_matches()
             for match in bracket_matches:
-                str(match)
+                match.description()
 
     def test_ready_doubles_matches_is_efficient(self):
-        with self.assertNumQueries(4):
+        with self.assertNumQueries(1):
             doubles_matches = Match.ready_doubles_matches()
             for match in doubles_matches:
                 str(match)

@@ -18,12 +18,14 @@
                     {{ formset.management_form }}
                     {% for form in formset %}
                         <div>
+                            {{ form.instance.description }}
                             {{ form.non_field_errors }}
-                            {{ form.id }}
-                            {{ form.group }}
-                            {{ form.initial.description }}
-
-                            {{ form.table }}
+                            {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                            {% for field in form.visible_fields %}
+                                {{ field }}
+                            {% endfor %}
                         </div>
                     {% endfor %}
                 {% else %}

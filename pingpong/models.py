@@ -9,7 +9,6 @@ from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 from pingpong.group.helpers import berger_tables, shuffled
-from pingpong.helpers import debug_sql
 
 
 GENDER_CHOICES = (
@@ -225,34 +224,38 @@ class Match(models.Model):
 
     @staticmethod
     def ready_group_matches():
-        match_groups = Match.objects.filter(status=Match.READY, group__isnull=False).values('group').distinct()
-        return [dict(group=group.id, description=group, table=None) for group in
-                Group.objects.filter(id__in=match_groups).select_related('category')]
+        group_matches = Match.objects.filter(status=Match.READY, group__isnull=False)
+        return group_matches.select_related('group', 'group__category')
 
     @staticmethod
     def ready_bracket_matches():
-        bracket_matches = []
-        for match in Match.objects.filter(status=Match.READY, group__isnull=True).select_related('player1', 'player1__category', 'player2', 'player1_bracket_slot__bracket'):
-            b = match.player1_bracket_slot.bracket.name[0]
-            l = match.player1_bracket_slot.level
-            c = match.player1.category.name
-            bracket_matches.append(dict(id=match.id, description=mark_safe('%s <b>%s</b> %s %s : %s' % (b, l, c, match.player1, match.player2)), table=match.table))
-        return bracket_matches
+        bracket_matches = Match.objects.filter(status=Match.READY, group__isnull=True)
+        return bracket_matches.select_related('player1', 'player1__category', 'player1_bracket_slot__bracket',
+                                              'player2')
 
     @staticmethod
     def ready_doubles_matches():
-        double_matches = []
-        for m in Match.objects.filter(status=Match.DOUBLE).exclude(Q(player1__isnull=True) | Q(player2__isnull=True)).select_related('player1', 'player1__double', 'player1__category', 'player2', 'player2__double', 'player1_bracket_slot__bracket'):
-            d1, d2 = m.player1.double, m.player2.double
-            # TODO: Select matches and filter blocking players in the same query
-            required_players = [d1.player1_id, d1.player2_id, d2.player1_id, d2.player2_id]
-            blocking_matches = Match.objects.filter(Q(player1__in=required_players) | Q(player2__in=required_players), status__lt=Match.COMPLETE)
-            if not blocking_matches.exists():
-                b = m.player1_bracket_slot.bracket.name[0]
-                l = m.player1_bracket_slot.level
-                c = m.player1.category.name
-                double_matches.append(dict(id=m.id, description=mark_safe('%s <b>%s</b> %s %s : %s' % (b, l, c, m.player1, m.player2)), table=m.table))
-        return double_matches
+        return Match.objects.filter(status=Match.DOUBLE).exclude(
+            Q(player1__isnull=True) | Q(player2__isnull=True)).select_related('player1', 'player1__double',
+                                                                              'player1__category',
+                                                                              'player2', 'player2__double',
+                                                                              'player1_bracket_slot__bracket')
+        # TODO: Filter blocking players in the same query
+        #     d1, d2 = m.player1.double, m.player2.double
+        #     required_players = [d1.player1_id, d1.player2_id, d2.player1_id, d2.player2_id]
+        #     blocking_matches = Match.objects.filter(Q(player1__in=required_players) | Q(player2__in=required_players),
+        #                                             status__lt=Match.COMPLETE)
+        #     if not blocking_matches.exists():
+        #         skip
+
+    def description(self):
+        if self.group is not None:
+            return unicode(self.group)
+        else:
+            b = self.player1_bracket_slot.bracket.name[0]
+            l = self.player1_bracket_slot.level
+            c = self.player1.category.name
+            return mark_safe('%s <b>%s</b> %s %s : %s' % (b, l, c, self.player1, self.player2))
 
     def __unicode__(self):
         return '%s %s' % (self.player1, self.player2)
@@ -286,6 +289,11 @@ class Group(models.Model):
         return GroupMember.objects.filter(group=self) \
             .order_by('place', '-leader', 'player__surname') \
             .select_related('group', 'group__category', 'player')
+
+    def assign_table(self, table):
+        Match.objects.filter(group=self).update(table=table,
+                                                status=Match.PLAYING,
+                                                start_time=now())
 
     def __unicode__(self):
         return u'{} - Skupina {}'.format(self.category, self.name)
