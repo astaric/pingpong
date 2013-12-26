@@ -83,27 +83,9 @@ def upcoming_matches(request):
     except Category.DoesNotExist:
         return redirect('category_add')
 
-    match_groups = Match.objects.filter(status=Match.READY, group__isnull=False).values('group').distinct()
-
-    bracket_matches = []
-    for match in Match.objects.filter(status=Match.READY, group__isnull=True):
-        b = match.player1_bracket_slot.bracket.name[0]
-        l = match.player1_bracket_slot.level
-        c = match.player1.category.name
-        bracket_matches.append(dict(id=match.id, description=mark_safe('%s <b>%s</b> %s %s : %s' % (b, l, c, match.player1, match.player2)), table=match.table))
-
-    group_matches = [dict(group=group.id, description=group, table=None) for group in
-                     Group.objects.filter(id__in=match_groups)]
-    double_matches = []
-    for m in Match.objects.filter(status=Match.DOUBLE).exclude(Q(player1__isnull=True) | Q(player2__isnull=True)).select_related('player1', 'player2'):
-        d1, d2 = m.player1.double, m.player2.double
-        blocking_matches = Match.objects.filter(Q(player1=d1.player1) | Q(player1=d1.player2) | Q(player1=d2.player1) | Q(player1=d2.player2) |
-                                                Q(player2=d1.player1) | Q(player2=d1.player2) | Q(player2=d2.player1) | Q(player2=d2.player2), status__lt=Match.COMPLETE)
-        if not blocking_matches:
-            b = m.player1_bracket_slot.bracket.name[0]
-            l = m.player1_bracket_slot.level
-            c = m.player1.category.name
-            double_matches.append(dict(id=m.id, description=mark_safe('%s <b>%s</b> %s %s : %s' % (b, l, c, m.player1, m.player2)), table=m.table))
+    group_matches = Match.ready_group_matches()
+    bracket_matches = Match.ready_bracket_matches()
+    doubles_matches = Match.ready_doubles_matches()
 
     UpcomingMatchesFromset = formset_factory(UpcomingMatchForm, extra=0)
     if request.method == 'POST':
@@ -126,9 +108,12 @@ def upcoming_matches(request):
                 print_matches(matches_to_print)
             return redirect(upcoming_matches)
     else:
-        formset = UpcomingMatchesFromset(initial=group_matches + bracket_matches + double_matches)
+        formset = UpcomingMatchesFromset(initial=group_matches + bracket_matches + doubles_matches)
 
     return render(request, 'upcoming_matches.html', {
         'category': category,
         'formset': formset,
+        'group_matches': group_matches,
+        'bracket_matches': bracket_matches,
+        'doubles_matches': doubles_matches,
     })

@@ -1,0 +1,2393 @@
+[
+{
+    "pk": 1, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Mlakar", 
+        "name": "Andrej"
+    }
+},
+{
+    "pk": 2, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Koren", 
+        "name": "Matej"
+    }
+},
+{
+    "pk": 3, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Bizjak", 
+        "name": "Anton"
+    }
+},
+{
+    "pk": 4, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Horvat", 
+        "name": "Ivan"
+    }
+},
+{
+    "pk": 5, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Vidmar", 
+        "name": "Marko"
+    }
+},
+{
+    "pk": 6, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Kolar", 
+        "name": "Andrej"
+    }
+},
+{
+    "pk": 7, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Novak", 
+        "name": "Ivan"
+    }
+},
+{
+    "pk": 8, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Turk", 
+        "name": "Peter"
+    }
+},
+{
+    "pk": 9, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Kastelic", 
+        "name": "Marko"
+    }
+},
+{
+    "pk": 10, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Petek", 
+        "name": "Peter"
+    }
+},
+{
+    "pk": 11, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Hribar", 
+        "name": "Matej"
+    }
+},
+{
+    "pk": 12, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Kralj", 
+        "name": "Franc"
+    }
+},
+{
+    "pk": 13, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Novak", 
+        "name": "Marko"
+    }
+},
+{
+    "pk": 14, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 1, 
+        "surname": "Zajc", 
+        "name": "Franc"
+    }
+},
+{
+    "pk": 24, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 3, 
+        "surname": "Bizjak", 
+        "name": "Janez"
+    }
+},
+{
+    "pk": 25, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 3, 
+        "surname": "Novak", 
+        "name": "Andrej"
+    }
+},
+{
+    "pk": 26, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 3, 
+        "surname": "Rozman", 
+        "name": "Anton"
+    }
+},
+{
+    "pk": 27, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 3, 
+        "surname": "Kolar", 
+        "name": "Anton"
+    }
+},
+{
+    "pk": 28, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 3, 
+        "surname": "Zajc", 
+        "name": "Andrej"
+    }
+},
+{
+    "pk": 29, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": 0, 
+        "category": 3, 
+        "surname": "Koren", 
+        "name": "Peter"
+    }
+},
+{
+    "pk": 30, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 4, 
+        "surname": "M. Koren", 
+        "name": "A. Mlakar"
+    }
+},
+{
+    "pk": 31, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 4, 
+        "surname": "I. Horvat", 
+        "name": "A. Bizjak"
+    }
+},
+{
+    "pk": 32, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 4, 
+        "surname": "A. Kolar", 
+        "name": "M. Vidmar"
+    }
+},
+{
+    "pk": 33, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 4, 
+        "surname": "P. Turk", 
+        "name": "I. Novak"
+    }
+},
+{
+    "pk": 34, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 4, 
+        "surname": "P. Petek", 
+        "name": "M. Kastelic"
+    }
+},
+{
+    "pk": 35, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 4, 
+        "surname": "F. Kralj", 
+        "name": "M. Hribar"
+    }
+},
+{
+    "pk": 36, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 4, 
+        "surname": "F. Zajc", 
+        "name": "M. Novak"
+    }
+},
+{
+    "pk": 37, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 5, 
+        "surname": "Novak", 
+        "name": "Janez"
+    }
+},
+{
+    "pk": 38, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 5, 
+        "surname": "Novak", 
+        "name": "Matej"
+    }
+},
+{
+    "pk": 39, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 5, 
+        "surname": "Novak", 
+        "name": "Janko"
+    }
+},
+{
+    "pk": 40, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 5, 
+        "surname": "Novak", 
+        "name": "Zoran"
+    }
+},
+{
+    "pk": 41, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 5, 
+        "surname": "Stare", 
+        "name": "Igor"
+    }
+},
+{
+    "pk": 42, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 5, 
+        "surname": "Stare", 
+        "name": "\u017dan"
+    }
+},
+{
+    "pk": 43, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 5, 
+        "surname": "Stare", 
+        "name": "Niko"
+    }
+},
+{
+    "pk": 44, 
+    "model": "pingpong.player", 
+    "fields": {
+        "club": "", 
+        "gender": null, 
+        "category": 5, 
+        "surname": "Stare", 
+        "name": "Vinko"
+    }
+},
+{
+    "pk": 1, 
+    "model": "pingpong.category", 
+    "fields": {
+        "max_age": 40, 
+        "name": "DP", 
+        "gender": 0, 
+        "min_age": null, 
+        "type": 0, 
+        "description": "Double Players"
+    }
+},
+{
+    "pk": 3, 
+    "model": "pingpong.category", 
+    "fields": {
+        "max_age": 60, 
+        "name": "G", 
+        "gender": 0, 
+        "min_age": 50, 
+        "type": 0, 
+        "description": "Groups"
+    }
+},
+{
+    "pk": 4, 
+    "model": "pingpong.category", 
+    "fields": {
+        "max_age": null, 
+        "name": "D", 
+        "gender": null, 
+        "min_age": null, 
+        "type": 1, 
+        "description": "Doubles"
+    }
+},
+{
+    "pk": 5, 
+    "model": "pingpong.category", 
+    "fields": {
+        "max_age": null, 
+        "name": "B", 
+        "gender": null, 
+        "min_age": null, 
+        "type": 0, 
+        "description": "Bracket Matches"
+    }
+},
+{
+    "pk": 1, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 12, 
+        "name": "Miza 1"
+    }
+},
+{
+    "pk": 2, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 11, 
+        "name": "Miza 2"
+    }
+},
+{
+    "pk": 3, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 10, 
+        "name": "Miza 3"
+    }
+},
+{
+    "pk": 4, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 9, 
+        "name": "Miza 4"
+    }
+},
+{
+    "pk": 5, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 8, 
+        "name": "Miza 5"
+    }
+},
+{
+    "pk": 6, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 7, 
+        "name": "Miza 6"
+    }
+},
+{
+    "pk": 7, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 6, 
+        "name": "Miza 7"
+    }
+},
+{
+    "pk": 8, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 5, 
+        "name": "Miza 8"
+    }
+},
+{
+    "pk": 9, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 4, 
+        "name": "Miza 9"
+    }
+},
+{
+    "pk": 10, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 3, 
+        "name": "Miza 10"
+    }
+},
+{
+    "pk": 11, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 2, 
+        "name": "Miza 11"
+    }
+},
+{
+    "pk": 12, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 1, 
+        "name": "Miza 12"
+    }
+},
+{
+    "pk": 13, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 12, 
+        "name": "Miza 1"
+    }
+},
+{
+    "pk": 14, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 11, 
+        "name": "Miza 2"
+    }
+},
+{
+    "pk": 15, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 10, 
+        "name": "Miza 3"
+    }
+},
+{
+    "pk": 16, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 9, 
+        "name": "Miza 4"
+    }
+},
+{
+    "pk": 17, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 8, 
+        "name": "Miza 5"
+    }
+},
+{
+    "pk": 18, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 7, 
+        "name": "Miza 6"
+    }
+},
+{
+    "pk": 19, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 6, 
+        "name": "Miza 7"
+    }
+},
+{
+    "pk": 20, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 5, 
+        "name": "Miza 8"
+    }
+},
+{
+    "pk": 21, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 4, 
+        "name": "Miza 9"
+    }
+},
+{
+    "pk": 22, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 3, 
+        "name": "Miza 10"
+    }
+},
+{
+    "pk": 23, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 2, 
+        "name": "Miza 11"
+    }
+},
+{
+    "pk": 24, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 1, 
+        "name": "Miza 12"
+    }
+},
+{
+    "pk": 25, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 12, 
+        "name": "Miza 1"
+    }
+},
+{
+    "pk": 26, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 11, 
+        "name": "Miza 2"
+    }
+},
+{
+    "pk": 27, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 10, 
+        "name": "Miza 3"
+    }
+},
+{
+    "pk": 28, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 9, 
+        "name": "Miza 4"
+    }
+},
+{
+    "pk": 29, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 8, 
+        "name": "Miza 5"
+    }
+},
+{
+    "pk": 30, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 7, 
+        "name": "Miza 6"
+    }
+},
+{
+    "pk": 31, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 6, 
+        "name": "Miza 7"
+    }
+},
+{
+    "pk": 32, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 5, 
+        "name": "Miza 8"
+    }
+},
+{
+    "pk": 33, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 4, 
+        "name": "Miza 9"
+    }
+},
+{
+    "pk": 34, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 3, 
+        "name": "Miza 10"
+    }
+},
+{
+    "pk": 35, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 2, 
+        "name": "Miza 11"
+    }
+},
+{
+    "pk": 36, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 1, 
+        "name": "Miza 12"
+    }
+},
+{
+    "pk": 1, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 4, 
+        "player1_bracket_slot": 4, 
+        "group": null, 
+        "player2_bracket_slot": 5, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": 34, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 2, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 4, 
+        "player1_bracket_slot": 7, 
+        "group": null, 
+        "player2_bracket_slot": 8, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 36, 
+        "player1": 33, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 3, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 4, 
+        "player1_bracket_slot": 3, 
+        "group": null, 
+        "player2_bracket_slot": 6, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": 34, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 4, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 4, 
+        "player1_bracket_slot": 11, 
+        "group": null, 
+        "player2_bracket_slot": 12, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 32, 
+        "player1": 30, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 5, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 4, 
+        "player1_bracket_slot": 14, 
+        "group": null, 
+        "player2_bracket_slot": 15, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 31, 
+        "player1": 35, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 6, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 4, 
+        "player1_bracket_slot": 10, 
+        "group": null, 
+        "player2_bracket_slot": 13, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": null, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 7, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 4, 
+        "player1_bracket_slot": 2, 
+        "group": null, 
+        "player2_bracket_slot": 9, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": null, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 8, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": null, 
+        "group": 1, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 24, 
+        "player1": 26, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 9, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": null, 
+        "group": 1, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 26, 
+        "player1": 25, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 10, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": null, 
+        "group": 1, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 25, 
+        "player1": 24, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 11, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": null, 
+        "group": 2, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 29, 
+        "player1": 27, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 12, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": null, 
+        "group": 2, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 27, 
+        "player1": 28, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 13, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": null, 
+        "group": 2, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 28, 
+        "player1": 29, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 14, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 0, 
+        "player1_bracket_slot": 18, 
+        "group": null, 
+        "player2_bracket_slot": 19, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": null, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 15, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 0, 
+        "player1_bracket_slot": 21, 
+        "group": null, 
+        "player2_bracket_slot": 22, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": null, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 16, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 0, 
+        "player1_bracket_slot": 17, 
+        "group": null, 
+        "player2_bracket_slot": 20, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": null, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 17, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 0, 
+        "player1_bracket_slot": 24, 
+        "group": null, 
+        "player2_bracket_slot": 25, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": null, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 18, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 3, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 42, 
+        "player1": 37, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 19, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 3, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 43, 
+        "player1": 38, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 20, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 3, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 43, 
+        "player1": 42, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 21, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 3, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 38, 
+        "player1": 37, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 22, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 3, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 42, 
+        "player1": 38, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 23, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 3, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 37, 
+        "player1": 43, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 24, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 4, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 44, 
+        "player1": 41, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 25, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 4, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 39, 
+        "player1": 40, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 26, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 4, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 39, 
+        "player1": 44, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 27, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 4, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 40, 
+        "player1": 41, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 28, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 4, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 44, 
+        "player1": 40, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 29, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 3, 
+        "player1_bracket_slot": null, 
+        "group": 4, 
+        "player2_bracket_slot": null, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 41, 
+        "player1": 39, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 30, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": 28, 
+        "group": null, 
+        "player2_bracket_slot": 29, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 44, 
+        "player1": 38, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 31, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": 31, 
+        "group": null, 
+        "player2_bracket_slot": 32, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 42, 
+        "player1": 40, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 32, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 0, 
+        "player1_bracket_slot": 27, 
+        "group": null, 
+        "player2_bracket_slot": 30, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": null, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 33, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": 35, 
+        "group": null, 
+        "player2_bracket_slot": 36, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 41, 
+        "player1": 37, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 34, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 1, 
+        "player1_bracket_slot": 38, 
+        "group": null, 
+        "player2_bracket_slot": 39, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": 43, 
+        "player1": 39, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 35, 
+    "model": "pingpong.match", 
+    "fields": {
+        "status": 0, 
+        "player1_bracket_slot": 34, 
+        "group": null, 
+        "player2_bracket_slot": 37, 
+        "player2_score": null, 
+        "start_time": null, 
+        "player2": null, 
+        "player1": null, 
+        "end_time": null, 
+        "player1_score": null, 
+        "table": null
+    }
+},
+{
+    "pk": 30, 
+    "model": "pingpong.double", 
+    "fields": {
+        "player2": 2, 
+        "player1": 1
+    }
+},
+{
+    "pk": 31, 
+    "model": "pingpong.double", 
+    "fields": {
+        "player2": 4, 
+        "player1": 3
+    }
+},
+{
+    "pk": 32, 
+    "model": "pingpong.double", 
+    "fields": {
+        "player2": 6, 
+        "player1": 5
+    }
+},
+{
+    "pk": 33, 
+    "model": "pingpong.double", 
+    "fields": {
+        "player2": 8, 
+        "player1": 7
+    }
+},
+{
+    "pk": 34, 
+    "model": "pingpong.double", 
+    "fields": {
+        "player2": 10, 
+        "player1": 9
+    }
+},
+{
+    "pk": 35, 
+    "model": "pingpong.double", 
+    "fields": {
+        "player2": 12, 
+        "player1": 11
+    }
+},
+{
+    "pk": 36, 
+    "model": "pingpong.double", 
+    "fields": {
+        "player2": 14, 
+        "player1": 13
+    }
+},
+{
+    "pk": 1, 
+    "model": "pingpong.group", 
+    "fields": {
+        "category": 3, 
+        "table": null, 
+        "status": 0, 
+        "name": "A"
+    }
+},
+{
+    "pk": 2, 
+    "model": "pingpong.group", 
+    "fields": {
+        "category": 3, 
+        "table": null, 
+        "status": 0, 
+        "name": "B"
+    }
+},
+{
+    "pk": 3, 
+    "model": "pingpong.group", 
+    "fields": {
+        "category": 5, 
+        "table": null, 
+        "status": 0, 
+        "name": "A"
+    }
+},
+{
+    "pk": 4, 
+    "model": "pingpong.group", 
+    "fields": {
+        "category": 5, 
+        "table": null, 
+        "status": 0, 
+        "name": "B"
+    }
+},
+{
+    "pk": 1, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 25, 
+        "group": 1, 
+        "place": null, 
+        "leader": true
+    }
+},
+{
+    "pk": 2, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 28, 
+        "group": 2, 
+        "place": null, 
+        "leader": true
+    }
+},
+{
+    "pk": 3, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 26, 
+        "group": 1, 
+        "place": null, 
+        "leader": false
+    }
+},
+{
+    "pk": 4, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 27, 
+        "group": 2, 
+        "place": null, 
+        "leader": false
+    }
+},
+{
+    "pk": 5, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 24, 
+        "group": 1, 
+        "place": null, 
+        "leader": false
+    }
+},
+{
+    "pk": 6, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 29, 
+        "group": 2, 
+        "place": null, 
+        "leader": false
+    }
+},
+{
+    "pk": 7, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 37, 
+        "group": 3, 
+        "place": 3, 
+        "leader": true
+    }
+},
+{
+    "pk": 8, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 41, 
+        "group": 4, 
+        "place": 4, 
+        "leader": true
+    }
+},
+{
+    "pk": 9, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 38, 
+        "group": 3, 
+        "place": 1, 
+        "leader": false
+    }
+},
+{
+    "pk": 10, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 40, 
+        "group": 4, 
+        "place": 1, 
+        "leader": false
+    }
+},
+{
+    "pk": 11, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 43, 
+        "group": 3, 
+        "place": 4, 
+        "leader": false
+    }
+},
+{
+    "pk": 12, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 39, 
+        "group": 4, 
+        "place": 3, 
+        "leader": false
+    }
+},
+{
+    "pk": 13, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 42, 
+        "group": 3, 
+        "place": 2, 
+        "leader": false
+    }
+},
+{
+    "pk": 14, 
+    "model": "pingpong.groupmember", 
+    "fields": {
+        "player": 44, 
+        "group": 4, 
+        "place": 2, 
+        "leader": false
+    }
+},
+{
+    "pk": 1, 
+    "model": "bracket.bracket", 
+    "fields": {
+        "category": 4, 
+        "levels": 4, 
+        "name": "DOUBLES", 
+        "description": ""
+    }
+},
+{
+    "pk": 2, 
+    "model": "bracket.bracket", 
+    "fields": {
+        "category": 3, 
+        "levels": 3, 
+        "name": "ZMAGOVALNA SKUPINA", 
+        "description": ""
+    }
+},
+{
+    "pk": 3, 
+    "model": "bracket.bracket", 
+    "fields": {
+        "category": 3, 
+        "levels": 2, 
+        "name": "TOLAZILNA SKUPINA", 
+        "description": ""
+    }
+},
+{
+    "pk": 4, 
+    "model": "bracket.bracket", 
+    "fields": {
+        "category": 5, 
+        "levels": 3, 
+        "name": "ZMAGOVALNA SKUPINA", 
+        "description": ""
+    }
+},
+{
+    "pk": 5, 
+    "model": "bracket.bracket", 
+    "fields": {
+        "category": 5, 
+        "levels": 3, 
+        "name": "TOLAZILNA SKUPINA", 
+        "description": ""
+    }
+},
+{
+    "pk": 1, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 0, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 1, 
+        "winner_goes_to": null, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 2, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 1, 
+        "winner_goes_to": 1, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 3, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 34, 
+        "bracket": 1, 
+        "winner_goes_to": 2, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 4, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 3, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 34, 
+        "bracket": 1, 
+        "winner_goes_to": 3, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 5, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 3, 
+        "match_start": null, 
+        "no_player": true, 
+        "player": null, 
+        "bracket": 1, 
+        "winner_goes_to": 3, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 6, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 1, 
+        "winner_goes_to": 2, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 7, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 3, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 33, 
+        "bracket": 1, 
+        "winner_goes_to": 6, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 8, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 3, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 36, 
+        "bracket": 1, 
+        "winner_goes_to": 6, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 9, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 1, 
+        "winner_goes_to": 1, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 10, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 1, 
+        "winner_goes_to": 9, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 11, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 3, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 30, 
+        "bracket": 1, 
+        "winner_goes_to": 10, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 12, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 3, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 32, 
+        "bracket": 1, 
+        "winner_goes_to": 10, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 13, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 1, 
+        "winner_goes_to": 9, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 14, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 3, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 35, 
+        "bracket": 1, 
+        "winner_goes_to": 13, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 15, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 3, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 31, 
+        "bracket": 1, 
+        "winner_goes_to": 13, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 16, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 0, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 2, 
+        "winner_goes_to": null, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 17, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 2, 
+        "winner_goes_to": 16, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 18, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 2, 
+        "winner_goes_to": 17, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 19, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 2, 
+        "winner_goes_to": 17, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 20, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 2, 
+        "winner_goes_to": 16, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 21, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 2, 
+        "winner_goes_to": 20, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 22, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 2, 
+        "winner_goes_to": 20, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 23, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 0, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 3, 
+        "winner_goes_to": null, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 24, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 3, 
+        "winner_goes_to": 23, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 25, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 3, 
+        "winner_goes_to": 23, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 26, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 0, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 4, 
+        "winner_goes_to": null, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 27, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 4, 
+        "winner_goes_to": 26, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 28, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 38, 
+        "bracket": 4, 
+        "winner_goes_to": 27, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 29, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 44, 
+        "bracket": 4, 
+        "winner_goes_to": 27, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 30, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 4, 
+        "winner_goes_to": 26, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 31, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 40, 
+        "bracket": 4, 
+        "winner_goes_to": 30, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 32, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 42, 
+        "bracket": 4, 
+        "winner_goes_to": 30, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 33, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 0, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 5, 
+        "winner_goes_to": null, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 34, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 5, 
+        "winner_goes_to": 33, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 35, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 37, 
+        "bracket": 5, 
+        "winner_goes_to": 34, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 36, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 41, 
+        "bracket": 5, 
+        "winner_goes_to": 34, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 37, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 1, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": null, 
+        "bracket": 5, 
+        "winner_goes_to": 33, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 38, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 39, 
+        "bracket": 5, 
+        "winner_goes_to": 37, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 39, 
+    "model": "bracket.bracketslot", 
+    "fields": {
+        "status": 0, 
+        "match_end": null, 
+        "score": null, 
+        "level": 2, 
+        "match_start": null, 
+        "no_player": false, 
+        "player": 43, 
+        "bracket": 5, 
+        "winner_goes_to": 37, 
+        "loser_goes_to": null, 
+        "table": null
+    }
+},
+{
+    "pk": 1, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 18, 
+        "place": 1, 
+        "group": 1
+    }
+},
+{
+    "pk": 2, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 19, 
+        "place": 2, 
+        "group": 2
+    }
+},
+{
+    "pk": 3, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 21, 
+        "place": 1, 
+        "group": 2
+    }
+},
+{
+    "pk": 4, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 22, 
+        "place": 2, 
+        "group": 1
+    }
+},
+{
+    "pk": 5, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 24, 
+        "place": 3, 
+        "group": 1
+    }
+},
+{
+    "pk": 6, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 25, 
+        "place": 3, 
+        "group": 2
+    }
+},
+{
+    "pk": 7, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 28, 
+        "place": 1, 
+        "group": 3
+    }
+},
+{
+    "pk": 8, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 29, 
+        "place": 2, 
+        "group": 4
+    }
+},
+{
+    "pk": 9, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 31, 
+        "place": 1, 
+        "group": 4
+    }
+},
+{
+    "pk": 10, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 32, 
+        "place": 2, 
+        "group": 3
+    }
+},
+{
+    "pk": 11, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 35, 
+        "place": 3, 
+        "group": 3
+    }
+},
+{
+    "pk": 12, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 36, 
+        "place": 4, 
+        "group": 4
+    }
+},
+{
+    "pk": 13, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 38, 
+        "place": 3, 
+        "group": 4
+    }
+},
+{
+    "pk": 14, 
+    "model": "bracket.grouptobrackettransition", 
+    "fields": {
+        "slot": 39, 
+        "place": 4, 
+        "group": 3
+    }
+}
+]
