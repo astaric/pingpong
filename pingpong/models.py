@@ -118,7 +118,10 @@ class Category(models.Model):
                 matches.append(Match(player1=group_members[group][p1].player,
                                      player2=group_members[group][p2].player,
                                      group=group,
-                                     status=Match.READY))
+                                     status=Match.PENDING))
+
+        # Create a dummy match that will be used to assign table to the group.
+        matches.append(Match(group=group, status=Match.READY))
         Match.objects.bulk_create(matches)
 
     def __unicode__(self):
