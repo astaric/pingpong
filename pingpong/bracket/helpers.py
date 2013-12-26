@@ -49,6 +49,17 @@ def create_tournament_seeds(n, groups=0):
                     break
         seeds = invert(inverted)
 
+    def flip(xs):
+        h = len(xs) // 4
+        if h == 0:
+            return xs
+        else:
+            fsth = flip(xs[:-2*h])
+            fthq = flip(xs[-h:] + xs[-2*h:-h])
+            return fsth + fthq
+
+    seeds = flip(seeds)
+
     return [s if s < n else None for s in seeds]
 
 

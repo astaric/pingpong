@@ -28,13 +28,13 @@ class TestCreateBrackets(TestCase):
     def test_create_tournament_seeds(self):
         seeds = create_tournament_seeds
         self.assertEqual(seeds(1, 1), [0, None])
-        self.assertEqual(seeds(4, 2), [0, 3, 1, 2])
-        self.assertEqual(seeds(6, 2), [0, None, 3, 4, 1, None, 2, 5])
-        self.assertEqual(seeds(6, 3), [0, None, 4, 5, 1, None, 2, 3])
-        self.assertEqual(seeds(8, 4), [0, 6, 3, 5, 1, 7, 2, 4])
-        self.assertEqual(seeds(10, 5), [0, None, 6, 7, 3, None, 4, None, 1, None, 8, 9, 2, None, 5, None])
-        self.assertEqual(seeds(12, 6), [0, None, 7, 8, 3, None, 4, 11, 1, None, 6, 9, 2, None, 5, 10])
-        self.assertEqual(seeds(16, 8), [0, 14, 7, 9, 3, 13, 4, 10, 1, 15, 6, 8, 2, 12, 5, 11])
+        self.assertEqual(seeds(4, 2), [0, 3, 2, 1])
+        self.assertEqual(seeds(6, 2), [0, None, 4, 3, 2, 5, None, 1])
+        self.assertEqual(seeds(6, 3), [0, None, 5, 4, 2, 3, None, 1])
+        self.assertEqual(seeds(8, 4), [0, 6, 5, 3, 2, 4, 7, 1])
+        self.assertEqual(seeds(10, 5), [0, None, 7, 6, 4, None, None, 3, 2, None, None, 5, 8, 9, None, 1])
+        self.assertEqual(seeds(12, 6), [0, None, 8, 7, 4, 11, None, 3, 2, None, 10, 5, 6, 9, None, 1])
+        self.assertEqual(seeds(16, 8), [0, 14, 9, 7, 4, 10, 13, 3, 2, 12, 11, 5, 6, 8, 15, 1])
 
     def test_create_group_transitions(self):
         category = Category.objects.create(name='', gender=0)
