@@ -9,7 +9,7 @@ from django.views.generic import View
 
 from pingpong.bracket.helpers import create_brackets
 from pingpong.bracket.models import Bracket, BracketSlot
-from pingpong.group.forms import SelectLeadersFormSet, GroupScoresFormset
+from pingpong.group.forms import SelectLeadersFormSet, GroupScoresFormset, NumberOfGroupsForm
 from pingpong.models import Category, Player, Match, Group, GroupMember
 from pingpong.printing.helpers import print_groups
 
@@ -31,9 +31,11 @@ class GroupsView(View):
         group_members = GroupMember.for_category(category)
         if category.type == Category.SINGLE and len(group_members) == 0:
             formset = SelectLeadersFormSet(queryset=Player.objects.filter(category=category).order_by('id'))
+            num_groups = NumberOfGroupsForm()
             return render(request, 'pingpong/create_groups.html',
                           dict(category=category,
                                formset=formset,
+                               numgroups=num_groups,
                                categories=categories))
         else:
             brackets = Bracket.objects.filter(category=category)
@@ -66,8 +68,9 @@ class GroupsView(View):
             return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
 
         formset = SelectLeadersFormSet(request.POST)
-        if formset.is_valid():
-            category.create_groups(leaders=formset.leaders())
+        numgroups = NumberOfGroupsForm(request.POST)
+        if formset.is_valid() and numgroups.is_valid():
+            category.create_groups(number_of_groups=numgroups.cleaned_data['number'], leaders=formset.leaders())
             create_brackets(category)
 
             print_groups(category)
@@ -78,6 +81,7 @@ class GroupsView(View):
         return render(request, 'pingpong/create_groups.html',
                       dict(category=category,
                            formset=formset,
+                           numgroups=numgroups,
                            categories=categories))
 
 
