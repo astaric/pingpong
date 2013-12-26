@@ -18,9 +18,11 @@
                     {% for form in formset %}
                         <div>
                         {{ form.non_field_errors }}
+                        <div style="display: inline-block; width: 300px;">
                         {{ form.id }}
                         {{ form.instance.player1 }} :
                         {{ form.instance.player2 }}
+                        </div>
                         {{ form.score }}
                         </div>
                     {% endfor %}
