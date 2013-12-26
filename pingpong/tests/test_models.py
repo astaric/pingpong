@@ -1,4 +1,5 @@
 from django.test import TestCase
+from pingpong.helpers import debug_sql
 
 from pingpong.models import Table, Match, Player, Category, Group, GroupMember
 
@@ -102,6 +103,8 @@ class CategoryCreateGroupsTests(TestCase):
 
 
 class MatchTests(TestCase):
+    fixtures = ['ready_matches']
+
     def test_assigning_table_sets_start_time(self):
         table = self.create_table()
         match = self.create_match_with_players()
@@ -124,6 +127,26 @@ class MatchTests(TestCase):
         match.save()
 
         self.assertIsNotNone(match.end_time)
+
+    def test_ready_group_matches_is_efficient(self):
+        with self.assertNumQueries(1):
+            group_matches = Match.ready_group_matches()
+            for match in group_matches:
+                str(match)
+            # for group in set([m.group for m in group_matches]):
+            #     str(group)
+
+    def test_ready_bracket_matches_is_efficient(self):
+        with self.assertNumQueries(1):
+            bracket_matches = Match.ready_bracket_matches()
+            for match in bracket_matches:
+                str(match)
+
+    def test_ready_doubles_matches_is_efficient(self):
+        with self.assertNumQueries(4):
+            doubles_matches = Match.ready_doubles_matches()
+            for match in doubles_matches:
+                str(match)
 
     def create_table(self):
         return Table.objects.create(display_order=1)

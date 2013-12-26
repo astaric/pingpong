@@ -9,6 +9,7 @@ from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
 from pingpong.group.helpers import berger_tables, shuffled
+from pingpong.helpers import debug_sql
 
 
 GENDER_CHOICES = (
@@ -226,12 +227,12 @@ class Match(models.Model):
     def ready_group_matches():
         match_groups = Match.objects.filter(status=Match.READY, group__isnull=False).values('group').distinct()
         return [dict(group=group.id, description=group, table=None) for group in
-                Group.objects.filter(id__in=match_groups)]
+                Group.objects.filter(id__in=match_groups).select_related('category')]
 
     @staticmethod
     def ready_bracket_matches():
         bracket_matches = []
-        for match in Match.objects.filter(status=Match.READY, group__isnull=True):
+        for match in Match.objects.filter(status=Match.READY, group__isnull=True).select_related('player1', 'player1__category', 'player2', 'player1_bracket_slot__bracket'):
             b = match.player1_bracket_slot.bracket.name[0]
             l = match.player1_bracket_slot.level
             c = match.player1.category.name
@@ -241,11 +242,12 @@ class Match(models.Model):
     @staticmethod
     def ready_doubles_matches():
         double_matches = []
-        for m in Match.objects.filter(status=Match.DOUBLE).exclude(Q(player1__isnull=True) | Q(player2__isnull=True)).select_related('player1', 'player2'):
+        for m in Match.objects.filter(status=Match.DOUBLE).exclude(Q(player1__isnull=True) | Q(player2__isnull=True)).select_related('player1', 'player1__double', 'player1__category', 'player2', 'player2__double', 'player1_bracket_slot__bracket'):
             d1, d2 = m.player1.double, m.player2.double
-            blocking_matches = Match.objects.filter(Q(player1=d1.player1) | Q(player1=d1.player2) | Q(player1=d2.player1) | Q(player1=d2.player2) |
-                                                    Q(player2=d1.player1) | Q(player2=d1.player2) | Q(player2=d2.player1) | Q(player2=d2.player2), status__lt=Match.COMPLETE)
-            if not blocking_matches:
+            # TODO: Select matches and filter blocking players in the same query
+            required_players = [d1.player1_id, d1.player2_id, d2.player1_id, d2.player2_id]
+            blocking_matches = Match.objects.filter(Q(player1__in=required_players) | Q(player2__in=required_players), status__lt=Match.COMPLETE)
+            if not blocking_matches.exists():
                 b = m.player1_bracket_slot.bracket.name[0]
                 l = m.player1_bracket_slot.level
                 c = m.player1.category.name
