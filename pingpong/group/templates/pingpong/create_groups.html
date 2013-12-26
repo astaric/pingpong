@@ -12,7 +12,7 @@
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 style="display: inline;">Izberite nosilce skupin</h4>
+            <h4 style="display: inline;">Določanje skupin</h4>
         </div>
         <div class="panel-body">
             {{ formset.management_form }}
@@ -22,7 +22,6 @@
                 {{ error }}
             </div>
             {% endfor %}
-
 
             <ul class="leaders">
                 {% for form in formset.forms %}
@@ -35,6 +34,8 @@
                             {{ field.errors.as_ul }}
                             {{ field }}
                         {% endfor %}
+                        {{ form.instance.name }}
+                        {{ form.instance.surname }}
                     </li>
                 {% endfor %}
             </ul>

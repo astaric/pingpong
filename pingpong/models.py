@@ -72,7 +72,7 @@ class Category(models.Model):
     min_age = models.IntegerField(_("min age"), blank=True, null=True)
     max_age = models.IntegerField(_("max age"), blank=True, null=True)
 
-    def create_groups_from_leaders(self, leaders, number_of_groups=0):
+    def create_groups(self, leaders, number_of_groups=0):
         Group.objects.filter(category=self).delete()
 
         if number_of_groups == 0:

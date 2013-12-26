@@ -11,7 +11,7 @@ class CategoryCreateGroupsTests(TestCase):
         category = Category.objects.get(name="Category without clubs")
         leaders = Player.objects.filter(category=category)[:4]
 
-        category.create_groups_from_leaders(leaders)
+        category.create_groups(leaders)
 
         groups = Group.objects.filter(category=category).order_by('name')
         self.assertEqual(groups.count(), 4)
@@ -28,7 +28,7 @@ class CategoryCreateGroupsTests(TestCase):
         players = Player.objects.filter(category=category)
         leaders = players[:4]
 
-        category.create_groups_from_leaders(leaders)
+        category.create_groups(leaders)
 
         groups = Group.objects.filter(category=category)
         self.assertEqual(groups.count(), 4)
@@ -42,14 +42,14 @@ class CategoryCreateGroupsTests(TestCase):
         category = Category.objects.get(name="Category with clubs")
 
         with self.assertRaises(ValueError):
-            category.create_groups_from_leaders(Player.objects.none())
+            category.create_groups(Player.objects.none())
 
     def test_create_groups_with_too_many_players_from_same_club(self):
         category = Category.objects.get(name="Category with too many from the same club")
         players = Player.objects.filter(category=category)
         leaders = players[:4]
 
-        category.create_groups_from_leaders(leaders)
+        category.create_groups(leaders)
 
         groups = Group.objects.filter(category=category).order_by('name')
         self.assertEqual(groups.count(), 4)
@@ -59,13 +59,13 @@ class CategoryCreateGroupsTests(TestCase):
         category = Category.objects.get(name="Category without clubs")
         leaders = Player.objects.filter(category=category)[:4]
 
-        category.create_groups_from_leaders(leaders)
+        category.create_groups(leaders)
 
         groups = Group.objects.filter(category=category)
         self.assertEqual(groups.count(), 4)
         self.assertMemberCountsEqual(groups, [4, 3, 3, 3])
 
-        category.create_groups_from_leaders(leaders)
+        category.create_groups(leaders)
 
         groups = Group.objects.filter(category=category)
         self.assertEqual(groups.count(), 4)
@@ -78,7 +78,7 @@ class CategoryCreateGroupsTests(TestCase):
         players = Player.objects.filter(category=category)
         leaders = players[:8]
 
-        category.create_groups_from_leaders(leaders=leaders, number_of_groups=4)
+        category.create_groups(leaders=leaders, number_of_groups=4)
 
         groups = Group.objects.filter(category=category).order_by('name')
         self.assertEqual(groups.count(), 4)
