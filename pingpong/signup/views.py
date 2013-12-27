@@ -1,6 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.db.models import Count
+from django.db.models.deletion import Collector
 from django.shortcuts import render, get_object_or_404, redirect
+
 from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.bracket.models import Bracket
 from pingpong.models import Category, Player, Double
@@ -32,7 +34,8 @@ def edit_single_category(request, category):
             Bracket.objects.filter(category=category).delete()
             return redirect(reverse("category_edit", kwargs=dict(category_id=category.id)))
 
-        formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category), prefix='player')
+        formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category),
+                                prefix='player')
         form = SimpleCategoryForm(request.POST, instance=category, prefix='category')
         if form.is_valid() and formset.is_valid():
             form.save()
@@ -60,7 +63,8 @@ def edit_double_category(request, category):
         if 'delete' in request.POST:
             return redirect(reverse("category_delete", kwargs=dict(category_id=category.id)))
 
-        formset = DoubleFormSet(request.POST, queryset=Double.objects.order_by('id').filter(category=category), prefix='player')
+        formset = DoubleFormSet(request.POST, queryset=Double.objects.order_by('id').filter(category=category),
+                                prefix='player')
         form = SimpleCategoryForm(request.POST, instance=category, prefix='category')
 
         if 'create_brackets' in request.POST:
@@ -107,6 +111,10 @@ def add_category(request):
 def delete_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
+    collector = Collector(using='default')
+    collector.collect([category])
+    related_objects = [(model._meta.verbose_name_plural, instance) for model, instance in collector.instances_with_model()]
+
     if request.method == 'POST':
         if 'yes' in request.POST:
             category.delete()
@@ -114,5 +122,7 @@ def delete_category(request, category_id):
         else:
             return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
 
-    return render(request, 'pingpong/category_delete.html',
-                  dict(category=category))
+    return render(request, 'pingpong/category_delete.html', dict(
+        category=category,
+        related_objects=related_objects,
+    ))

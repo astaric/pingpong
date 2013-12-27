@@ -1,5 +1,6 @@
 {% extends 'pingpong/base_signup.html' %}
 {% load i18n %}
+{% load pingpong %}
 
 {% block navigation %}{% endblock %}
 {% block navigation_items %}{% endblock %}
@@ -8,8 +9,20 @@
     <div>
         <p>
         {% blocktrans with category_name=category.name category_description=category.description %}
-            Do you really want to delete category {{ category_name }} ({{ category_description }})?{% endblocktrans %}
+            Do you really want to delete category {{ category_description }} ({{ category_name }})?{% endblocktrans %}
         </p>
+        <p>
+           {% blocktrans %}The following objects will be deleted:{% endblocktrans %}
+        </p>
+            {% regroup related_objects by 0 as related %}
+            {% for category in related %}
+                <p>
+                    <b>{{ category.grouper | capfirst }}</b>
+                    {% for item in category.list %}
+                        {{ item.1 }}{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                </p>
+            {% endfor %}
         <div class="btn-group">
             <input type="submit" name="yes" class="btn btn-danger" value="{% trans 'Yes' %}"/>
             <input type="submit" name="no" class="btn btn-default" value="{% trans 'No' %}"/>
