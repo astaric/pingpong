@@ -33,5 +33,5 @@ class BaseDoubleFormSet(BaseModelFormSet):
         seeds.sort(key=lambda x: x.cleaned_data['seed'])
         return [f.instance for f in seeds]
 
-PlayerFormSet = modelformset_factory(Player, extra=10, fields=['name', 'surname', 'club'], can_delete=True)
-DoubleFormSet = modelformset_factory(Double, extra=10, form=SimpleDoubleForm, formset=BaseDoubleFormSet, can_delete=True)
+PlayerFormSet = modelformset_factory(Player, extra=3, fields=['name', 'surname', 'club'], can_delete=True)
+DoubleFormSet = modelformset_factory(Double, extra=3, form=SimpleDoubleForm, formset=BaseDoubleFormSet, can_delete=True)
