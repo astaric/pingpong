@@ -1,7 +1,5 @@
 from django.core.urlresolvers import reverse
 from django.db.models import Count
-from django.forms import IntegerField
-from django.forms.models import modelformset_factory, ModelChoiceField, ModelForm
 from django.shortcuts import render, get_object_or_404, redirect
 from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.bracket.models import Bracket

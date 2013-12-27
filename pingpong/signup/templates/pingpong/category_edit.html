@@ -11,6 +11,17 @@
         table.players input {
             border: 0;
         }
+
+        .collapsing {
+            transition: height 0.01s;
+        }
+
+        label {
+            min-width: 100px;
+            padding-right: 5px;;
+            text-align: right;
+
+        }
     </style>
 {% endblock %}
 
@@ -119,13 +130,16 @@
 {% endblock %}
 
 {% block content %}
-    <div class="btn-group-vertical pull-right">
-
-    </div>
     <div class="panel panel-default">
-        <div id="common_fields" class="panel-heading">
-            {{ form.description }}
-            {{ form.name }}
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#categoryFields">
+                    {{ category.description }} ({{ category.name }})
+                </a>
+            </h4>
+        </div>
+        <div id="categoryFields" class="panel-body collapse">
+            {{ form.as_p}}
         </div>
         {{ formset.management_form }}
         {{ formset.non_form_errors.as_ul }}
