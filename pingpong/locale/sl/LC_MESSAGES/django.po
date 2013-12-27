@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-15 20:30+0100\n"
+"POT-Creation-Date: 2013-12-27 10:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,61 +19,81 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
 
-#: models.py:6
+#: models.py:15
 msgid "Male"
 msgstr "moški"
 
-#: models.py:7
+#: models.py:16
 msgid "Female"
 msgstr "ženski"
 
-#: models.py:13
+#: models.py:22
 msgid "player"
 msgstr "tekmovalec"
 
-#: models.py:14
+#: models.py:23
 msgid "players"
 msgstr "tekmovalci"
 
-#: models.py:16 models.py:50
+#: models.py:25 models.py:66
 msgid "name"
 msgstr "ime"
 
-#: models.py:17
+#: models.py:26
 msgid "surname"
 msgstr "priimek"
 
-#: models.py:19 models.py:53
+#: models.py:28 models.py:71
 msgid "gender"
 msgstr "spol"
 
-#: models.py:21
+#: models.py:30
 msgid "club"
 msgstr "klub"
 
-#: models.py:22 models.py:47
+#: models.py:31 models.py:63
 msgid "category"
 msgstr "kategorija"
 
-#: models.py:48
+#: models.py:58
+msgid "Single"
+msgstr "Posamezno"
+
+#: models.py:59
+msgid "Double"
+msgstr "Dvojica"
+
+#: models.py:64
 msgid "categories"
 msgstr "kategorije"
 
-#: models.py:54
+#: models.py:67
+msgid "description"
+msgstr "dolgo ime"
+
+#: models.py:69
+msgid "type"
+msgstr "vrsta"
+
+#: models.py:72
 msgid "min age"
 msgstr "najnižja starost"
 
-#: models.py:55
+#: models.py:73
 msgid "max age"
 msgstr "najvišja starost"
 
-#: bracket/helpers.py:66
+#: bracket/helpers.py:77
 msgid "WINNERS"
 msgstr "ZMAGOVALNA SKUPINA"
 
-#: bracket/helpers.py:71
+#: bracket/helpers.py:82
 msgid "SOOTHERS"
 msgstr "TOLAZILNA SKUPINA"
+
+#: bracket/helpers.py:113
+msgid "DOUBLES"
+msgstr "DVOJICE"
 
 #: group/templates/pingpong/base_groups.html:5 templates/pingpong/base.html:34
 msgid "Groups"
@@ -122,7 +142,7 @@ msgstr "Odpri navigacijo"
 msgid "Unknown"
 msgstr "Neznano"
 
-#: templates/pingpong/base.html:39
+#: templates/pingpong/base.html:39 templates/registration/logged_out.html:5
 msgid "Logout"
 msgstr "Odjava"
 
@@ -136,7 +156,9 @@ msgid ""
 "\n"
 "        You have been logged out!\n"
 "    "
-msgstr "\nBili ste odjavljeni!"
+msgstr ""
+"\n"
+"Bili ste odjavljeni!"
 
 #: templates/registration/login.html:15
 msgid "Your username and password didn't match. Please try again."

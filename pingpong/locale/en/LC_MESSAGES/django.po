@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-11-15 20:30+0100\n"
+"POT-Creation-Date: 2013-12-27 10:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,60 +17,80 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: models.py:6
+#: models.py:15
 msgid "Male"
 msgstr ""
 
-#: models.py:7
+#: models.py:16
 msgid "Female"
 msgstr ""
 
-#: models.py:13
+#: models.py:22
 msgid "player"
 msgstr ""
 
-#: models.py:14
+#: models.py:23
 msgid "players"
 msgstr ""
 
-#: models.py:16 models.py:50
+#: models.py:25 models.py:66
 msgid "name"
 msgstr "name"
 
-#: models.py:17
+#: models.py:26
 msgid "surname"
 msgstr ""
 
-#: models.py:19 models.py:53
+#: models.py:28 models.py:71
 msgid "gender"
 msgstr ""
 
-#: models.py:21
+#: models.py:30
 msgid "club"
 msgstr ""
 
-#: models.py:22 models.py:47
+#: models.py:31 models.py:63
 msgid "category"
 msgstr ""
 
-#: models.py:48
+#: models.py:58
+msgid "Single"
+msgstr ""
+
+#: models.py:59
+msgid "Double"
+msgstr ""
+
+#: models.py:64
 msgid "categories"
 msgstr ""
 
-#: models.py:54
+#: models.py:67
+msgid "description"
+msgstr ""
+
+#: models.py:69
+msgid "type"
+msgstr ""
+
+#: models.py:72
 msgid "min age"
 msgstr ""
 
-#: models.py:55
+#: models.py:73
 msgid "max age"
 msgstr ""
 
-#: bracket/helpers.py:66
+#: bracket/helpers.py:77
 msgid "WINNERS"
 msgstr ""
 
-#: bracket/helpers.py:71
+#: bracket/helpers.py:82
 msgid "SOOTHERS"
+msgstr ""
+
+#: bracket/helpers.py:113
+msgid "DOUBLES"
 msgstr ""
 
 #: group/templates/pingpong/base_groups.html:5 templates/pingpong/base.html:34
@@ -118,7 +138,7 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: templates/pingpong/base.html:39
+#: templates/pingpong/base.html:39 templates/registration/logged_out.html:5
 msgid "Logout"
 msgstr ""
 
