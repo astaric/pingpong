@@ -15,13 +15,6 @@
         .collapsing {
             transition: height 0.01s;
         }
-
-        label {
-            min-width: 100px;
-            padding-right: 5px;;
-            text-align: right;
-
-        }
     </style>
 {% endblock %}
 
@@ -140,7 +133,7 @@
         </div>
         <div id="categoryFields" class="panel-body collapse">
             {{ form.as_p}}
-            <a class="btn btn-danger btn-sm" href="{% url "category_delete" category_id=category.id %}">Izbriši kategorijo</a>
+            <label>&nbsp;</label><a href="{% url "category_delete" category_id=category.id %}">Izbriši kategorijo</a>
         </div>
         {{ formset.management_form }}
         {{ formset.non_form_errors.as_ul }}

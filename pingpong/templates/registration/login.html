@@ -11,21 +11,8 @@
             Login
         </div>
         <div class="panel-body">
-            {% if form.errors %}
-                <p>{% blocktrans %}Your username and password didn't match. Please try again.{% endblocktrans %}</p>
-            {% endif %}
-            {% csrf_token %}
-            <table>
-                <tr>
-                    <td>{{ form.username.label_tag }}</td>
-                    <td>{{ form.username }}</td>
-                </tr>
-                <tr>
-                    <td>{{ form.password.label_tag }}</td>
-                    <td>{{ form.password }}</td>
-                </tr>
-            </table>
-
+            {{ form.as_p }}
+            <label></label>
             <input type="submit" value="{% trans 'Login' %}"/>
             <input type="hidden" name="next" value="{{ next }}"/>
         </div>
