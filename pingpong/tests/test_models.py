@@ -128,6 +128,20 @@ class MatchTests(TestCase):
 
         self.assertIsNotNone(match.end_time)
 
+    def test_assigning_results_does_not_delete_table(self):
+        table = self.create_table()
+        match = self.create_match_with_players()
+        match.table = table
+        match.save()
+
+        self.assertEqual(match.table, table)
+
+        match.player1_score = 1
+        match.player2_score = 3
+        match.save()
+
+        self.assertEqual(match.table, table)
+
     def test_ready_group_matches_is_efficient(self):
         with self.assertNumQueries(1):
             group_matches = Match.ready_group_matches()

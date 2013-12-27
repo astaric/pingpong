@@ -166,7 +166,7 @@ class Table(models.Model):
         else:
             return ''
 
-    def matches(self):
+    def current_matches(self):
         return self.all_matches.filter(status=Match.PLAYING)
 
 
@@ -219,7 +219,6 @@ class Match(models.Model):
                 if self.player2_bracket_slot:
                     self.player2_bracket_slot.score = self.player2_score
                     self.player2_bracket_slot.save()
-                self.table = None
                 self.end_time = now()
                 self.status = Match.COMPLETE
 

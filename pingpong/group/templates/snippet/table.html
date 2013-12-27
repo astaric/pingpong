@@ -1,4 +1,4 @@
-{% with table.matches.all.0 as match %}
+{% with table.current_matches.all.0 as match %}
     <div class="table{% if match %} occupied{% endif %}">
         <div class="starttime">{{ match.start_time|date:"H:i" }}</div>
         <div>{{ table.name }}</div>
