@@ -3,11 +3,15 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.views import login, logout
 
 from django.contrib import admin
+from . import views
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'pingpong.views.home', name='home'),
+    url(r'^$', views.index),
+
     url(r'', include('pingpong.signup.urls')),
     url(r'', include('pingpong.group.urls')),
 
