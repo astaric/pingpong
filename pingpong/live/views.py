@@ -37,7 +37,8 @@ class CurrentMatchForm(ModelForm):
         if score:
             match = re.match(r'(\d+)[^\d]+(\d+)', score)
             if match:
-                self.instance.player1_score, self.instance.player2_score = map(int, match.groups())
+                scores = map(int, match.groups())
+                self.instance.set_score(*scores)
             else:
                 raise ValidationError('Invalid score.')
         return cleaned_data

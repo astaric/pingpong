@@ -122,8 +122,7 @@ class MatchTests(TestCase):
         match.save()
         self.assertIsNone(match.end_time)
 
-        match.player1_score = 1
-        match.player2_score = 3
+        match.set_score(1, 3)
         match.save()
 
         self.assertIsNotNone(match.end_time)
@@ -136,8 +135,7 @@ class MatchTests(TestCase):
 
         self.assertEqual(match.table, table)
 
-        match.player1_score = 1
-        match.player2_score = 3
+        match.set_score(1, 3)
         match.save()
 
         self.assertEqual(match.table, table)

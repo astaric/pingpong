@@ -202,6 +202,10 @@ class Match(models.Model):
     start_time = models.DateTimeField(null=True)
     end_time = models.DateTimeField(null=True)
 
+    def set_score(self, player1_score, player2_score):
+        self.player1_score = player1_score
+        self.player2_score = player2_score
+
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
         if self.status == Match.PENDING:
