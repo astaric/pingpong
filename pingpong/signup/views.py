@@ -32,9 +32,6 @@ def edit_single_category(request, category):
             Bracket.objects.filter(category=category).delete()
             return redirect(reverse("category_edit", kwargs=dict(category_id=category.id)))
 
-        if 'delete' in request.POST:
-            return redirect(reverse("category_delete", kwargs=dict(category_id=category.id)))
-
         formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category), prefix='player')
         form = SimpleCategoryForm(request.POST, instance=category, prefix='category')
         if form.is_valid() and formset.is_valid():

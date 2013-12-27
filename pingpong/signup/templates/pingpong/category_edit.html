@@ -140,6 +140,7 @@
         </div>
         <div id="categoryFields" class="panel-body collapse">
             {{ form.as_p}}
+            <a class="btn btn-danger btn-sm" href="{% url "category_delete" category_id=category.id %}">Izbriši kategorijo</a>
         </div>
         {{ formset.management_form }}
         {{ formset.non_form_errors.as_ul }}
@@ -175,7 +176,6 @@
         </table>
         <div class="panel-footer">
             <input type="submit" name="save" class="btn btn-primary btn-sm" value="Shrani"/>
-            <input type="submit" name="delete" class="btn btn-danger btn-sm" value="Izbrisi"/>
             {% if category.type == category.DOUBLE %}
                 <input type="submit" name="create_brackets" class="btn btn-default btn-sm" value="Žrebaj piramido"/>
             {% endif %}
