@@ -1,6 +1,5 @@
 {% extends 'pingpong/base_signup.html' %}
 {% load i18n %}
-{% load pingpong %}
 
 {% block navigation %}{% endblock %}
 {% block navigation_items %}{% endblock %}
@@ -9,10 +8,10 @@
     <div>
         <p>
         {% blocktrans with category_name=category.name category_description=category.description %}
-            Do you really want to delete category {{ category_description }} ({{ category_name }})?{% endblocktrans %}
+            Do you really want to delete {{ object_type }} {{ object_description }}?{% endblocktrans %}
         </p>
         <p>
-           {% blocktrans %}The following objects will be deleted:{% endblocktrans %}
+           {% blocktrans %}The following related objects will be deleted:{% endblocktrans %}
         </p>
             {% regroup related_objects by 0 as related %}
             {% for category in related %}

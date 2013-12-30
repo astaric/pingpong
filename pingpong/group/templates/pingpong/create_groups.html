@@ -18,32 +18,37 @@
             {{ formset.management_form }}
             {% for error in formset.non_form_errors %}
                 <div class="alert alert-danger ">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{ error }}
-            </div>
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ error }}
+                </div>
             {% endfor %}
 
-            {{ numgroups }}
+            {{ numgroups.as_p }}
 
-            <ul class="leaders">
-                {% for form in formset.forms %}
-                    <li>
-                        {% for hidden in form.hidden_fields %}
-                            {{ hidden }}
-                        {% endfor %}
+            <p>
+                <label style="vertical-align: top;">Leaders:</label>
+                <span style="display: inline-block" class="leaders">
+                    {% for form in formset.forms %}
+                        <span style="display: block;">
+                            {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
 
-                        {% for field in form.visible_fields %}
-                            {{ field.errors.as_ul }}
-                            {{ field }}
-                        {% endfor %}
-                        {{ form.instance.name }}
-                        {{ form.instance.surname }}
-                    </li>
-                {% endfor %}
-            </ul>
+                            {% for field in form.visible_fields %}
+                                {{ field.errors.as_ul }}
+                                {{ field }}
+                            {% endfor %}
+                            {{ form.instance.name }}
+                            {{ form.instance.surname }}
+                        </span>
+                    {% endfor %}
+
+                </span>
+            </p>
+            <p>
+                <label></label>
+                <input type="submit" class="btn btn-default btn-sm" value="Kreiraj skupine"/>
+            </p>
         </div>
-    <div class="panel-footer">
-        <input type="submit" class="btn btn-default btn-sm" value="Kreiraj skupine"/>
-    </div>
     </div>
 {% endblock %}

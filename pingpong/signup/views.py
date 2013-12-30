@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.bracket.models import Bracket
-from pingpong.models import Category, Player, Double
+from pingpong.models import Category, Player, Double, Group
 from pingpong.signup.forms import PlayerFormSet, SimpleCategoryForm, CategoryForm, DoubleFormSet
 
 
@@ -20,7 +20,8 @@ def index(request):
 
 
 def edit_category(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
+    category = get_object_or_404(Category.objects.annotate(Count('bracket'), Count('group')),
+                                 id=category_id)
 
     if category.type == Category.SINGLE:
         return edit_single_category(request, category)
@@ -111,10 +112,6 @@ def add_category(request):
 def delete_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
-    collector = Collector(using='default')
-    collector.collect([category])
-    related_objects = [(model._meta.verbose_name_plural, instance) for model, instance in collector.instances_with_model()]
-
     if request.method == 'POST':
         if 'yes' in request.POST:
             category.delete()
@@ -122,7 +119,47 @@ def delete_category(request, category_id):
         else:
             return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
 
-    return render(request, 'pingpong/category_delete.html', dict(
-        category=category,
-        related_objects=related_objects,
+    return render(request, 'pingpong/confirm_deletion.html', dict(
+        object_type=category._meta.verbose_name,
+        object_description=u'%s (%s)' % (category.description, category.name),
+        related_objects=get_related_objects([category]),
     ))
+
+
+def delete_groups(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    groups = category.group_set.all()
+
+    if request.method == 'POST':
+        if 'yes' in request.POST:
+            groups.delete()
+        return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
+
+    return render(request, 'pingpong/confirm_deletion.html', dict(
+        object_type=Group._meta.verbose_name_plural,
+        object_description=groups,
+        related_objects=get_related_objects(groups),
+    ))
+
+
+def delete_brackets(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    brackets = category.bracket_set.all()
+
+    if request.method == 'POST':
+        if 'yes' in request.POST:
+            brackets.delete()
+        return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
+
+    return render(request, 'pingpong/confirm_deletion.html', dict(
+        object_type=Bracket._meta.verbose_name_plural,
+        object_description=brackets,
+        related_objects=get_related_objects(brackets),
+    ))
+
+
+def get_related_objects(obj):
+    collector = Collector(using='default')
+    collector.collect(obj)
+    return [(model._meta.verbose_name_plural, instance) for model, instance in collector.instances_with_model()]

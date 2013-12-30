@@ -106,17 +106,3 @@ def edit_group(request, category_id, group_id):
                        groups=groups,
                        group_members=members,
                        matches=matches, formset=formset))
-
-
-def delete_groups(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
-
-    if request.method == 'POST':
-        if 'yes' in request.POST:
-            Group.objects.filter(category=category).delete()
-            Bracket.objects.filter(category=category).delete()
-
-        return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
-
-    return render(request, 'pingpong/delete_groups.html',
-                  dict(category=category))
