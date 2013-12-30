@@ -99,7 +99,7 @@ STATIC_URL = '/static/'
 
 # Project settings
 
-PRINT_DIRECTORY = os.path.join(BASE_DIR, "..", "print")
+PRINT_DIRECTORY = os.path.join(BASE_DIR, "print")
 
 # Heroku settings
 # Parse database configuration from $DATABASE_URL
