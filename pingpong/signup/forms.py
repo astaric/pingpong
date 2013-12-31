@@ -27,11 +27,24 @@ class SimpleDoubleForm(ModelForm):
     seed = IntegerField(required=False)
 
 
-class BaseDoubleFormSet(BaseModelFormSet):
+class BasePlayersFormSet(BaseModelFormSet):
+    category = None
+
+    def save(self, commit=True):
+        instances = super(BasePlayersFormSet, self).save(False)
+        if commit:
+            for instance in instances:
+                if instance.category_id is None:
+                    instance.category = self.category
+                instance.save()
+        return instances
+
     def seeds(self):
         seeds = [f for f in self.forms if f.cleaned_data.get('seed', None)]
         seeds.sort(key=lambda x: x.cleaned_data['seed'])
         return [f.instance for f in seeds]
 
-PlayerFormSet = modelformset_factory(Player, extra=3, fields=['name', 'surname', 'club'], can_delete=True)
-DoubleFormSet = modelformset_factory(Double, extra=3, form=SimpleDoubleForm, formset=BaseDoubleFormSet, can_delete=True)
+PlayerFormSet = modelformset_factory(Player, extra=3, fields=['name', 'surname', 'club'],
+                                     formset=BasePlayersFormSet, can_delete=True)
+DoubleFormSet = modelformset_factory(Double, extra=3, form=SimpleDoubleForm,
+                                     formset=BasePlayersFormSet, can_delete=True)

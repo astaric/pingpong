@@ -1,0 +1,10 @@
+{% load brackets %}
+
+{% for bracket in brackets %}
+    <div class="panel-heading">
+        <h4 class="panel-title">{{ bracket.name }}</h4>
+    </div>
+    <div class="panel-body">
+        {% show_bracket bracket %}
+    </div>
+{% endfor %}

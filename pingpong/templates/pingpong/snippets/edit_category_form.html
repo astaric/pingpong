@@ -1,0 +1,39 @@
+{% load i18n %}
+<div id="categoryFields" class="panel-body{% if not category_fields_form.errors %} collapse{% endif %}">
+    {{ category_fields_form.as_p }}
+    <p>
+        <label></label>
+        <input type="submit" value="{% trans 'Save' %}">
+    </p>
+    <br />
+    <p>
+        <label>Kreiraj</label>
+        {% if category.group__count == 0 %}
+            <a class="btn btn-primary" href="{% url "groups" category_id=category.id %}">
+                <i class="glyphicon glyphicon-plus"></i> Skupine
+            </a>
+        {% endif %}
+        {% if category.bracket__count == 0 %}
+            <a class="btn btn-default" href="#">
+                <i class="glyphicon glyphicon-plus"></i> Piramide
+            </a>
+        {% endif %}
+    </p>
+
+    <p>
+        <label>Izbriši</label>
+        <a class="btn btn-danger" href="{% url "category_delete" category_id=category.id %}">
+            <i class="glyphicon glyphicon-remove"></i> Kategorijo
+        </a>
+        {% if category.group__count > 0 %}
+            <a class="btn btn-danger" href="{% url "delete_groups" category_id=category.id %}">
+                <i class="glyphicon glyphicon-remove"></i> Skupine
+            </a>
+        {% endif %}
+        {% if category.bracket__count > 0 %}
+            <a class="btn btn-danger" href="{% url "delete_brackets" category_id=category.id %}">
+                <i class="glyphicon glyphicon-remove"></i> Piramide
+            </a>
+        {% endif %}
+    </p>
+</div>

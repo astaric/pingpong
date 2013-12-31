@@ -1,4 +1,4 @@
-{% extends 'pingpong/base_groups.html' %}
+{% extends 'pingpong/category.html' %}
 {% load brackets %}
 {% load staticfiles %}
 
@@ -31,12 +31,9 @@
     </style>
 {% endblock %}
 
-{% block content %}
+{% block category_content %}
     {% if category.type == category.SINGLE %}
         <div class="groups panel panel-default">
-            <div class="panel-heading">
-                Skupine za kategorijo {{ category }} {% if not group_members %} se niso bile dolocene.{% endif %}
-            </div>
             <div class="panel-body">
                 {% regroup group_members by group as group_list %}
                 {% for group in group_list %}
@@ -52,24 +49,16 @@
                     </div>
                 {% endfor %}
             </div>
-            <div class="panel-footer">
-                <a class="btn btn-default" href="{% url 'delete_groups' category_id=category.id %}">Ponovno doloci
-                    skupine</a>
-                <input class="btn btn-default" type="submit" name="recreate_brackets" value="Ponovno doloci piramide">
-            </div>
         </div>
     {% endif %}
 
     {% for bracket in brackets %}
         <div class="panel panel-default">
             <div class="panel-heading">
-                {{ bracket.category.description }} {{ bracket.name }}
+                <h4 class="panel-title">{{ bracket.name }}</h4>
             </div>
             <div class="panel-body">
                 {% show_bracket bracket %}
-            </div>
-            <div class="panel-footer">
-                <input type="submit" name="recreate_matches" value="Recreate matches">
             </div>
         </div>
     {% endfor %}

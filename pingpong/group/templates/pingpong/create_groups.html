@@ -1,18 +1,9 @@
 {% extends 'pingpong/base_groups.html' %}
 
-
-{% block additional_header %}
-    <style>
-        ul.leaders {
-            list-style-type: none;
-        }
-    </style>
-{% endblock %}
-
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h4 style="display: inline;">Določanje skupin</h4>
+            <h4 class="panel-title">Določanje skupin</h4>
         </div>
         <div class="panel-body">
             {{ formset.management_form }}

@@ -23,75 +23,51 @@ def edit_category(request, category_id):
     category = get_object_or_404(Category.objects.annotate(Count('bracket'), Count('group')),
                                  id=category_id)
 
+    if request.method == 'POST':
+        category_fields = SimpleCategoryForm(request.POST, instance=category, prefix='category_fields')
+
+        if category_fields.is_valid():
+            category_fields.save()
+
+            return redirect(reverse("category", kwargs=dict(category_id=category.id)))
+    else:
+        category_fields = SimpleCategoryForm(instance=category, prefix='category_fields')
+
+    return render(request, 'pingpong/category.html',
+                  dict(category=category,
+                       category_fields_form=category_fields))
+
+
+def edit_category_players(request, category_id):
+    category = get_object_or_404(Category.objects.annotate(Count('bracket'), Count('group')),
+                                 id=category_id)
+
+    if request.method == 'POST':
+        players = players_formset(category, request.POST)
+
+        if players.is_valid():
+            players.save()
+            return redirect(reverse("category", kwargs=dict(category_id=category.id)))
+    else:
+        players = players_formset(category)
+
+    return render(request, 'pingpong/category_edit.html',
+                  dict(category=category,
+                       players_formset=players))
+
+
+def players_formset(category, post_data=None):
     if category.type == Category.SINGLE:
-        return edit_single_category(request, category)
+        return _players_formset(category, post_data, Player, PlayerFormSet)
     else:
-        return edit_double_category(request, category)
+        return _players_formset(category, post_data, Double, DoubleFormSet)
 
 
-def edit_single_category(request, category):
-    if request.method == 'POST':
-        if 'delete_brackets' in request.POST:
-            Bracket.objects.filter(category=category).delete()
-            return redirect(reverse("category_edit", kwargs=dict(category_id=category.id)))
-
-        formset = PlayerFormSet(request.POST, queryset=Player.objects.order_by('id').filter(category=category),
-                                prefix='player')
-        form = SimpleCategoryForm(request.POST, instance=category, prefix='category')
-        if form.is_valid() and formset.is_valid():
-            form.save()
-
-            instances = formset.save(commit=False)
-            for instance in instances:
-                if instance.category_id is None:
-                    instance.category = category
-                instance.save()
-            return redirect(reverse("category_edit", kwargs=dict(category_id=category.id)))
-    else:
-        formset = PlayerFormSet(queryset=Player.objects.order_by('id').filter(category=category), prefix='player')
-        form = SimpleCategoryForm(instance=category, prefix='category')
-
-    categories = Category.objects.filter(type=category.type).annotate(player_count=Count('players'))
-    return render(request, 'pingpong/category_edit.html',
-                  dict(categories=categories,
-                       category=category,
-                       formset=formset,
-                       form=form))
-
-
-def edit_double_category(request, category):
-    if request.method == 'POST':
-        if 'delete' in request.POST:
-            return redirect(reverse("category_delete", kwargs=dict(category_id=category.id)))
-
-        formset = DoubleFormSet(request.POST, queryset=Double.objects.order_by('id').filter(category=category),
-                                prefix='player')
-        form = SimpleCategoryForm(request.POST, instance=category, prefix='category')
-
-        if 'create_brackets' in request.POST:
-            if formset.is_valid():
-                create_pair_brackets(category, seeds=formset.seeds())
-                return redirect(reverse("groups", kwargs=dict(category_id=category.id)))
-
-        if form.is_valid() and formset.is_valid():
-            form.save()
-
-            instances = formset.save(commit=False)
-            for instance in instances:
-                if instance.category_id is None:
-                    instance.category = category
-                instance.save()
-            return redirect(reverse("category_edit", kwargs=dict(category_id=category.id)))
-    else:
-        formset = DoubleFormSet(queryset=Double.objects.order_by('id').filter(category=category), prefix='player')
-        form = SimpleCategoryForm(instance=category, prefix='category')
-
-    categories = Category.objects.filter(type=category.type).annotate(player_count=Count('players'))
-    return render(request, 'pingpong/category_edit.html',
-                  dict(categories=categories,
-                       category=category,
-                       formset=formset,
-                       form=form))
+def _players_formset(category, post_data, Model, Formset):
+    queryset = Model.objects.order_by('id').filter(category=category)
+    formset = Formset(post_data, queryset=queryset, prefix='players')
+    formset.category = category
+    return formset
 
 
 def add_category(request):

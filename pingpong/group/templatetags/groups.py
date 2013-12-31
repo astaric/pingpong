@@ -82,7 +82,7 @@ def show_players(context, category):
 
 @register.inclusion_tag('snippet/category_groups.html', takes_context=True)
 def show_groups(context, category):
-    members = GroupMember.objects.filter(group__category=category).order_by('group', 'place', '-leader', 'player__surname')
+    members = GroupMember.for_category(category)
 
     class AnonymousUser:
         @staticmethod
