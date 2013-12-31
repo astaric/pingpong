@@ -1,9 +1,12 @@
-{% extends 'pingpong/base_signup.html' %}
+{% extends 'pingpong/category_base.html' %}
+{% load i18n %}
+
+{% block dropdown_menu %}{% endblock %}
 
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            Nova kategorija
+            <h4 class="panel-title">{% trans 'Add category' %}</h4>
         </div>
         <div class="panel-body">
             <table>
@@ -11,7 +14,7 @@
             </table>
         </div>
         <div class="panel-footer">
-            <input type="submit" class="btn btn-primary" value="Dodaj kategorijo"/>
+            <input type="submit" class="btn btn-primary" value="Dodaj"/>
         </div>
     </div>
 {% endblock %}

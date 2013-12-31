@@ -1,8 +1,11 @@
-{% extends 'pingpong/base_signup.html' %}
+{% extends 'pingpong/base.html' %}
 {% load i18n %}
 
-{% block navigation %}{% endblock %}
-{% block navigation_items %}{% endblock %}
+{% block current_mode %}
+    {% trans 'Confirm deletion' %}
+{% endblock %}
+
+{% block dropdown_menu %}{% endblock %}
 
 {% block content %}
     <div>

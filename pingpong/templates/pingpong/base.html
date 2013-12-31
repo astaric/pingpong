@@ -28,6 +28,7 @@
                 {% block current_mode %} {% trans 'Unknown' %} {% endblock %}
                 {% if category %}<span class="caret"></span>{% endif %}
             </a>
+            {% block dropdown_menu %}
             <ul class="dropdown-menu">
                 {% if category %}
                     <li><a href="{% url 'category_edit' category_id=category.id %}">{% trans 'Signup' %}</a></li>
@@ -42,6 +43,7 @@
                     {% endif %}
                 </li>
             </ul>
+            {% endblock %}
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->

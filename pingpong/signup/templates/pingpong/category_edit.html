@@ -1,22 +1,5 @@
-{% extends 'pingpong/base_signup.html' %}
+{% extends 'pingpong/category_base.html' %}
 {% load staticfiles %}
-
-{% block additional_header %}
-    <link rel="stylesheet" href="{% static 'css/jquery-ui-1.10.3.custom.min.css' %}">
-    <style>
-        table.players > tbody > tr > td {
-            padding: 2px;
-        }
-
-        table.players input {
-            border: 0;
-        }
-
-        .collapsing {
-            transition: height 0.01s;
-        }
-    </style>
-{% endblock %}
 
 {% block javascript %}
     {% if category.type == category.SINGLE %}
@@ -122,91 +105,40 @@
     {% endif %}
 {% endblock %}
 
-{% block content %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                <a data-toggle="collapse" href="#categoryFields">
-                    {{ category.description }} ({{ category.name }})
-                </a>
-            </h4>
-        </div>
-        <div id="categoryFields" class="panel-body collapse">
-            {{ form.as_p }}
-            <p>
-                <label>Kreiraj</label>
-                {% if category.group__count == 0 %}
-                <a class="btn btn-primary" href="{% url "groups" category_id=category.id %}">
-                    <i class="glyphicon glyphicon-plus"></i> Skupine
-                </a>
-                {% endif %}
-                {% if category.bracket__count == 0 %}
-                <a class="btn btn-default" href="#">
-                    <i class="glyphicon glyphicon-plus"></i> Piramide
-                </a>
-            {% endif %}
-            </p>
+{% block category_content %}
+    {{ formset.management_form }}
+    {{ formset.non_form_errors.as_ul }}
 
-            <p>
-                <label>Izbriši</label>
-                <a class="btn btn-danger" href="{% url "category_delete" category_id=category.id %}">
-                    <i class="glyphicon glyphicon-remove"></i> Kategorijo
-                </a>
-                {% if category.group__count > 0 %}
-                    <a class="btn btn-danger" href="{% url "delete_groups" category_id=category.id %}">
-                        <i class="glyphicon glyphicon-remove"></i> Skupine
-                    </a>
-                {% endif %}
-                {% if category.bracket__count > 0 %}
-                    <a class="btn btn-danger" href="{% url "delete_brackets" category_id=category.id %}">
-                        <i class="glyphicon glyphicon-remove"></i> Piramide
-                    </a>
-                {% endif %}
-            </p>
-
-            <p>
-                <label>&nbsp;</label>
-
-            </p>
-        </div>
-        {{ formset.management_form }}
-        {{ formset.non_form_errors.as_ul }}
-
-        <table id="formset" class="table players">
-            {% for form in formset.forms %}
-                {% if forloop.first %}
-                    <thead>
-                    <tr>
-                        <th></th>
-                        {% for field in form.visible_fields %}
-                            <th>{{ field.label|capfirst }}</th>
-                        {% endfor %}
-                        <th width="100%"></th>
-                    </tr>
-                    </thead>
-                {% endif %}
-                <tr class="{% cycle row1,row2 %}">
-                    <td style="text-align: right;">{{ forloop.counter }}.</td>
+    <table id="formset" class="table players">
+        {% for form in formset.forms %}
+            {% if forloop.first %}
+                <thead>
+                <tr>
+                    <th></th>
                     {% for field in form.visible_fields %}
-                        <td>
-                            {% if forloop.first %}
-                                {% for hidden in form.hidden_fields %}
-                                    {{ hidden }}
-                                {% endfor %}
-                            {% endif %}
-                            {{ field.errors.as_ul }}
-                            {{ field }}
-                        </td>
+                        <th>{{ field.label|capfirst }}</th>
                     {% endfor %}
+                    <th width="100%"></th>
                 </tr>
-            {% endfor %}
-        </table>
-        <div class="panel-footer">
-            <input type="submit" name="save" class="btn btn-primary btn-sm" value="Shrani"/>
-            {% if category.type == category.DOUBLE %}
-                <input type="submit" name="create_brackets" class="btn btn-default btn-sm" value="Žrebaj piramido"/>
+                </thead>
             {% endif %}
-        </div>
-
+            <tr class="{% cycle row1,row2 %}">
+                <td style="text-align: right;">{{ forloop.counter }}.</td>
+                {% for field in form.visible_fields %}
+                    <td>
+                        {% if forloop.first %}
+                            {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                            {% endfor %}
+                        {% endif %}
+                        {{ field.errors.as_ul }}
+                        {{ field }}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </table>
+    <div class="panel-footer">
+        <input type="submit" name="save" class="btn btn-primary btn-sm" value="Shrani"/>
     </div>
 {% endblock %}
