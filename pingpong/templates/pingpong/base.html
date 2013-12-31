@@ -29,12 +29,12 @@
                 {% if category %}<span class="caret"></span>{% endif %}
             </a>
             {% block dropdown_menu %}
-            <ul class="dropdown-menu">
+            <ul id="mainnav" class="dropdown-menu">
                 {% if category %}
-                    <li><a href="{% url 'category_edit' category_id=category.id %}">{% trans 'Signup' %}</a></li>
+                    <li><a href="{% url 'category_edit' category_id=category.id %}">{% trans 'Categories' %}</a></li>
                     <li><a href="{% url 'groups' category_id=category.id %}">{% trans 'Groups' %}</a></li>
                 {% endif %}
-                <li><a href="{% url 'upcoming_matches' %}">{% trans 'Live' %}</a></li>
+                <li><a href="{% url 'upcoming_matches' %}">{% trans 'Dashboard' %}</a></li>
                 <li>
                     {% if user.is_authenticated %}
                         <a href="{% url 'auth_logout' %}">{% trans 'Logout' %}</a>
