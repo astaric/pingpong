@@ -21,8 +21,8 @@ urlpatterns = patterns('',
     url(r'^live/upcoming', 'pingpong.live.views.upcoming_matches', name='upcoming_matches'),
     url(r'^live/current', 'pingpong.live.views.current_matches', name='current_matches'),
 
-    url(r'^accounts/login/$', login, name='auth_login'),
-    url(r'^accounts/logout/$', logout, name='auth_logout'),
+    url(r'^accounts/login/$', login, name='auth_login', kwargs=dict(template_name='pingpong/login.html')),
+    url(r'^accounts/logout/$', logout, name='auth_logout', kwargs=dict(template_name='pingpong/logged_out.html')),
 
     url(r'^report/$', 'pingpong.printing.views.print_report'),
     url(r'^results/$', 'pingpong.printing.views.print_results'),

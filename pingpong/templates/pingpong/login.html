@@ -8,16 +8,13 @@
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
-            Login
+            <h4 class="panel-title">Login</h4>
         </div>
         <div class="panel-body">
             {{ form.as_p }}
             <label></label>
-            <input type="submit" value="{% trans 'Login' %}"/>
+            <input class="btn btn-default" type="submit" value="{% trans 'Login' %}"/>
             <input type="hidden" name="next" value="{{ next }}"/>
-        </div>
-        <div class="panel-footer">
-
         </div>
     </div>
 {% endblock %}
