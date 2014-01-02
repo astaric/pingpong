@@ -10,19 +10,6 @@ from pingpong.live.forms import UpcomingMatchesFromset
 from pingpong.models import Category, Match
 
 
-class ReadOnlyWidget(HiddenInput):
-    is_hidden = False
-
-    def __init__(self, model=None):
-        super(ReadOnlyWidget, self).__init__()
-        self.model = model
-
-    def render(self, name, value, attrs=None):
-        if self.model:
-            value = self.model.objects.get(id=value)
-        return mark_safe(value) + super(ReadOnlyWidget, self).render(name, value, attrs)
-
-
 class CurrentMatchForm(ModelForm):
     class Meta:
         model = Match
