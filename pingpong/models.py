@@ -254,6 +254,10 @@ class Match(models.Model):
         #     if not blocking_matches.exists():
         #         skip
 
+    @staticmethod
+    def current_matches():
+        return Match.objects.filter(status=Match.PLAYING, group__isnull=True)
+
     def description(self):
         if self.group is not None:
             return unicode(self.group)

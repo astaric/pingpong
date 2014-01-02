@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
-from django.forms import ModelChoiceField, ModelForm
+from django.forms import ModelChoiceField, ModelForm, CharField
 from django.forms.models import modelformset_factory, BaseModelFormSet
+import re
 
 from pingpong.models import Table, Match
 
@@ -44,3 +45,23 @@ class BaseUpcomingMatchesFromset(BaseModelFormSet):
                                    for table in duplicate_tables])
 
 UpcomingMatchesFromset = modelformset_factory(Match, UpcomingMatchModelForm, formset=BaseUpcomingMatchesFromset, extra=0)
+
+
+class CurrentMatchForm(ModelForm):
+    class Meta:
+        model = Match
+        fields = ()
+
+    score = CharField(required=False)
+
+    def clean_score(self):
+        score = self.cleaned_data.get('score', None)
+        if score:
+            match = re.match(r'(\d+)[^\d]+(\d+)', score)
+            if match:
+                scores = map(int, match.groups())
+                self.instance.set_score(*scores)
+            else:
+                raise ValidationError('Invalid score.')
+
+CurrentMatchesFromset = modelformset_factory(Match, form=CurrentMatchForm, extra=0)

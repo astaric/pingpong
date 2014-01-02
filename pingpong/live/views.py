@@ -1,34 +1,7 @@
-import re
-
-from django.core.exceptions import ValidationError
-from django.forms import CharField, HiddenInput
-from django.forms.models import modelformset_factory, ModelForm
 from django.shortcuts import render, redirect
-from django.utils.safestring import mark_safe
 
-from pingpong.live.forms import UpcomingMatchesFromset
+from pingpong.live.forms import UpcomingMatchesFromset, CurrentMatchesFromset
 from pingpong.models import Category, Match
-
-
-class CurrentMatchForm(ModelForm):
-    class Meta:
-        model = Match
-        fields = ()
-
-    score = CharField(required=False)
-
-    def clean(self):
-        cleaned_data = ModelForm.clean(self)
-
-        score = cleaned_data.get('score', None)
-        if score:
-            match = re.match(r'(\d+)[^\d]+(\d+)', score)
-            if match:
-                scores = map(int, match.groups())
-                self.instance.set_score(*scores)
-            else:
-                raise ValidationError('Invalid score.')
-        return cleaned_data
 
 
 def current_matches(request):
@@ -37,19 +10,18 @@ def current_matches(request):
     except Category.DoesNotExist:
         return redirect('category_add')
 
-    matches = Match.objects.filter(status=Match.PLAYING, group__isnull=True)
-    UpcomingMatchesFromset = modelformset_factory(Match, form=CurrentMatchForm, extra=0)
+    current_matches = Match.current_matches()
     if request.method == 'POST':
-        formset = UpcomingMatchesFromset(request.POST)
+        formset = CurrentMatchesFromset(request.POST)
         if formset.is_valid():
             formset.save()
             return redirect(current_matches)
     else:
-        formset = UpcomingMatchesFromset(queryset=matches)
+        formset = CurrentMatchesFromset(queryset=current_matches)
 
     return render(request, 'current_matches.html', {
         'category': category,
-        'matches': matches,
+        'matches': current_matches,
         'formset': formset,
     })
 

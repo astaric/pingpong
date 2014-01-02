@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from pingpong.live.forms import UpcomingMatchesFromset
+from pingpong.live.forms import UpcomingMatchesFromset, CurrentMatchForm
 from pingpong.models import Match
 
 
@@ -90,6 +90,47 @@ class UpcomingMatchesFromsetTests(TestCase):
             'form-INITIAL_FORMS': len(matches),
             'form-MAX_NUM_FORMS': len(matches),
         }
-        for i, match in enumerate(Match.ready_group_matches()):
+        for i, match in enumerate(matches):
             data['form-%d-id' % i] = unicode(match.id)
         return data
+
+
+class CurrentMatchFormTests(TestCase):
+    fixtures = ['current_matches']
+
+    def test_can_validate_empty_score(self):
+        form = CurrentMatchForm({'id': 4})
+        self.assertTrue(form.is_valid())
+
+    def test_can_parse_different_score_formats(self):
+        data = {'id': 4, 'score': '5:2'}
+
+        form = CurrentMatchForm(data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.instance.player1_score, 5)
+        self.assertEqual(form.instance.player2_score, 2)
+
+        data['score'] = '5 2'
+        form = CurrentMatchForm(data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.instance.player1_score, 5)
+        self.assertEqual(form.instance.player2_score, 2)
+
+        data['score'] = '5.2'
+        form = CurrentMatchForm(data)
+        self.assertTrue(form.is_valid())
+        self.assertEqual(form.instance.player1_score, 5)
+        self.assertEqual(form.instance.player2_score, 2)
+
+        # Negative tests
+        data['score'] = '5'
+        form = CurrentMatchForm(data)
+        self.assertFalse(form.is_valid())
+
+        data['score'] = 'x y'
+        form = CurrentMatchForm(data)
+        self.assertFalse(form.is_valid())
+
+        data['score'] = '1:b'
+        form = CurrentMatchForm(data)
+        self.assertFalse(form.is_valid())
