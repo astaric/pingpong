@@ -91,6 +91,13 @@ class CategoryCreateGroupsTests(TestCase):
             else:
                 self.assertIsMember(player, group)
 
+    def test_create_groups_creates_group_matches(self):
+        category = Category.objects.get(name="Category without clubs")
+
+        category.create_groups(number_of_groups=4)
+
+        self.assertEqual(len(Match.ready_group_matches()), 4)
+
     def assertMemberCountsEqual(self, groups, member_counts):
         for group, member_count in zip(groups, member_counts):
             self.assertEqual(group.members.count(), member_count)

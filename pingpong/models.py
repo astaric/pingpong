@@ -72,7 +72,7 @@ class Category(models.Model):
     min_age = models.IntegerField(_("min age"), blank=True, null=True)
     max_age = models.IntegerField(_("max age"), blank=True, null=True)
 
-    def create_groups(self, leaders, number_of_groups=0):
+    def create_groups(self, leaders=(), number_of_groups=0):
         Group.objects.filter(category=self).delete()
 
         if number_of_groups == 0:
@@ -120,8 +120,8 @@ class Category(models.Model):
                                      group=group,
                                      status=Match.PENDING))
 
-        # Create a dummy match that will be used to assign table to the group.
-        matches.append(Match(group=group, status=Match.READY))
+            # Create a dummy match that will be used to assign table to the group.
+            matches.append(Match(group=group, status=Match.READY))
         Match.objects.bulk_create(matches)
 
     def __unicode__(self):
