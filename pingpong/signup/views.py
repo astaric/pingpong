@@ -19,6 +19,13 @@ def index(request):
     return redirect(reverse('category_add'))
 
 
+def category_details(request, category_id):
+    category = get_object_or_404(Category.objects.annotate(Count('bracket'), Count('group')),
+                                 id=category_id)
+
+    return render(request, 'pingpong/category.html', dict(category=category))
+
+
 def edit_category(request, category_id):
     category = get_object_or_404(Category.objects.annotate(Count('bracket'), Count('group')),
                                  id=category_id)
@@ -51,7 +58,7 @@ def edit_category_players(request, category_id):
     else:
         players = players_formset(category)
 
-    return render(request, 'pingpong/category_edit.html',
+    return render(request, 'pingpong/category_edit_players.html',
                   dict(category=category,
                        players_formset=players))
 

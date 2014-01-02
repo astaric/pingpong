@@ -4,7 +4,7 @@
 {% load categories %}
 
 {% block current_mode %}
-    {% trans 'Category' %}
+    {% trans 'Categories' %}
 {% endblock %}
 
 {% block navigation_items %}
@@ -18,19 +18,6 @@
 
 {% block additional_header %}
     <link rel="stylesheet" href="{% static 'css/jquery-ui-1.10.3.custom.min.css' %}">
-    <style>
-        table.players > tbody > tr > td {
-            padding: 2px;
-        }
-
-        table.players input {
-            border: 0;
-        }
-
-        .collapsing {
-            transition: height 0.01s;
-        }
-    </style>
 {% endblock %}
 
 {% block content %}
@@ -43,6 +30,17 @@
                 </a>
                 {% else %}
                     {{ category.description }} ({{ category.name }})
+                {% endif %}
+                {% if category.group__count > 0 or category.bracket__count > 0 %}
+                    <span style="float:right;">
+                        {% if players_formset %}
+                            <a href="{% url 'category' category_id=category.id %}">
+                            {% trans 'Back to category' %}</a>
+                        {% else %}
+                            <a href="{% url 'category_edit_players' category_id=category.id %}">
+                            {% trans 'Edit players' %}</a>
+                        {% endif %}
+                    </span>
                 {% endif %}
             </h4>
         </div>
