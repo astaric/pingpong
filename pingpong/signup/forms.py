@@ -4,19 +4,19 @@ from django.forms.models import ModelForm, modelformset_factory, BaseModelFormSe
 from pingpong.models import Double, Player, Category
 
 
-class CategoryForm(ModelForm):
+class CategoryAddForm(ModelForm):
     class Meta:
         model = Category
         fields = ['name', 'description', 'type']
 
 
-class SimpleCategoryForm(ModelForm):
+class CategoryEditForm(ModelForm):
     class Meta:
         model = Category
         fields = ['name', 'description']
 
 
-class SimpleDoubleForm(ModelForm):
+class DoubleEditForm(ModelForm):
     player1 = ModelChoiceField(required=False, queryset=Player.objects.order_by('surname'))
     player2 = ModelChoiceField(required=False, queryset=Player.objects.order_by('surname'))
 
@@ -46,5 +46,5 @@ class BasePlayersFormSet(BaseModelFormSet):
 
 PlayerFormSet = modelformset_factory(Player, extra=3, fields=['name', 'surname', 'club'],
                                      formset=BasePlayersFormSet, can_delete=True)
-DoubleFormSet = modelformset_factory(Double, extra=3, form=SimpleDoubleForm,
+DoubleFormSet = modelformset_factory(Double, extra=3, form=DoubleEditForm,
                                      formset=BasePlayersFormSet, can_delete=True)

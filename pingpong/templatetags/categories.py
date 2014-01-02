@@ -2,7 +2,7 @@ from django import template
 from django.db.models import Count
 from pingpong.bracket.models import Bracket
 from pingpong.models import Category, GroupMember
-from pingpong.signup.forms import SimpleCategoryForm
+from pingpong.signup.forms import CategoryEditForm
 from pingpong.signup.views import players_formset
 
 register = template.Library()
@@ -20,7 +20,7 @@ def edit_category(context, category):
     if 'category_fields_form' in context:
         category_fields = context['category_fields_form']
     else:
-        category_fields = SimpleCategoryForm(instance=category, prefix='category_fields')
+        category_fields = CategoryEditForm(instance=category, prefix='category_fields')
 
     return {
         'category': category,

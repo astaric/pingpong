@@ -6,7 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.bracket.models import Bracket
 from pingpong.models import Category, Player, Double, Group
-from pingpong.signup.forms import PlayerFormSet, SimpleCategoryForm, CategoryForm, DoubleFormSet
+from pingpong.signup.forms import PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet
 
 
 def index(request):
@@ -24,14 +24,14 @@ def edit_category(request, category_id):
                                  id=category_id)
 
     if request.method == 'POST':
-        category_fields = SimpleCategoryForm(request.POST, instance=category, prefix='category_fields')
+        category_fields = CategoryEditForm(request.POST, instance=category, prefix='category_fields')
 
         if category_fields.is_valid():
             category_fields.save()
 
             return redirect(reverse("category", kwargs=dict(category_id=category.id)))
     else:
-        category_fields = SimpleCategoryForm(instance=category, prefix='category_fields')
+        category_fields = CategoryEditForm(instance=category, prefix='category_fields')
 
     return render(request, 'pingpong/category.html',
                   dict(category=category,
@@ -72,12 +72,12 @@ def _players_formset(category, post_data, Model, Formset):
 
 def add_category(request):
     if request.method == 'POST':
-        form = CategoryForm(request.POST)
+        form = CategoryAddForm(request.POST)
         if form.is_valid():
             category = form.save()
             return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
     else:
-        form = CategoryForm()
+        form = CategoryAddForm()
 
     categories = Category.objects.annotate(player_count=Count('players'))
     return render(request, 'pingpong/category_add.html',
