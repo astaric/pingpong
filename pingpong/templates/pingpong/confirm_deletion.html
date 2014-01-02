@@ -10,24 +10,28 @@
 {% block content %}
     <div>
         <p>
-        {% blocktrans with category_name=category.name category_description=category.description %}
-            Do you really want to delete {{ object_type }} {{ object_description }}?{% endblocktrans %}
+            {% blocktrans with category_name=category.name category_description=category.description %}
+                Do you really want to delete {{ object_type }} {{ object_description }}?{% endblocktrans %}
         </p>
+
         <p>
-           {% blocktrans %}The following related objects will be deleted:{% endblocktrans %}
+            {% blocktrans %}The following related objects will be deleted:{% endblocktrans %}
         </p>
-            {% regroup related_objects by 0 as related %}
-            {% for category in related %}
-                <p>
-                    <b>{{ category.grouper | capfirst }}</b>
-                    {% for item in category.list %}
-                        {{ item.1 }}{% if not forloop.last %},{% endif %}
-                    {% endfor %}
-                </p>
-            {% endfor %}
-        <div class="btn-group">
-            <input type="submit" name="yes" class="btn btn-danger" value="{% trans 'Yes' %}"/>
-            <input type="submit" name="no" class="btn btn-default" value="{% trans 'No' %}"/>
-        </div>
+        {% regroup related_objects by 0 as related %}
+        {% for category in related %}
+            <p>
+                <b>{{ category.grouper | capfirst }}</b>
+                {% for item in category.list %}
+                    {{ item.1 }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </p>
+        {% endfor %}
+        <form method="post" action="">
+            {% csrf_token %}
+            <div class="btn-group">
+                <input type="submit" name="yes" class="btn btn-danger" value="{% trans 'Yes' %}"/>
+                <input type="submit" name="no" class="btn btn-default" value="{% trans 'No' %}"/>
+            </div>
+        </form>
     </div>
 {% endblock %}

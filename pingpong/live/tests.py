@@ -43,7 +43,7 @@ class UpcomingMatchesFromsetTests(TestCase):
 
     def test_no_change(self):
         group_matches = Match.ready_group_matches()
-        data = self.create_empty_post_data()
+        data = create_empty_match_post_data(group_matches)
 
         formset = UpcomingMatchesFromset(data)
         self.assertTrue(formset.is_valid())
@@ -53,7 +53,7 @@ class UpcomingMatchesFromsetTests(TestCase):
 
     def test_assigning_table(self):
         group_matches = list(Match.ready_group_matches())
-        data = self.create_empty_post_data()
+        data = create_empty_match_post_data(group_matches)
         data['form-0-table'] = u'5'
 
         formset = UpcomingMatchesFromset(data)
@@ -63,7 +63,7 @@ class UpcomingMatchesFromsetTests(TestCase):
         self.assertEqual(len(group_matches) - 1, len(Match.ready_group_matches()))
 
     def test_assigning_multiple_tables(self):
-        data = self.create_empty_post_data()
+        data = create_empty_match_post_data(Match.ready_group_matches())
         data['form-0-table'] = u'5'
         data['form-1-table'] = u'6'
 
@@ -75,24 +75,13 @@ class UpcomingMatchesFromsetTests(TestCase):
         pass
 
     def test_assigning_same_table_to_different_matches(self):
-        data = self.create_empty_post_data()
+        data = create_empty_match_post_data(Match.ready_group_matches())
         data['form-0-table'] = u'4'
         data['form-1-table'] = u'4'
 
         formset = UpcomingMatchesFromset(data)
 
         self.assertEqual(formset.is_valid(), False)
-
-    def create_empty_post_data(self):
-        matches = Match.ready_group_matches()
-        data = {
-            'form-TOTAL_FORMS': len(matches),
-            'form-INITIAL_FORMS': len(matches),
-            'form-MAX_NUM_FORMS': len(matches),
-        }
-        for i, match in enumerate(matches):
-            data['form-%d-id' % i] = unicode(match.id)
-        return data
 
 
 class CurrentMatchFormTests(TestCase):
@@ -134,3 +123,23 @@ class CurrentMatchFormTests(TestCase):
         data['score'] = '1:b'
         form = CurrentMatchForm(data)
         self.assertFalse(form.is_valid())
+
+
+class CurrentMatchesViewTests(TestCase):
+    fixtures = ['current_matches']
+
+    def test_setting_scores(self):
+        data = create_empty_match_post_data(Match.current_matches())
+
+        self.client.post(reverse('current_matches'), data)
+
+
+def create_empty_match_post_data(matches):
+        data = {
+            'form-TOTAL_FORMS': len(matches),
+            'form-INITIAL_FORMS': len(matches),
+            'form-MAX_NUM_FORMS': len(matches),
+        }
+        for i, match in enumerate(matches):
+            data['form-%d-id' % i] = unicode(match.id)
+        return data

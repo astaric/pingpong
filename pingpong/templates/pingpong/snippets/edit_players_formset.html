@@ -1,3 +1,5 @@
+<form method="post" action="{% url 'category_edit_players' category_id=category.id %}">
+{% csrf_token %}
 {{ players_formset.management_form }}
 {{ players_formset.non_form_errors.as_ul }}
 
@@ -33,3 +35,4 @@
 <div class="panel-footer">
     <input type="submit" name="save" class="btn btn-primary btn-sm" value="Shrani"/>
 </div>
+</form>

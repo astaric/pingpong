@@ -15,7 +15,7 @@ def current_matches(request):
         formset = CurrentMatchesFromset(request.POST)
         if formset.is_valid():
             formset.save()
-            return redirect(current_matches)
+            return redirect('current_matches')
     else:
         formset = CurrentMatchesFromset(queryset=current_matches)
 
@@ -46,7 +46,7 @@ def upcoming_matches(request):
             if matches_to_print:
                 from pingpong.printing.helpers import print_matches
                 print_matches(matches_to_print)
-            return redirect(upcoming_matches)
+            return redirect('upcoming_matches')
     else:
         formset = UpcomingMatchesFromset(queryset=bracket_matches | group_matches | doubles_matches)
 

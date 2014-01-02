@@ -72,6 +72,8 @@
 {% endblock %}
 
 {% block content %}
+    <form method="post" action="{% url 'edit_group' category_id=category.id group_id=group.id%}">
+    {% csrf_token %}
     {{ formset.management_form }}
     {{ formset.non_form_errors.as_ul }}
 
@@ -128,4 +130,5 @@
             </tr>
         {% endfor %}
     </table>
+    </form>
 {% endblock %}

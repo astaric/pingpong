@@ -1,5 +1,7 @@
 {% load i18n %}
 <div id="categoryFields" class="panel-body{% if not category_fields_form.errors %} collapse{% endif %}">
+    <form method="post" action="{% url 'category_edit' category_id=category.id %}">
+    {% csrf_token %}
     {{ category_fields_form.as_p }}
     <p>
         <label></label>
@@ -36,4 +38,5 @@
             </a>
         {% endif %}
     </p>
+    </form>
 </div>

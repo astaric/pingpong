@@ -6,6 +6,8 @@
 
 {% block content %}
     <div class="panel panel-default">
+        <form method="post" action="{% url 'category_add' %}">
+        {% csrf_token %}
         <div class="panel-heading">
             <h4 class="panel-title">{% trans 'Add category' %}</h4>
         </div>
@@ -17,5 +19,6 @@
         <div class="panel-footer">
             <input type="submit" class="btn btn-primary" value="Dodaj"/>
         </div>
+        </form>
     </div>
 {% endblock %}

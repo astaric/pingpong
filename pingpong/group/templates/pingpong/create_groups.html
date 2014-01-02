@@ -2,6 +2,8 @@
 
 {% block content %}
     <div class="panel panel-default">
+        <form method="post" action="{% url 'groups' category_id=category.id %}">
+        {% csrf_token %}
         <div class="panel-heading">
             <h4 class="panel-title">Določanje skupin</h4>
         </div>
@@ -41,5 +43,6 @@
                 <input type="submit" class="btn btn-default btn-sm" value="Kreiraj skupine"/>
             </p>
         </div>
+        </form>
     </div>
 {% endblock %}

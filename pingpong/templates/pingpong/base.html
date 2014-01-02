@@ -10,7 +10,6 @@
     {% block additional_header %}{% endblock %}
 </head>
 <body>
-<form method="post" action="">
     {% csrf_token %}
 
     <nav class="navbar navbar-default" role="navigation">
@@ -57,7 +56,6 @@
         {% block content %}
         {% endblock %}
     </div>
-</form>
 
 <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
