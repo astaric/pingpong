@@ -32,7 +32,6 @@
             <ul id="mainnav" class="dropdown-menu">
                 {% if category %}
                     <li><a href="{% url 'category_edit' category_id=category.id %}">{% trans 'Categories' %}</a></li>
-                    <li><a href="{% url 'groups' category_id=category.id %}">{% trans 'Groups' %}</a></li>
                 {% endif %}
                 <li><a href="{% url 'upcoming_matches' %}">{% trans 'Dashboard' %}</a></li>
                 <li>
