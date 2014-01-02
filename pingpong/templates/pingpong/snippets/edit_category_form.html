@@ -7,7 +7,7 @@
     </p>
     <br />
     <p>
-        <label>Kreiraj</label>
+        <label>{% trans 'Draw' %}</label>
         {% if category.group__count == 0 %}
             <a class="btn btn-primary" href="{% url "groups" category_id=category.id %}">
                 <i class="glyphicon glyphicon-plus"></i> Skupine
@@ -21,18 +21,18 @@
     </p>
 
     <p>
-        <label>Izbriši</label>
+        <label>{% trans 'Remove' %}</label>
         <a class="btn btn-danger" href="{% url "category_delete" category_id=category.id %}">
-            <i class="glyphicon glyphicon-remove"></i> Kategorijo
+            <i class="glyphicon glyphicon-remove"></i> {% trans 'category' %}
         </a>
         {% if category.group__count > 0 %}
             <a class="btn btn-danger" href="{% url "delete_groups" category_id=category.id %}">
-                <i class="glyphicon glyphicon-remove"></i> Skupine
+                <i class="glyphicon glyphicon-remove"></i> {% trans 'groups' %}
             </a>
         {% endif %}
         {% if category.bracket__count > 0 %}
             <a class="btn btn-danger" href="{% url "delete_brackets" category_id=category.id %}">
-                <i class="glyphicon glyphicon-remove"></i> Piramide
+                <i class="glyphicon glyphicon-remove"></i> {% trans 'brackets' %}
             </a>
         {% endif %}
     </p>
