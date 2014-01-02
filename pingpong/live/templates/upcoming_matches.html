@@ -16,6 +16,7 @@
             <div style='float:left;'>
                 {% if user.is_authenticated %}
                     {{ formset.management_form }}
+                    {{ formset.non_form_errors }}
                     {% for form in formset %}
                         <div>
                             <div style="display: inline-block; width: 300px;">

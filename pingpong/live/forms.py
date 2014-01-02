@@ -1,5 +1,6 @@
+from django.core.exceptions import ValidationError
 from django.forms import ModelChoiceField, ModelForm
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, BaseModelFormSet
 
 from pingpong.models import Table, Match
 
@@ -22,4 +23,24 @@ class UpcomingMatchModelForm(ModelForm):
             self.instance.save()
 
 
-UpcomingMatchesFromset = modelformset_factory(Match, UpcomingMatchModelForm, extra=0)
+class BaseUpcomingMatchesFromset(BaseModelFormSet):
+    def clean(self):
+        if any(self.errors):
+            return
+
+        tables = set()
+        duplicate_tables = {}
+        for form in self.forms:
+            table = form.cleaned_data['table']
+            if table is not None and table in tables:
+                duplicate_tables.setdefault(table, []).append(form)
+            tables.add(table)
+
+        for table, forms in duplicate_tables.items():
+            pass
+
+        if duplicate_tables:
+            raise ValidationError([ValidationError("Multiple matches are assigned to table %s." % table)
+                                   for table in duplicate_tables])
+
+UpcomingMatchesFromset = modelformset_factory(Match, UpcomingMatchModelForm, formset=BaseUpcomingMatchesFromset, extra=0)

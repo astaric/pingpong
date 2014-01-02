@@ -80,11 +80,9 @@ def upcoming_matches(request):
     if request.method == 'POST':
         formset = UpcomingMatchesFromset(request.POST)
         if formset.is_valid():
-            matches_to_print = []
-            for form in formset:
-                form.save()
-                if form.instance.group is None:
-                    matches_to_print.append(form.instance)
+            instances = formset.save()
+            matches_to_print = [instance for instance in instances
+                                if instance is not None and instance.group is None]
 
             if matches_to_print:
                 from pingpong.printing.helpers import print_matches
