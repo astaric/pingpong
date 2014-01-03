@@ -4,7 +4,7 @@ from django.template import TemplateSyntaxError, NodeList, Context, Variable
 from django.template.loader import render_to_string
 
 from pingpong.bracket.models import Bracket
-from pingpong.models import Category, GroupMember, Table
+from pingpong.models import Category, GroupMember, Table, Match
 from pingpong.signup.forms import CategoryEditForm
 from pingpong.signup.views import players_formset
 
@@ -132,4 +132,16 @@ def show_tables():
 def show_table(table):
     return {
         'table': table,
+    }
+
+@register.inclusion_tag('pingpong/snippets/set_score_form.html')
+def set_score_form(table):
+    try:
+        match = table.current_matches().get()
+    except Match.DoesNotExist:
+        match = None
+
+    return {
+        'table': table,
+        'match': match,
     }

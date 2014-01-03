@@ -88,6 +88,43 @@ table.players input {
     border: 0;
 }
 
+.table {
+    cursor: pointer;
+}
+
 .collapsing {
     transition: height 0.01s;
+}
+
+.player1_score {
+    float: left;
+}
+
+.player2_score {
+    float: right;
+}
+
+.player1_score, .player2_score {
+    font-size: 1.5em;
+}
+
+.score_choices {
+    padding-left: inherit;
+}
+
+.score_choices li {
+    cursor: pointer;
+    display: inline-block;
+    color: #808080;
+    padding: 5px 14px;
+    border: 1px solid;
+    margin-right: 15px;
+}
+
+.score_choices li.selected {
+    color: #000000;
+}
+
+.score_choices li.unselected {
+    color: #e0e0e0;
 }

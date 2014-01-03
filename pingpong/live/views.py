@@ -1,7 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from pingpong.live.forms import UpcomingMatchesFromset, CurrentMatchesFromset
-from pingpong.models import Category, Match
+from pingpong.models import Category, Match, Table
 
 
 def current_matches(request):
@@ -57,3 +57,11 @@ def upcoming_matches(request):
         'bracket_matches': bracket_matches,
         'doubles_matches': doubles_matches,
     })
+
+
+def set_score(request, table_id):
+    table = get_object_or_404(Table, id=table_id)
+
+    return render(request, 'pingpong/dashboard/set_score.html', dict(
+        table=table
+    ))

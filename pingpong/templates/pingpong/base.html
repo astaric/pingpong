@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/pingpong.css' %}" rel="stylesheet" media="screen">
+
+    <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
     {% block additional_header %}{% endblock %}
 </head>
 <body>
@@ -56,7 +58,6 @@
         {% block content %}
         {% endblock %}
     </div>
-<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script>
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {

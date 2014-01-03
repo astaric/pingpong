@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from pingpong.live.forms import UpcomingMatchesFromset, CurrentMatchForm
-from pingpong.models import Match
+from pingpong.models import Match, Table
 
 
 class UpcomingMatchesViewTests(TestCase):
@@ -146,3 +146,11 @@ def create_empty_match_post_data(matches):
         for i, match in enumerate(matches):
             data['form-%d-id' % i] = unicode(match.id)
         return data
+
+
+class SetScoreViewTests(TestCase):
+    fixtures = ['current_matches']
+
+    def test_shows_table_info(self):
+        table = Table.objects.filter(all_matches__isnull=True)[0:1].get()
+        self.client.get(reverse('table_info', kwargs=dict(table_id=table.id)))

@@ -11,3 +11,20 @@
         {% endfor %}
         </tr>
 </table>
+<div class="modal" id="table-modal">
+</div>
+<script>
+    var i = 1;
+    $('#tables').find('.table').on('click', function(e) {
+        console.log($(this));
+        console.log($(this).data());
+        var remote = '{% url 'set_score' table_id=999 %}'.replace('999', $(this).data('tableId'));
+        console.log(remote);
+        $tableModal = $('#table-modal');
+        $tableModal.removeData('bs.modal');
+        $tableModal.modal({
+            remote: remote
+        });
+    });
+
+</script>
