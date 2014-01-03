@@ -1,49 +1,66 @@
 {% load i18n %}
 {% load pingpong_extras %}
 
-{% panel %}
+{% with match=matches.0 %}
+{% panel modal%}
     {{ table.name }}
     {% body %}
     {% if match.group %}
         {{ match.group }}
-    {% else %}
+    {% elif match.player1_id %}
         <div style="height:80px">
-            <div class="player1_score">
-                {{ match.player1 }}
+            <form id="set_score_form" method="post" action="{% url 'set_score' table_id=table.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ match.id }}">
+                <div class="player1_score">
+                    {{ match.player1 }}
 
-                <ul data-field='player1_score' class="score_choices">
-                    <input type="hidden" id=player1_score" name="player1_score">
-                    <li data-value="0">0</li>
-                    <li data-value="1">1</li>
-                    <li data-value="2">2</li>
-                    <li data-value="3">3</li>
-                </ul>
-            </div>
-            <div class="player2_score">
-                {{ match.player2 }}
+                    <ul data-field='player1_score' class="score_choices">
+                        <input type="hidden" id="player1_score" name="player1_score">
+                        <li data-value="0">0</li>
+                        <li data-value="1">1</li>
+                        <li data-value="2">2</li>
+                        <li data-value="3">3</li>
+                    </ul>
+                </div>
+                <div class="player2_score">
+                    {{ match.player2 }}
 
-                <ul data-field='player2_score' class="score_choices">
-                    <input type="hidden" id=player2_score" name="player2_score">
-                    <li data-value="0">0</li>
-                    <li data-value="1">1</li>
-                    <li data-value="2">2</li>
-                    <li data-value="3">3</li>
-                </ul>
-            </div>
+                    <ul data-field='player2_score' class="score_choices">
+                        <input type="hidden" id="player2_score" name="player2_score">
+                        <li data-value="0">0</li>
+                        <li data-value="1">1</li>
+                        <li data-value="2">2</li>
+                        <li data-value="3">3</li>
+                    </ul>
+                </div>
+            </form>
         </div>
     {% endif %}
     {% footer %}
     <button class="btn btn-default">{% trans 'Save' %}</button>
 {% endpanel %}
-<script>
-    $('.score_choices li').on('click', function (e) {
-        var control = $(this).parent();
-        var value = $(this).data('value');
+{% endwith %}
 
-        control.find('input').val(value);
-        control.find('li').addClass("unselected");
-        var selected_li = control.find('li[data-value='+value+']');
-        selected_li.removeClass('unselected');
-        selected_li.addClass('selected');
+<script>
+    $(document).ready(function () {
+        var $form = $("#set_score_form");
+        $('.score_choices li').on('click', function (e) {
+            var control = $(this).parent();
+            var value = $(this).data('value');
+
+            control.find('input').val(value);
+            control.find('li').addClass("unselected");
+            var selected_li = control.find('li[data-value=' + value + ']');
+            selected_li.removeClass('unselected');
+            selected_li.addClass('selected');
+
+            console.log($("#player1_score"));
+            console.log($form);
+            if ($("#player1_score").val() && $("#player2_score").val()) {
+                console.log('submitting');
+                $("#set_score_form").submit();
+            }
+        });
     });
 </script>

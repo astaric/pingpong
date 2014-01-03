@@ -65,3 +65,9 @@ class CurrentMatchForm(ModelForm):
                 raise ValidationError('Invalid score.')
 
 CurrentMatchesFromset = modelformset_factory(Match, form=CurrentMatchForm, extra=0)
+
+
+class SetScoreForm(ModelForm):
+    class Meta:
+        model = Match
+        fields = ('player1_score', 'player2_score')

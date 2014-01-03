@@ -1,6 +1,7 @@
+from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from pingpong.live.forms import UpcomingMatchesFromset, CurrentMatchesFromset
+from pingpong.live.forms import UpcomingMatchesFromset, CurrentMatchesFromset, SetScoreForm
 from pingpong.models import Category, Match, Table
 
 
@@ -61,7 +62,19 @@ def upcoming_matches(request):
 
 def set_score(request, table_id):
     table = get_object_or_404(Table, id=table_id)
+    matches = table.current_matches()
 
-    return render(request, 'pingpong/dashboard/set_score.html', dict(
-        table=table
+    if request.method == 'POST':
+        set_score_form = SetScoreForm(request.POST, instance=matches.get())
+        if set_score_form.is_valid():
+            set_score_form.save()
+            return redirect(reverse('upcoming_matches'))
+
+    if request.is_ajax():
+        template = 'pingpong/snippets/set_score_form.html'
+    else:
+        template = 'pingpong/dashboard/set_score.html'
+    return render(request, template, dict(
+        table=table,
+        matches=matches,
     ))

@@ -136,12 +136,10 @@ def show_table(table):
 
 @register.inclusion_tag('pingpong/snippets/set_score_form.html')
 def set_score_form(table):
-    try:
-        match = table.current_matches().get()
-    except Match.DoesNotExist:
-        match = None
+    matches = table.current_matches()
 
     return {
+        'modal': False,
         'table': table,
-        'match': match,
+        'matches': matches,
     }

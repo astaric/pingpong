@@ -153,4 +153,4 @@ class SetScoreViewTests(TestCase):
 
     def test_shows_table_info(self):
         table = Table.objects.filter(all_matches__isnull=True)[0:1].get()
-        self.client.get(reverse('table_info', kwargs=dict(table_id=table.id)))
+        self.client.get(reverse('set_score', kwargs=dict(table_id=table.id)))
