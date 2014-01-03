@@ -7,7 +7,7 @@ from pingpong.models import Table, Match
 
 
 class UpcomingMatchModelForm(ModelForm):
-    table = ModelChoiceField(required=False, queryset=Table.objects.filter(all_matches__isnull=True))
+    table = ModelChoiceField(required=False, queryset=Table.objects.exclude(all_matches__status=Match.PLAYING))
 
     class Meta:
         model = Match
