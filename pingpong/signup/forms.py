@@ -1,10 +1,11 @@
+from django.core.exceptions import ValidationError
 from django.forms import ModelChoiceField, IntegerField, CharField, Form
 from django.forms.models import ModelForm, modelformset_factory, BaseModelFormSet
 from django.utils.translation import ugettext_lazy as _
 
 from pingpong.bracket.helpers import create_brackets
 
-from pingpong.models import Player, GroupMember, Double, Category
+from pingpong.models import Player, GroupMember, Double, Category, Match
 
 
 class CategoryAddForm(ModelForm):
@@ -93,4 +94,24 @@ class GroupScoresForm(ModelForm):
         fields = ('id', 'place')
 
 
-GroupScoresFormset = modelformset_factory(GroupMember, form=GroupScoresForm, extra=0)
+class BaseGroupScoresFormset(BaseModelFormSet):
+    def clean(self):
+        used_places = set()
+        for form in self.forms:
+            place = form.cleaned_data.get('place')
+            if place is not None:
+                if place < 1 or place > len(self.forms):
+                    raise ValidationError('Place should be between 1 and %s' % len(self.forms))
+
+                if place in used_places:
+                    raise ValidationError('More than one member is assigned to place %s' % place)
+
+                used_places.add(place)
+
+    def save(self, commit=True):
+        instances = super(BaseGroupScoresFormset, self).save(commit)
+
+        if commit and all(f.cleaned_data['place'] for f in self.forms):
+            instances[0].group.match.update(status=Match.COMPLETE)
+
+GroupScoresFormset = modelformset_factory(GroupMember, form=GroupScoresForm, formset=BaseGroupScoresFormset, extra=0)

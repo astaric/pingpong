@@ -300,6 +300,10 @@ class Group(models.Model):
             .order_by('place', '-leader', 'player__surname') \
             .select_related('group', 'group__category', 'player')
 
+    @property
+    def match(self):
+        return Match.objects.filter(group=self, player1=None, player2=None)
+
     def assign_table(self, table):
         Match.objects.filter(group=self).update(table=table,
                                                 status=Match.PLAYING,
