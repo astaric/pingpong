@@ -8,10 +8,10 @@
 {% endblock %}
 
 {% block navigation_items %}
-    {% list_categories category%}
+    {% list_categories category %}
     {% if user.is_authenticated %}
-    <li><a href="{% url 'category_add' %}">
-        &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;&nbsp;</a></li>
+        <li><a href="{% url 'category_add' %}">
+            &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;&nbsp;</a></li>
     {% endif %}
 {% endblock %}
 
@@ -25,28 +25,22 @@
         <div class="panel-heading">
             <h4 class="panel-title">
                 {% if user.is_authenticated %}
-                <a data-toggle="collapse" href="#categoryFields">
-                    {{ category.description }} ({{ category.name }}) <i class="glyphicon glyphicon-pencil"></i>
-                </a>
+                    <a data-toggle="modal" href="{% url 'category_edit' category_id=category.id %}"
+                       data-target="#modal">
+                        {{ category.description }} ({{ category.name }}) <i class="glyphicon glyphicon-pencil"></i>
+                    </a>
                 {% else %}
                     {{ category.description }} ({{ category.name }})
                 {% endif %}
                 {% if category.group__count > 0 or category.bracket__count > 0 %}
                     <span style="float:right;">
-                        {% if players_formset %}
-                            <a href="{% url 'category' category_id=category.id %}">
-                            {% trans 'Back to category' %}</a>
-                        {% else %}
-                            <a href="{% url 'category_edit_players' category_id=category.id %}">
+                        <a data-toggle="modal" href="{% url 'category_edit_players' category_id=category.id %}"
+                           data-target="#modal-edit-players">
                             {% trans 'Edit players' %}</a>
-                        {% endif %}
                     </span>
                 {% endif %}
             </h4>
         </div>
-        {% if user.is_authenticated %}
-            {% edit_category category %}
-        {% endif %}
 
         {% block category_content %}
             {% if category.group__count == 0 and category.bracket__count == 0 %}
@@ -62,4 +56,10 @@
             {% endif %}
         {% endblock %}
     </div>
+    {% if user.is_authenticated %}
+        <div class="modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+             aria-hidden="true"></div>
+        <div class="modal" id="modal-edit-players" tabindex="-1" role="dialog" aria-labelledby="modal-label"
+             aria-hidden="true"></div>
+    {% endif %}
 {% endblock %}

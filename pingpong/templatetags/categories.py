@@ -23,12 +23,13 @@ def edit_category(context, category):
         category_fields = CategoryEditForm(instance=category, prefix='category_fields')
 
     return {
+        'panel': True,
         'category': category,
         'category_fields_form': category_fields,
     }
 
 
-@register.inclusion_tag('pingpong/snippets/edit_players_formset.html', takes_context=True)
+@register.inclusion_tag('pingpong/snippets/edit_players_form.html', takes_context=True)
 def edit_category_players(context, category):
     if 'players_formset' in context:
         players = context['players_formset']
@@ -36,6 +37,7 @@ def edit_category_players(context, category):
         players = players_formset(category)
 
     return {
+        'panel': True,
         'category': category,
         'players_formset': players,
     }

@@ -40,7 +40,11 @@ def edit_category(request, category_id):
     else:
         category_fields = CategoryEditForm(instance=category, prefix='category_fields')
 
-    return render(request, 'pingpong/category.html',
+    if request.is_ajax():
+        template = 'pingpong/snippets/edit_category_form.html'
+    else:
+        template = 'pingpong/category_edit.html'
+    return render(request, template,
                   dict(category=category,
                        category_fields_form=category_fields))
 
@@ -58,7 +62,11 @@ def edit_category_players(request, category_id):
     else:
         players = players_formset(category)
 
-    return render(request, 'pingpong/category_edit_players.html',
+    if request.is_ajax():
+        template = 'pingpong/snippets/edit_players_form.html'
+    else:
+        template = 'pingpong/category_edit_players.html'
+    return render(request, template,
                   dict(category=category,
                        players_formset=players))
 

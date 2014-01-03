@@ -1,27 +1,44 @@
 {% load i18n %}
-<div id="categoryFields" class="panel-body{% if not category_fields_form.errors %} collapse{% endif %}">
-    <form method="post" action="{% url 'category_edit' category_id=category.id %}">
-    {% csrf_token %}
+<form method="post" action="{% url 'category_edit' category_id=category.id %}">
+{% csrf_token %}
+{% if panel %}
+    <div class="panel-body">
+{% else %}
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="modal-label">{% trans 'Edit' %} {{ category.description }}
+            ({{ category.name }})</h4>
+    </div>
+    <div class="modal-body">
+{% endif %}
     {{ category_fields_form.as_p }}
     <p>
         <label></label>
         <input type="submit" value="{% trans 'Save' %}">
     </p>
-    <br />
-    <p>
-        <label>{% trans 'Draw' %}</label>
-        {% if category.group__count == 0 %}
-            <a class="btn btn-primary" href="{% url "groups" category_id=category.id %}">
-                <i class="glyphicon glyphicon-plus"></i> Skupine
-            </a>
-        {% endif %}
-        {% if category.bracket__count == 0 %}
-            <a class="btn btn-default" href="#">
-                <i class="glyphicon glyphicon-plus"></i> Piramide
-            </a>
-        {% endif %}
-    </p>
-
+    {% if panel %}
+        <br/>
+    {% else %}
+        </div>
+        <div class="modal-footer">
+    {% endif %}
+    {% if category.group__count == 0 or category.bracket__count == 0 %}
+        <p>
+            <label>{% trans 'Draw' %}</label>
+            {% if category.group__count == 0 %}
+                <a class="btn btn-primary" href="{% url "groups" category_id=category.id %}">
+                    <i class="glyphicon glyphicon-plus"></i> Skupine
+                </a>
+            {% endif %}
+            {% if category.bracket__count == 0 %}
+                <a class="btn btn-default" href="#">
+                    <i class="glyphicon glyphicon-plus"></i> Piramide
+                </a>
+            {% endif %}
+        </p>
+    {% endif %}
     <p>
         <label>{% trans 'Remove' %}</label>
         <a class="btn btn-danger" href="{% url "category_delete" category_id=category.id %}">
@@ -38,5 +55,11 @@
             </a>
         {% endif %}
     </p>
-    </form>
-</div>
+    {% if panel %}
+        </div>
+    {% else %}
+        </div>
+        </div>
+        </div>
+    {% endif %}
+</form>
