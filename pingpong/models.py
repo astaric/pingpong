@@ -8,7 +8,7 @@ from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 
-from pingpong.group.helpers import berger_tables, shuffled
+from pingpong.helpers import berger_tables, shuffled
 
 
 GENDER_CHOICES = (
