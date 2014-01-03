@@ -4,7 +4,7 @@ from pingpong.live.forms import UpcomingMatchesFromset, CurrentMatchForm
 from pingpong.models import Match
 
 
-class UpcomingMatchesTests(TestCase):
+class UpcomingMatchesViewTests(TestCase):
     fixtures = ['ready_matches']
 
     def test_shows_ready_group_matches(self):
@@ -127,6 +127,9 @@ class CurrentMatchFormTests(TestCase):
 
 class CurrentMatchesViewTests(TestCase):
     fixtures = ['current_matches']
+
+    def test_current_matches(self):
+        self.client.get(reverse('current_matches'))
 
     def test_setting_scores(self):
         data = create_empty_match_post_data(Match.current_matches())

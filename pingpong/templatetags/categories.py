@@ -4,7 +4,7 @@ from django.template import TemplateSyntaxError, NodeList, Context, Variable
 from django.template.loader import render_to_string
 
 from pingpong.bracket.models import Bracket
-from pingpong.models import Category, GroupMember
+from pingpong.models import Category, GroupMember, Table
 from pingpong.signup.forms import CategoryEditForm
 from pingpong.signup.views import players_formset
 
@@ -115,3 +115,17 @@ class PanelNode(template.Node):
             body=self.body.render(context),
             footer=self.footer.render(context),
         )))
+
+@register.inclusion_tag('pingpong/snippets/tables.html')
+def show_tables():
+    tables = Table.objects.order_by('display_order').prefetch_related('bracketslot_set', 'group_set', 'group_set__category')
+    return {
+        'tables': tables,
+    }
+
+
+@register.inclusion_tag('pingpong/snippets/table.html')
+def show_table(table):
+    return {
+        'table': table,
+    }

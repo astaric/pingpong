@@ -3,19 +3,7 @@ from pingpong.models import Table, Player, GroupMember
 
 register = template.Library()
 
-@register.inclusion_tag('snippet/tables.html', takes_context=True)
-def show_tables(context):
-    tables = Table.objects.order_by('display_order').prefetch_related('bracketslot_set', 'group_set', 'group_set__category')
-    return {
-        'tables': tables,
-    }
 
-
-@register.inclusion_tag('snippet/table.html', takes_context=True)
-def show_table(context, table):
-    return {
-        'table': table,
-    }
 
 
 @register.inclusion_tag('snippet/group.html', takes_context=True)
