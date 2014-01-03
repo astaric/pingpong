@@ -1,6 +1,6 @@
 from django import template
 from django.db.models import Count
-from django.template import TemplateSyntaxError, NodeList, Context
+from django.template import TemplateSyntaxError, NodeList, Context, Variable
 from django.template.loader import render_to_string
 
 from pingpong.bracket.models import Bracket
@@ -75,9 +75,12 @@ def show_brackets(category):
 @register.tag
 def panel(parser, token):
     bits = list(token.split_contents())
-    if len(bits) > 2:
+    if len(bits) == 1:
+        bits.append('True')
+    if len(bits) == 2:
+        modal = parser.compile_filter(bits[1])
+    else:
         raise TemplateSyntaxError("%r takes at most one argument" % bits[0])
-    modal = parser.compile_filter(bits[1]) if len(bits) > 1 else None
 
     title = parser.parse(('body', 'footer', 'endpanel',))
     body = footer = NodeList()

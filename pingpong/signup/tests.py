@@ -20,13 +20,13 @@ class SignupViewsTestCase(TestCase):
         unexpected_category = Category.objects.create(name="Different category", gender=0)
         expected_players = self.create_players(expected_category, 3)
         unexpected_players = self.create_players(unexpected_category, 3)
-        category_edit_url = reverse('category_edit', kwargs=dict(category_id=expected_category.id))
+        category_edit_url = reverse('category_edit_players', kwargs=dict(category_id=expected_category.id))
 
         resp = self.client.get(category_edit_url)
 
         self.assertEqual(resp.status_code, 200)
-        self.assertIn('formset', resp.context)
-        formset_instances = [f.instance for f in resp.context['formset'].forms]
+        self.assertIn('players_formset', resp.context)
+        formset_instances = [f.instance for f in resp.context['players_formset'].forms]
         for p in expected_players:
             self.assertIn(p, formset_instances)
         for p in unexpected_players:
@@ -35,16 +35,16 @@ class SignupViewsTestCase(TestCase):
         post_data = {
             'category-name': 'New name',
             'category-descritpion': 'New description',
-            'player-0-name': 'X',
-            'player-0-surname': 'Y',
-            'player-0-club': 'C',
-            'player-TOTAL_FORMS': 1,
-            'player-INITIAL_FORMS': 0,
-            'player-MAX_NUM_FORMS': 10
+            'players-0-name': 'X',
+            'players-0-surname': 'Y',
+            'players-0-club': 'C',
+            'players-TOTAL_FORMS': 1,
+            'players-INITIAL_FORMS': 0,
+            'players-MAX_NUM_FORMS': 10
         }
         resp = self.client.post(category_edit_url, post_data)
 
-        self.assertRedirects(resp, category_edit_url)
+        self.assertRedirects(resp, reverse('category', kwargs=dict(category_id=expected_category.id)))
         self.assertEqual(Player.objects.filter(name='X', surname='Y', club='C', category=expected_category).count(), 1)
 
     def test_add_category_view(self):
@@ -73,8 +73,8 @@ class SignupViewsTestCase(TestCase):
         resp = self.client.get(delete_category_url)
 
         self.assertEqual(resp.status_code, 200)
-        self.assertIn('category', resp.context)
-        self.assertEqual(resp.context['category'], category)
+        self.assertIn('object_description', resp.context)
+        self.assertIn(str(category.name), resp.context['object_description'])
 
         # Answering no redirects to edit page
         resp = self.client.post(delete_category_url, dict(no='No'))
