@@ -11,10 +11,13 @@
             <h4 class="panel-title">Login</h4>
         </div>
         <div class="panel-body">
-            {{ form.as_p }}
-            <label></label>
-            <input class="btn btn-default" type="submit" value="{% trans 'Login' %}"/>
-            <input type="hidden" name="next" value="{{ next }}"/>
+            <form method="post" action="">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <label></label>
+                <input class="btn btn-default" type="submit" value="{% trans 'Login' %}"/>
+                <input type="hidden" name="next" value="{{ next }}"/>
+            </form>
         </div>
     </div>
 {% endblock %}
