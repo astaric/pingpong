@@ -51,15 +51,19 @@ def edit_category_players(context, category):
 @register.inclusion_tag('pingpong/snippets/groups.html')
 def show_groups(category):
     members = GroupMember.for_category(category)
-
-    class AnonymousUser:
-        @staticmethod
-        def is_authenticated():
-            return False
-
     return {
         'group_members': members,
-        'user': AnonymousUser,
+    }
+
+
+@register.inclusion_tag('pingpong/snippets/group.html')
+def show_group(group, members=None):
+    if members is None:
+        members = GroupMember.for_group(group)
+
+    return {
+        'group': group,
+        'members': members,
     }
 
 

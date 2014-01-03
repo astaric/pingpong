@@ -1,0 +1,10 @@
+
+<div class='group'>
+    <div style='font-weight: bold;'>{{ group.category.name }} - {{ group.name }}</div>
+{% for member in members %}
+    <div>
+        {% if member.place %}<div class='place'>{{ member.place }}</div>{% endif %}
+        <div class='player{% if member.leader %} leader{% endif %}'>{{ member.player.full_name }}</div>
+    </div>
+{% endfor %}
+</div>

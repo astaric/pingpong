@@ -41,7 +41,6 @@ INSTALLED_APPS = (
 
     'pingpong',
     'pingpong.signup',
-    'pingpong.group',
     'pingpong.bracket',
     'pingpong.slideshow',
     'pingpong.live',

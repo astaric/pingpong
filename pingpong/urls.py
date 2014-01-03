@@ -13,7 +13,6 @@ urlpatterns = patterns('',
     url(r'^$', views.index),
 
     url(r'', include('pingpong.signup.urls')),
-    url(r'', include('pingpong.group.urls')),
 
     url(r'^brackets_slideshow', 'pingpong.slideshow.views.brackets_slideshow', name='brackets_slideshow'),
     url(r'^groups_slideshow', 'pingpong.slideshow.views.groups_slideshow', name='groups_slideshow'),
