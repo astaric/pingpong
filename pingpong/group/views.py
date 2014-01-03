@@ -84,26 +84,4 @@ class GroupsView(View):
 
 
 
-def edit_group(request, category_id, group_id):
-    category = get_object_or_404(Category, id=category_id)
-    group = get_object_or_404(Group, id=group_id)
 
-    groups = Group.objects.filter(category_id=group.category_id).annotate(member_count=Count('members'))
-    members = GroupMember.for_group(group)
-
-    if request.method == 'POST':
-        formset = GroupScoresFormset(request.POST, queryset=members)
-        if formset.is_valid():
-            formset.save()
-            return redirect(reverse('groups', kwargs=dict(category_id=category.id)))
-    else:
-        formset = GroupScoresFormset(queryset=members)
-
-
-    matches = Match.objects.filter(group=group).select_related('player1', 'player2')
-    return render(request, 'pingpong/group_edit.html',
-                  dict(category=category,
-                       group=group,
-                       groups=groups,
-                       group_members=members,
-                       matches=matches, formset=formset))

@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^category/(?P<category_id>\d+)/delete_brackets$', views.delete_brackets, name='delete_brackets'),
     url(r'^category/(?P<category_id>\d+)/edit/$', views.edit_category, name='category_edit'),
     url(r'^category/(?P<category_id>\d+)/groups/create/$', views.create_groups, name='create_groups'),
+    url(r'^category/(?P<category_id>\d+)/groups?/(?P<group_id>\d+)/edit/$', views.edit_group, name='edit_group'),
     url(r'^category/(?P<category_id>\d+)/players/edit/$', views.edit_category_players, name='category_edit_players'),
 )

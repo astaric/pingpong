@@ -12,7 +12,7 @@ class TestGroupViewsTestCase(TestCase):
         pass
 
     def test_groups_create(self):
-        resp = self.client.get(reverse('groups', kwargs=dict(category_id=self.category.id)))
+        resp = self.client.get(reverse('create_groups', kwargs=dict(category_id=self.category.id)))
 
         self.assertEqual(resp.status_code, 200)
 
