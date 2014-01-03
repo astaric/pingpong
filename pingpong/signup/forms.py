@@ -1,7 +1,10 @@
-from django.forms import ModelChoiceField, IntegerField
+from django.forms import ModelChoiceField, IntegerField, CharField, Form
 from django.forms.models import ModelForm, modelformset_factory, BaseModelFormSet
+from django.utils.translation import ugettext_lazy as _
 
-from pingpong.models import Double, Player, Category
+from pingpong.bracket.helpers import create_brackets
+
+from pingpong.models import Player, GroupMember, Double, Category
 
 
 class CategoryAddForm(ModelForm):
@@ -44,7 +47,50 @@ class BasePlayersFormSet(BaseModelFormSet):
         seeds.sort(key=lambda x: x.cleaned_data['seed'])
         return [f.instance for f in seeds]
 
+
 PlayerFormSet = modelformset_factory(Player, extra=3, fields=['name', 'surname', 'club'],
                                      formset=BasePlayersFormSet, can_delete=True)
 DoubleFormSet = modelformset_factory(Double, extra=3, form=DoubleEditForm,
                                      formset=BasePlayersFormSet, can_delete=True)
+
+
+class NumberOfGroupsForm(Form):
+    number = IntegerField(label=_("Number of groups"), required=True)
+
+    def as_int(self):
+        return self.cleaned_data['number']
+
+
+class SelectLeadersForm(ModelForm):
+    class Meta:
+        model = Player
+        fields = ()
+
+    leader = CharField(required=False)
+
+
+class BaseLeaderFormSet(BaseModelFormSet):
+    @property
+    def leaders(self):
+        leaders = [f for f in self.forms if f.cleaned_data['leader']]
+        leaders.sort(key=lambda x: x.cleaned_data['leader'])
+        return [f.instance for f in leaders]
+
+    def create_groups(self, category, number_of_groups):
+        leader = lambda x: x.cleaned_data['leader']
+        forms = sorted(self.forms, key=leader)
+        leaders = [f.instance for f in forms if leader(f)]
+        category.create_groups(leaders, number_of_groups)
+        create_brackets(category)
+
+
+SelectLeadersFormSet = modelformset_factory(Player, SelectLeadersForm, formset=BaseLeaderFormSet, extra=0)
+
+
+class GroupScoresForm(ModelForm):
+    class Meta:
+        model = GroupMember
+        fields = ('id', 'place')
+
+
+GroupScoresFormset = modelformset_factory(GroupMember, form=GroupScoresForm, extra=0)

@@ -7,7 +7,7 @@ from django.views.generic import View
 
 from pingpong.bracket.helpers import create_brackets
 from pingpong.bracket.models import Bracket, BracketSlot
-from pingpong.group.forms import SelectLeadersFormSet, GroupScoresFormset, NumberOfGroupsForm
+from pingpong.signup.forms import NumberOfGroupsForm, SelectLeadersFormSet, GroupScoresFormset
 from pingpong.models import Category, Player, Match, Group, GroupMember
 from pingpong.printing.helpers import print_groups
 

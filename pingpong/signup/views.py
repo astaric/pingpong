@@ -3,12 +3,13 @@ from django.db.models import Count
 from django.db.models.deletion import Collector
 from django.shortcuts import render, get_object_or_404, redirect
 
-from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.bracket.models import Bracket
-from pingpong.group.forms import NumberOfGroupsForm, SelectLeadersFormSet
-from pingpong.models import Category, Player, Double, Group, GroupMember
+from pingpong.models import Category, Player, Double, Group
 from pingpong.printing.helpers import print_groups
-from pingpong.signup.forms import PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet
+from pingpong.signup.forms import (
+    PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet,
+    NumberOfGroupsForm, SelectLeadersFormSet
+)
 
 
 def index(request):
