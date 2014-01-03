@@ -26,7 +26,7 @@ def category_details(request, category_id):
     category = get_object_or_404(Category.objects.annotate(Count('bracket'), Count('group')),
                                  id=category_id)
 
-    return render(request, 'pingpong/category.html', dict(category=category))
+    return render(request, 'pingpong/category/base.html', dict(category=category))
 
 
 def edit_category(request, category_id):
@@ -46,7 +46,7 @@ def edit_category(request, category_id):
     if request.is_ajax():
         template = 'pingpong/snippets/edit_category_form.html'
     else:
-        template = 'pingpong/category_edit.html'
+        template = 'pingpong/category/edit.html'
     return render(request, template,
                   dict(category=category,
                        category_fields_form=category_fields))
@@ -68,7 +68,7 @@ def edit_category_players(request, category_id):
     if request.is_ajax():
         template = 'pingpong/snippets/edit_players_form.html'
     else:
-        template = 'pingpong/category_edit_players.html'
+        template = 'pingpong/category/edit_players.html'
     return render(request, template,
                   dict(category=category,
                        players_formset=players))
@@ -98,7 +98,7 @@ def add_category(request):
         form = CategoryAddForm()
 
     categories = Category.objects.annotate(player_count=Count('players'))
-    return render(request, 'pingpong/category_add.html',
+    return render(request, 'pingpong/category/add.html',
                   dict(form=form,
                        categories=categories))
 
@@ -176,7 +176,7 @@ def create_groups(request, category_id):
         number_of_groups = NumberOfGroupsForm()
         group_leaders = SelectLeadersFormSet(queryset=category.players.order_by('id'))
 
-    return render(request, 'pingpong/create_groups.html',
+    return render(request, 'pingpong/category/create_groups.html',
                   dict(category=category,
                        formset=group_leaders,
                        numgroups=number_of_groups))
@@ -197,7 +197,7 @@ def edit_group(request, category_id, group_id):
         group_scores = GroupScoresFormset(queryset=members)
 
     matches = Match.objects.filter(group=group).select_related('player1', 'player2')
-    return render(request, 'pingpong/group_edit.html',
+    return render(request, 'pingpong/category/edit_group.html',
                   dict(category=category,
                        group=group,
                        group_members=members,
