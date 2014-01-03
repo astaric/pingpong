@@ -83,6 +83,7 @@ class GroupsView(View):
                            categories=categories))
 
 
+
 def edit_group(request, category_id, group_id):
     category = get_object_or_404(Category, id=category_id)
     group = get_object_or_404(Group, id=group_id)

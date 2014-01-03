@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="panel panel-default">
-        <form method="post" action="{% url 'groups' category_id=category.id %}">
+        <form method="post" action="{% url 'create_groups' category_id=category.id %}">
         {% csrf_token %}
         <div class="panel-heading">
             <h4 class="panel-title">Določanje skupin</h4>

@@ -5,7 +5,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 
 from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.bracket.models import Bracket
-from pingpong.models import Category, Player, Double, Group
+from pingpong.group.forms import NumberOfGroupsForm, SelectLeadersFormSet
+from pingpong.models import Category, Player, Double, Group, GroupMember
+from pingpong.printing.helpers import print_groups
 from pingpong.signup.forms import PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet
 
 
@@ -154,3 +156,26 @@ def get_related_objects(obj):
     collector = Collector(using='default')
     collector.collect(obj)
     return [(model._meta.verbose_name_plural, instance) for model, instance in collector.instances_with_model()]
+
+
+def create_groups(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        number_of_groups = NumberOfGroupsForm(request.POST)
+        group_leaders = SelectLeadersFormSet(request.POST)
+        group_leaders.category = category
+
+        if number_of_groups.is_valid() and group_leaders.is_valid():
+            group_leaders.create_groups(category, number_of_groups.as_int())
+            print_groups(category)
+
+            return redirect(reverse('category', kwargs=dict(category_id=category.id)))
+    else:
+        number_of_groups = NumberOfGroupsForm()
+        group_leaders = SelectLeadersFormSet(queryset=category.players.order_by('id'))
+
+    return render(request, 'pingpong/create_groups.html',
+                  dict(category=category,
+                       formset=group_leaders,
+                       numgroups=number_of_groups))
