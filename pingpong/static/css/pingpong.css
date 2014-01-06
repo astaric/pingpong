@@ -290,12 +290,8 @@ input[type="radio"]:checked + label.score {
     font-weight: bold;
 }
 
-#left-column {
-    float:left;
-}
-
 #right-column {
-    float:right;
+    margin-right: -3px;
 }
 
 @media screen and (max-width: 480px) {
@@ -323,5 +319,15 @@ input[type="radio"]:checked + label.score {
 
     #tables .table .starttime {
         float: none;
+    }
+}
+
+@media screen and (min-width: 900px) {
+    #left-column {
+        float:left;
+    }
+
+    #right-column {
+        float:right;
     }
 }
