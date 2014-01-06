@@ -96,6 +96,10 @@ table.players input {
     transition: height 0.01s;
 }
 
+#set_score_dialog {
+    min-height: 80px;
+}
+
 #player1 {
     float: left;
 }
@@ -285,6 +289,7 @@ input[type="radio"]:checked + label.score {
 
 #tables .table .starttime {
     float:right;
+    display: inline;
 }
 #tables .table .player {
     font-weight: bold;
@@ -318,6 +323,13 @@ input[type="radio"]:checked + label.score {
     }
 
     #tables .table .starttime {
+        float: none;
+        display: block;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #player1, #player2 {
         float: none;
     }
 }

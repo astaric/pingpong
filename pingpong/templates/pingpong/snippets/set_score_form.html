@@ -8,7 +8,7 @@
         {% if match.group %}
             {{ match.group }}
         {% elif match.player1_id %}
-            <div style="height:80px">
+            <div id="set_score_dialog">
                 <form id="set_score_form" method="post" action="{% url 'set_score' table_id=table.id %}">
                     {% csrf_token %}
                     <input type="hidden" name="id" value="{{ match.id }}">
@@ -37,7 +37,7 @@
             </div>
         {% endif %}
         {% footer %}
-        <button class="btn btn-default">{% trans 'Save' %}</button>
+        <!--<button class="btn btn-default">{% trans 'Save' %}</button>-->
     {% endpanel %}
 {% endwith %}
 
