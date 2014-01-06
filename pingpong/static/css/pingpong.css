@@ -96,35 +96,38 @@ table.players input {
     transition: height 0.01s;
 }
 
-.player1_score {
+#player1 {
     float: left;
 }
 
-.player2_score {
+#player2 {
     float: right;
 }
 
-.player1_score, .player2_score {
+#player1, #player2 {
     font-size: 1.5em;
 }
 
-.score_choices {
-    padding-left: inherit;
+input[type="radio"].score {
+    display: none;
 }
 
-.score_choices li {
+input[type="radio"] + label.score {
+    min-width: inherit;
+    text-align: left;
     cursor: pointer;
     display: inline-block;
     color: #808080;
     padding: 5px 14px;
     border: 1px solid;
     margin-right: 15px;
+    font-weight: inherit;
 }
 
-.score_choices li.selected {
-    color: #000000;
-}
-
-.score_choices li.unselected {
+.selected input[type="radio"] + label.score {
     color: #e0e0e0;
+}
+
+input[type="radio"]:checked + label.score {
+    color: #000000;
 }
