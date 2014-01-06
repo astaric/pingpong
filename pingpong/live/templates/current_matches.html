@@ -2,10 +2,6 @@
 {% load pingpong_extras %}
 {% load staticfiles %}
 
-{% block additional_header %}
-    <link rel="stylesheet" href="{% static 'css/groups.css' %}">
-{% endblock %}
-
 {% block content %}
     <div class="panel panel-default">
         <form method="post" action="{% url 'current_matches' %}">
@@ -14,7 +10,7 @@
             Trenutni dvoboji
         </div>
         <div class="panel-body">
-            <div style='float:left;'>
+            <div id="matches">
                 {% if user.is_authenticated %}
                     {{ formset.non_form_errors }}
                     {{ formset.management_form }}
@@ -35,7 +31,7 @@
                     {{ matches }}
                 {% endif %}
             </div>
-            <div style='float: right;'>
+            <div id="tables">
                 {% show_tables %}
             </div>
         </div>

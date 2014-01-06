@@ -3,17 +3,16 @@
 {% load staticfiles %}
 
 
-{% block additional_header %}
-    <link rel="stylesheet" href="{% static 'css/groups.css' %}">
-{% endblock %}
-
 {% block content %}
     <div class="panel panel-default">
         <div class="panel-heading">
             Prihajajoči dvoboji
         </div>
         <div class="panel-body">
-            <div style='float:left;'>
+            <div id="right-column">
+                {% show_tables %}
+            </div>
+            <div id="left-column">
                 {% if user.is_authenticated %}
                     <form method="post" action="{% url 'upcoming_matches' %}">
                         {% csrf_token %}
@@ -39,9 +38,6 @@
                     noformset
                     {{ matches }}
                 {% endif %}
-            </div>
-            <div style='float: right;'>
-                {% show_tables %}
             </div>
         </div>
         <div class="panel-footer">
