@@ -139,21 +139,20 @@ input[type="radio"]:checked + label.score {
 
 .group {
     display: inline-block;
-    border: 1px solid #333;
+    border: 0;
     vertical-align: top;
-    padding: 5px;
     min-width: 120px;
     margin-bottom: 5px;
 }
 
 .group .place {
     display: inline-block;
+    width: inherit;
 }
 
 .group .place input {
-    width: 20px;
+    width: 40px;
     border: 0;
-    border-bottom: 1px solid #666;
     text-align: right;
 }
 
