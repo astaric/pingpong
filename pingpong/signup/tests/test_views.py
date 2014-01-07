@@ -1,10 +1,11 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from pingpong.bracket.helpers import create_brackets, create_pair_brackets
-from pingpong.bracket.models import Bracket, BracketSlot
 
+from pingpong.bracket.helpers import create_pair_brackets
+from pingpong.bracket.models import Bracket, BracketSlot
 from pingpong.models import Category, Player, Group, GroupMember
-from pingpong.signup.forms import CategoryAddForm, CategoryEditForm, PlayerFormSet
+from pingpong.signup.forms import CategoryAddForm, CategoryEditForm, PlayerFormSet, NumberOfGroupsForm, \
+    SelectLeadersFormSet, GroupScoresFormset
 
 
 class SignupViewsTestCase(TestCase):
@@ -88,23 +89,25 @@ class SignupViewsTestCase(TestCase):
         self.assertIsInstance(resp.context['players_formset'], PlayerFormSet)
 
         # Post with invalid data redisplays formset
-        resp = self.client.post(edit_players_url, {'players-TOTAL_FORMS': 1,
-                                                   'players-INITIAL_FORMS': 0,
-                                                   'players-MAX_NUM_FORMS': 1,
-                                                   'players-0-name': 'name'})
+        resp = self.client.post(edit_players_url, {
+            'players-TOTAL_FORMS': 1,
+            'players-INITIAL_FORMS': 0,
+            'players-MAX_NUM_FORMS': 1,
+            'players-0-name': 'name'})
         self.assertEqual(resp.status_code, 200)
         self.assertIn('players_formset', resp.context)
         self.assertEqual(len(resp.context['players_formset'].forms[0].errors['surname']), 1)
         self.assertEqual(Player.objects.count(), 0)
 
         # Post adds new players
-        resp = self.client.post(edit_players_url, {'players-TOTAL_FORMS': 1,
-                                                   'players-INITIAL_FORMS': 0,
-                                                   'players-MAX_NUM_FORMS': 1,
-                                                   'players-0-name': 'name',
-                                                   'players-0-surname': 'surname',
-                                                   'players-0-club': 'club',
-                                                   })
+        resp = self.client.post(edit_players_url, {
+            'players-TOTAL_FORMS': 1,
+            'players-INITIAL_FORMS': 0,
+            'players-MAX_NUM_FORMS': 1,
+            'players-0-name': 'name',
+            'players-0-surname': 'surname',
+            'players-0-club': 'club',
+        })
         self.assertRedirects(resp, category_url)
         players = Player.objects.filter(category=category)
         self.assertEqual(players.count(), 1)
@@ -114,14 +117,15 @@ class SignupViewsTestCase(TestCase):
         self.assertEqual(player.club, 'club')
 
         # Post edits existing players
-        resp = self.client.post(edit_players_url, {'players-TOTAL_FORMS': 1,
-                                                   'players-INITIAL_FORMS': 1,
-                                                   'players-MAX_NUM_FORMS': 1,
-                                                   'players-0-id': player.id,
-                                                   'players-0-name': 'new name',
-                                                   'players-0-surname': 'surname',
-                                                   'players-0-club': 'new club',
-                                                   })
+        resp = self.client.post(edit_players_url, {
+            'players-TOTAL_FORMS': 1,
+            'players-INITIAL_FORMS': 1,
+            'players-MAX_NUM_FORMS': 1,
+            'players-0-id': player.id,
+            'players-0-name': 'new name',
+            'players-0-surname': 'surname',
+            'players-0-club': 'new club',
+        })
         self.assertRedirects(resp, category_url)
         players = Player.objects.filter(category=category)
         self.assertEqual(players.count(), 1)
@@ -131,12 +135,13 @@ class SignupViewsTestCase(TestCase):
         self.assertEqual(player.club, 'new club')
 
         # Post deletes players
-        resp = self.client.post(edit_players_url, {'players-TOTAL_FORMS': 1,
-                                                   'players-INITIAL_FORMS': 1,
-                                                   'players-MAX_NUM_FORMS': 1,
-                                                   'players-0-id': player.id,
-                                                   'players-0-DELETE': '1',
-                                                   })
+        resp = self.client.post(edit_players_url, {
+            'players-TOTAL_FORMS': 1,
+            'players-INITIAL_FORMS': 1,
+            'players-MAX_NUM_FORMS': 1,
+            'players-0-id': player.id,
+            'players-0-DELETE': '1',
+        })
         self.assertRedirects(resp, category_url)
         players = Player.objects.filter(category=category)
         self.assertEqual(players.count(), 0)
@@ -146,9 +151,10 @@ class SignupViewsTestCase(TestCase):
         self.assertEqual(resp.status_code, 404)
 
     def test_delete_category(self):
-        category = Category.objects.create(name="Sample category", gender=0)
+        category = self.create_category()
         delete_category_url = reverse('category_delete', kwargs=dict(category_id=category.id))
         players = self.create_players(category, 3)
+        category.create_groups(number_of_groups=1)
 
         # GET displays a confirmation page
         resp = self.client.get(delete_category_url)
@@ -174,8 +180,99 @@ class SignupViewsTestCase(TestCase):
         self.assertEqual(Category.objects.count(), 0)
         self.assertEqual(Player.objects.count(), 0)
 
+    def test_create_groups(self):
+        category = self.create_category()
+        players = self.create_players(category, 16)
+        create_groups_url = reverse('create_groups', kwargs=dict(category_id=category.id))
+
+        # Get displays create category form
+        resp = self.client.get(create_groups_url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('numgroups', resp.context)
+        self.assertIsInstance(resp.context['numgroups'], NumberOfGroupsForm)
+        self.assertIn('formset', resp.context)
+        self.assertIsInstance(resp.context['formset'], SelectLeadersFormSet)
+
+        # Posting invalid data redisplays the form
+        resp = self.client.post(create_groups_url, {
+            'form-TOTAL_FORMS': 0,
+            'form-INITIAL_FORMS': 0,
+            'form-MAX_NUM_FORMS': 0, })
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('numgroups', resp.context)
+        self.assertEqual(len(resp.context['numgroups'].errors['number']), 1)
+        self.assertEqual(Group.objects.count(), 0)
+
+        # Posting valid data creates groups
+        resp = self.client.post(create_groups_url, {
+            'number': 4,
+            'form-TOTAL_FORMS': 4,
+            'form-INITIAL_FORMS': 4,
+            'form-MAX_NUM_FORMS': 4,
+            'form-0-id': players[2].id,
+            'form-0-leader': 1,
+            'form-1-id': players[3].id,
+            'form-1-leader': 2,
+            'form-2-id': players[4].id,
+            'form-2-leader': 3,
+            'form-3-id': players[5].id,
+            'form-3-leader': 4,
+        })
+        self.assertRedirects(resp, reverse('category', kwargs=dict(category_id=category.id)))
+        self.assertEqual(Group.objects.count(), 4)
+        self.assertEqual(set(Player.objects.filter(groupmember__leader=True)), set(players[2:6]))
+
+    def test_edit_group(self):
+        category = self.create_category()
+        self.create_players(category, 4)
+        category.create_groups(number_of_groups=1)
+        group = Group.objects.get()
+        group_members = GroupMember.objects.order_by('id')
+        edit_group_url = reverse('edit_group', kwargs=dict(category_id=category.id, group_id=group.id))
+
+        # Get displays form
+        resp = self.client.get(edit_group_url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('formset', resp.context)
+        self.assertIsInstance(resp.context['formset'], GroupScoresFormset)
+
+        # Posting invalid data redisplays form
+        resp = self.client.post(edit_group_url, {
+            'form-TOTAL_FORMS': 1,
+            'form-INITIAL_FORMS': 1,
+            'form-MAX_NUM_FORMS': 1,
+            'form-0-id': group_members[0].id,
+            'form-0-place': 'invalid',
+        })
+        self.assertEqual(resp.status_code, 200)
+        group_members = GroupMember.objects.order_by('id')
+        self.assertIsNone(group_members[0].place)
+        self.assertIn('formset', resp.context)
+        self.assertEqual(len(resp.context['formset'].forms[0].errors['place']), 1)
+
+        # Posting valid data modifies members
+        resp = self.client.post(edit_group_url, {
+            'form-TOTAL_FORMS': 4,
+            'form-INITIAL_FORMS': 4,
+            'form-MAX_NUM_FORMS': 4,
+            'form-0-id': group_members[0].id,
+            'form-0-place': 4,
+            'form-1-id': group_members[1].id,
+            'form-1-place': 3,
+            'form-2-id': group_members[2].id,
+            'form-2-place': 2,
+            'form-3-id': group_members[3].id,
+            'form-3-place': 1,
+        })
+        self.assertRedirects(resp, reverse('category', kwargs={'category_id': category.id}))
+        group_members = GroupMember.objects.order_by('id')
+        self.assertEqual(group_members[0].place, 4)
+        self.assertEqual(group_members[1].place, 3)
+        self.assertEqual(group_members[2].place, 2)
+        self.assertEqual(group_members[3].place, 1)
+
     def test_delete_groups(self):
-        category = Category.objects.create(name="Sample category", gender=0)
+        category = self.create_category()
         self.create_players(category, 16)
         category.create_groups(number_of_groups=4)
         delete_groups_url = reverse('delete_groups', kwargs=dict(category_id=category.id))
@@ -208,7 +305,7 @@ class SignupViewsTestCase(TestCase):
         self.assertEqual(GroupMember.objects.count(), 0)
 
     def test_delete_brackets(self):
-        category = Category.objects.create(name="Sample category", gender=0)
+        category = self.create_category()
         self.create_players(category, 16)
         create_pair_brackets(category)
         delete_brackets_url = reverse('delete_brackets', kwargs=dict(category_id=category.id))
@@ -239,7 +336,6 @@ class SignupViewsTestCase(TestCase):
         self.assertRedirects(resp, edit_category_url)
         self.assertEqual(Bracket.objects.count(), 0)
         self.assertEqual(BracketSlot.objects.count(), 0)
-
 
     @staticmethod
     def create_category():
