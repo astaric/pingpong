@@ -193,11 +193,11 @@ class Match(models.Model):
 
     group = models.ForeignKey('Group', null=True)
 
-    player1 = models.ForeignKey(Player, null=True, related_name='+')
+    player1 = models.ForeignKey(Player, null=True, related_name='match_as_player1')
     player1_score = models.IntegerField(null=True)
     player1_bracket_slot = models.ForeignKey('bracket.BracketSlot', null=True, related_name='+')
 
-    player2 = models.ForeignKey(Player, null=True, related_name='+')
+    player2 = models.ForeignKey(Player, null=True, related_name='match_as_player2')
     player2_score = models.IntegerField(null=True)
     player2_bracket_slot = models.ForeignKey('bracket.BracketSlot', null=True, related_name='+')
 
@@ -221,15 +221,14 @@ class Match(models.Model):
                 self.status = Match.PLAYING
         elif self.status == Match.PLAYING:
             if self.player1_score is not None and self.player2_score is not None:
-                if self.player1_bracket_slot:
+                if self.player1_bracket_slot_id:
                     self.player1_bracket_slot.score = self.player1_score
                     self.player1_bracket_slot.save()
-                if self.player2_bracket_slot:
+                if self.player2_bracket_slot_id:
                     self.player2_bracket_slot.score = self.player2_score
                     self.player2_bracket_slot.save()
                 self.end_time = now()
                 self.status = Match.COMPLETE
-
         super(Match, self).save(force_insert, force_update, using, update_fields)
 
     @staticmethod
@@ -245,11 +244,19 @@ class Match(models.Model):
 
     @staticmethod
     def ready_doubles_matches():
+        occupied_with_singles = Double.objects.filter(
+            Q(player1__match_as_player1__status__lt=Match.COMPLETE) |
+            Q(player1__match_as_player2__status__lt=Match.COMPLETE) |
+            Q(player2__match_as_player1__status__lt=Match.COMPLETE) |
+            Q(player2__match_as_player2__status__lt=Match.COMPLETE)).values('id')
+
         return Match.objects.filter(status=Match.DOUBLE).exclude(
-            Q(player1__isnull=True) | Q(player2__isnull=True)).select_related('player1', 'player1__double',
-                                                                              'player1__category',
-                                                                              'player2', 'player2__double',
-                                                                              'player1_bracket_slot__bracket')
+            Q(player1__isnull=True) | Q(player2__isnull=True) |
+            Q(player1__in=occupied_with_singles) |
+            Q(player2__in=occupied_with_singles)).select_related('player1', 'player1__double',
+                                                                 'player1__category',
+                                                                 'player2', 'player2__double',
+                                                                 'player1_bracket_slot__bracket')
         # TODO: Filter blocking players in the same query
         #     d1, d2 = m.player1.double, m.player2.double
         #     required_players = [d1.player1_id, d1.player2_id, d2.player1_id, d2.player2_id]

@@ -22,6 +22,9 @@ def debug_sql():
 
 
 def debug_sql_wrapper(fun):
+    import functools
+
+    @functools.wraps(fun)
     def wrapped(*args, **kwargs):
         with debug_sql():
             fun(*args, **kwargs)

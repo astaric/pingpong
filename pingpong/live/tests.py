@@ -25,7 +25,7 @@ class UpcomingMatchesViewTests(TestCase):
 
         bracket_matches = resp.context['bracket_matches']
 
-        self.assertEqual(len(bracket_matches), 4)
+        self.assertEqual(len(bracket_matches), 5)
 
     def test_shows_ready_double_matches(self):
         resp = self.client.get(reverse('upcoming_matches'))
@@ -35,7 +35,7 @@ class UpcomingMatchesViewTests(TestCase):
 
         doubles_matches = resp.context['doubles_matches']
 
-        self.assertEqual(len(doubles_matches), 3)
+        self.assertEqual(len(doubles_matches), 1)
 
 
 class UpcomingMatchesFromsetTests(TestCase):

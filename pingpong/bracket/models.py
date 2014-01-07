@@ -70,13 +70,15 @@ class BracketSlot(models.Model):
         self.set_status()
         super(BracketSlot, self).save(*args, **kwargs)
 
-        if self.player:
+        if self.player_id:
             for match in Match.objects.filter(player1_bracket_slot=self):
-                match.player1 = self.player
-                match.save()
+                if match.player1_id != self.player_id:
+                    match.player1_id = self.player_id
+                    match.save()
             for match in Match.objects.filter(player2_bracket_slot=self):
-                match.player2 = self.player
-                match.save()
+                if match.player2_id != self.player_id:
+                    match.player2_id = self.player_id
+                    match.save()
         self.advance_player()
 
     def set_status(self):
@@ -93,7 +95,7 @@ class BracketSlot(models.Model):
             self.status = 2
 
     def advance_player(self):
-        if self.player is None:
+        if self.player_id is None:
             return
         other = BracketSlot.objects.exclude(id=self.id)\
                                    .filter(winner_goes_to=self.winner_goes_to)\

@@ -1,6 +1,6 @@
 from django.test import TestCase
-from pingpong.helpers import debug_sql, debug_sql_wrapper
 
+from pingpong.helpers import debug_sql_wrapper
 from pingpong.models import Table, Match, Player, Category, Group, GroupMember
 
 
@@ -165,6 +165,21 @@ class MatchTests(TestCase):
             for match in doubles_matches:
                 str(match)
 
+    def test_ready_doubles_matches_only_returns_matches_with_free_players(self):
+        self.assertEqual(Match.ready_doubles_matches().count(), 1)
+        match1, match2 = Match.objects.filter(status__lt=Match.COMPLETE,
+                                              player1_bracket_slot__bracket__category__name="DP").order_by('-status')
+
+        match1.set_score(3, 0)
+        match1.save()
+        self.assertEqual(Match.ready_doubles_matches().count(), 2)
+
+        match2.table = Table.objects.all()[0]
+        match2.save()
+        match2.set_score(3, 0)
+        match2.save()
+        self.assertEqual(Match.ready_doubles_matches().count(), 3)
+
     def create_table(self):
         return Table.objects.create(display_order=1)
 
@@ -181,4 +196,5 @@ class MatchTests(TestCase):
 
 if __name__ == '__main__':
     import unittest
+
     unittest.main()
