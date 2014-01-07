@@ -33,7 +33,7 @@ class BracketSlotManager(models.Manager):
         return BracketSlotQuerySet(self.model)
 
     def with_two_players(self):
-        return self.all().with_two_players()
+        return self.get_query_set().with_two_players()
 
     def available_pairs(self):
         return (self.filter(winner_goes_to__winner_set__player_id__isnull=False)

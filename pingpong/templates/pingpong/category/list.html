@@ -1,0 +1,15 @@
+{% extends 'pingpong/category/base.html' %}
+{% load i18n %}
+{% load pingpong_extras %}
+
+{% block content %}
+    {% panel False %}
+        {% trans 'Categories' %}
+    {% body %}
+        <ul>
+            {% for c in categories %}
+                <li><a class="btn btn-default" href="{% url 'category' category_id=c.id %}">{{ c }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endpanel %}
+{% endblock %}

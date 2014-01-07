@@ -14,7 +14,7 @@ register = template.Library()
 
 @register.inclusion_tag('pingpong/snippets/category_list.html')
 def list_categories(category):
-    categories = Category.objects.filter(type=category.type).annotate(player_count=Count('players'))
+    categories = Category.objects.annotate(player_count=Count('players'))
     return {
         'categories': categories
     }

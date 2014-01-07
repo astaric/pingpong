@@ -12,14 +12,9 @@ from pingpong.signup.forms import (
 )
 
 
-def index(request):
-    try:
-        category = Category.objects.all()[0]
-        return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
-    except IndexError:
-        pass
-
-    return redirect(reverse('category_add'))
+def category_list(request):
+    categories = Category.objects.all()
+    return render(request, 'pingpong/category/list.html', dict(categories=categories))
 
 
 def category_details(request, category_id):
@@ -109,7 +104,7 @@ def delete_category(request, category_id):
     if request.method == 'POST':
         if 'yes' in request.POST:
             category.delete()
-            return redirect(reverse('signup'))
+            return redirect(reverse('category_list'))
         else:
             return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
 
