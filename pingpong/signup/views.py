@@ -197,4 +197,5 @@ def edit_group(request, category_id, group_id):
                   dict(category=category,
                        group=group,
                        group_members=members,
-                       matches=matches, formset=group_scores))
+                       matches=matches,
+                       formset=group_scores))
