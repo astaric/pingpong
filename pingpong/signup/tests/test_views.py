@@ -1,7 +1,9 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
+from pingpong.bracket.helpers import create_brackets, create_pair_brackets
+from pingpong.bracket.models import Bracket, BracketSlot
 
-from pingpong.models import Category, Player
+from pingpong.models import Category, Player, Group, GroupMember
 from pingpong.signup.forms import CategoryAddForm, CategoryEditForm, PlayerFormSet
 
 
@@ -166,11 +168,78 @@ class SignupViewsTestCase(TestCase):
         self.assertEqual(Player.objects.count(), 3)
 
         # Answering yes deletes category and redirects to index
-        resp = self.client.post(reverse('category_delete', kwargs=dict(category_id=category.id)), dict(yes='Yes'))
+        resp = self.client.post(delete_category_url, dict(yes='Yes'))
 
         self.assertRedirects(resp, reverse('category_list'))
         self.assertEqual(Category.objects.count(), 0)
         self.assertEqual(Player.objects.count(), 0)
+
+    def test_delete_groups(self):
+        category = Category.objects.create(name="Sample category", gender=0)
+        self.create_players(category, 16)
+        category.create_groups(number_of_groups=4)
+        delete_groups_url = reverse('delete_groups', kwargs=dict(category_id=category.id))
+        edit_category_url = reverse('category_edit', kwargs=dict(category_id=category.id))
+        groups = Group.objects.all()
+        group_members = GroupMember.objects.all()
+
+        # GET displays a confirmation page
+        resp = self.client.get(delete_groups_url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('object_description', resp.context)
+        self.assertSetEqual(set(groups), set(resp.context['object_description']))
+        self.assertIn('related_objects', resp.context)
+        related_objects = [o[1] for o in resp.context['related_objects']]
+        for m in group_members:
+            self.assertIn(m, related_objects)
+
+        # Answering no redirects to edit page
+        resp = self.client.post(delete_groups_url, dict(no='No'))
+
+        self.assertRedirects(resp, edit_category_url)
+        self.assertEqual(Group.objects.count(), 4)
+        self.assertEqual(GroupMember.objects.count(), 16)
+
+        # Answering yes deletes groups and redirects to index
+        resp = self.client.post(delete_groups_url, dict(yes='Yes'))
+
+        self.assertRedirects(resp, edit_category_url)
+        self.assertEqual(Group.objects.count(), 0)
+        self.assertEqual(GroupMember.objects.count(), 0)
+
+    def test_delete_brackets(self):
+        category = Category.objects.create(name="Sample category", gender=0)
+        self.create_players(category, 16)
+        create_pair_brackets(category)
+        delete_brackets_url = reverse('delete_brackets', kwargs=dict(category_id=category.id))
+        edit_category_url = reverse('category_edit', kwargs=dict(category_id=category.id))
+        bracket = Bracket.objects.get()
+        bracket_slots = BracketSlot.objects.all()
+
+        # GET displays a confirmation page
+        resp = self.client.get(delete_brackets_url)
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('object_description', resp.context)
+        self.assertIn(bracket, resp.context['object_description'])
+        self.assertIn('related_objects', resp.context)
+        related_objects = [o[1] for o in resp.context['related_objects']]
+        for bs in bracket_slots:
+            self.assertIn(bs, related_objects)
+
+        # Answering no redirects to edit page
+        resp = self.client.post(delete_brackets_url, dict(no='No'))
+
+        self.assertRedirects(resp, edit_category_url)
+        self.assertEqual(Bracket.objects.count(), 1)
+        self.assertEqual(BracketSlot.objects.count(), 31)
+
+        # Answering yes deletes brackets and redirects to index
+        resp = self.client.post(delete_brackets_url, dict(yes='Yes'))
+
+        self.assertRedirects(resp, edit_category_url)
+        self.assertEqual(Bracket.objects.count(), 0)
+        self.assertEqual(BracketSlot.objects.count(), 0)
+
 
     @staticmethod
     def create_category():

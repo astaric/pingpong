@@ -1,6 +1,6 @@
+from django.contrib.admin.util import NestedObjects
 from django.core.urlresolvers import reverse
 from django.db.models import Count
-from django.db.models.deletion import Collector
 from django.shortcuts import render, get_object_or_404, redirect
 
 from pingpong.bracket.models import Bracket
@@ -9,7 +9,7 @@ from pingpong.printing.helpers import print_groups
 from pingpong.signup.forms import (
     PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet,
     NumberOfGroupsForm, SelectLeadersFormSet, GroupScoresFormset
-)
+    )
 
 
 def category_list(request):
@@ -149,9 +149,10 @@ def delete_brackets(request, category_id):
 
 
 def get_related_objects(obj):
-    collector = Collector(using='default')
+    collector = NestedObjects(using='default')
     collector.collect(obj)
-    return [(model._meta.verbose_name_plural, instance) for model, instance in collector.instances_with_model()]
+    return [(model._meta.verbose_name_plural, instance)
+            for model, instance in collector.instances_with_model()]
 
 
 def create_groups(request, category_id):

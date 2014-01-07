@@ -185,6 +185,10 @@ class Match(models.Model):
         (COMPLETE, 'Double'),
     )
 
+    class Meta:
+        verbose_name = _("Match")
+        verbose_name_plural = _("Matches")
+
     status = models.IntegerField(choices=STATUS_CHOICES, default=0)
 
     group = models.ForeignKey('Group', null=True)
