@@ -6,7 +6,7 @@
         {{ table.name }}
         {% body %}
         {% if match.group %}
-            {{ match.group }}
+            <a href="{% url 'edit_group' category_id=match.group.category_id group_id=match.group.id %}">{{ match.group }}</a>
         {% elif match.player1_id %}
             <div id="set_score_dialog">
                 <form id="set_score_form" method="post" action="{% url 'set_score' table_id=table.id %}">
