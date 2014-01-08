@@ -56,5 +56,9 @@
 
         $("input:radio[name='player1_score']").on('change', scoreSelected);
         $("input:radio[name='player2_score']").on('change', scoreSelected);
+
+        $("label").on('touchend', function() {
+            $(this).click();
+        });
     });
 </script>
