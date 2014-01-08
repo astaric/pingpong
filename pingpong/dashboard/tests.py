@@ -84,59 +84,6 @@ class UpcomingMatchesFromsetTests(TestCase):
         self.assertEqual(formset.is_valid(), False)
 
 
-class CurrentMatchFormTests(TestCase):
-    fixtures = ['current_matches']
-
-    def test_can_validate_empty_score(self):
-        form = CurrentMatchForm({'id': 4})
-        self.assertTrue(form.is_valid())
-
-    def test_can_parse_different_score_formats(self):
-        data = {'id': 4, 'score': '5:2'}
-
-        form = CurrentMatchForm(data)
-        self.assertTrue(form.is_valid())
-        self.assertEqual(form.instance.player1_score, 5)
-        self.assertEqual(form.instance.player2_score, 2)
-
-        data['score'] = '5 2'
-        form = CurrentMatchForm(data)
-        self.assertTrue(form.is_valid())
-        self.assertEqual(form.instance.player1_score, 5)
-        self.assertEqual(form.instance.player2_score, 2)
-
-        data['score'] = '5.2'
-        form = CurrentMatchForm(data)
-        self.assertTrue(form.is_valid())
-        self.assertEqual(form.instance.player1_score, 5)
-        self.assertEqual(form.instance.player2_score, 2)
-
-        # Negative tests
-        data['score'] = '5'
-        form = CurrentMatchForm(data)
-        self.assertFalse(form.is_valid())
-
-        data['score'] = 'x y'
-        form = CurrentMatchForm(data)
-        self.assertFalse(form.is_valid())
-
-        data['score'] = '1:b'
-        form = CurrentMatchForm(data)
-        self.assertFalse(form.is_valid())
-
-
-class CurrentMatchesViewTests(TestCase):
-    fixtures = ['current_matches']
-
-    def test_current_matches(self):
-        self.client.get(reverse('current_matches'))
-
-    def test_setting_scores(self):
-        data = create_empty_match_post_data(Match.current_matches())
-
-        self.client.post(reverse('current_matches'), data)
-
-
 def create_empty_match_post_data(matches):
         data = {
             'form-TOTAL_FORMS': len(matches),
