@@ -1,7 +1,7 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from pingpong.live.forms import UpcomingMatchesFromset, CurrentMatchesFromset, SetScoreForm
+from pingpong.dashboard.forms import UpcomingMatchesFromset, CurrentMatchesFromset, SetScoreForm
 from pingpong.models import Category, Match, Table
 
 

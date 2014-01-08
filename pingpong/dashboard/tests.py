@@ -1,6 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.test import TestCase
-from pingpong.live.forms import UpcomingMatchesFromset, CurrentMatchForm
+from pingpong.dashboard.forms import UpcomingMatchesFromset, CurrentMatchForm
 from pingpong.models import Match, Table
 
 

@@ -1,5 +1,5 @@
 from ..bracket.tests import *
-from ..live.tests import *
+from ..dashboard.tests import *
 from ..printing.tests import *
 from ..slideshow.tests import *
 from ..signup.tests import *
