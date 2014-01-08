@@ -3,7 +3,7 @@
 
 {% with match=matches.0 %}
     {% panel modal %}
-        {{ table.name }}
+        {{ match.table.name }}
         {% body %}
         {% if match.group %}
             <a href="{% url 'edit_group' category_id=match.group.category_id group_id=match.group.id %}">{{ match.group }}</a>
