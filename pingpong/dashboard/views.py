@@ -59,6 +59,9 @@ def clear_table(request, match_id):
     if not match.status == Match.PLAYING:
         raise ValidationError("You can only clear table on matches that are currently playing.")
 
+    if match.group_id is not None:
+        Match.objects.filter(group=match.group_id).update(table=None, status=Match.PENDING)
+
     match.table = None
     match.status = Match.READY
     match.save()
