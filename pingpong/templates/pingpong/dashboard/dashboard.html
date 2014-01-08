@@ -19,7 +19,7 @@
             </div>
             <div id="left-column">
                 {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'upcoming_matches' %}">
+                    <form method="post" action="{% url 'dashboard' %}">
                         {% csrf_token %}
                         {{ formset.management_form }}
                         {{ formset.non_form_errors }}

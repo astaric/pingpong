@@ -20,7 +20,7 @@ def dashboard(request):
             if matches_to_print:
                 from pingpong.printing.helpers import print_matches
                 print_matches(matches_to_print)
-            return redirect('upcoming_matches')
+            return redirect('dashboard')
     else:
         formset = UpcomingMatchesFromset(queryset=bracket_matches | group_matches | doubles_matches)
 
@@ -39,7 +39,7 @@ def set_score(request, match_id):
         set_score_form = SetScoreForm(request.POST, instance=match)
         if set_score_form.is_valid():
             set_score_form.save()
-            return redirect(reverse('upcoming_matches'))
+            return redirect(reverse('dashboard'))
 
     if request.is_ajax():
         template = 'pingpong/snippets/set_score_form.html'
