@@ -5,34 +5,7 @@ from pingpong.dashboard.forms import UpcomingMatchesFromset, CurrentMatchesFroms
 from pingpong.models import Category, Match, Table
 
 
-def current_matches(request):
-    try:
-        category = Category.objects.all()[:1].get()
-    except Category.DoesNotExist:
-        return redirect('category_add')
-
-    current_matches = Match.current_matches()
-    if request.method == 'POST':
-        formset = CurrentMatchesFromset(request.POST)
-        if formset.is_valid():
-            formset.save()
-            return redirect('current_matches')
-    else:
-        formset = CurrentMatchesFromset(queryset=current_matches)
-
-    return render(request, 'current_matches.html', {
-        'category': category,
-        'matches': current_matches,
-        'formset': formset,
-    })
-
-
-def upcoming_matches(request):
-    try:
-        category = Category.objects.all()[:1].get()
-    except Category.DoesNotExist:
-        return redirect('category_add')
-
+def dashboard(request):
     group_matches = Match.ready_group_matches()
     bracket_matches = Match.ready_bracket_matches()
     doubles_matches = Match.ready_doubles_matches()
@@ -51,8 +24,7 @@ def upcoming_matches(request):
     else:
         formset = UpcomingMatchesFromset(queryset=bracket_matches | group_matches | doubles_matches)
 
-    return render(request, 'upcoming_matches.html', {
-        'category': category,
+    return render(request, 'pingpong/dashboard/dashboard.html', {
         'formset': formset,
         'group_matches': group_matches,
         'bracket_matches': bracket_matches,
