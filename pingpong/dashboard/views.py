@@ -1,5 +1,7 @@
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_http_methods
 
 from pingpong.dashboard.forms import UpcomingMatchesFromset, SetScoreForm
 from pingpong.models import Match
@@ -48,3 +50,17 @@ def set_score(request, match_id):
     return render(request, template, dict(
         matches=[match],
     ))
+
+
+@require_http_methods('POST')
+def clear_table(request, match_id):
+    match = get_object_or_404(Match, id=match_id)
+
+    if not match.status == Match.PLAYING:
+        raise ValidationError("You can only clear table on matches that are currently playing.")
+
+    match.table = None
+    match.status = Match.READY
+    match.save()
+
+    return redirect(reverse('dashboard'))

@@ -37,7 +37,12 @@
             </div>
         {% endif %}
         {% footer %}
-        <!--<button class="btn btn-default">{% trans 'Save' %}</button>-->
+        {% if match and match.status == match.PLAYING %}
+            <form method="post" action="{% url 'clear_table' match_id=match.id %}">
+                {% csrf_token %}
+                <button class="btn btn-default">{% trans 'Clear table' %}</button>
+            </form>
+        {% endif %}
     {% endpanel %}
 {% endwith %}
 
