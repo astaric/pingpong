@@ -1,5 +1,5 @@
 {% with table.current_matches.all.0 as match %}
-    <div class="table{% if match %} occupied{% endif %}" data-table-id="{{ table.id }}">
+    <div class="table{% if match %} occupied{% endif %}" {% if match %}data-match-id="{{ match.id }}"{% endif %}>
         <div>
             <span class="name">{{ table.name }}</span>
             <span class="starttime">{{ match.start_time|date:"H:i" }}</span>

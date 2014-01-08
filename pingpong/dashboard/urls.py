@@ -6,5 +6,5 @@ patterns = lambda *urls: urls_patterns('', *urls)
 
 urlpatterns = patterns(
     url(r'^$', views.dashboard, name='upcoming_matches'),
-    url(r'^tableinfo/(?P<table_id>\d+)/', 'pingpong.dashboard.views.set_score', name='set_score'),
+    url(r'^match/(?P<match_id>\d+)/score/set/$', views.set_score, name='set_score'),
 )

@@ -1,8 +1,8 @@
 from django.core.urlresolvers import reverse
 from django.shortcuts import render, redirect, get_object_or_404
 
-from pingpong.dashboard.forms import UpcomingMatchesFromset, CurrentMatchesFromset, SetScoreForm
-from pingpong.models import Category, Match, Table
+from pingpong.dashboard.forms import UpcomingMatchesFromset, SetScoreForm
+from pingpong.models import Match
 
 
 def dashboard(request):
@@ -32,12 +32,11 @@ def dashboard(request):
     })
 
 
-def set_score(request, table_id):
-    table = get_object_or_404(Table, id=table_id)
-    matches = table.current_matches()
+def set_score(request, match_id):
+    match = get_object_or_404(Match, id=match_id)
 
     if request.method == 'POST':
-        set_score_form = SetScoreForm(request.POST, instance=matches.get())
+        set_score_form = SetScoreForm(request.POST, instance=match)
         if set_score_form.is_valid():
             set_score_form.save()
             return redirect(reverse('upcoming_matches'))
@@ -47,6 +46,5 @@ def set_score(request, table_id):
     else:
         template = 'pingpong/dashboard/set_score.html'
     return render(request, template, dict(
-        table=table,
-        matches=matches,
+        matches=[match],
     ))
