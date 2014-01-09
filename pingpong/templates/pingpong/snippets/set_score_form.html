@@ -1,23 +1,24 @@
 {% load i18n %}
 {% load pingpong_extras %}
 
-{% with match=matches.0 %}
-    {% panel modal %}
-        {{ match.table.name }}
-        {% body %}
-        {% if match.group %}
-            <a href="{% url 'edit_group' category_id=match.group.category_id group_id=match.group.id %}">{{ match.group }}</a>
-        {% elif match.player1_id %}
-            <div id="set_score_dialog">
-                <form id="set_score_form" method="post" action="{% url 'set_score' match_id=match.id %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="id" value="{{ match.id }}">
-                    {% with scores="0 1 2 3" %}
+
+{% panel modal %}
+    {{ match.table.name }}
+{% body %}
+    {% if match.group %}
+        <a href="{% url 'edit_group' category_id=match.group.category_id group_id=match.group.id %}">{{ match.group }}</a>
+    {% elif match.player1_id %}
+        <div id="set_score_dialog">
+            <form id="set_score_form" method="post" action="{% url 'set_score' match_id=match.id %}">
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{ match.id }}">
+                {% with scores="0 1 2 3" %}
                     <div id="player1">
                         {{ match.player1 }}
                         <div id="player1_score">
                             {% for s in scores.split %}
-                                <input class='score' type="radio" id="player1_score_{{ s }}" name="player1_score" value="{{ s }}">
+                                <input class='score' type="radio" id="player1_score_{{ s }}" name="player1_score"
+                                       value="{{ s }}">
                                 <label for="player1_score_{{ s }}" class="score">{{ s }}</label>
                             {% endfor %}
                         </div>
@@ -27,24 +28,25 @@
 
                         <div id="player2_score">
                             {% for s in scores.split %}
-                                <input class='score' type="radio" id="player2_score_{{ s }}" name="player2_score" value="{{ s }}">
+                                <input class='score' type="radio" id="player2_score_{{ s }}" name="player2_score"
+                                       value="{{ s }}">
                                 <label for="player2_score_{{ s }}" class="score">{{ s }}</label>
                             {% endfor %}
                         </div>
                     </div>
-                    {% endwith %}
-                </form>
-            </div>
-        {% endif %}
-        {% footer %}
-        {% if match and match.status == match.PLAYING %}
-            <form method="post" action="{% url 'clear_table' match_id=match.id %}">
-                {% csrf_token %}
-                <button class="btn btn-default">{% trans 'Clear table' %}</button>
+                {% endwith %}
             </form>
-        {% endif %}
-    {% endpanel %}
-{% endwith %}
+        </div>
+    {% endif %}
+{% footer %}
+    {% if match and match.status == match.PLAYING %}
+        <form method="post" action="{% url 'clear_table' match_id=match.id %}">
+            {% csrf_token %}
+            <button class="btn btn-default">{% trans 'Clear table' %}</button>
+        </form>
+    {% endif %}
+{% endpanel %}
+
 
 <script>
     $(document).ready(function () {
@@ -54,13 +56,15 @@
             $('#' + this.name).addClass('selected');
 
             if ($("input:radio[name='player1_score']").is(":checked") &&
-                $("input:radio[name='player2_score']").is(":checked")) {
+                    $("input:radio[name='player2_score']").is(":checked")) {
                 $form.submit();
             }
         }
 
         $("input:radio[name='player1_score']").on('change', scoreSelected);
         $("input:radio[name='player2_score']").on('change', scoreSelected);
-        $("label").on('touchend', function() { $(this).click(); }); // Fix click delay on mobile devices
+        $("label").on('touchend', function () {
+            $(this).click();
+        }); // Fix click delay on mobile devices
     });
 </script>

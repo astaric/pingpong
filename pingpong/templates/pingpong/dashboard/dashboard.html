@@ -26,7 +26,9 @@
                         {% for form in formset %}
                             <div>
                                 <div style="display: inline-block; width: 300px;">
-                                    {{ form.instance.description }}
+                                    <a href="{% url 'set_table' match_id=form.instance.id %}">
+                                        {{ form.instance.description }}
+                                    </a>
                                 </div>
                                 {{ form.non_field_errors }}
                                 {% for hidden in form.hidden_fields %}

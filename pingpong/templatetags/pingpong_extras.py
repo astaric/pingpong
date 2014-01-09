@@ -4,6 +4,7 @@ from django.template import TemplateSyntaxError, NodeList, Context, Variable
 from django.template.loader import render_to_string
 
 from pingpong.bracket.models import Bracket
+from pingpong.helpers import debug_sql
 from pingpong.models import Category, GroupMember, Table, Match
 from pingpong.signup.forms import CategoryEditForm
 from pingpong.signup.views import players_formset
@@ -134,10 +135,23 @@ def show_table(table):
         'table': table,
     }
 
+
 @register.inclusion_tag('pingpong/snippets/set_score_form.html')
 def set_score_form(match):
-
     return {
         'modal': False,
         'matches': [match],
+    }
+
+
+@register.inclusion_tag('pingpong/snippets/set_table_form.html')
+def set_table_form(match):
+    return {
+        'modal': False,
+        'match': match,
+        'tables': Table.objects.order_by('display_order').extra(
+            select={
+                "occupied": "SELECT COUNT(*) FROM pingpong_match m WHERE m.table_id=pingpong_table.id AND m.status == 2"
+            }
+        )
     }

@@ -1,0 +1,26 @@
+{% load i18n %}
+{% load pingpong_extras %}
+
+
+{% panel modal %}
+    {% if match.group %}
+        {{ match.group }}
+    {% else %}
+        {{ match.player1 }} - {{ match.player2 }}
+    {% endif %}
+    {% body %}
+    <form id="set_table_form" method="post" action="{% url 'set_table' match_id=match.id %}">
+        {% csrf_token %}
+        <table>
+            {% for table in tables %}
+                {% cycle '<tr>' '' '' '' %}
+                <td>
+                    <button class="btn btn-default" name="table" {% if table.occupied %}disabled="true"{% endif %}
+                            value="{{ table.id }}">{{ table.short_name }}</button>
+                </td>
+                {% cycle '' '' '' '</td>' %}
+            {% endfor %}
+        </table>
+    </form>
+{% endpanel %}
+

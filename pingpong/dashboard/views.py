@@ -53,19 +53,27 @@ def set_score(request, match_id):
     else:
         template = 'pingpong/dashboard/set_score.html'
     return render(request, template, dict(
-        matches=[match],
+        match=match,
     ))
 
 
-@require_http_methods('POST')
 def set_table(request, match_id):
     match = get_object_or_404(Match, id=match_id)
 
-    form = SetTableForm(request.POST, instance=match)
-    if form.is_valid():
-        form.save()
+    if request.method=="POST":
+        form = SetTableForm(request.POST, instance=match)
+        if form.is_valid():
+            form.save()
 
-    return redirect(reverse('dashboard'))
+            return redirect(reverse('dashboard'))
+
+    if request.is_ajax():
+        template = 'pingpong/snippets/set_table_form.html'
+    else:
+        template = 'pingpong/dashboard/set_table.html'
+    return render(request, template, dict(
+        match=match,
+    ))
 
 
 @require_http_methods('POST')
@@ -117,12 +125,12 @@ def tables(request):
         if match:
             match = match[0]
             response_data.append(dict(
-                table_name=table.name,
+                table_name=table.short_name,
                 match_id=match.id,
                 match=unicode(match),
             ))
         else:
-            response_data.append(dict(table_name=table.name))
+            response_data.append(dict(table_name=table.short_name))
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")
 
