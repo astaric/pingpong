@@ -279,7 +279,7 @@ class Match(models.Model):
             return mark_safe('%s <b>%s</b> %s %s : %s' % (b, l, c, self.player1, self.player2))
 
     def __unicode__(self):
-        return '%s %s' % (self.player1, self.player2)
+        return u'%s %s' % (self.player1, self.player2)
 
 
 class Double(Player):

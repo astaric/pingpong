@@ -15,7 +15,9 @@
 </div>
 <script>
     var i = 1;
-    $('#tables').find('.table').on('click', function(e) {
+
+     function openMatchModal(e) {
+         e.preventDefault();
         var matchId = $(this).data('matchId');
         if (matchId) {
             var remote = '{% url 'set_score' match_id=999 %}'.replace('999', matchId);
@@ -25,6 +27,10 @@
                 remote: remote
             });
         }
-    });
+    }
+
+    var $tables = $('#tables');
+    $tables.find('.table').on('click', openMatchModal);
+    $tables.find('a').on('click', openMatchModal);
 
 </script>

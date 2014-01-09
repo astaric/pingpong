@@ -61,9 +61,6 @@
 
         $("input:radio[name='player1_score']").on('change', scoreSelected);
         $("input:radio[name='player2_score']").on('change', scoreSelected);
-
-        $("label").on('touchend', function() {
-            $(this).click();
-        });
+        $("label").on('touchend', function() { $(this).click(); }); // Fix click delay on mobile devices
     });
 </script>

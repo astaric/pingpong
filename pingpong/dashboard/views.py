@@ -1,10 +1,14 @@
+import json
+
 from django.core.exceptions import ValidationError
+
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 
-from pingpong.dashboard.forms import UpcomingMatchesFromset, SetScoreForm
-from pingpong.models import Match
+from pingpong.dashboard.forms import UpcomingMatchesFromset, SetScoreForm, SetTableForm
+from pingpong.models import Match, Table
 
 
 def dashboard(request):
@@ -21,6 +25,7 @@ def dashboard(request):
 
             if matches_to_print:
                 from pingpong.printing.helpers import print_matches
+
                 print_matches(matches_to_print)
             return redirect('dashboard')
     else:
@@ -53,6 +58,17 @@ def set_score(request, match_id):
 
 
 @require_http_methods('POST')
+def set_table(request, match_id):
+    match = get_object_or_404(Match, id=match_id)
+
+    form = SetTableForm(request.POST, instance=match)
+    if form.is_valid():
+        form.save()
+
+    return redirect(reverse('dashboard'))
+
+
+@require_http_methods('POST')
 def clear_table(request, match_id):
     match = get_object_or_404(Match, id=match_id)
 
@@ -67,3 +83,63 @@ def clear_table(request, match_id):
     match.save()
 
     return redirect(reverse('dashboard'))
+
+
+def upcoming_matches(request):
+    response_data = []
+    response_data.extend([
+        dict(id=match.id,
+             type='Group',
+             group=unicode(match.group))
+        for match in Match.ready_group_matches()
+    ])
+    response_data.extend([
+        dict(id=match.id,
+             type='Bracket',
+             player1=unicode(match.player1),
+             player2=unicode(match.player2))
+        for match in Match.ready_bracket_matches()
+    ])
+    response_data.extend([
+        dict(id=match.id,
+             type='Double',
+             player1=unicode(match.player1),
+             player2=unicode(match.player2))
+        for match in Match.ready_doubles_matches()
+    ])
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def tables(request):
+    response_data = []
+    for table in Table.objects.order_by('display_order'):
+        match = table.current_matches()
+        if match:
+            match = match[0]
+            response_data.append(dict(
+                table_name=table.name,
+                match_id=match.id,
+                match=unicode(match),
+            ))
+        else:
+            response_data.append(dict(table_name=table.name))
+
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def match_details(request, match_id):
+    match = get_object_or_404(Match, id=match_id)
+
+    response_data = dict(
+        id=match.id,
+        status=match.status
+    )
+    if match.group_id:
+        response_data['group'] = unicode(match.group)
+    else:
+        response_data.update(dict(
+            player1=unicode(match.player1),
+            player2=unicode(match.player2),
+        ))
+
+    return HttpResponse(json.dumps(response_data), content_type="application/json")

@@ -7,11 +7,13 @@
 
         {% if match %}
             <div class="player">
-                {% if match.group %}
-                    {{ match.group }}
-                {% else %}
-                    {{ match }}
-                {% endif %}
+                <a href="{% url 'set_score' match_id=match.id %}">
+                    {% if match.group %}
+                        {{ match.group }}
+                    {% else %}
+                        {{ match }}
+                    {% endif %}
+                </a>
             </div>
         {% endif %}
     </div>

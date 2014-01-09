@@ -71,3 +71,9 @@ class SetScoreForm(ModelForm):
     class Meta:
         model = Match
         fields = ('player1_score', 'player2_score')
+
+
+class SetTableForm(ModelForm):
+    class Meta:
+        model = Match
+        fields = ('table',)
