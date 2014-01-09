@@ -4,15 +4,18 @@
 <form method="post" action="{% url 'category_edit' category_id=category.id %}">
     {% csrf_token %}
 
-    {% panel modal%}
-        {% trans 'Edit' %} {{ category.description }} ({{ category.name }})
-    {% body %}
+    {% panel modal %}
+        {% trans 'Edit' %}
+        <a href="{% url 'category' category_id=category.id %}">
+            {{ category.description }} ({{ category.name }})
+        </a>
+        {% body %}
         {{ category_fields_form.as_p }}
         <p>
             <label></label>
             <input type="submit" value="{% trans 'Save' %}">
         </p>
-    {% footer %}
+        {% footer %}
         {% if category.group__count == 0 or category.bracket__count == 0 %}
             <p>
                 <label>{% trans 'Draw' %}</label>
