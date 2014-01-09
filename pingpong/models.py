@@ -130,6 +130,7 @@ class Category(models.Model):
 
 class Table(models.Model):
     name = models.CharField(max_length=50)
+    short_name = models.CharField(max_length=10, default="")
     display_order = models.IntegerField()
 
     def __unicode__(self):

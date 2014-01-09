@@ -68,8 +68,9 @@ class Command(BaseCommand):
                     players.extend(self.create_players(n=n, category=category))
                     n_players -= n
 
+        Table.objects.all().delete()
         for i, order in zip(range(12), [12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]):
-            Table(name='Miza %d' % (i+1), display_order=order).save()
+            Table(name='Miza %d' % (i+1), short_name='%d' % (i+1), display_order=order).save()
 
     @staticmethod
     def create_players(n=40, category=None):
