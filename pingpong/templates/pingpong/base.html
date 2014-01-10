@@ -1,6 +1,6 @@
-{% load staticfiles %}
-{% load i18n %}
+{% load staticfiles i18n %}
 {% load sekizai_tags %}
+{% load pingpong_extras %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -46,7 +46,9 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                {% block navigation_items %}{% endblock %}
+                {% block navigation_items %}
+                    {% list_categories category %}
+                {% endblock %}
             </ul>
         </div>
         <!-- /.navbar-collapse -->

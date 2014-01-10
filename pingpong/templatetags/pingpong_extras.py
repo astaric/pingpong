@@ -13,12 +13,10 @@ from pingpong.signup.views import players_formset
 register = template.Library()
 
 
-@register.inclusion_tag('pingpong/snippets/category_list.html')
-def list_categories(category):
-    categories = Category.objects.annotate(player_count=Count('players'))
-    return {
-        'categories': categories
-    }
+@register.inclusion_tag('pingpong/snippets/category_list.html', takes_context=True)
+def list_categories(context, category):
+    context['categories'] = Category.objects.annotate(player_count=Count('players'))
+    return context
 
 
 @register.inclusion_tag('pingpong/snippets/edit_category_form.html', takes_context=True)
@@ -127,20 +125,20 @@ def show_tables(context):
     context['tables'] = tables
     return context
 
-
-@register.inclusion_tag('pingpong/snippets/table.html')
-def show_table(table):
-    return {
-        'table': table,
-    }
+@register.inclusion_tag('pingpong/snippets/set_group_scores_form.html', takes_context=True)
+def set_group_scores_form(context, group):
+    context['group'] = group
+    return context
 
 
-@register.inclusion_tag('pingpong/snippets/set_score_form.html')
-def set_score_form(match):
-    return {
+@register.inclusion_tag('pingpong/snippets/set_score_form.html', takes_context=True)
+def set_score_form(context, match=None, css_only=False):
+    context.update({
         'modal': False,
-        'matches': [match],
-    }
+        'match': match,
+        'css_only': css_only,
+    })
+    return context
 
 
 @register.inclusion_tag('pingpong/snippets/set_table_form.html')

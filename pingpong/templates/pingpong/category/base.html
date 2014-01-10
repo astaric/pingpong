@@ -7,19 +7,11 @@
     {% trans 'Categories' %}
 {% endblock %}
 
-{% block navigation_items %}
-    {% list_categories category %}
-    {% if user.is_authenticated %}
-        <li><a href="{% url 'category_add' %}">
-            &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;&nbsp;</a></li>
-    {% endif %}
-{% endblock %}
-
-{% addtoblock css %}
-    <link rel="stylesheet" href="{% static 'css/jquery-ui-1.10.3.custom.min.css' %}">
-{% endaddtoblock %}
-
 {% block content %}
+    {% addtoblock 'css' %}
+        <link rel="stylesheet" href="{% static 'css/jquery-ui-1.10.3.custom.min.css' %}">
+    {% endaddtoblock %}
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4 class="panel-title">

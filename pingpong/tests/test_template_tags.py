@@ -49,6 +49,7 @@ class PanelTagTests(TestCase):
             {%% panel True%%}%s{%% body %%}%s{%% footer %%}%s{%% endpanel %%}
             """ % (TITLE, BODY, FOOTER))
         rendered_text = t.render(Context())
+        self.assertIn("modal", rendered_text)
         self.assertIn(TITLE, rendered_text)
         self.assertIn(BODY, rendered_text)
         self.assertIn(FOOTER, rendered_text)
@@ -59,7 +60,8 @@ class PanelTagTests(TestCase):
             {%% panel False%%}%s{%% body %%}%s{%% footer %%}%s{%% endpanel %%}
             """ % (TITLE, BODY, FOOTER))
         rendered_text = t.render(Context())
-        self.assertNotIn(TITLE, rendered_text)
+        self.assertNotIn("modal", rendered_text)
+        self.assertIn(TITLE, rendered_text)
         self.assertIn(BODY, rendered_text)
         self.assertIn(FOOTER, rendered_text)
 

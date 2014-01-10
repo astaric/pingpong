@@ -92,46 +92,6 @@ table.players input {
     transition: height 0.01s;
 }
 
-#set_score_dialog {
-    min-height: 80px;
-}
-
-#player1 {
-    float: left;
-}
-
-#player2 {
-    float: right;
-}
-
-#player1, #player2 {
-    font-size: 1.5em;
-}
-
-input[type="radio"].score {
-    display: none;
-}
-
-input[type="radio"] + label.score {
-    min-width: inherit;
-    text-align: left;
-    cursor: pointer;
-    display: inline-block;
-    color: #808080;
-    padding: 5px 14px;
-    border: 1px solid;
-    margin-right: 15px;
-    font-weight: inherit;
-}
-
-.selected input[type="radio"] + label.score {
-    color: #e0e0e0;
-}
-
-input[type="radio"]:checked + label.score {
-    color: #000000;
-}
-
 
 .group {
     display: inline-block;
@@ -275,12 +235,6 @@ input[type="radio"]:checked + label.score {
     #right-column, #left-column {
         float: none;
         width: 100%;
-    }
-}
-
-@media screen and (max-width: 600px) {
-    #player1, #player2 {
-        float: none;
     }
 }
 

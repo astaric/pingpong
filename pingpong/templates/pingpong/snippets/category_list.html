@@ -4,3 +4,7 @@
             ({{ c.player_count }})</a>
     </li>
 {% endfor %}
+{% if user.is_authenticated %}
+    <li><a href="{% url 'category_add' %}">
+        &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;&nbsp;</a></li>
+{% endif %}

@@ -1,70 +1,122 @@
 {% load i18n %}
+{% load sekizai_tags %}
 {% load pingpong_extras %}
 
+{% if not css_only %}
+    {% panel modal %}
+        {{ match.table.name }}
+        {% body %}
+        {% if match.group %}
+            <a href="{% url 'edit_group' category_id=match.group.category_id group_id=match.group.id %}">{{ match.group }}</a>
+        {% elif match.player1_id %}
+            <div id="set_score_dialog">
+                <form id="set_score_form" method="post" action="{% url 'set_score' match_id=match.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ match.id }}">
+                    {% with scores="0 1 2 3" %}
+                        <div id="player1">
+                            {{ match.player1 }}
+                            <div id="player1_score">
+                                {% for s in scores.split %}
+                                    <input class='score' type="radio" id="player1_score_{{ s }}" name="player1_score"
+                                           value="{{ s }}">
+                                    <label for="player1_score_{{ s }}" class="score">{{ s }}</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div id="player2">
+                            {{ match.player2 }}
 
-{% panel modal %}
-    {{ match.table.name }}
-{% body %}
-    {% if match.group %}
-        <a href="{% url 'edit_group' category_id=match.group.category_id group_id=match.group.id %}">{{ match.group }}</a>
-    {% elif match.player1_id %}
-        <div id="set_score_dialog">
-            <form id="set_score_form" method="post" action="{% url 'set_score' match_id=match.id %}">
+                            <div id="player2_score">
+                                {% for s in scores.split %}
+                                    <input class='score' type="radio" id="player2_score_{{ s }}" name="player2_score"
+                                           value="{{ s }}">
+                                    <label for="player2_score_{{ s }}" class="score">{{ s }}</label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endwith %}
+                </form>
+            </div>
+        {% endif %}
+        {% footer %}
+        {% if match and match.status == match.PLAYING %}
+            <form method="post" action="{% url 'clear_table' match_id=match.id %}">
                 {% csrf_token %}
-                <input type="hidden" name="id" value="{{ match.id }}">
-                {% with scores="0 1 2 3" %}
-                    <div id="player1">
-                        {{ match.player1 }}
-                        <div id="player1_score">
-                            {% for s in scores.split %}
-                                <input class='score' type="radio" id="player1_score_{{ s }}" name="player1_score"
-                                       value="{{ s }}">
-                                <label for="player1_score_{{ s }}" class="score">{{ s }}</label>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div id="player2">
-                        {{ match.player2 }}
-
-                        <div id="player2_score">
-                            {% for s in scores.split %}
-                                <input class='score' type="radio" id="player2_score_{{ s }}" name="player2_score"
-                                       value="{{ s }}">
-                                <label for="player2_score_{{ s }}" class="score">{{ s }}</label>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endwith %}
+                <button class="btn btn-default">{% trans 'Clear table' %}</button>
             </form>
-        </div>
-    {% endif %}
-{% footer %}
-    {% if match and match.status == match.PLAYING %}
-        <form method="post" action="{% url 'clear_table' match_id=match.id %}">
-            {% csrf_token %}
-            <button class="btn btn-default">{% trans 'Clear table' %}</button>
-        </form>
-    {% endif %}
-{% endpanel %}
+        {% endif %}
+    {% endpanel %}
 
+    {% addtoblock 'js' %}
+        <script>
+            $(document).ready(function () {
+                var $form = $("#set_score_form");
 
-<script>
-    $(document).ready(function () {
-        var $form = $("#set_score_form");
+                function scoreSelected() {
+                    $('#' + this.name).addClass('selected');
 
-        function scoreSelected() {
-            $('#' + this.name).addClass('selected');
+                    if ($("input:radio[name='player1_score']").is(":checked") &&
+                            $("input:radio[name='player2_score']").is(":checked")) {
+                        $form.submit();
+                    }
+                }
 
-            if ($("input:radio[name='player1_score']").is(":checked") &&
-                    $("input:radio[name='player2_score']").is(":checked")) {
-                $form.submit();
-            }
+                $form.find("input:radio").on('change', scoreSelected);
+                $form.find("label").on('touchend', function () {
+                    $(this).click();
+                }); // Fix click delay on mobile devices
+            });
+        </script>
+    {% endaddtoblock %}
+{% endif %}
+
+{% addtoblock 'css' %}
+    <style>
+        #set_score_dialog {
+            min-height: 80px;
         }
 
-        $("input:radio[name='player1_score']").on('change', scoreSelected);
-        $("input:radio[name='player2_score']").on('change', scoreSelected);
-        $("label").on('touchend', function () {
-            $(this).click();
-        }); // Fix click delay on mobile devices
-    });
-</script>
+        #player1 {
+            float: left;
+        }
+
+        #player2 {
+            float: right;
+        }
+
+        #player1, #player2 {
+            font-size: 1.5em;
+        }
+
+        input[type="radio"].score {
+            display: none;
+        }
+
+        input[type="radio"] + label.score {
+            min-width: inherit;
+            text-align: left;
+            cursor: pointer;
+            display: inline-block;
+            color: #808080;
+            padding: 5px 14px;
+            border: 1px solid;
+            margin-right: 15px;
+            font-weight: inherit;
+        }
+
+        .selected input[type="radio"] + label.score {
+            color: #e0e0e0;
+        }
+
+        input[type="radio"]:checked + label.score {
+            color: #000000;
+        }
+    </style>
+    <style media="screen and (max-width: 600px)">
+        #player1, #player2 {
+            float: none;
+        }
+    </style>
+    }
+{% endaddtoblock %}
