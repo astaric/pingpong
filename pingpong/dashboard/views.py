@@ -8,7 +8,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 
 from pingpong.dashboard.forms import UpcomingMatchesFromset, SetScoreForm, SetTableForm
-from pingpong.models import Match, Table
+from pingpong.models import Match, Table, Category, Group, GroupMember
+from pingpong.signup.forms import GroupScoresFormset
 
 
 def dashboard(request):
@@ -151,3 +152,19 @@ def match_details(request, match_id):
         ))
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def set_group_scores(request, group_id):
+    group = get_object_or_404(Group, id=group_id)
+
+    if request.method == 'POST':
+        group_scores = GroupScoresFormset(request.POST)
+        if group_scores.is_valid():
+            group_scores.save()
+            return redirect(reverse('dashboard'))
+    else:
+        group_scores = GroupScoresFormset(queryset=GroupMember.for_group(group))
+
+    return render(request, 'pingpong/category/edit_group.html',
+                  dict(group=group,
+                       formset=group_scores))

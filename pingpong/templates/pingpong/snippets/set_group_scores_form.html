@@ -2,7 +2,7 @@
 
 {% if not css_only %}
     <form id="set_group_scores_form" method="post"
-          action="{% url 'edit_group' category_id=group.category.id group_id=group.id %}">
+          action="{% url 'set_group_scores' group_id=group.id %}">
         {% csrf_token %}
         {{ formset.management_form }}
         {{ formset.non_form_errors.as_ul }}
@@ -16,7 +16,6 @@
                     <td class="place">{{ form.errors.place }}{{ form.place }}</td>
                 </tr>
             {% endfor %}
-            </tbody>
         </table>
         <input type="submit" value="Shrani"/>
     </form>

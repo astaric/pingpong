@@ -222,55 +222,6 @@ class SignupViewsTestCase(TestCase):
         self.assertEqual(Group.objects.count(), 4)
         self.assertEqual(set(Player.objects.filter(groupmember__leader=True)), set(players[2:6]))
 
-    def test_edit_group(self):
-        category = self.create_category()
-        self.create_players(category, 4)
-        category.create_groups(number_of_groups=1)
-        group = Group.objects.get()
-        group_members = GroupMember.objects.order_by('id')
-        edit_group_url = reverse('edit_group', kwargs=dict(category_id=category.id, group_id=group.id))
-
-        # Get displays form
-        resp = self.client.get(edit_group_url)
-        self.assertEqual(resp.status_code, 200)
-        self.assertIn('formset', resp.context)
-        self.assertIsInstance(resp.context['formset'], GroupScoresFormset)
-
-        # Posting invalid data redisplays form
-        resp = self.client.post(edit_group_url, {
-            'form-TOTAL_FORMS': 1,
-            'form-INITIAL_FORMS': 1,
-            'form-MAX_NUM_FORMS': 1,
-            'form-0-id': group_members[0].id,
-            'form-0-place': 'invalid',
-        })
-        self.assertEqual(resp.status_code, 200)
-        group_members = GroupMember.objects.order_by('id')
-        self.assertIsNone(group_members[0].place)
-        self.assertIn('formset', resp.context)
-        self.assertEqual(len(resp.context['formset'].forms[0].errors['place']), 1)
-
-        # Posting valid data modifies members
-        resp = self.client.post(edit_group_url, {
-            'form-TOTAL_FORMS': 4,
-            'form-INITIAL_FORMS': 4,
-            'form-MAX_NUM_FORMS': 4,
-            'form-0-id': group_members[0].id,
-            'form-0-place': 4,
-            'form-1-id': group_members[1].id,
-            'form-1-place': 3,
-            'form-2-id': group_members[2].id,
-            'form-2-place': 2,
-            'form-3-id': group_members[3].id,
-            'form-3-place': 1,
-        })
-        self.assertRedirects(resp, reverse('dashboard'))
-        group_members = GroupMember.objects.order_by('id')
-        self.assertEqual(group_members[0].place, 4)
-        self.assertEqual(group_members[1].place, 3)
-        self.assertEqual(group_members[2].place, 2)
-        self.assertEqual(group_members[3].place, 1)
-
     def test_delete_groups(self):
         category = self.create_category()
         self.create_players(category, 16)

@@ -4,11 +4,11 @@ from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 
 from pingpong.bracket.models import Bracket
-from pingpong.models import Category, Player, Double, Group, GroupMember, Match
+from pingpong.models import Category, Player, Double, Group
 from pingpong.printing.helpers import print_groups
 from pingpong.signup.forms import (
     PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet,
-    NumberOfGroupsForm, SelectLeadersFormSet, GroupScoresFormset
+    NumberOfGroupsForm, SelectLeadersFormSet
     )
 
 
@@ -178,24 +178,4 @@ def create_groups(request, category_id):
                        numgroups=number_of_groups))
 
 
-def edit_group(request, category_id, group_id):
-    category = get_object_or_404(Category, id=category_id)
-    group = get_object_or_404(Group, id=group_id)
 
-    members = GroupMember.for_group(group)
-
-    if request.method == 'POST':
-        group_scores = GroupScoresFormset(request.POST)
-        if group_scores.is_valid():
-            group_scores.save()
-            return redirect(reverse('dashboard'))
-    else:
-        group_scores = GroupScoresFormset(queryset=members)
-
-    matches = Match.objects.filter(group=group).select_related('player1', 'player2')
-    return render(request, 'pingpong/category/edit_group.html',
-                  dict(category=category,
-                       group=group,
-                       group_members=members,
-                       matches=matches,
-                       formset=group_scores))

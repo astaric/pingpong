@@ -4,7 +4,7 @@
 
 {% block content %}
     {% panel False %}
-        {{ category.description }} - Skupina {{ group.name }}
+        {{ group.category.description }} - Skupina {{ group.name }}
     {% body %}
         {% set_group_scores_form group %}
     {% endpanel %}
