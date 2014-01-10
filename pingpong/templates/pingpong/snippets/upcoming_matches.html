@@ -29,13 +29,19 @@
 
 {% addtoblock 'css' %}
     <style>
-        .match {
+        #upcoming_matches .match {
             display: block;
             width: 300px;
             line-height: 2em;
             border: 1px solid gray;
             padding: 5px;
             margin-bottom: 5px;
+        }
+    </style>
+
+    <style media="screen and (max-width: 480px)">
+        #upcoming_matches .match {
+            width: 100%;
         }
     </style>
 {% endaddtoblock %}
