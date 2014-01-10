@@ -25,7 +25,7 @@
                     </a>
                 {% endif %}
                 {% if category.bracket__count == 0 %}
-                    <a class="btn btn-default" href="#">
+                    <a class="btn btn-default" href="{% url "create_brackets" category_id=category.id %}">
                         <i class="glyphicon glyphicon-plus"></i> Piramide
                     </a>
                 {% endif %}

@@ -13,7 +13,8 @@ urlpatterns = patterns(
         url(r'^edit/$', views.edit_category, name='category_edit'),
         url(r'^delete/$', views.delete_category, name='category_delete'),
 
-        url(r'^brackets/delete$', views.delete_brackets, name='delete_brackets'),
+        url(r'^brackets/create/$', views.create_brackets, name='create_brackets'),
+        url(r'^brackets/delete/$', views.delete_brackets, name='delete_brackets'),
 
         url(r'^groups/create/$', views.create_groups, name='create_groups'),
         url(r'^groups/delete/', views.delete_groups, name='delete_groups'),

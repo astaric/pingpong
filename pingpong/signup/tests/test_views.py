@@ -5,7 +5,7 @@ from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.bracket.models import Bracket, BracketSlot
 from pingpong.models import Category, Player, Group, GroupMember
 from pingpong.signup.forms import CategoryAddForm, CategoryEditForm, PlayerFormSet, NumberOfGroupsForm, \
-    SelectLeadersFormSet, GroupScoresFormset
+    PlayerSeedsFormset, GroupScoresFormset
 
 
 class SignupViewsTestCase(TestCase):
@@ -191,7 +191,7 @@ class SignupViewsTestCase(TestCase):
         self.assertIn('numgroups', resp.context)
         self.assertIsInstance(resp.context['numgroups'], NumberOfGroupsForm)
         self.assertIn('formset', resp.context)
-        self.assertIsInstance(resp.context['formset'], SelectLeadersFormSet)
+        self.assertIsInstance(resp.context['formset'], PlayerSeedsFormset)
 
         # Posting invalid data redisplays the form
         resp = self.client.post(create_groups_url, {
@@ -210,13 +210,13 @@ class SignupViewsTestCase(TestCase):
             'form-INITIAL_FORMS': 4,
             'form-MAX_NUM_FORMS': 4,
             'form-0-id': players[2].id,
-            'form-0-leader': 1,
+            'form-0-seed': 1,
             'form-1-id': players[3].id,
-            'form-1-leader': 2,
+            'form-1-seed': 2,
             'form-2-id': players[4].id,
-            'form-2-leader': 3,
+            'form-2-seed': 3,
             'form-3-id': players[5].id,
-            'form-3-leader': 4,
+            'form-3-seed': 4,
         })
         self.assertRedirects(resp, reverse('category', kwargs=dict(category_id=category.id)))
         self.assertEqual(Group.objects.count(), 4)

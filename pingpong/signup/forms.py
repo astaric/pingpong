@@ -3,7 +3,7 @@ from django.forms import ModelChoiceField, IntegerField, CharField, Form
 from django.forms.models import ModelForm, modelformset_factory, BaseModelFormSet
 from django.utils.translation import ugettext_lazy as _
 
-from pingpong.bracket.helpers import create_brackets
+from pingpong.bracket.helpers import create_brackets, create_pair_brackets
 
 from pingpong.models import Player, GroupMember, Double, Category, Match
 
@@ -62,30 +62,30 @@ class NumberOfGroupsForm(Form):
         return self.cleaned_data['number']
 
 
-class SelectLeadersForm(ModelForm):
+class PlayerSeedForm(ModelForm):
     class Meta:
         model = Player
         fields = ()
 
-    leader = CharField(required=False)
+    seed = CharField(required=False)
 
 
 class BaseLeaderFormSet(BaseModelFormSet):
     @property
-    def leaders(self):
-        leaders = [f for f in self.forms if f.cleaned_data['leader']]
-        leaders.sort(key=lambda x: x.cleaned_data['leader'])
-        return [f.instance for f in leaders]
+    def seeds(self):
+        seed = lambda x: x.cleaned_data['seed']
+        forms = sorted(self.forms, key=seed)
+        return [f.instance for f in forms if seed(f)]
 
     def create_groups(self, category, number_of_groups):
-        leader = lambda x: x.cleaned_data['leader']
-        forms = sorted(self.forms, key=leader)
-        leaders = [f.instance for f in forms if leader(f)]
-        category.create_groups(leaders, number_of_groups)
+        category.create_groups(self.seeds, number_of_groups)
         create_brackets(category)
 
+    def create_bracket(self, category):
+        create_pair_brackets(category, self.seeds)
 
-SelectLeadersFormSet = modelformset_factory(Player, SelectLeadersForm, formset=BaseLeaderFormSet, extra=0)
+
+PlayerSeedsFormset = modelformset_factory(Player, PlayerSeedForm, formset=BaseLeaderFormSet, extra=0)
 
 
 class GroupScoresForm(ModelForm):

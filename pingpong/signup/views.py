@@ -8,7 +8,7 @@ from pingpong.models import Category, Player, Double, Group
 from pingpong.printing.helpers import print_groups
 from pingpong.signup.forms import (
     PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet,
-    NumberOfGroupsForm, SelectLeadersFormSet
+    NumberOfGroupsForm, PlayerSeedsFormset
     )
 
 
@@ -160,22 +160,38 @@ def create_groups(request, category_id):
 
     if request.method == 'POST':
         number_of_groups = NumberOfGroupsForm(request.POST)
-        group_leaders = SelectLeadersFormSet(request.POST)
-        group_leaders.category = category
+        player_seeds = PlayerSeedsFormset(request.POST)
+        player_seeds.category = category
 
-        if number_of_groups.is_valid() and group_leaders.is_valid():
-            group_leaders.create_groups(category, number_of_groups.as_int())
+        if number_of_groups.is_valid() and player_seeds.is_valid():
+            player_seeds.create_groups(category, number_of_groups.as_int())
             print_groups(category)
 
             return redirect(reverse('category', kwargs=dict(category_id=category.id)))
     else:
         number_of_groups = NumberOfGroupsForm()
-        group_leaders = SelectLeadersFormSet(queryset=category.players.order_by('id'))
+        player_seeds = PlayerSeedsFormset(queryset=category.players.order_by('id'))
 
     return render(request, 'pingpong/category/create_groups.html',
                   dict(category=category,
-                       formset=group_leaders,
+                       formset=player_seeds,
                        numgroups=number_of_groups))
 
 
+def create_brackets(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        player_seeds = PlayerSeedsFormset(request.POST)
+
+        if player_seeds.is_valid():
+            player_seeds.create_bracket(category)
+
+            return redirect(reverse('category', kwargs=dict(category_id=category.id)))
+    else:
+        player_seeds = PlayerSeedsFormset(queryset=category.players.order_by('id'))
+
+    return render(request, 'pingpong/category/create_bracket.html',
+                  dict(category=category,
+                       formset=player_seeds,))
 
