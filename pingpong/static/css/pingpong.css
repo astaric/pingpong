@@ -92,7 +92,6 @@ table.players input {
     transition: height 0.01s;
 }
 
-
 .group {
     display: inline-block;
     border: 0;
@@ -175,7 +174,7 @@ table.players input {
 }
 
 .players .player_group,
-.players .player{
+.players .player {
     display: inline-block;
 }
 
@@ -223,8 +222,9 @@ table.players input {
     line-height: 1em;
 }
 
- {
-    color: inherit;
+{
+    color: inherit
+;
 }
 
 #right-column {
@@ -240,14 +240,38 @@ table.players input {
 
 @media screen and (min-width: 900px) {
     #left-column {
-        float:left;
+        float: left;
     }
 
     #right-column {
-        float:right;
+        float: right;
     }
 }
 
 #set_table_form button:disabled {
     background-color: gray;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"] + label {
+    min-width: inherit;
+    text-align: left;
+    cursor: pointer;
+    display: inline-block;
+    color: #808080;
+    padding: 5px 14px;
+    border: 1px solid;
+    margin-right: 15px;
+    font-weight: inherit;
+}
+
+.selected input[type="radio"] + label {
+    color: #e0e0e0;
+}
+
+input[type="radio"]:checked + label {
+    color: #000000;
 }

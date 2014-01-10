@@ -1,112 +1,77 @@
 {% load sekizai_tags %}
 
-<form id="set_group_scores_form" method="post"
-      action="{% url 'edit_group' category_id=group.category.id group_id=group.id %}">
-    {% csrf_token %}
-    {{ formset.management_form }}
-    {{ formset.non_form_errors.as_ul }}
+{% if not css_only %}
+    <form id="set_group_scores_form" method="post"
+          action="{% url 'edit_group' category_id=group.category.id group_id=group.id %}">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        {{ formset.non_form_errors.as_ul }}
 
-    <table class="group_results">
-        <thead>
-        <tr class="header">
-            <td></td>
-            {% for m2 in group_members %}
-                <td>{{ forloop.counter }}.</td>{% endfor %}
-            <td class="sets">Nizi</td>
-            <td class="points">Točke</td>
-            <td class="place">Mesto</td>
-        </tr>
-        </thead>
-        <tbody>
-        {% for form in formset %}
-            <tr>
-                <td class="name">
-                    {{ form.id }}{{ forloop.counter }}. {{ form.instance.player }}
-                </td>
-                {% for f in formset %}
-                    <td{% if f == form %} class="full"{% endif %}></td>
-                {% endfor %}
-                <td class="sets"></td>
-                <td class="points">{{ form.points }}</td>
-                <td class="place">{{ form.place }}</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <input type="submit" value="Shrani"/>
-</form>
+        <table class="group_results">
+            {% for form in formset %}
+                <tr>
+                    <td class="name">
+                        {{ form.id }}{{ form.instance.player }}
+                    </td>
+                    <td class="place">{{ form.errors.place }}{{ form.place }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <input type="submit" value="Shrani"/>
+    </form>
 
-{% addtoblock 'css' %}
-    <style>
-        #group_results {
-            border-spacing: 0;
-            border-collapse: collapse;
-            border: 1px solid;
-        }
-
-        #group_results .full {
-            background-color: black;
-        }
-
-        .header td {
-            text-align: center;
-        }
-
-        #group_results td {
-            padding-top: 3px;
-            padding-left: 5px;
-            line-height: 20px;
-            width: 40px;
-            border: 1px solid;
-        }
-
-        .sets {
-            border-left: 3px solid;
-        }
-
-        .place {
-            border-left: 3px solid;
-        }
-
-        .name {
-            width: 200px;
-        }
-
-        .result {
-            width: 80px;
-        }
-
-        input[type=text] {
-            border: 0;
-            width: 40px;
-            padding: 0;
-        }
-    </style>
-{% endaddtoblock %}
-
-{% addtoblock 'js' %}
     <script>
         $(document).ready(function () {
             var $form = $("#set_group_scores_form");
             var $inputs = $form.find('input[type=number]');
             $inputs.each(function (i, input) {
-                console.log($inputs.length);
+                console.log(input);
                 var $input = $(input);
                 var name = input.name;
+                var value = input.value;
 
                 var touch_friendly_input = '';
                 for (var place = 1; place <= $inputs.length; place++) {
                     var id = name + '-' + place;
-                    touch_friendly_input +=
-                            '<input type="radio" id="' + id + '" name="' + name + '">' +
-                                    '<label for="' + id + '">lalal</label>'
-                    ;
-                }
+                    var selected = (value == place) ? ' checked' : '';
+                    if (value) {
+                        $input.parent().addClass('selected');
+                    }
 
+                    touch_friendly_input +=
+                            '<input type="radio" id="' + id + '" name="' + name + '" value="' + place + '"' + selected + '>' +
+                                    '<label for="' + id + '">' + place + '</label>';
+                }
 
                 $input.replaceWith(touch_friendly_input);
             });
 
+            function scoreSelected() {
+                console.log(this);
+                $(this).parent().addClass('selected');
+
+                if ($("input:radio[name='player1_score']").is(":checked") &&
+                        $("input:radio[name='player2_score']").is(":checked")) {
+                    $form.submit();
+                }
+            }
+
+            $form.find("input:radio").on('change', scoreSelected);
+            $form.find("label").on('touchend', function () {
+                $(this).click();
+            }); // Fix click delay on mobile devices
+
+
         });
     </script>
+{% endif %}
+
+{% addtoblock 'css' %}
+    <style>
+        .name {
+            padding-right: 10px;
+        }
+
+    </style>
 {% endaddtoblock %}

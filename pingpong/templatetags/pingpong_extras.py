@@ -1,12 +1,11 @@
 from django import template
 from django.db.models import Count
-from django.template import TemplateSyntaxError, NodeList, Context, Variable
+from django.template import TemplateSyntaxError, NodeList, Context
 from django.template.loader import render_to_string
 
 from pingpong.bracket.models import Bracket
-from pingpong.helpers import debug_sql
-from pingpong.models import Category, GroupMember, Table, Match
-from pingpong.signup.forms import CategoryEditForm
+from pingpong.models import Category, GroupMember, Table
+from pingpong.signup.forms import CategoryEditForm, GroupScoresFormset
 from pingpong.signup.views import players_formset
 
 
@@ -119,15 +118,27 @@ class PanelNode(template.Node):
             footer=self.footer.render(context),
         )))
 
+
 @register.inclusion_tag('pingpong/snippets/tables.html', takes_context=True)
 def show_tables(context):
-    tables = Table.objects.order_by('display_order').prefetch_related('bracketslot_set', 'group_set', 'group_set__category')
+    tables = Table.objects.order_by('display_order').prefetch_related('bracketslot_set', 'group_set',
+                                                                      'group_set__category')
     context['tables'] = tables
     return context
 
+
 @register.inclusion_tag('pingpong/snippets/set_group_scores_form.html', takes_context=True)
-def set_group_scores_form(context, group):
-    context['group'] = group
+def set_group_scores_form(context, group=None, css_only=False):
+    if 'formset' in context:
+        formset = context['formset']
+    else:
+        formset = GroupScoresFormset(queryset=GroupMember.for_group(group))
+    context.update({
+        'group': group,
+        'css_only': css_only,
+        'formset': formset,
+    })
+
     return context
 
 

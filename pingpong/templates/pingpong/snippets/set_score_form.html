@@ -7,7 +7,7 @@
         {{ match.table.name }}
         {% body %}
         {% if match.group %}
-            <a href="{% url 'edit_group' category_id=match.group.category_id group_id=match.group.id %}">{{ match.group }}</a>
+            {%  set_group_scores_form match.group %}
         {% elif match.player1_id %}
             <div id="set_score_dialog">
                 <form id="set_score_form" method="post" action="{% url 'set_score' match_id=match.id %}">
@@ -48,27 +48,26 @@
         {% endif %}
     {% endpanel %}
 
-    {% addtoblock 'js' %}
-        <script>
-            $(document).ready(function () {
-                var $form = $("#set_score_form");
+    <script>
+        $(document).ready(function () {
+            var $form = $("#set_score_form");
 
-                function scoreSelected() {
-                    $('#' + this.name).addClass('selected');
+            function scoreSelected() {
+                $('#' + this.name).addClass('selected');
 
-                    if ($("input:radio[name='player1_score']").is(":checked") &&
-                            $("input:radio[name='player2_score']").is(":checked")) {
-                        $form.submit();
-                    }
+                if ($("input:radio[name='player1_score']").is(":checked") &&
+                        $("input:radio[name='player2_score']").is(":checked")) {
+                    $form.submit();
                 }
+            }
 
-                $form.find("input:radio").on('change', scoreSelected);
-                $form.find("label").on('touchend', function () {
-                    $(this).click();
-                }); // Fix click delay on mobile devices
-            });
-        </script>
-    {% endaddtoblock %}
+            $form.find("input:radio").on('change', scoreSelected);
+            $form.find("label").on('touchend', function () {
+                $(this).click();
+            }); // Fix click delay on mobile devices
+        });
+    </script>
+
 {% endif %}
 
 {% addtoblock 'css' %}
@@ -88,35 +87,10 @@
         #player1, #player2 {
             font-size: 1.5em;
         }
-
-        input[type="radio"].score {
-            display: none;
-        }
-
-        input[type="radio"] + label.score {
-            min-width: inherit;
-            text-align: left;
-            cursor: pointer;
-            display: inline-block;
-            color: #808080;
-            padding: 5px 14px;
-            border: 1px solid;
-            margin-right: 15px;
-            font-weight: inherit;
-        }
-
-        .selected input[type="radio"] + label.score {
-            color: #e0e0e0;
-        }
-
-        input[type="radio"]:checked + label.score {
-            color: #000000;
-        }
     </style>
     <style media="screen and (max-width: 600px)">
         #player1, #player2 {
             float: none;
         }
     </style>
-    }
 {% endaddtoblock %}
