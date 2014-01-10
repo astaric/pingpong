@@ -165,9 +165,9 @@ def set_score_form(context, match=None, css_only=False):
 
 
 @register.inclusion_tag('pingpong/snippets/set_table_form.html')
-def set_table_form(match):
+def set_table_form(match, modal=False):
     return {
-        'modal': False,
+        'modal': modal,
         'match': match,
         'tables': Table.objects.order_by('display_order').extra(
             select={

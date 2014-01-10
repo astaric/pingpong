@@ -68,7 +68,7 @@ def set_table(request, match_id):
             return redirect(reverse('dashboard'))
 
     if request.is_ajax():
-        template = 'pingpong/snippets/set_table_form.html'
+        template = 'pingpong/dashboard/set_table_modal.html'
     else:
         template = 'pingpong/dashboard/set_table.html'
     return render(request, template, dict(
