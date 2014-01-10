@@ -1,5 +1,6 @@
 {% load staticfiles %}
 {% load i18n %}
+{% load sekizai_tags %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" media="screen">
     <link href="{% static 'css/pingpong.css' %}" rel="stylesheet" media="screen">
-
-    <script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
-    {% block additional_header %}{% endblock %}
+    {% render_block 'css' %}
 </head>
 <body>
     {% csrf_token %}
@@ -56,7 +55,10 @@
         {% block content %}
         {% endblock %}
     </div>
+
+<script src="{% static 'js/jquery-1.10.2.min.js' %}"></script>
 <script src="{% static 'js/bootstrap.min.js' %}"></script>
+{% render_block 'js' %}
 <script>
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
         $("a[data-toggle='modal']").removeAttr("data-toggle")

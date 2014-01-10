@@ -1,6 +1,6 @@
 {% extends 'pingpong/base.html' %}
-{% load staticfiles %}
-{% load i18n %}
+{% load staticfiles i18n %}
+{% load sekizai_tags %}
 {% load pingpong_extras %}
 
 {% block current_mode %}
@@ -15,10 +15,9 @@
     {% endif %}
 {% endblock %}
 
-
-{% block additional_header %}
+{% addtoblock css %}
     <link rel="stylesheet" href="{% static 'css/jquery-ui-1.10.3.custom.min.css' %}">
-{% endblock %}
+{% endaddtoblock %}
 
 {% block content %}
     <div class="panel panel-default">

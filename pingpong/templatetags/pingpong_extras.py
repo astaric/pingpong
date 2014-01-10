@@ -121,12 +121,11 @@ class PanelNode(template.Node):
             footer=self.footer.render(context),
         )))
 
-@register.inclusion_tag('pingpong/snippets/tables.html')
-def show_tables():
+@register.inclusion_tag('pingpong/snippets/tables.html', takes_context=True)
+def show_tables(context):
     tables = Table.objects.order_by('display_order').prefetch_related('bracketslot_set', 'group_set', 'group_set__category')
-    return {
-        'tables': tables,
-    }
+    context['tables'] = tables
+    return context
 
 
 @register.inclusion_tag('pingpong/snippets/table.html')

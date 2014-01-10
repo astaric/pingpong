@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'south',
+    'sekizai',
 
     'pingpong',
     'pingpong.signup',
@@ -64,6 +65,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.static",
     "django.contrib.messages.context_processors.messages",
 
+    "sekizai.context_processors.sekizai",
     "pingpong.context_processors.login_url_with_redirect",
 )
 
