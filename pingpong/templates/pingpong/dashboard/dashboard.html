@@ -24,22 +24,11 @@
                         {{ formset.management_form }}
                         {{ formset.non_form_errors }}
                         {% for form in formset %}
-                            <div>
-                                <div style="display: inline-block; width: 300px;">
-                                    <a href="{% url 'set_table' match_id=form.instance.id %}">
-                                        {{ form.instance.description }}
-                                    </a>
-                                </div>
-                                {{ form.non_field_errors }}
-                                {% for hidden in form.hidden_fields %}
-                                    {{ hidden }}
-                                {% endfor %}
-                                {% for field in form.visible_fields %}
-                                    {{ field }}
-                                {% endfor %}
-                            </div>
+                            <a style="display: block; width: 300px; line-height: 2em; border: 1px solid gray; padding: 5px; margin-bottom: 5px;"
+                               href="{% url 'set_table' match_id=form.instance.id %}">
+                                {{ form.instance.description }}
+                            </a>
                         {% endfor %}
-                        <input type="submit" value="Save">
                     </form>
                 {% else %}
                     noformset
