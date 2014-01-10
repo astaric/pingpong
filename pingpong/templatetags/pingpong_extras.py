@@ -4,7 +4,8 @@ from django.template import TemplateSyntaxError, NodeList, Context
 from django.template.loader import render_to_string
 
 from pingpong.bracket.models import Bracket
-from pingpong.models import Category, GroupMember, Table
+from pingpong.dashboard.forms import UpcomingMatchesFromset
+from pingpong.models import Category, GroupMember, Table, Match
 from pingpong.signup.forms import CategoryEditForm, GroupScoresFormset
 from pingpong.signup.views import players_formset
 
@@ -126,6 +127,17 @@ def show_tables(context):
     context['tables'] = tables
     return context
 
+@register.inclusion_tag('pingpong/snippets/upcoming_matches.html', takes_context=True)
+def upcoming_matches(context):
+    if 'formset' in context:
+        formset = context['formset']
+    else:
+        formset = UpcomingMatchesFromset(
+            queryset=Match.ready_group_matches() | Match.ready_bracket_matches() | Match.ready_doubles_matches())
+    context.update({
+        'formset': formset,
+    })
+    return context
 
 @register.inclusion_tag('pingpong/snippets/set_group_scores_form.html', takes_context=True)
 def set_group_scores_form(context, group=None, css_only=False):

@@ -1,0 +1,41 @@
+{% load sekizai_tags %}
+
+<div id="upcoming_matches">
+    {% for form in formset %}
+        <a class="match"
+           href="{% url 'set_table' match_id=form.instance.id %}">
+            {{ form.instance.description }}
+        </a>
+    {% endfor %}
+</div>
+<div class="modal" id="set-table-modal"></div>
+<script>
+    $(document).ready(function () {
+        function openMatchModal(e) {
+            e.preventDefault();
+            var remote = this.href;
+            var $modal = $('#set-table-modal');
+            $modal.removeData('bs.modal');
+            $modal.modal({
+                remote: this.href
+            });
+        }
+
+        var $upcoming_matches = $('#upcoming_matches');
+        $upcoming_matches.find('a').on('click', openMatchModal);
+    });
+</script>
+
+
+{% addtoblock 'css' %}
+    <style>
+        .match {
+            display: block;
+            width: 300px;
+            line-height: 2em;
+            border: 1px solid gray;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+{% endaddtoblock %}

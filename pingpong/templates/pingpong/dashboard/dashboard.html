@@ -18,26 +18,10 @@
                 {% show_tables %}
             </div>
             <div id="left-column">
-                {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'dashboard' %}">
-                        {% csrf_token %}
-                        {{ formset.management_form }}
-                        {{ formset.non_form_errors }}
-                        {% for form in formset %}
-                            <a style="display: block; width: 300px; line-height: 2em; border: 1px solid gray; padding: 5px; margin-bottom: 5px;"
-                               href="{% url 'set_table' match_id=form.instance.id %}">
-                                {{ form.instance.description }}
-                            </a>
-                        {% endfor %}
-                    </form>
-                {% else %}
-                    noformset
-                    {{ matches }}
-                {% endif %}
+                {% upcoming_matches %}
             </div>
         </div>
         <div class="panel-footer">
         </div>
     </div>
-
 {% endblock %}
