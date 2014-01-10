@@ -264,7 +264,7 @@ class SignupViewsTestCase(TestCase):
             'form-3-id': group_members[3].id,
             'form-3-place': 1,
         })
-        self.assertRedirects(resp, reverse('category', kwargs={'category_id': category.id}))
+        self.assertRedirects(resp, reverse('dashboard'))
         group_members = GroupMember.objects.order_by('id')
         self.assertEqual(group_members[0].place, 4)
         self.assertEqual(group_members[1].place, 3)
