@@ -159,7 +159,7 @@ def set_table_form(match):
         'match': match,
         'tables': Table.objects.order_by('display_order').extra(
             select={
-                "occupied": "SELECT COUNT(*) FROM pingpong_match m WHERE m.table_id=pingpong_table.id AND m.status == 2"
+                "occupied": "SELECT COUNT(*) FROM pingpong_match m WHERE m.table_id=pingpong_table.id AND m.status = 2"
             }
         )
     }
