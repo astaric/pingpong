@@ -188,7 +188,7 @@ def edit_group(request, category_id, group_id):
         group_scores = GroupScoresFormset(request.POST)
         if group_scores.is_valid():
             group_scores.save()
-            return redirect(reverse('category', kwargs=dict(category_id=category.id)))
+            return redirect(reverse('dashboard'))
     else:
         group_scores = GroupScoresFormset(queryset=members)
 
