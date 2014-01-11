@@ -25,30 +25,37 @@
                 {% show_bracket bracket %}
             </div>
     {% endfor %}
+    <div style="position:absolute; bottom: 5px; right: 5px;">
+        Page {{ forloop.counter }} / {{ bracket_groups|length }}
     </div>
+    </div>
+
+
 {% endfor %}
 
 <script type="text/javascript">
     $(document).ready(function() {
+        var PAGE_SHOW_TIME = 5000;
+        var NUMBER_OF_PAGES = {{ bracket_groups|length }};
         var current_page, page;
         console.log({{ bracket_groups|length }});
-        for (var i= 1; i<={{ bracket_groups|length }}; i++) {
+        for (var i= 1; i<=NUMBER_OF_PAGES; i++) {
             $("#page" + i).addClass("hidden");
         }
         page = current_page = 0;
         var change_page = function() {
             page = (page % {{ bracket_groups|length }}) + 1;
-            console.log("Changing page to " + page)
+            console.log("Changing page to " + page);
             $("#page" + current_page).addClass("hidden");
             $("#page" + page).removeClass("hidden");
             current_page = page;
-            setTimeout(change_page, 20000);
-        }
+            setTimeout(change_page, PAGE_SHOW_TIME);
+        };
         change_page();
         setTimeout(function() {
             location.href = '{% url 'brackets_slideshow' %}'
-        }, 200000)
-    })
+        }, PAGE_SHOW_TIME * NUMBER_OF_PAGES);
+    });
 </script>
 </body>
 </html>
