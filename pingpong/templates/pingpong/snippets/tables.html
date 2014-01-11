@@ -6,25 +6,22 @@
         {% cycle '<tr>' '' '' '' %}
         <td>
             {% with table.current_matches.all.0 as match %}
-                <div class="table{% if match %} occupied{% endif %}"
-                     {% if match %}data-match-id="{{ match.id }}"{% endif %}>
-                    <div>
-                        <span class="name">{{ table.name }}</span>
-                        <span class="starttime">{{ match.start_time|date:"H:i" }}</span>
-                    </div>
+                <a href="{% if match %}{% url 'set_score' match_id=match.id %}{% else %}#{% endif %}"
+                   class="table{% if match %} occupied{% endif %}"
+                   {% if match %}data-match-id="{{ match.id }}"{% endif %}>
+                    <div class="name">{{ table.short_name }}</div>
+                    <div class="starttime">{{ match.start_time|date:"H:i" }}</div>
 
                     {% if match %}
-                        <div class="player">
-                            <a href="{% url 'set_score' match_id=match.id %}">
-                                {% if match.group %}
-                                    {{ match.group }}
-                                {% else %}
-                                    {{ match }}
-                                {% endif %}
-                            </a>
-                        </div>
+                        {% if match.group %}
+                            <div class="player">{{ match.group }}</div>
+                        {% else %}
+                            <div class="player">{{ match.player1 }}</div>
+                            <div class="player">{{ match.player2 }}</div>
+                            <div class="category">{{ match.player1.category.description }}</div>
+                        {% endif %}
                     {% endif %}
-                </div>
+                </a>
             {% endwith %}
         </td>
         {% cycle '' '' '' '</tr>' %}
@@ -42,7 +39,10 @@
         }
 
         #tables .table {
+            display: block;
+            color: black;
             position: relative;
+            min-width: 25px;
             width: 110px;
             min-height: 75px;
             border: 1px solid #333;
@@ -54,15 +54,24 @@
             background-color: #f88;
         }
 
-        #tables .table .starttime {
+        #tables .table .name {
             position: absolute;
+            font-size: 18px;
             top: 3px;
             right: 3px;
             display: inline;
         }
 
+        #tables .table .starttime {
+
+        }
+
         #tables .table .player {
             font-weight: bold;
+        }
+
+        #tables .table .category {
+            display: none;
         }
 
         #tables .table a, #tables .table a:hover {
@@ -88,9 +97,19 @@
         #tables .table .player {
             display: none;
         }
+    </style>
 
-        #tables .table .starttime {
-            position: inherit;
+    <style media="screen and (min-width: 1280px)">
+        #tables .table {
+            width: 180px;
+            min-height: 100px;
+        }
+
+        #tables .table .name {
+            font-size: 30px;
+        }
+
+        #tables .table .category {
             display: block;
         }
     </style>
