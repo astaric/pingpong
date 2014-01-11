@@ -27,11 +27,10 @@
             {% endblock %}
             <a class="navbar-brand dropdown-toggle" data-toggle="dropdown" href="#">
                 {% block current_mode %} {% trans 'Unknown' %} {% endblock %}
-                {% if category %}<span class="caret"></span>{% endif %}
+                <span class="caret">
             </a>
             {% block dropdown_menu %}
             <ul id="mainnav" class="dropdown-menu">
-                <li><a href="{% url 'category_list' %}">{% trans 'Categories' %}</a></li>
                 <li><a href="{% url 'dashboard' %}">{% trans 'Dashboard' %}</a></li>
                 <li>
                     {% if user.is_authenticated %}
