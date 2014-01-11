@@ -4,10 +4,11 @@
 
 {% if not css_only %}
     {% panel modal %}
+        {% trans 'Set score' %} -
         {{ match.table.name }}
         {% body %}
         {% if match.group %}
-            {%  set_group_scores_form match.group %}
+            {% set_group_scores_form match.group %}
         {% elif match.player1_id %}
             <div id="set_score_dialog">
                 <form id="set_score_form" method="post" action="{% url 'set_score' match_id=match.id %}">
