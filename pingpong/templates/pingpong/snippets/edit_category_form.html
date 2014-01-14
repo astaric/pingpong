@@ -21,12 +21,12 @@
                 <label>{% trans 'Draw' %}</label>
                 {% if category.group__count == 0 %}
                     <a class="btn btn-primary" href="{% url "create_groups" category_id=category.id %}">
-                        <i class="glyphicon glyphicon-plus"></i> Skupine
+                        <i class="glyphicon glyphicon-plus"></i> {% trans 'groups' %}
                     </a>
                 {% endif %}
                 {% if category.bracket__count == 0 %}
                     <a class="btn btn-default" href="{% url "create_brackets" category_id=category.id %}">
-                        <i class="glyphicon glyphicon-plus"></i> Piramide
+                        <i class="glyphicon glyphicon-plus"></i> {% trans 'brackets' %}
                     </a>
                 {% endif %}
             </p>

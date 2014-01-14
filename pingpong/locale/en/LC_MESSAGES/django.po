@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-27 10:35+0100\n"
+"POT-Creation-Date: 2014-01-14 12:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,6 +50,7 @@ msgid "club"
 msgstr ""
 
 #: models.py:31 models.py:63
+#: templates/pingpong/snippets/edit_category_form.html:37
 msgid "category"
 msgstr ""
 
@@ -81,6 +82,14 @@ msgstr ""
 msgid "max age"
 msgstr ""
 
+#: models.py:190
+msgid "Match"
+msgstr ""
+
+#: models.py:191
+msgid "Matches"
+msgstr ""
+
 #: bracket/helpers.py:77
 msgid "WINNERS"
 msgstr ""
@@ -93,35 +102,8 @@ msgstr ""
 msgid "DOUBLES"
 msgstr ""
 
-#: group/templates/pingpong/base_groups.html:5 templates/pingpong/base.html:34
-msgid "Groups"
-msgstr ""
-
-#: group/templates/pingpong/delete_groups.html:16
-#: signup/templates/pingpong/category_delete.html:14
-msgid "Yes"
-msgstr ""
-
-#: group/templates/pingpong/delete_groups.html:17
-#: signup/templates/pingpong/category_delete.html:15
-msgid "No"
-msgstr ""
-
-#: live/templates/live_base.html:5 templates/pingpong/base.html:36
-msgid "Live"
-msgstr ""
-
-#: signup/templates/pingpong/base_signup.html:5
-#: templates/pingpong/base.html:33
-msgid "Signup"
-msgstr ""
-
-#: signup/templates/pingpong/category_delete.html:10
-#, python-format
-msgid ""
-"\n"
-"            Do you really want to delete category %(category_name)s "
-"(%(category_description)s)?"
+#: signup/forms.py:59
+msgid "Number of groups"
 msgstr ""
 
 #: slideshow/templates/groups_slideshow.html:23
@@ -130,30 +112,143 @@ msgstr ""
 msgid "(%(member_count)s members)"
 msgstr ""
 
-#: templates/pingpong/base.html:21
+#: templates/pingpong/base.html:22
 msgid "Toggle navigation"
 msgstr ""
 
-#: templates/pingpong/base.html:28
+#: templates/pingpong/base.html:29
 msgid "Unknown"
 msgstr ""
 
-#: templates/pingpong/base.html:39 templates/registration/logged_out.html:5
+#: templates/pingpong/base.html:34
+#: templates/pingpong/dashboard/dashboard.html:7
+msgid "Dashboard"
+msgstr ""
+
+#: templates/pingpong/base.html:37 templates/pingpong/logged_out.html:5
 msgid "Logout"
 msgstr ""
 
-#: templates/pingpong/base.html:41 templates/registration/login.html:5
-#: templates/registration/login.html:29
+#: templates/pingpong/base.html:39 templates/pingpong/login.html:5
+#: templates/pingpong/login.html.py:11 templates/pingpong/login.html:18
 msgid "Login"
 msgstr ""
 
-#: templates/registration/logged_out.html:9
+#: templates/pingpong/confirm_deletion.html:5
+msgid "Confirm deletion"
+msgstr ""
+
+#: templates/pingpong/confirm_deletion.html:13
+#, python-format
+msgid ""
+"\n"
+"                Do you really want to delete %(object_type)s "
+"%(object_description)s?"
+msgstr ""
+
+#: templates/pingpong/confirm_deletion.html:18
+msgid "The following related objects will be deleted:"
+msgstr ""
+
+#: templates/pingpong/confirm_deletion.html:32
+msgid "Yes"
+msgstr ""
+
+#: templates/pingpong/confirm_deletion.html:33
+msgid "No"
+msgstr ""
+
+#: templates/pingpong/logged_out.html:9
 msgid ""
 "\n"
 "        You have been logged out!\n"
 "    "
 msgstr ""
 
-#: templates/registration/login.html:15
-msgid "Your username and password didn't match. Please try again."
+#: templates/pingpong/category/add.html:12
+msgid "Add category"
+msgstr ""
+
+#: templates/pingpong/category/add.html:18
+msgid "Add"
+msgstr ""
+
+#: templates/pingpong/category/add.html:19
+msgid "Cancel"
+msgstr ""
+
+#: templates/pingpong/category/base.html:7
+#: templates/pingpong/category/list.html:7
+msgid "Categories"
+msgstr ""
+
+#: templates/pingpong/category/base.html:30
+msgid "Edit players"
+msgstr ""
+
+#: templates/pingpong/category/create_bracket.html:8
+msgid "Create bracket"
+msgstr ""
+
+#: templates/pingpong/category/create_bracket.html:20
+#: templates/pingpong/category/create_groups.html:23
+msgid "Seeds"
+msgstr ""
+
+#: templates/pingpong/category/create_bracket.html:36
+msgid "Create brackets"
+msgstr ""
+
+#: templates/pingpong/category/create_groups.html:9
+#: templates/pingpong/category/create_groups.html:44
+msgid "Create groups"
+msgstr ""
+
+#: templates/pingpong/category/edit_group.html:8
+msgid "Group"
+msgstr ""
+
+#: templates/pingpong/dashboard/dashboard.html:14
+msgid "Upcoming matches"
+msgstr ""
+
+#: templates/pingpong/snippets/edit_category_form.html:8
+#: templates/pingpong/snippets/edit_players_form.html:8
+msgid "Edit"
+msgstr ""
+
+#: templates/pingpong/snippets/edit_category_form.html:16
+#: templates/pingpong/snippets/edit_players_form.html:48
+#: templates/pingpong/snippets/set_group_scores_form.html:21
+msgid "Save"
+msgstr ""
+
+#: templates/pingpong/snippets/edit_category_form.html:21
+msgid "Draw"
+msgstr ""
+
+#: templates/pingpong/snippets/edit_category_form.html:24
+#: templates/pingpong/snippets/edit_category_form.html:41
+msgid "groups"
+msgstr ""
+
+#: templates/pingpong/snippets/edit_category_form.html:29
+#: templates/pingpong/snippets/edit_category_form.html:46
+msgid "brackets"
+msgstr ""
+
+#: templates/pingpong/snippets/edit_category_form.html:35
+msgid "Remove"
+msgstr ""
+
+#: templates/pingpong/snippets/set_score_form.html:7
+msgid "Set score"
+msgstr ""
+
+#: templates/pingpong/snippets/set_score_form.html:47
+msgid "Clear table"
+msgstr ""
+
+#: templates/pingpong/snippets/set_table_form.html:6
+msgid "Set table"
 msgstr ""

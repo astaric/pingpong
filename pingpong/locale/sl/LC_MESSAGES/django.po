@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-27 10:35+0100\n"
+"POT-Creation-Date: 2014-01-14 12:26+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,6 +52,7 @@ msgid "club"
 msgstr "klub"
 
 #: models.py:31 models.py:63
+#: templates/pingpong/snippets/edit_category_form.html:37
 msgid "category"
 msgstr "kategorija"
 
@@ -83,6 +84,14 @@ msgstr "najnižja starost"
 msgid "max age"
 msgstr "najvišja starost"
 
+#: models.py:190
+msgid "Match"
+msgstr "Dvoboj"
+
+#: models.py:191
+msgid "Matches"
+msgstr "Dvoboji"
+
 #: bracket/helpers.py:77
 msgid "WINNERS"
 msgstr "ZMAGOVALNA SKUPINA"
@@ -95,38 +104,9 @@ msgstr "TOLAZILNA SKUPINA"
 msgid "DOUBLES"
 msgstr "DVOJICE"
 
-#: group/templates/pingpong/base_groups.html:5 templates/pingpong/base.html:34
-msgid "Groups"
-msgstr "Skupine"
-
-#: group/templates/pingpong/delete_groups.html:16
-#: signup/templates/pingpong/category_delete.html:14
-msgid "Yes"
-msgstr "Da"
-
-#: group/templates/pingpong/delete_groups.html:17
-#: signup/templates/pingpong/category_delete.html:15
-msgid "No"
-msgstr "Ne"
-
-#: live/templates/live_base.html:5 templates/pingpong/base.html:36
-msgid "Live"
-msgstr "Tekmovanje"
-
-#: signup/templates/pingpong/base_signup.html:5
-#: templates/pingpong/base.html:33
-msgid "Signup"
-msgstr "Prijave"
-
-#: signup/templates/pingpong/category_delete.html:10
-#, python-format
-msgid ""
-"\n"
-"            Do you really want to delete category %(category_name)s "
-"(%(category_description)s)?"
-msgstr ""
-"\n"
-"Res želite izbrisati kategorijo %(category_name)s (%(category_description)s)?"
+#: signup/forms.py:59
+msgid "Number of groups"
+msgstr "Število skupin"
 
 #: slideshow/templates/groups_slideshow.html:23
 #: slideshow/templates/groups_slideshow.html:40
@@ -134,24 +114,55 @@ msgstr ""
 msgid "(%(member_count)s members)"
 msgstr "(%(member_count)s igralcev)"
 
-#: templates/pingpong/base.html:21
+#: templates/pingpong/base.html:22
 msgid "Toggle navigation"
 msgstr "Odpri navigacijo"
 
-#: templates/pingpong/base.html:28
+#: templates/pingpong/base.html:29
 msgid "Unknown"
 msgstr "Neznano"
 
-#: templates/pingpong/base.html:39 templates/registration/logged_out.html:5
+#: templates/pingpong/base.html:34
+#: templates/pingpong/dashboard/dashboard.html:7
+msgid "Dashboard"
+msgstr "Tekmovanje"
+
+#: templates/pingpong/base.html:37 templates/pingpong/logged_out.html:5
 msgid "Logout"
 msgstr "Odjava"
 
-#: templates/pingpong/base.html:41 templates/registration/login.html:5
-#: templates/registration/login.html:29
+#: templates/pingpong/base.html:39 templates/pingpong/login.html:5
+#: templates/pingpong/login.html.py:11 templates/pingpong/login.html:18
 msgid "Login"
 msgstr "Prijava"
 
-#: templates/registration/logged_out.html:9
+#: templates/pingpong/confirm_deletion.html:5
+msgid "Confirm deletion"
+msgstr "Potrdi brisanje"
+
+#: templates/pingpong/confirm_deletion.html:13
+#, fuzzy, python-format
+msgid ""
+"\n"
+"                Do you really want to delete %(object_type)s "
+"%(object_description)s?"
+msgstr ""
+"\n"
+"Res želite izbrisati %(object_type)s %(object_description)s?"
+
+#: templates/pingpong/confirm_deletion.html:18
+msgid "The following related objects will be deleted:"
+msgstr "Izbrisani bodo sledeči objekti:"
+
+#: templates/pingpong/confirm_deletion.html:32
+msgid "Yes"
+msgstr "Da"
+
+#: templates/pingpong/confirm_deletion.html:33
+msgid "No"
+msgstr "Ne"
+
+#: templates/pingpong/logged_out.html:9
 msgid ""
 "\n"
 "        You have been logged out!\n"
@@ -160,6 +171,105 @@ msgstr ""
 "\n"
 "Bili ste odjavljeni!"
 
-#: templates/registration/login.html:15
-msgid "Your username and password didn't match. Please try again."
-msgstr "Napačno uporabniško ime ali geslo. Poizkusite ponovno."
+#: templates/pingpong/category/add.html:12
+#, fuzzy
+msgid "Add category"
+msgstr "kategorija"
+
+#: templates/pingpong/category/add.html:18
+msgid "Add"
+msgstr "Dodaj"
+
+#: templates/pingpong/category/add.html:19
+msgid "Cancel"
+msgstr "Prekliči"
+
+#: templates/pingpong/category/base.html:7
+#: templates/pingpong/category/list.html:7
+#, fuzzy
+msgid "Categories"
+msgstr "kategorije"
+
+#: templates/pingpong/category/base.html:30
+#, fuzzy
+msgid "Edit players"
+msgstr "tekmovalci"
+
+#: templates/pingpong/category/create_bracket.html:8
+msgid "Create bracket"
+msgstr "Žrebaj piramido"
+
+#: templates/pingpong/category/create_bracket.html:20
+#: templates/pingpong/category/create_groups.html:23
+msgid "Seeds"
+msgstr "Nosilci"
+
+#: templates/pingpong/category/create_bracket.html:36
+msgid "Create brackets"
+msgstr "Žrebaj piramide"
+
+#: templates/pingpong/category/create_groups.html:9
+#: templates/pingpong/category/create_groups.html:44
+#, fuzzy
+msgid "Create groups"
+msgstr "Žrebaj piramide"
+
+#: templates/pingpong/category/edit_group.html:8
+#, fuzzy
+msgid "Group"
+msgstr "Skupine"
+
+#: templates/pingpong/dashboard/dashboard.html:14
+msgid "Upcoming matches"
+msgstr "Prihajajoči dvoboji"
+
+#: templates/pingpong/snippets/edit_category_form.html:8
+#: templates/pingpong/snippets/edit_players_form.html:8
+msgid "Edit"
+msgstr "Uredi"
+
+#: templates/pingpong/snippets/edit_category_form.html:16
+#: templates/pingpong/snippets/edit_players_form.html:48
+#: templates/pingpong/snippets/set_group_scores_form.html:21
+msgid "Save"
+msgstr "Shrani"
+
+#: templates/pingpong/snippets/edit_category_form.html:21
+msgid "Draw"
+msgstr "Žrebaj"
+
+#: templates/pingpong/snippets/edit_category_form.html:24
+#: templates/pingpong/snippets/edit_category_form.html:41
+#, fuzzy
+msgid "groups"
+msgstr "Skupine"
+
+#: templates/pingpong/snippets/edit_category_form.html:29
+#: templates/pingpong/snippets/edit_category_form.html:46
+msgid "brackets"
+msgstr "Piramide"
+
+#: templates/pingpong/snippets/edit_category_form.html:35
+msgid "Remove"
+msgstr "Izbriši"
+
+#: templates/pingpong/snippets/set_score_form.html:7
+msgid "Set score"
+msgstr "Vnos rezultata"
+
+#: templates/pingpong/snippets/set_score_form.html:47
+msgid "Clear table"
+msgstr "Sprazni mizo"
+
+#: templates/pingpong/snippets/set_table_form.html:6
+msgid "Set table"
+msgstr "Dodeli mizo"
+
+#~ msgid "Live"
+#~ msgstr "Tekmovanje"
+
+#~ msgid "Signup"
+#~ msgstr "Prijave"
+
+#~ msgid "Your username and password didn't match. Please try again."
+#~ msgstr "Napačno uporabniško ime ali geslo. Poizkusite ponovno."

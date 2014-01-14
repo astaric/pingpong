@@ -15,7 +15,7 @@
                 {{ form.as_table }}
             </table>
             {% footer %}
-            <input type="submit" class="btn btn-primary" value="Dodaj"/>
+            <input type="submit" class="btn btn-primary" value="{% trans 'Add' %}"/>
             <a class="btn btn-default" href="{% url 'dashboard' %}">{% trans 'Cancel' %}</a>
         {% endpanel %}
     </form>

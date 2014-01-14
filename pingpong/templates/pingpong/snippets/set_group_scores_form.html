@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load sekizai_tags %}
 
 {% if not css_only %}
@@ -17,7 +18,7 @@
                 </tr>
             {% endfor %}
         </table>
-        <input type="submit" value="Shrani"/>
+        <button>{% trans 'Save' %}</button>
     </form>
 
     <script>
