@@ -1,7 +1,6 @@
 from django.conf.urls import patterns as urls_patterns, url, include
 
 from . import views
-from pingpong.dashboard.views import set_group_scores
 
 patterns = lambda *urls: urls_patterns('', *urls)
 
@@ -20,5 +19,7 @@ urlpatterns = patterns(
         url(r'^groups/delete/', views.delete_groups, name='delete_groups'),
 
         url(r'^players/edit/$', views.edit_category_players, name='category_edit_players'),
-    )))
+    ))),
+    url(r'^known_clubs/$', views.known_players, name="known_clubs"),
+    url(r'^known_players/$', views.known_players, name="known_players")
 )

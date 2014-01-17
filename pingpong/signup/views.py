@@ -1,10 +1,13 @@
+import json
+
 from django.contrib.admin.util import NestedObjects
 from django.core.urlresolvers import reverse
-from django.db.models import Count
+from django.db.models import Count, Q
+from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
 from pingpong.bracket.models import Bracket
-from pingpong.models import Category, Player, Double, Group
+from pingpong.models import Category, Player, Double, Group, KnownPlayer, KnownClub
 from pingpong.printing.helpers import print_groups
 from pingpong.signup.forms import (
     PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet,
@@ -193,5 +196,38 @@ def create_brackets(request, category_id):
 
     return render(request, 'pingpong/category/create_bracket.html',
                   dict(category=category,
-                       formset=player_seeds,))
+                       formset=player_seeds, ))
 
+
+def known_players(request):
+    response_data = []
+    term = request.GET.get('term', None)
+    if term:
+        response_data = list(
+            {
+                "name": p.name,
+                "surname": p.surname,
+                "club": p.club,
+                "label": u'%s %s' % (p.name, p.surname)
+            }
+            for p in KnownPlayer.objects
+                .filter(Q(search_name__istartswith=term) | Q(search_surname__istartswith=term))
+                .order_by("surname", "name"))
+
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def known_clubs(request):
+    response_data = []
+    term = request.GET.get('term', None)
+    if term:
+        response_data = list(
+            {
+                "name": c.name,
+                "label": c.name
+            }
+            for c in KnownClub.objects
+                .filter(search_name__istartswith=term)
+                .order_by("name"))
+
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
