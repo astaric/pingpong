@@ -259,13 +259,6 @@ class Match(models.Model):
                                                                  'player1__category',
                                                                  'player2', 'player2__double',
                                                                  'player1_bracket_slot__bracket')
-        # TODO: Filter blocking players in the same query
-        #     d1, d2 = m.player1.double, m.player2.double
-        #     required_players = [d1.player1_id, d1.player2_id, d2.player1_id, d2.player2_id]
-        #     blocking_matches = Match.objects.filter(Q(player1__in=required_players) | Q(player2__in=required_players),
-        #                                             status__lt=Match.COMPLETE)
-        #     if not blocking_matches.exists():
-        #         skip
 
     @staticmethod
     def current_matches():
