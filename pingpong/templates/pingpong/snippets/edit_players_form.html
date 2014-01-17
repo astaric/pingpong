@@ -52,6 +52,8 @@
 <script>
     var INITIAL_FORMS = $("#id_players-INITIAL_FORMS").val();
     var TOTAL_FORMS = $("#id_players-TOTAL_FORMS").val();
+    var UP = 38;
+    var DOWN = 40;
 
     var update_player = function (event, ui) {
         event.preventDefault();
@@ -92,6 +94,22 @@
             focus: update_club
         });
     }
-    $("#id_players-" + INITIAL_FORMS +  "-name").focus()
+    $("#id_players-" + INITIAL_FORMS + "-name").focus();
+    $("#players_formset").keydown(function (e) {
+        var id = e.target.id;
+        var form_number = id.split('-')[1];
+        if (e.which == UP) {
+            e.preventDefault();
+            if (form_number > 0)
+                $("#" + id.replace(form_number, form_number - 1)).focus();
+        }
+
+        if (e.which == DOWN) {
+            e.preventDefault();
+            if (form_number < (TOTAL_FORMS - 1)) {
+                $("#" + id.replace(form_number, form_number - 0 + 1)).focus();
+            }
+        }
+    });
 
 </script>
