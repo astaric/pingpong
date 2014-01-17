@@ -7,6 +7,7 @@ from django.db.models import Q
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
+from unidecode import unidecode
 
 from pingpong.helpers import berger_tables, shuffled
 
@@ -360,3 +361,57 @@ class GroupMember(models.Model):
         for slot in BracketSlot.objects.filter(transition__group=self.group_id, transition__place=self.place):
             slot.player_id = self.player_id
             slot.save()
+
+
+class KnownPlayer(models.Model):
+    name = models.CharField(_("name"), max_length=50)
+    search_name = models.CharField(_("searchable name"), max_length=50)
+    surname = models.CharField(_("surname"), max_length=50)
+    search_surname = models.CharField(_("searchable surname"), max_length=50)
+    club = models.CharField(_("club"), max_length=50, blank=True)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if update_generated_value(self, 'name', 'search_name'):
+            self.search_name = unidecode(self.name)
+        if update_generated_value(self, 'surname', 'search_surname'):
+            self.search_surname = unidecode(self.surname)
+        super(KnownPlayer, self).save(force_insert, force_update, using, update_fields)
+
+    def __unicode__(self):
+        return u'%s %s [%s]' % (self.name, self.surname, self.club)
+
+
+class KnownClub(models.Model):
+    name = models.CharField(_("name"), max_length=50)
+    search_name = models.CharField(_("searchable name"), max_length=50)
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+        if update_generated_value(self, 'name', 'search_name'):
+            self.search_name = unidecode(self.name)
+        super(KnownClub, self).save(force_insert, force_update, using, update_fields)
+
+    def __unicode__(self):
+        return self.name
+
+
+def update_generated_value(model, field, cleaned_field):
+    new_value = getattr(model, field, "")
+    cleaned_new_value = getattr(model, cleaned_field, "")
+    if not cleaned_new_value:
+        return True
+
+    if model.pk is None:
+        return False
+    old_model = model.__class__.objects.get(pk=model.pk)
+    old_value = getattr(old_model, field, "")
+    cleaned_old_value = getattr(old_model, cleaned_field, "")
+
+    if new_value == old_value:
+        return False
+
+    if cleaned_old_value == unidecode(old_value):
+        if cleaned_new_value == cleaned_old_value:
+            return True
+    return False

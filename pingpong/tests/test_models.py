@@ -1,7 +1,6 @@
 from django.test import TestCase
 
-from pingpong.helpers import debug_sql_wrapper
-from pingpong.models import Table, Match, Player, Category, Group, GroupMember
+from pingpong.models import Table, Match, Player, Category, Group, GroupMember, KnownPlayer, update_generated_value
 
 
 class CategoryCreateGroupsTests(TestCase):
@@ -192,6 +191,30 @@ class MatchTests(TestCase):
         match.player2 = Player.objects.create()
         match.save()
         return match
+
+
+class UpdateGeneratedFieldTests(TestCase):
+    def test_update_generated_field(self):
+        model = KnownPlayer(name=u"old_name",
+                            surname=u"old_surname")
+
+        # Generate value for empty field on new objects.
+        self.assertTrue(update_generated_value(model, "name", "search_name"))
+
+        # Do not generate value if it has been entered manually.
+        model.search_name = u"old_name"
+        self.assertFalse(update_generated_value(model, "name", "search_name"))
+
+        # Generate value if it was default before.
+        model.save()
+        model.name = u"new_name"
+        self.assertTrue(update_generated_value(model, "name", "search_name"))
+
+        # Do not generate value, if it was manually edited.
+        model.search_name = "custom_search_name"
+        model.save()
+        model.name = u"another_new_name"
+        self.assertFalse(update_generated_value(model, "name", "search_name"))
 
 
 if __name__ == '__main__':
