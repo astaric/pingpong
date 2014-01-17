@@ -20,6 +20,6 @@ urlpatterns = patterns(
 
         url(r'^players/edit/$', views.edit_category_players, name='category_edit_players'),
     ))),
-    url(r'^known_clubs/$', views.known_players, name="known_clubs"),
+    url(r'^known_clubs/$', views.known_clubs, name="known_clubs"),
     url(r'^known_players/$', views.known_players, name="known_players")
 )
