@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '@kz6l=vvy!)8ym(je)g@=22fhf@rq(^aj@*1@1jj^yt3o*i+4k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = not os.environ.get('PRODUCTION', False)
 
 TEMPLATE_DEBUG = DEBUG
 
@@ -112,3 +112,7 @@ DATABASES['default'] = dj_database_url.config(default='sqlite:///' + os.path.joi
 # Honor the 'X-Forwarded-Proto' header for request.is_secure()
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+if DEBUG:
+    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar',)
+    MIDDLEWARE_CLASSES = MIDDLEWARE_CLASSES + ('debug_toolbar.middleware.DebugToolbarMiddleware',)
