@@ -5,10 +5,18 @@
     {% csrf_token %}
 
     {% panel modal %}
-        {% trans 'Edit' %}
-        <a href="{% url 'category' category_id=category.id %}">
-            {{ category.description }} ({{ category.name }})
-        </a>
+        {% if modal != False %}
+            {% trans 'Players' %}
+        {% else %}
+            <a href="{% url 'category' category_id=category.id %}">
+                {{ category.description }} ({{ category.name }})
+            </a>
+            <a data-toggle="modal" href="{% url 'category_edit' category_id=category.id %}"
+               data-target="#modal"><i class="glyphicon glyphicon-pencil"></i>
+            </a>
+        {% endif %}
+
+
         {% body %}
         {{ players_formset.management_form }}
         {{ players_formset.non_form_errors.as_ul }}

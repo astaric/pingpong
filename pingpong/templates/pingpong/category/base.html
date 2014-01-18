@@ -12,41 +12,41 @@
         <link rel="stylesheet" href="{% static 'css/jquery-ui-1.10.3.custom.min.css' %}">
     {% endaddtoblock %}
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title">
-                {% if user.is_authenticated %}
-                    <a data-toggle="modal" href="{% url 'category_edit' category_id=category.id %}"
-                       data-target="#modal">
-                        {{ category.description }} ({{ category.name }}) <i class="glyphicon glyphicon-pencil"></i>
-                    </a>
-                {% else %}
-                    {{ category.description }} ({{ category.name }})
-                {% endif %}
-                {% if category.group__count > 0 or category.bracket__count > 0 %}
-                    <span style="float:right;">
+    {% if category.group__count == 0 and category.bracket__count == 0 %}
+        {% edit_category_players category %}
+    {% else %}
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    {% if user.is_authenticated %}
+                        <a data-toggle="modal" href="{% url 'category_edit' category_id=category.id %}"
+                           data-target="#modal">
+                            {{ category.description }} ({{ category.name }}) <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
+                    {% else %}
+                        {{ category.description }} ({{ category.name }})
+                    {% endif %}
+                    {% if category.group__count > 0 or category.bracket__count > 0 %}
+                        <span style="float:right;">
                         <a data-toggle="modal" href="{% url 'category_edit_players' category_id=category.id %}"
                            data-target="#modal-edit-players">
                             {% trans 'Edit players' %}</a>
                     </span>
-                {% endif %}
-            </h4>
-        </div>
+                    {% endif %}
+                </h4>
+            </div>
 
-        {% block category_content %}
-            {% if category.group__count == 0 and category.bracket__count == 0 %}
-                {% edit_category_players category %}
-            {% else %}
-                {% if category.group__count > 0 %}
-                    {% show_groups category %}
-                {% endif %}
 
-                {% if category.bracket__count > 0 %}
-                    {% show_brackets category %}
-                {% endif %}
+            {% if category.group__count > 0 %}
+                {% show_groups category %}
             {% endif %}
-        {% endblock %}
-    </div>
+
+            {% if category.bracket__count > 0 %}
+                {% show_brackets category %}
+            {% endif %}
+
+        </div>
+    {% endif %}
     {% if user.is_authenticated %}
         <div class="modal" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal-label"
              aria-hidden="true"></div>

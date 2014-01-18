@@ -5,10 +5,15 @@
     {% csrf_token %}
 
     {% panel modal %}
-        {% trans 'Edit' %}
-        <a href="{% url 'category' category_id=category.id %}">
-            {{ category.description }} ({{ category.name }})
-        </a>
+        {% if modal != False %}
+            {% blocktrans with category_name=category.description%}
+                {{ category_name }} Settings
+            {% endblocktrans %}
+        {% else %}
+            <a href="{% url 'category' category_id=category.id %}">
+                 {{ category.description }} ({{ category.name }})
+            </a>
+        {% endif %}
         {% body %}
         {{ category_fields_form.as_p }}
         <p>
