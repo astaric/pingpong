@@ -39,7 +39,6 @@ INSTALLED_APPS = (
 
     'south',
     'sekizai',
-    'debug_toolbar',
 
     'pingpong',
     'pingpong.signup',
@@ -56,7 +55,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
