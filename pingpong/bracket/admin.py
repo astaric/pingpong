@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 from django.shortcuts import redirect
-from pingpong.bracket.models import GroupToBracketTransition, Bracket, BracketSlot
-from pingpong.models import Player
+from pingpong.models import Player, Bracket, BracketSlot, GroupToBracketTransition
 
 
 class GroupToBracketTransitionInline(admin.TabularInline):

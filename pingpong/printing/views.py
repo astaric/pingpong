@@ -1,7 +1,6 @@
 # Create your views here.
 from django.shortcuts import render
-from pingpong.bracket.models import Bracket
-from pingpong.models import Category
+from pingpong.models import Category, Bracket
 
 
 def print_report(request):

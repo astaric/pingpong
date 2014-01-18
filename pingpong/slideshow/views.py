@@ -1,8 +1,7 @@
 from django.db.models import Max, Count
 from django.shortcuts import render
 import itertools
-from pingpong.bracket.models import Bracket, BracketSlot
-from pingpong.models import Category, Group, GroupMember
+from pingpong.models import Category, Group, GroupMember, Bracket, BracketSlot
 
 
 def brackets_slideshow(request):

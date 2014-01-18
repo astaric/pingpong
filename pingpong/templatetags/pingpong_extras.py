@@ -3,9 +3,8 @@ from django.db.models import Count
 from django.template import TemplateSyntaxError, NodeList, Context
 from django.template.loader import render_to_string
 
-from pingpong.bracket.models import Bracket
 from pingpong.dashboard.forms import UpcomingMatchesFromset
-from pingpong.models import Category, GroupMember, Table, Match
+from pingpong.models import Category, GroupMember, Table, Match, Bracket
 from pingpong.signup.forms import CategoryEditForm, GroupScoresFormset
 from pingpong.signup.views import players_formset
 

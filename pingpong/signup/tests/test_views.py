@@ -2,8 +2,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 
 from pingpong.bracket.helpers import create_pair_brackets
-from pingpong.bracket.models import Bracket, BracketSlot
-from pingpong.models import Category, Player, Group, GroupMember
+from pingpong.models import Category, Player, Group, GroupMember, Bracket, BracketSlot
 from pingpong.signup.forms import CategoryAddForm, CategoryEditForm, PlayerFormSet, NumberOfGroupsForm, \
     PlayerSeedsFormset, GroupScoresFormset
 

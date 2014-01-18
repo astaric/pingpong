@@ -6,8 +6,7 @@ from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 
-from pingpong.bracket.models import Bracket
-from pingpong.models import Category, Player, Double, Group, KnownPlayer, KnownClub
+from pingpong.models import Category, Player, Double, Group, KnownPlayer, KnownClub, Bracket
 from pingpong.printing.helpers import print_groups
 from pingpong.signup.forms import (
     PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet,

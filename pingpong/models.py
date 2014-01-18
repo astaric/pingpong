@@ -1,9 +1,12 @@
 from itertools import cycle, chain
 import string
 from collections import defaultdict
+from django.core.urlresolvers import reverse
 
 from django.db import models
-from django.db.models import Q
+from django.db.models import Q, Count, Min
+from django.db.models.query import QuerySet
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
@@ -197,11 +200,11 @@ class Match(models.Model):
 
     player1 = models.ForeignKey(Player, null=True, related_name='match_as_player1')
     player1_score = models.IntegerField(null=True)
-    player1_bracket_slot = models.ForeignKey('bracket.BracketSlot', null=True, related_name='+')
+    player1_bracket_slot = models.ForeignKey('BracketSlot', null=True, related_name='+')
 
     player2 = models.ForeignKey(Player, null=True, related_name='match_as_player2')
     player2_score = models.IntegerField(null=True)
-    player2_bracket_slot = models.ForeignKey('bracket.BracketSlot', null=True, related_name='+')
+    player2_bracket_slot = models.ForeignKey('BracketSlot', null=True, related_name='+')
 
     table = models.ForeignKey(Table, blank=True, null=True, related_name='all_matches')
 
@@ -343,8 +346,6 @@ class GroupMember(models.Model):
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
-        from pingpong.bracket.models import BracketSlot
-
         super(GroupMember, self).save(force_insert, force_update, using, update_fields)
 
         for match in Match.objects.filter(Q(player1=self.player) | Q(player2=self.player), group=self.group_id):
@@ -408,3 +409,113 @@ def update_generated_value(model, field, cleaned_field):
         if cleaned_new_value == cleaned_old_value:
             return True
     return False
+
+
+class Bracket(models.Model):
+    category = models.ForeignKey(Category)
+    name = models.CharField(max_length=50)
+    description = models.CharField(max_length=50)
+
+    levels = models.IntegerField(default=0)
+
+    def __unicode__(self):
+        return '%s - %s' % (self.category.name, self.name)
+
+
+class BracketSlot(models.Model):
+    STATUS = (
+        (0, ''),
+        (1, 'playing'),
+        (2, 'completed')
+    )
+
+    bracket = models.ForeignKey(Bracket)
+    level = models.IntegerField()
+    status = models.IntegerField(choices=STATUS, default=0)
+
+    no_player = models.BooleanField(default=False)
+    player = models.ForeignKey(Player, blank=True, null=True)
+    table = models.ForeignKey(Table, blank=True, null=True)
+    score = models.IntegerField(null=True, blank=True)
+
+    match_start = models.DateTimeField(null=True, blank=True)
+    match_end = models.DateTimeField(null=True, blank=True)
+
+    winner_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='winner_set')
+    loser_goes_to = models.ForeignKey('BracketSlot', null=True, blank=True, related_name='loser_set')
+
+    def save(self, *args, **kwargs):
+        self.set_status()
+        super(BracketSlot, self).save(*args, **kwargs)
+
+        if self.player_id:
+            for match in Match.objects.filter(player1_bracket_slot=self):
+                if match.player1_id != self.player_id:
+                    match.player1_id = self.player_id
+                    match.save()
+            for match in Match.objects.filter(player2_bracket_slot=self):
+                if match.player2_id != self.player_id:
+                    match.player2_id = self.player_id
+                    match.save()
+        self.advance_player()
+
+    def set_status(self):
+        if self.table_id is not None and self.status != 1:
+            self.status = 1
+            self.match_start = timezone.now()
+
+        if self.score is not None and self.status != 2:
+            self.table = None
+            self.status = 2
+            self.match_end = timezone.now()
+
+        if self.level == 0 and self.player_id is not None:
+            self.status = 2
+
+    def advance_player(self):
+        if self.player_id is None:
+            return
+        other = BracketSlot.objects.exclude(id=self.id)\
+                                   .filter(winner_goes_to=self.winner_goes_to)\
+                                   .select_related('winner_goes_to', 'loser_goes_to')[0]
+        if other.no_player:
+            other.winner_goes_to.player_id = self.player_id
+            other.winner_goes_to.save()
+
+        if self.score is not None and other.score is not None:
+            first, last = (self, other) if self.score > other.score else (other, self)
+            if first.winner_goes_to is not None:
+                first.winner_goes_to.player_id = first.player_id
+                first.winner_goes_to.save()
+            if last.loser_goes_to is not None:
+                last.loser_goes_to.player_id = last.player_id
+                last.loser_goes_to.save()
+
+    def label(self):
+        try:
+            transition = '%s%s' % (self.transition.group.name, self.transition.place)
+        except GroupToBracketTransition.DoesNotExist:
+            transition = '&nbsp;'
+        try:
+            player = self.player.full_name() if self.player is not None else '&nbsp;'
+        except Player.DoesNotExist:
+            player = '&nbsp;'
+
+        return transition, player
+
+    def empty(self):
+        return self.transition is None and self.player is None
+
+    def get_admin_url(self):
+        return reverse("admin:%s_%s_change" % (self._meta.app_label, self._meta.module_name), args=(self.id,))
+
+    def __unicode__(self):
+        return '%s' % self.id
+
+
+class GroupToBracketTransition(models.Model):
+
+    group = models.ForeignKey(Group)
+    place = models.IntegerField()
+
+    slot = models.OneToOneField(BracketSlot, related_name='transition')
