@@ -379,7 +379,7 @@
         "fields": {
             "max_age": 20,
             "gender": 0,
-            "name": "Category with clubs",
+            "description": "Category with clubs",
             "min_age": 11
         }
     },
@@ -389,7 +389,7 @@
         "fields": {
             "max_age": 30,
             "gender": 0,
-            "name": "Category without clubs",
+            "description": "Category without clubs",
             "min_age": 21
         }
     },
@@ -399,7 +399,7 @@
         "fields": {
             "max_age": 40,
             "gender": 0,
-            "name": "Category with too many from the same club",
+            "description": "Category with too many from the same club",
             "min_age": 31
         }
     }

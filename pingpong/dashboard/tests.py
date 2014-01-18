@@ -136,7 +136,7 @@ class DashboardViewsTests(TestCase):
 
     @staticmethod
     def create_category():
-        return Category.objects.create(type=Category.SINGLE, name="Sample category")
+        return Category.objects.create(type=Category.SINGLE, name="Sample")
 
     @staticmethod
     def create_players(category, n):

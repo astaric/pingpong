@@ -7,7 +7,7 @@ class CategoryCreateGroupsTests(TestCase):
     fixtures = ('create_groups_testdata', )
 
     def test_create_groups(self):
-        category = Category.objects.get(name="Category without clubs")
+        category = Category.objects.get(description="Category without clubs")
         leaders = Player.objects.filter(category=category)[:4]
 
         category.create_groups(leaders)
@@ -23,7 +23,7 @@ class CategoryCreateGroupsTests(TestCase):
         self.assertFalse(GroupMember.objects.exclude(player__category=category).exists())
 
     def test_create_groups_with_clubs(self):
-        category = Category.objects.get(name="Category with clubs")
+        category = Category.objects.get(description="Category with clubs")
         players = Player.objects.filter(category=category)
         leaders = players[:4]
 
@@ -38,13 +38,13 @@ class CategoryCreateGroupsTests(TestCase):
             self.assertEqual(len(clubs), 4)
 
     def test_create_groups_with_no_leaders(self):
-        category = Category.objects.get(name="Category with clubs")
+        category = Category.objects.get(description="Category with clubs")
 
         with self.assertRaises(ValueError):
             category.create_groups(Player.objects.none())
 
     def test_create_groups_with_too_many_players_from_same_club(self):
-        category = Category.objects.get(name="Category with too many from the same club")
+        category = Category.objects.get(description="Category with too many from the same club")
         players = Player.objects.filter(category=category)
         leaders = players[:4]
 
@@ -55,7 +55,7 @@ class CategoryCreateGroupsTests(TestCase):
         self.assertMemberCountsEqual(groups, [2, 1, 1, 1])
 
     def test_recreating_groups(self):
-        category = Category.objects.get(name="Category without clubs")
+        category = Category.objects.get(description="Category without clubs")
         leaders = Player.objects.filter(category=category)[:4]
 
         category.create_groups(leaders)
@@ -73,7 +73,7 @@ class CategoryCreateGroupsTests(TestCase):
         self.assertEqual(len(leaders.all()), 4)
 
     def test_create_groups_with_multiple_leaders(self):
-        category = Category.objects.get(name="Category without clubs")
+        category = Category.objects.get(description="Category without clubs")
         players = Player.objects.filter(category=category)
         leaders = players[:8]
 
@@ -91,7 +91,7 @@ class CategoryCreateGroupsTests(TestCase):
                 self.assertIsMember(player, group)
 
     def test_create_groups_creates_group_matches(self):
-        category = Category.objects.get(name="Category without clubs")
+        category = Category.objects.get(description="Category without clubs")
 
         category.create_groups(number_of_groups=4)
 
