@@ -413,7 +413,7 @@ def update_generated_value(model, field, cleaned_field):
 
 class Bracket(models.Model):
     category = models.ForeignKey(Category)
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=100)
     description = models.CharField(max_length=50)
 
     levels = models.IntegerField(default=0)
