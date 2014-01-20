@@ -28,8 +28,6 @@ class DoubleEditForm(ModelForm):
         model = Double
         fields = ['player1', 'player2']
 
-    seed = IntegerField(required=False)
-
 
 class BasePlayersFormSet(BaseModelFormSet):
     category = None

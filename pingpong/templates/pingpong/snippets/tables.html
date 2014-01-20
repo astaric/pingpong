@@ -5,7 +5,7 @@
     {% for table in tables %}
         {% cycle '<tr>' '' '' '' %}
         <td>
-            {% with table.current_matches.all.0 as match %}
+            {% with table.current_matches.0 as match %}
                 <a href="{% if match %}{% url 'set_score' match_id=match.id %}{% else %}#{% endif %}"
                    class="table{% if match %} occupied{% endif %}"
                    {% if match %}data-match-id="{{ match.id }}"{% endif %}>

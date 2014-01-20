@@ -1,3 +1,5 @@
+from itertools import groupby
+
 from django import template
 from django.db.models import Count
 from django.template import TemplateSyntaxError, NodeList, Context
@@ -121,10 +123,22 @@ class PanelNode(template.Node):
 
 @register.inclusion_tag('pingpong/snippets/tables.html', takes_context=True)
 def show_tables(context):
-    tables = Table.objects.order_by('display_order').prefetch_related('bracketslot_set', 'group_set',
-                                                                      'group_set__category')
+    tables = Table.objects.order_by('display_order')
+    matches = Match.objects \
+        .filter(status=Match.PLAYING) \
+        .order_by('table') \
+        .select_related('player1', 'player2', 'player1__category', 'group')
+    matches = {
+        table_id: list(matches)
+        for table_id, matches in groupby(matches, key=lambda x: x.table_id)
+    }
+
+    for table in tables:
+        table._current_matches = matches.get(table.id, [])
+
     context['tables'] = tables
     return context
+
 
 @register.inclusion_tag('pingpong/snippets/upcoming_matches.html', takes_context=True)
 def upcoming_matches(context):
@@ -137,6 +151,7 @@ def upcoming_matches(context):
         'formset': formset,
     })
     return context
+
 
 @register.inclusion_tag('pingpong/snippets/set_group_scores_form.html', takes_context=True)
 def set_group_scores_form(context, group=None, css_only=False):

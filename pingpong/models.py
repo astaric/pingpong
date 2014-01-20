@@ -1,11 +1,10 @@
 from itertools import cycle, chain
 import string
 from collections import defaultdict
-from django.core.urlresolvers import reverse
 
+from django.core.urlresolvers import reverse
 from django.db import models
-from django.db.models import Q, Count, Min
-from django.db.models.query import QuerySet
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.timezone import now
@@ -171,8 +170,12 @@ class Table(models.Model):
         else:
             return ''
 
+    _current_matches = None
+
     def current_matches(self):
-        return self.all_matches.filter(status=Match.PLAYING)
+        if self._current_matches is None:
+            self._current_matches = self.all_matches.filter(status=Match.PLAYING)
+        return self._current_matches
 
 
 class Match(models.Model):
@@ -475,9 +478,9 @@ class BracketSlot(models.Model):
     def advance_player(self):
         if self.player_id is None:
             return
-        other = BracketSlot.objects.exclude(id=self.id)\
-                                   .filter(winner_goes_to=self.winner_goes_to)\
-                                   .select_related('winner_goes_to', 'loser_goes_to')[0]
+        other = BracketSlot.objects.exclude(id=self.id) \
+            .filter(winner_goes_to=self.winner_goes_to) \
+            .select_related('winner_goes_to', 'loser_goes_to')[0]
         if other.no_player:
             other.winner_goes_to.player_id = self.player_id
             other.winner_goes_to.save()
@@ -514,7 +517,6 @@ class BracketSlot(models.Model):
 
 
 class GroupToBracketTransition(models.Model):
-
     group = models.ForeignKey(Group)
     place = models.IntegerField()
 

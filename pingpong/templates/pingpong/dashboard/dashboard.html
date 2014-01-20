@@ -1,7 +1,7 @@
 {% extends "pingpong/base.html" %}
-{% load i18n %}
+{% load i18n staticfiles %}
 {% load pingpong_extras %}
-{% load staticfiles %}
+{% load sekizai_tags %}
 
 {% block current_mode %}
     {% trans 'Dashboard' %}
@@ -9,19 +9,33 @@
 
 
 {% block content %}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class='panel-title'>{% trans 'Upcoming matches' %}</h4>
-        </div>
-        <div class="panel-body">
-            <div id="right-column">
-                {% show_tables %}
-            </div>
-            <div id="left-column">
-                {% upcoming_matches %}
-            </div>
-        </div>
-        <div class="panel-footer">
-        </div>
+    <div id="tables-panel">
+        {% show_tables %}
     </div>
+    <div id="upcoming-matches-panel">
+        {% upcoming_matches %}
+    </div>
+
+    {% addtoblock 'css' %}
+        <style>
+            #tables-panel {
+                margin-right: -3px;
+            }
+        </style>
+        <style media="screen and (max-width: 480px)">
+            #tables-panel, #upcoming-matches-panel {
+                float: none;
+                width: 100%;
+            }
+        </style>
+        <style media="screen and (min-width: 900px)">
+            #upcoming-matches-panel {
+                float: left;
+            }
+
+            #tables-panel {
+                float: right;
+            }
+        </style>
+    {% endaddtoblock %}
 {% endblock %}

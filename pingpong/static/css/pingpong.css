@@ -222,32 +222,6 @@ table.players input {
     line-height: 1em;
 }
 
-{
-    color: inherit
-;
-}
-
-#right-column {
-    margin-right: -3px;
-}
-
-@media screen and (max-width: 480px) {
-    #right-column, #left-column {
-        float: none;
-        width: 100%;
-    }
-}
-
-@media screen and (min-width: 900px) {
-    #left-column {
-        float: left;
-    }
-
-    #right-column {
-        float: right;
-    }
-}
-
 #set_table_form button:disabled {
     background-color: gray;
 }
