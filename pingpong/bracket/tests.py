@@ -62,13 +62,13 @@ class TestCreateBrackets(TestCase):
 
         bracket_slots = BracketSlot.objects.filter(bracket=winners_bracket, level=3).order_by('id')
         self.assertEqual(len(bracket_slots), 8)
-        self.assertEqual(map(str, [bs.transition for bs in bracket_slots]),
-                         ['A1', 'C2', 'B2', 'D1', 'C1', 'A2', 'D2', 'B1'])
+        self.assertEqual(['A1', 'C2', 'B2', 'D1', 'C1', 'A2', 'D2', 'B1'],
+                         map(str, [bs.transition for bs in bracket_slots]))
 
         bracket_slots = BracketSlot.objects.filter(bracket=soothers_bracket, level=3).order_by('id')
         self.assertEqual(len(bracket_slots), 8)
-        self.assertEqual(map(str, [bs.transition for bs in bracket_slots]),
-                         ['A3', 'C4', 'B4', 'D3', 'C3', 'A4', 'D4', 'B3'])
+        self.assertEqual(['A3', 'C4', 'B4', 'D3', 'C3', 'A4', 'D4', 'B3'],
+                         map(str, [bs.transition for bs in bracket_slots]))
 
     def test_levels(self):
         self.assertEqual(levels(1), 1)

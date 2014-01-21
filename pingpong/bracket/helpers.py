@@ -66,7 +66,7 @@ def create_brackets(category):
     # First two players from each group go to the winners
     # bracket, the rest go to the losers bracket.
     Bracket.objects.filter(category=category).delete()
-    groups = Group.objects.filter(category=category).annotate(member_count=Count('members'))
+    groups = Group.objects.filter(category=category).order_by('id').annotate(member_count=Count('members'))
 
     all_members = list(alternate(*[[(g, i + 1) for i in range(g.member_count)] for g in groups]))
 
