@@ -9,8 +9,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^$', views.index),
-    url(r'category/', include('pingpong.signup.urls')),
-    url(r'dashboard/', include('pingpong.dashboard.urls')),
+    url(r'^category/', include('pingpong.signup.urls')),
+    url(r'^dashboard/', include('pingpong.dashboard.urls')),
 
     url(r'^brackets_slideshow', 'pingpong.slideshow.views.brackets_slideshow', name='brackets_slideshow'),
     url(r'^groups_slideshow', 'pingpong.slideshow.views.groups_slideshow', name='groups_slideshow'),
