@@ -48,7 +48,7 @@ class SignupViewsTestCase(TestCase):
             type='0', name='Name', description='Description'))
         self.assertEqual(Category.objects.count(), 1)
         category = Category.objects.all()[0]
-        self.assertRedirects(resp, reverse('category_edit', kwargs=dict(category_id=category.id)))
+        self.assertRedirects(resp, reverse('category', kwargs=dict(category_id=category.id)))
 
     def test_edit_category_view(self):
         category = self.create_category()

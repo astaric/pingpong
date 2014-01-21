@@ -74,16 +74,9 @@ class SetScoreViewTests(TestCase):
 class DashboardViewsTests(TestCase):
     fixtures = ['ready_matches']
 
-    def test_shows_ready_group_matches(self):
+    def test_dashboard(self):
         resp = self.client.get(reverse('dashboard'))
         self.assertEqual(resp.status_code, 200)
-
-        self.assertIn('group_matches', resp.context)
-        self.assertEqual(len(resp.context['group_matches']), 2)
-        self.assertIn('bracket_matches', resp.context)
-        self.assertEqual(len(resp.context['bracket_matches']), 5)
-        self.assertIn('doubles_matches', resp.context)
-        self.assertEqual(len(resp.context['doubles_matches']), 1)
 
     def test_set_group_score(self):
         category = self.create_category()

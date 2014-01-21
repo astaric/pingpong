@@ -96,7 +96,9 @@ def create_transitions(candidates, groups, slots):
             group, place = candidates[placement]
             GroupToBracketTransition.objects.create(group=group, place=place, slot=slot)
         else:
-            Match.objects.filter(Q(player1_bracket_slot=slot) | Q(player2_bracket_slot=slot)).update(status=Match.COMPLETE)
+            Match.objects\
+                .filter(Q(player1_bracket_slot=slot) | Q(player2_bracket_slot=slot))\
+                .update(status=Match.COMPLETE)
             slot.no_player = True
             slot.save()
 
