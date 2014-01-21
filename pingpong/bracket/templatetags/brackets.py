@@ -4,6 +4,7 @@ from pingpong.models import BracketSlot
 
 register = template.Library()
 
+
 @register.simple_tag()
 def show_bracket(bracket, admin_view=False):
     slots = defaultdict(list)

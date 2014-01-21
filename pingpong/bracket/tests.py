@@ -1,7 +1,11 @@
 import string
+
 from django.test import TestCase
-from pingpong.bracket.helpers import create_tournament_seeds, create_brackets, levels, create_single_elimination_bracket_slots
-from pingpong.models import Player, Category, Group, GroupMember, Bracket
+from django.utils.translation import ugettext_lazy as _
+
+from pingpong.bracket.helpers import create_tournament_seeds, create_brackets, levels, \
+    create_single_elimination_bracket_slots
+from pingpong.models import Player, Category, Group, GroupMember, Bracket, BracketSlot
 
 
 class TestCreateBrackets(TestCase):
@@ -21,7 +25,7 @@ class TestCreateBrackets(TestCase):
 
         for level, slots in enumerate(slots[:-1]):
             for slot in slots:
-                self.assertEqual(slot.level, 3-level)
+                self.assertEqual(slot.level, 3 - level)
                 self.assertEqual(slot.winner_goes_to.level, (3 - level) - 1)
 
     def test_create_tournament_seeds(self):
@@ -37,14 +41,34 @@ class TestCreateBrackets(TestCase):
 
     def test_create_group_transitions(self):
         category = Category.objects.create(name='', gender=0)
-        groups = [x.id for x in [Group.objects.create(category=category, name=string.ascii_uppercase[i])
-                                 for i in range(5)]]
-        for i in range(20):
-            p = Player.objects.create(name='', surname='', category=category)
-            GroupMember.objects.create(group_id=groups[i % 5], player=p)
+        players = [Player.objects.create(name=string.ascii_uppercase[i],
+                                         surname=string.ascii_uppercase[i],
+                                         category=category)
+                   for i in range(16)]
+        category.create_groups(players, 4)
 
-        transitions = create_brackets(category)
-        # print "\n".join(map(unicode, transitions))
+        for group in Group.objects.filter(category=category):
+            for i, member in enumerate(GroupMember.objects.filter(group=group).order_by('player__name')):
+                member.place = i + 1
+                member.save()
+
+        ordered_members = GroupMember.objects.order_by('place', 'group__name').select_related('player')
+        self.assertEqual(''.join(m.player.name for m in ordered_members), string.ascii_uppercase[:16])
+
+        create_brackets(category)
+
+        winners_bracket, soothers_bracket = Bracket.objects.order_by('id')
+        self.assertEqual(winners_bracket.name, _("WINNERS"))
+
+        bracket_slots = BracketSlot.objects.filter(bracket=winners_bracket, level=3).order_by('id')
+        self.assertEqual(len(bracket_slots), 8)
+        self.assertEqual(map(str, [bs.transition for bs in bracket_slots]),
+                         ['A1', 'C2', 'B2', 'D1', 'C1', 'A2', 'D2', 'B1'])
+
+        bracket_slots = BracketSlot.objects.filter(bracket=soothers_bracket, level=3).order_by('id')
+        self.assertEqual(len(bracket_slots), 8)
+        self.assertEqual(map(str, [bs.transition for bs in bracket_slots]),
+                         ['A3', 'C4', 'B4', 'D3', 'C3', 'A4', 'D4', 'B3'])
 
     def test_levels(self):
         self.assertEqual(levels(1), 1)

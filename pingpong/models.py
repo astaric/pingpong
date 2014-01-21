@@ -521,3 +521,6 @@ class GroupToBracketTransition(models.Model):
     place = models.IntegerField()
 
     slot = models.OneToOneField(BracketSlot, related_name='transition')
+
+    def __unicode__(self):
+        return '%s%s' % (self.group.name, self.place)
