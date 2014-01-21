@@ -52,7 +52,7 @@ class SignupViewsTestCase(TestCase):
 
     def test_edit_category_view(self):
         category = self.create_category()
-        category_edit_url = reverse('category_edit', kwargs=dict(category_id=category.id))
+        category_edit_url = reverse('edit_category', kwargs=dict(category_id=category.id))
 
         # GET returns form in context
         resp = self.client.get(category_edit_url)
@@ -73,7 +73,7 @@ class SignupViewsTestCase(TestCase):
         self.assertEqual(category.name, 'NewName')
 
         # Missing category returns 404
-        resp = self.client.get(reverse('category_edit', kwargs={'category_id': 99}))
+        resp = self.client.get(reverse('edit_category', kwargs={'category_id': 99}))
         self.assertEqual(resp.status_code, 404)
 
     def test_edit_category_players(self):
@@ -168,7 +168,7 @@ class SignupViewsTestCase(TestCase):
         # Answering no redirects to edit page
         resp = self.client.post(delete_category_url, dict(no='No'))
 
-        self.assertRedirects(resp, reverse('category_edit', kwargs=dict(category_id=category.id)))
+        self.assertRedirects(resp, reverse('edit_category', kwargs=dict(category_id=category.id)))
         self.assertEqual(Category.objects.count(), 1)
         self.assertEqual(Player.objects.count(), 3)
 
@@ -226,7 +226,7 @@ class SignupViewsTestCase(TestCase):
         self.create_players(category, 16)
         category.create_groups(number_of_groups=4)
         delete_groups_url = reverse('delete_groups', kwargs=dict(category_id=category.id))
-        edit_category_url = reverse('category_edit', kwargs=dict(category_id=category.id))
+        edit_category_url = reverse('edit_category', kwargs=dict(category_id=category.id))
         groups = Group.objects.all()
         group_members = GroupMember.objects.all()
 
@@ -259,7 +259,7 @@ class SignupViewsTestCase(TestCase):
         self.create_players(category, 16)
         create_pair_brackets(category)
         delete_brackets_url = reverse('delete_brackets', kwargs=dict(category_id=category.id))
-        edit_category_url = reverse('category_edit', kwargs=dict(category_id=category.id))
+        edit_category_url = reverse('edit_category', kwargs=dict(category_id=category.id))
         bracket = Bracket.objects.get()
         bracket_slots = BracketSlot.objects.all()
 

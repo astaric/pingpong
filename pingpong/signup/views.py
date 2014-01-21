@@ -108,7 +108,7 @@ def delete_category(request, category_id):
             category.delete()
             return redirect(reverse('category_list'))
         else:
-            return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
+            return redirect(reverse('edit_category', kwargs=dict(category_id=category.id)))
 
     return render(request, 'pingpong/confirm_deletion.html', dict(
         object_type=category._meta.verbose_name,
@@ -124,7 +124,7 @@ def delete_groups(request, category_id):
     if request.method == 'POST':
         if 'yes' in request.POST:
             groups.delete()
-        return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
+        return redirect(reverse('edit_category', kwargs=dict(category_id=category.id)))
 
     return render(request, 'pingpong/confirm_deletion.html', dict(
         object_type=Group._meta.verbose_name_plural,
@@ -141,7 +141,7 @@ def delete_brackets(request, category_id):
     if request.method == 'POST':
         if 'yes' in request.POST:
             brackets.delete()
-        return redirect(reverse('category_edit', kwargs=dict(category_id=category.id)))
+        return redirect(reverse('edit_category', kwargs=dict(category_id=category.id)))
 
     return render(request, 'pingpong/confirm_deletion.html', dict(
         object_type=Bracket._meta.verbose_name_plural,

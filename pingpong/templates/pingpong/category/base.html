@@ -19,7 +19,7 @@
             <div class="panel-heading">
                 <h4 class="panel-title">
                     {% if user.is_authenticated %}
-                        <a data-toggle="modal" href="{% url 'category_edit' category_id=category.id %}"
+                        <a data-toggle="modal" href="{% url 'edit_category' category_id=category.id %}"
                            data-target="#modal">
                             {{ category.description }} ({{ category.name }}) <i class="glyphicon glyphicon-pencil"></i>
                         </a>

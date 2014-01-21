@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load pingpong_extras %}
 
-<form method="post" action="{% url 'category_edit' category_id=category.id %}">
+<form method="post" action="{% url 'edit_category' category_id=category.id %}">
     {% csrf_token %}
 
     {% panel modal %}

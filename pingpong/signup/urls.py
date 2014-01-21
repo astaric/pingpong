@@ -9,7 +9,7 @@ urlpatterns = patterns(
     url(r'^add/$', views.add_category, name='category_add'),
     url(r'^(?P<category_id>\d+)/', include(patterns(
         url(r'^$', views.category_details, name='category'),
-        url(r'^edit/$', views.edit_category, name='category_edit'),
+        url(r'^edit/$', views.edit_category, name='edit_category'),
         url(r'^delete/$', views.delete_category, name='category_delete'),
 
         url(r'^brackets/create/$', views.create_brackets, name='create_brackets'),
