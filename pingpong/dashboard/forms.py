@@ -3,6 +3,7 @@ import re
 from django.core.exceptions import ValidationError
 from django.forms import ModelChoiceField, ModelForm, CharField, IntegerField
 from django.forms.models import modelformset_factory, BaseModelFormSet
+from django.utils import timezone
 
 from pingpong.models import Table, Match, GroupMember
 
@@ -117,7 +118,7 @@ class BaseGroupScoresFormset(BaseModelFormSet):
         instances = super(BaseGroupScoresFormset, self).save(commit)
 
         if commit and instances and all(f.cleaned_data['place'] for f in self.forms):
-            instances[0].group.match.update(status=Match.COMPLETE)
+            instances[0].group.match.update(end_time=timezone.now(), status=Match.COMPLETE)
 
 
 GroupScoresFormset = modelformset_factory(
