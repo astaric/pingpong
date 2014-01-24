@@ -3,6 +3,10 @@
 {% load pingpong_extras %}
 {% load sekizai_tags %}
 
+{% block headjs %}
+    <script src="{% static "js/touch-number.js" %}"></script>
+{% endblock %}
+
 {% block current_mode %}
     {% trans 'Dashboard' %}
 {% endblock %}

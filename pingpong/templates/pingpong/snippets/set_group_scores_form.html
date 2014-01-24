@@ -23,27 +23,10 @@
 
     <script>
         var $form = $("#set_group_scores_form");
-        var $inputs = $form.find('input[type=number]');
-        $inputs.each(function (i, input) {
-            console.log(input);
-            var $input = $(input);
-            var name = input.name;
-            var value = input.value;
-
-            var touch_friendly_input = '';
-            for (var place = 1; place <= $inputs.length; place++) {
-                var id = name + '-' + place;
-                var selected = (value == place) ? ' checked' : '';
-                if (value) {
-                    $input.parent().addClass('selected');
-                }
-
-                touch_friendly_input +=
-                        '<input type="radio" id="' + id + '" name="' + name + '" value="' + place + '"' + selected + '>' +
-                                '<label for="' + id + '">' + place + '</label>';
-            }
-
-            $input.replaceWith(touch_friendly_input);
+        var $max_value = $("#id_form-INITIAL_FORMS").val();
+        $form.find('input[type=number]').create_touch_targets({
+            min_value: 1,
+            max_value: $max_value
         });
 
         function scoreSelected() {

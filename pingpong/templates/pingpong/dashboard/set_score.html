@@ -1,6 +1,10 @@
 {% extends 'pingpong/base.html' %}
 {% load pingpong_extras %}
 
+{% block headjs %}
+    <script src="{% static "js/touch-number.js" %}"></script>
+{% endblock %}
+
 {% block content %}
 {% set_score_form match %}
 {% endblock %}
