@@ -9,11 +9,29 @@
 
 
 {% block content %}
-    <div id="tables-panel">
-        {% show_tables %}
+    <div id="tables-panel" class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{% trans 'Tables' %}</h4>
+        </div>
+        <div class="panel-body">
+            {% show_tables %}
+        </div>
     </div>
-    <div id="upcoming-matches-panel">
-        {% upcoming_matches %}
+    <div id="upcoming-matches-panel" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans 'Upcoming matches' %}</h2>
+        </div>
+        <div class="panel-body">
+            {% upcoming_matches %}
+        </div>
+    </div>
+    <div id="old-matches-panel" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans 'Old matches' %}</h2>
+        </div>
+        <div class="panel-body">
+            {% old_matches %}
+        </div>
     </div>
 
     {% addtoblock 'css' %}
@@ -21,9 +39,15 @@
             #tables-panel {
                 margin-right: -3px;
             }
+
+            #old-matches-panel {
+                margin-right: -3px;
+            }
         </style>
         <style media="screen and (max-width: 480px)">
-            #tables-panel, #upcoming-matches-panel {
+            #tables-panel,
+            #upcoming-matches-panel,
+            #old-matches-panel {
                 float: none;
                 width: 100%;
             }
@@ -35,6 +59,11 @@
 
             #tables-panel {
                 float: right;
+            }
+
+            #old-matches-panel {
+                float: right;
+                clear: right;
             }
         </style>
     {% endaddtoblock %}

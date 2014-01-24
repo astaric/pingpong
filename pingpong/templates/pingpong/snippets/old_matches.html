@@ -1,0 +1,46 @@
+{% load sekizai_tags %}
+
+<div id="old_matches">
+    {% for match in old_matches %}
+        <a class="match"
+           href="{% url 'set_score' match_id=match.id %}">
+            {{ match.description }}
+        </a>
+    {% endfor %}
+</div>
+<div class="modal" id="set-score-modal"></div>
+<script>
+    $(document).ready(function () {
+        function openMatchModal(e) {
+            e.preventDefault();
+            var $modal = $('#set-score-modal');
+            $modal.removeData('bs.modal');
+            $modal.modal({
+                remote: this.href
+            });
+        }
+
+        var $old_matches = $('#old_matches');
+        $old_matches.find('a').on('click', openMatchModal);
+    });
+</script>
+
+
+{% addtoblock 'css' %}
+    <style>
+        #old_matches .match {
+            display: block;
+            width: 300px;
+            line-height: 2em;
+            border: 1px solid gray;
+            padding: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+
+    <style media="screen and (max-width: 480px)">
+        #old_matches .match {
+            width: 100%;
+        }
+    </style>
+{% endaddtoblock %}
