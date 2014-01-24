@@ -1,13 +1,13 @@
 from itertools import groupby
 
 from django import template
-from django.db.models import Count, Q
+from django.db.models import Count
 from django.template import TemplateSyntaxError, NodeList, Context
 from django.template.loader import render_to_string
 
-from pingpong.dashboard.forms import UpcomingMatchesFromset
+from pingpong.dashboard.forms import UpcomingMatchesFromset, GroupScoresFormset
 from pingpong.models import Category, GroupMember, Table, Match, Bracket
-from pingpong.signup.forms import CategoryEditForm, GroupScoresFormset
+from pingpong.signup.forms import CategoryEditForm
 from pingpong.signup.views import players_formset
 
 
@@ -152,16 +152,18 @@ def upcoming_matches(context):
     })
     return context
 
+
 @register.inclusion_tag('pingpong/snippets/old_matches.html', takes_context=True)
 def old_matches(context):
-    matches = Match.objects\
-        .filter(status=Match.COMPLETE)\
-        .exclude(group__isnull=True, player1__isnull=True, player2__isnull=True)\
+    matches = Match.objects \
+        .filter(status=Match.COMPLETE) \
+        .exclude(group__isnull=True, player1__isnull=True, player2__isnull=True) \
         .order_by('-end_time')
     context.update({
         'old_matches': matches
     })
     return context
+
 
 @register.inclusion_tag('pingpong/snippets/set_group_scores_form.html', takes_context=True)
 def set_group_scores_form(context, group=None, css_only=False):

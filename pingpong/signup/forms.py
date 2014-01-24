@@ -84,32 +84,3 @@ class BaseLeaderFormSet(BaseModelFormSet):
 
 
 PlayerSeedsFormset = modelformset_factory(Player, PlayerSeedForm, formset=BaseLeaderFormSet, extra=0)
-
-
-class GroupScoresForm(ModelForm):
-    class Meta:
-        model = GroupMember
-        fields = ('id', 'place')
-
-
-class BaseGroupScoresFormset(BaseModelFormSet):
-    def clean(self):
-        used_places = set()
-        for form in self.forms:
-            place = form.cleaned_data.get('place')
-            if place is not None:
-                if place < 1 or place > len(self.forms):
-                    raise ValidationError('Place should be between 1 and %s' % len(self.forms))
-
-                if place in used_places:
-                    raise ValidationError('More than one member is assigned to place %s' % place)
-
-                used_places.add(place)
-
-    def save(self, commit=True):
-        instances = super(BaseGroupScoresFormset, self).save(commit)
-
-        if commit and instances and all(f.cleaned_data['place'] for f in self.forms):
-            instances[0].group.match.update(status=Match.COMPLETE)
-
-GroupScoresFormset = modelformset_factory(GroupMember, form=GroupScoresForm, formset=BaseGroupScoresFormset, extra=0)

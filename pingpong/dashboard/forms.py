@@ -1,9 +1,10 @@
-from django.core.exceptions import ValidationError
-from django.forms import ModelChoiceField, ModelForm, CharField
-from django.forms.models import modelformset_factory, BaseModelFormSet
 import re
 
-from pingpong.models import Table, Match
+from django.core.exceptions import ValidationError
+from django.forms import ModelChoiceField, ModelForm, CharField, IntegerField
+from django.forms.models import modelformset_factory, BaseModelFormSet
+
+from pingpong.models import Table, Match, GroupMember
 
 
 class UpcomingMatchModelForm(ModelForm):
@@ -44,7 +45,13 @@ class BaseUpcomingMatchesFromset(BaseModelFormSet):
             raise ValidationError([ValidationError("Multiple matches are assigned to table %s." % table)
                                    for table in duplicate_tables])
 
-UpcomingMatchesFromset = modelformset_factory(Match, UpcomingMatchModelForm, formset=BaseUpcomingMatchesFromset, extra=0)
+
+UpcomingMatchesFromset = modelformset_factory(
+    Match,
+    form=UpcomingMatchModelForm,
+    formset=BaseUpcomingMatchesFromset,
+    extra=0
+)
 
 
 class CurrentMatchForm(ModelForm):
@@ -64,10 +71,17 @@ class CurrentMatchForm(ModelForm):
             else:
                 raise ValidationError('Invalid score.')
 
-CurrentMatchesFromset = modelformset_factory(Match, form=CurrentMatchForm, extra=0)
+
+CurrentMatchesFromset = modelformset_factory(
+    Match,
+    form=CurrentMatchForm, extra=0
+)
 
 
 class SetScoreForm(ModelForm):
+    player1_score = IntegerField(min_value=0, max_value=3)
+    player2_score = IntegerField(min_value=0, max_value=3)
+
     class Meta:
         model = Match
         fields = ('player1_score', 'player2_score')
@@ -77,3 +91,38 @@ class SetTableForm(ModelForm):
     class Meta:
         model = Match
         fields = ('table',)
+
+
+class GroupScoresForm(ModelForm):
+    class Meta:
+        model = GroupMember
+        fields = ('id', 'place')
+
+
+class BaseGroupScoresFormset(BaseModelFormSet):
+    def clean(self):
+        used_places = set()
+        for form in self.forms:
+            place = form.cleaned_data.get('place')
+            if place is not None:
+                if place < 1 or place > len(self.forms):
+                    raise ValidationError('Place should be between 1 and %s' % len(self.forms))
+
+                if place in used_places:
+                    raise ValidationError('More than one member is assigned to place %s' % place)
+
+                used_places.add(place)
+
+    def save(self, commit=True):
+        instances = super(BaseGroupScoresFormset, self).save(commit)
+
+        if commit and instances and all(f.cleaned_data['place'] for f in self.forms):
+            instances[0].group.match.update(status=Match.COMPLETE)
+
+
+GroupScoresFormset = modelformset_factory(
+    GroupMember,
+    form=GroupScoresForm,
+    formset=BaseGroupScoresFormset,
+    extra=0
+)

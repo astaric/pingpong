@@ -1,15 +1,13 @@
 import json
 
 from django.core.exceptions import ValidationError
-
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods
 
-from pingpong.dashboard.forms import UpcomingMatchesFromset, SetScoreForm, SetTableForm
-from pingpong.models import Match, Table, Category, Group, GroupMember
-from pingpong.signup.forms import GroupScoresFormset
+from pingpong.dashboard.forms import SetScoreForm, SetTableForm, GroupScoresFormset
+from pingpong.models import Match, Table, Group, GroupMember
 
 
 def dashboard(request):

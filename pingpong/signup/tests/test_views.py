@@ -4,7 +4,7 @@ from django.test import TestCase
 from pingpong.bracket.helpers import create_pair_brackets
 from pingpong.models import Category, Player, Group, GroupMember, Bracket, BracketSlot
 from pingpong.signup.forms import CategoryAddForm, CategoryEditForm, PlayerFormSet, NumberOfGroupsForm, \
-    PlayerSeedsFormset, GroupScoresFormset
+    PlayerSeedsFormset
 
 
 class SignupViewsTestCase(TestCase):

@@ -22,48 +22,44 @@
     </form>
 
     <script>
-        $(document).ready(function () {
-            var $form = $("#set_group_scores_form");
-            var $inputs = $form.find('input[type=number]');
-            $inputs.each(function (i, input) {
-                console.log(input);
-                var $input = $(input);
-                var name = input.name;
-                var value = input.value;
+        var $form = $("#set_group_scores_form");
+        var $inputs = $form.find('input[type=number]');
+        $inputs.each(function (i, input) {
+            console.log(input);
+            var $input = $(input);
+            var name = input.name;
+            var value = input.value;
 
-                var touch_friendly_input = '';
-                for (var place = 1; place <= $inputs.length; place++) {
-                    var id = name + '-' + place;
-                    var selected = (value == place) ? ' checked' : '';
-                    if (value) {
-                        $input.parent().addClass('selected');
-                    }
-
-                    touch_friendly_input +=
-                            '<input type="radio" id="' + id + '" name="' + name + '" value="' + place + '"' + selected + '>' +
-                                    '<label for="' + id + '">' + place + '</label>';
+            var touch_friendly_input = '';
+            for (var place = 1; place <= $inputs.length; place++) {
+                var id = name + '-' + place;
+                var selected = (value == place) ? ' checked' : '';
+                if (value) {
+                    $input.parent().addClass('selected');
                 }
 
-                $input.replaceWith(touch_friendly_input);
-            });
-
-            function scoreSelected() {
-                console.log(this);
-                $(this).parent().addClass('selected');
-
-                if ($("input:radio[name='player1_score']").is(":checked") &&
-                        $("input:radio[name='player2_score']").is(":checked")) {
-                    $form.submit();
-                }
+                touch_friendly_input +=
+                        '<input type="radio" id="' + id + '" name="' + name + '" value="' + place + '"' + selected + '>' +
+                                '<label for="' + id + '">' + place + '</label>';
             }
 
-            $form.find("input:radio").on('change', scoreSelected);
-            $form.find("label").on('touchend', function () {
-                $(this).click();
-            }); // Fix click delay on mobile devices
-
-
+            $input.replaceWith(touch_friendly_input);
         });
+
+        function scoreSelected() {
+            console.log(this);
+            $(this).parent().addClass('selected');
+
+            if ($("input:radio[name='player1_score']").is(":checked") &&
+                    $("input:radio[name='player2_score']").is(":checked")) {
+                $form.submit();
+            }
+        }
+
+        $form.find("input:radio").on('change', scoreSelected);
+        $form.find("label").on('touchend', function () {
+            $(this).click();
+        }); // Fix click delay on mobile devices
     </script>
 {% endif %}
 
