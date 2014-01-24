@@ -10,7 +10,7 @@ $.fn.create_touch_targets = function (options) {
         var touch_targets = '';
         for (var val = options.min_value; val <= options.max_value; val++) {
             var id = name + '-' + val;
-            var selected = (value == val) ? ' checked' : '';
+            var selected = (value === '' + val) ? ' checked' : '';
             if (value) {
                 $this.parent().addClass('selected');
             }

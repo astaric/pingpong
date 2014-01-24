@@ -80,9 +80,6 @@ CurrentMatchesFromset = modelformset_factory(
 
 
 class SetScoreForm(ModelForm):
-    player1_score = IntegerField(min_value=0, max_value=3)
-    player2_score = IntegerField(min_value=0, max_value=3)
-
     class Meta:
         model = Match
         fields = ('player1_score', 'player2_score')

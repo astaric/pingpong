@@ -29,6 +29,7 @@ def set_score(request, match_id):
         template = 'pingpong/dashboard/set_score.html'
     return render(request, template, dict(
         match=match,
+        form=SetScoreForm(instance=match),
     ))
 
 

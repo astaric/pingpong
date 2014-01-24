@@ -13,30 +13,18 @@
             <div id="set_score_dialog">
                 <form id="set_score_form" method="post" action="{% url 'set_score' match_id=match.id %}">
                     {% csrf_token %}
-                    <input type="hidden" name="id" value="{{ match.id }}">
-                    {% with scores="0 1 2 3" %}
-                        <div id="player1">
-                            {{ match.player1 }}
-                            <div id="player1_score">
-                                {% for s in scores.split %}
-                                    <input class='score' type="radio" id="player1_score_{{ s }}" name="player1_score"
-                                           value="{{ s }}">
-                                    <label for="player1_score_{{ s }}" class="score">{{ s }}</label>
-                                {% endfor %}
-                            </div>
+                    <div id="player1">
+                        {{ match.player1 }}
+                        <div id="player1_score">
+                            {{ form.errors.player1_score }}{{ form.player1_score }}
                         </div>
-                        <div id="player2">
-                            {{ match.player2 }}
-
-                            <div id="player2_score">
-                                {% for s in scores.split %}
-                                    <input class='score' type="radio" id="player2_score_{{ s }}" name="player2_score"
-                                           value="{{ s }}">
-                                    <label for="player2_score_{{ s }}" class="score">{{ s }}</label>
-                                {% endfor %}
-                            </div>
+                    </div>
+                    <div id="player2">
+                        {{ match.player2 }}
+                        <div id="player2_score">
+                            {{ form.errors.player2_score }}{{ form.player2_score }}
                         </div>
-                    {% endwith %}
+                    </div>
                 </form>
             </div>
         {% endif %}
@@ -52,6 +40,11 @@
     <script>
         $(document).ready(function () {
             var $form = $("#set_score_form");
+            $form.find('input[type=number]').create_touch_targets({
+                min_value: 0,
+                max_value: 3
+            });
+
 
             function scoreSelected() {
                 $('#' + this.name).addClass('selected');

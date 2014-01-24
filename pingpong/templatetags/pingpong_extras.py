@@ -5,7 +5,7 @@ from django.db.models import Count, Q
 from django.template import TemplateSyntaxError, NodeList, Context
 from django.template.loader import render_to_string
 
-from pingpong.dashboard.forms import UpcomingMatchesFromset, GroupScoresFormset
+from pingpong.dashboard.forms import UpcomingMatchesFromset, GroupScoresFormset, SetScoreForm
 from pingpong.models import Category, GroupMember, Table, Match, Bracket
 from pingpong.signup.forms import CategoryEditForm
 from pingpong.signup.views import players_formset
@@ -185,6 +185,7 @@ def set_score_form(context, match=None, css_only=False):
     context.update({
         'modal': False,
         'match': match,
+        'form': SetScoreForm(instance=match),
         'css_only': css_only,
     })
     return context
