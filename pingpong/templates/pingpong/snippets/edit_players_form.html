@@ -82,28 +82,29 @@
         $club.value = ui.item.name;
     }
 
+    var player_autocomplete = {
+        source: "{% url 'known_players' %}",
+        delay: 100,
+        minLength: 1,
+        select: update_player,
+        focus: update_player
+    };
+    var club_autocomplete = {
+        source: "{% url 'known_clubs' %}",
+        delay: 100,
+        minLength: 1,
+        select: update_club,
+        focus: update_club
+    };
     for (var i = INITIAL_FORMS; i < TOTAL_FORMS; i++) {
-        $("#id_players-" + i + "-name").autocomplete({
-            source: "{% url 'known_players' %}",
-            delay: 100,
-            minLength: 2,
-            select: update_player,
-            focus: update_player
-        });
-        $("#id_players-" + i + "-surname").autocomplete({
-            source: "{% url 'known_players' %}",
-            delay: 100,
-            minLength: 2,
-            select: update_player,
-            focus: update_player
-        });
-        $("#id_players-" + i + "-club").autocomplete({
-            source: "{% url 'known_clubs' %}",
-            delay: 100,
-            minLength: 1,
-            select: update_club,
-            focus: update_club
-        });
+        $("#id_players-" + i + "-name").autocomplete(player_autocomplete);
+        $("#id_players-" + i + "-surname").autocomplete(player_autocomplete);
+        $("#id_players-" + i + "-club").autocomplete(club_autocomplete);
     }
+    setTimeout(function () {
+        for (var i = 0; i < INITIAL_FORMS; i++) {
+            $("#id_players-" + i + "-club").autocomplete(club_autocomplete);
+        }
+    }, 0);
     $("#id_players-" + INITIAL_FORMS + "-name").focus();
 </script>
