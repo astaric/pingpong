@@ -1,0 +1,24 @@
+{% extends "pingpong/base.html" %}
+{% load i18n staticfiles %}
+{% load pingpong_extras %}
+{% load sekizai_tags %}
+
+{% block headjs %}
+    <script src="{% static "js/touch-number.js" %}"></script>
+{% endblock %}
+
+{% block current_mode %}
+    {% trans 'Match history' %}
+{% endblock %}
+
+
+{% block content %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">{% trans 'Match history' %}</h2>
+        </div>
+        <div class="panel-body">
+            {% match_history %}
+        </div>
+    </div>
+{% endblock %}

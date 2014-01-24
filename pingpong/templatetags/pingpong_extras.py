@@ -153,12 +153,14 @@ def upcoming_matches(context):
     return context
 
 
-@register.inclusion_tag('pingpong/snippets/old_matches.html', takes_context=True)
-def old_matches(context):
+@register.inclusion_tag('pingpong/snippets/match_history.html', takes_context=True)
+def match_history(context, limit=None):
     matches = Match.objects \
         .filter(status=Match.COMPLETE) \
         .filter(Q(group__isnull=True) ^ Q(player1__isnull=True, player2__isnull=True)) \
         .order_by('-end_time')
+    if limit:
+        matches = matches[:limit]
     context.update({
         'old_matches': matches
     })

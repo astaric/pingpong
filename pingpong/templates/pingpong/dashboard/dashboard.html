@@ -31,10 +31,11 @@
     </div>
     <div id="old-matches-panel" class="panel panel-default">
         <div class="panel-heading">
-            <h2 class="panel-title">{% trans 'Match history' %}</h2>
+            <h2 class="panel-title">
+                <a href="{% url "match_history" %}">{% trans 'Match history' %}</a></h2>
         </div>
         <div class="panel-body">
-            {% old_matches %}
+            {% match_history 10 %}
         </div>
     </div>
 

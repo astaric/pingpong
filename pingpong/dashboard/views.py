@@ -8,10 +8,15 @@ from django.views.decorators.http import require_http_methods
 
 from pingpong.dashboard.forms import SetScoreForm, SetTableForm, GroupScoresFormset
 from pingpong.models import Match, Table, Group, GroupMember
+from pingpong.printing.helpers import print_matches
 
 
 def dashboard(request):
     return render(request, 'pingpong/dashboard/dashboard.html')
+
+
+def match_history(request):
+    return render(request, 'pingpong/dashboard/match_history.html')
 
 
 def set_score(request, match_id):
