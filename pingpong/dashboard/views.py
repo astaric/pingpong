@@ -37,7 +37,7 @@ def set_score(request, match_id):
 def set_table(request, match_id):
     match = get_object_or_404(Match, id=match_id)
 
-    if request.method=="POST":
+    if request.method == "POST":
         form = SetTableForm(request.POST, instance=match)
         if form.is_valid():
             form.save()
@@ -58,10 +58,12 @@ def clear_table(request, match_id):
     match = get_object_or_404(Match, id=match_id)
 
     if not match.status == Match.PLAYING:
-        raise ValidationError("You can only clear table on matches that are currently playing.")
+        raise ValidationError(
+            "You can only clear table on matches that are currently playing.")
 
     if match.group_id is not None:
-        Match.objects.filter(group=match.group_id).update(table=None, status=Match.PENDING)
+        Match.objects.filter(group=match.group_id).update(table=None,
+                                                          status=Match.PENDING)
 
     match.table = None
     match.status = Match.READY
@@ -92,7 +94,8 @@ def upcoming_matches(request):
              player2=unicode(match.player2))
         for match in Match.ready_doubles_matches()
     ])
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+    return HttpResponse(json.dumps(response_data),
+                        content_type="application/json")
 
 
 def tables(request):
@@ -109,7 +112,8 @@ def tables(request):
         else:
             response_data.append(dict(table_name=table.short_name))
 
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+    return HttpResponse(json.dumps(response_data),
+                        content_type="application/json")
 
 
 def match_details(request, match_id):
@@ -127,7 +131,8 @@ def match_details(request, match_id):
             player2=unicode(match.player2),
         ))
 
-    return HttpResponse(json.dumps(response_data), content_type="application/json")
+    return HttpResponse(json.dumps(response_data),
+                        content_type="application/json")
 
 
 def set_group_scores(request, group_id):
