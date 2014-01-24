@@ -14,6 +14,21 @@ from unidecode import unidecode
 from pingpong.helpers import berger_tables, shuffled
 
 
+class XOR_Q:
+    def __xor__(self, other):
+        not_self = self.clone()
+        not_other = other.clone()
+        not_self.negate()
+        not_other.negate()
+
+        x = self & not_other
+        y = not_self & other
+
+        return x | y
+
+Q.__bases__ += (XOR_Q, )
+
+
 GENDER_CHOICES = (
     (0, _("Male")),
     (1, _("Female")),
@@ -273,11 +288,13 @@ class Match(models.Model):
     def description(self):
         if self.group is not None:
             return unicode(self.group)
-        else:
+        elif self.player1 and self.player2:
             b = self.player1_bracket_slot.bracket.name[0]
             l = self.player1_bracket_slot.level
             c = self.player1.category.name
-            return mark_safe('%s <b>%s</b> %s %s : %s' % (b, l, c, self.player1, self.player2))
+            return mark_safe(u'%s <b>%s</b> %s %s : %s' % (b, l, c, self.player1, self.player2))
+        else:
+            return u""
 
     def __unicode__(self):
         return u'%s %s' % (self.player1, self.player2)
