@@ -115,7 +115,9 @@ class BaseGroupScoresFormset(BaseModelFormSet):
         instances = super(BaseGroupScoresFormset, self).save(commit)
 
         if commit and instances and all(f.cleaned_data['place'] for f in self.forms):
-            instances[0].group.match.update(end_time=timezone.now(), status=Match.COMPLETE)
+            Match.objects\
+                .filter(group=instances[0].group)\
+                .update(end_time=timezone.now(), status=Match.COMPLETE)
 
 
 GroupScoresFormset = modelformset_factory(

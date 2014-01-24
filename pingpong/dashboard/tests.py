@@ -150,7 +150,7 @@ class GroupScoresFormsetTests(TestCase):
 
         data = create_empty_match_post_data(group.members.all())
         for i in range(3):
-            data['form-%d-place' % i] = str(i+1)
+            data['form-%d-place' % i] = str(i + 1)
             formset = GroupScoresFormset(data)
             self.assertTrue(formset.is_valid())
             formset.save()
@@ -158,6 +158,9 @@ class GroupScoresFormsetTests(TestCase):
                 self.assertEqual(group.match.get().status, Match.PLAYING)
 
         self.assertEqual(group.match.get().status, Match.COMPLETE)
+
+        for match in Match.objects.filter(group=group):
+            self.assertIsNotNone(match.end_time)
 
     def test_validation(self):
         group = Group.objects.get(id=1)
