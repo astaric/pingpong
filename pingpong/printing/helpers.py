@@ -25,7 +25,7 @@ def print_groups(category):
         f.write(html)
 
 
-def print_matches(matches):
+def print_matches(*matches):
     if not settings.PRINT_DIRECTORY:
         return
 

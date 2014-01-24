@@ -46,6 +46,7 @@ def set_table(request, match_id):
         if form.is_valid():
             form.save()
 
+            print_matches(match)
             return redirect(reverse('dashboard'))
 
     if request.is_ajax():
