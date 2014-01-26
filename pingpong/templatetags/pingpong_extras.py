@@ -16,7 +16,9 @@ register = template.Library()
 
 @register.inclusion_tag('pingpong/snippets/category_list.html', takes_context=True)
 def list_categories(context, category):
-    context['categories'] = Category.objects.annotate(player_count=Count('players'))
+    context['categories'] = Category.objects \
+        .order_by('id') \
+        .annotate(player_count=Count('players'))
     return context
 
 
@@ -69,7 +71,7 @@ def show_group(group, members=None):
 
 @register.inclusion_tag('pingpong/snippets/brackets.html')
 def show_brackets(category):
-    brackets = Bracket.objects.filter(category=category)
+    brackets = Bracket.objects.filter(category=category).order_by('id')
 
     return {
         'brackets': brackets,

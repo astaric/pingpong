@@ -261,9 +261,11 @@ class Match(models.Model):
 
     @staticmethod
     def ready_bracket_matches():
-        bracket_matches = Match.objects.filter(status=Match.READY, group__isnull=True)
-        return bracket_matches.select_related('player1', 'player1__category', 'player1_bracket_slot__bracket',
-                                              'player2')
+        return Match.objects \
+            .filter(status=Match.READY, group__isnull=True) \
+            .order_by('id') \
+            .select_related('player1', 'player1__category', 'player1_bracket_slot__bracket',
+                            'player2') \
 
     @staticmethod
     def ready_doubles_matches():
