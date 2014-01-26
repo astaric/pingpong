@@ -1,0 +1,110 @@
+[
+{
+    "pk": 1, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 9, 
+        "name": "Miza 1", 
+        "short_name": "1"
+    }
+},
+{
+    "pk": 2, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 10, 
+        "name": "Miza 2", 
+        "short_name": "2"
+    }
+},
+{
+    "pk": 3, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 11, 
+        "name": "Miza 3", 
+        "short_name": "3"
+    }
+},
+{
+    "pk": 4, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 12, 
+        "name": "Miza 4", 
+        "short_name": "4"
+    }
+},
+{
+    "pk": 5, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 5, 
+        "name": "Miza 5", 
+        "short_name": "5"
+    }
+},
+{
+    "pk": 6, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 6, 
+        "name": "Miza 6", 
+        "short_name": "6"
+    }
+},
+{
+    "pk": 7, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 7, 
+        "name": "Miza 7", 
+        "short_name": "7"
+    }
+},
+{
+    "pk": 8, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 8, 
+        "name": "Miza 8", 
+        "short_name": "8"
+    }
+},
+{
+    "pk": 9, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 1, 
+        "name": "Miza 9", 
+        "short_name": "9"
+    }
+},
+{
+    "pk": 10, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 2, 
+        "name": "Miza 10", 
+        "short_name": "10"
+    }
+},
+{
+    "pk": 11, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 3, 
+        "name": "Miza 11", 
+        "short_name": "11"
+    }
+},
+{
+    "pk": 12, 
+    "model": "pingpong.table", 
+    "fields": {
+        "display_order": 4, 
+        "name": "Miza 12", 
+        "short_name": "12"
+    }
+}
+]
