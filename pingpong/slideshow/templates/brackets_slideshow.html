@@ -20,7 +20,8 @@
 {% for bracket_set in bracket_groups %}
     <div id="page{{ forloop.counter }}">
     {% for bracket in bracket_set %}
-            <div style="float:{% cycle "left" "right" %}">
+            {% cycle "left" "right" as side silent%}
+            <div style="float:{{ side }}; clear: {{ side }};">
             <h2>{{ bracket.category.description }} - {{ bracket.name }}</h2>
                 {% show_bracket bracket %}
             </div>
