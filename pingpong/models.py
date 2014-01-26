@@ -26,8 +26,8 @@ class XOR_Q:
 
         return x | y
 
-Q.__bases__ += (XOR_Q, )
 
+Q.__bases__ += (XOR_Q, )
 
 GENDER_CHOICES = (
     (0, _("Male")),
