@@ -45,8 +45,8 @@ def set_table(request, match_id):
         form = SetTableForm(request.POST, instance=match)
         if form.is_valid():
             form.save()
-
-            print_matches(match)
+            if match.group_id is None:
+                print_matches(match)
             return redirect(reverse('dashboard'))
 
     if request.is_ajax():
