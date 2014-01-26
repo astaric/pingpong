@@ -5,16 +5,14 @@ from pingpong.models import Category, Group, GroupMember, Bracket, BracketSlot
 
 
 def brackets_slideshow(request):
-    bracket_groups = []
-    for category in Category.objects.filter(type=Category.DOUBLE):
-        new_brackets = list(Bracket.objects.filter(category=category).annotate(rounds=Max('bracketslot__level')))
-        if category.type == Category.SINGLE and bracket_groups and len(bracket_groups[-1]) == 2:
-            bracket_groups[-1].extend(new_brackets)
-        else:
-            bracket_groups.append(new_brackets)
+    bracket_groups = [[], [], []]
+    pages = [0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 
-    return render(request, 'brackets_slideshow.html', dict(bracket_groups=bracket_groups))
+    for i, category in enumerate(Category.objects.order_by('id')):
+        new_brackets = list(Bracket.objects.filter(category=category).order_by('id').annotate(rounds=Max('bracketslot__level')))
+        bracket_groups[pages[i]].extend(new_brackets)
 
+    return render(request, 'brackets_slideshow.html', dict(bracket_groups=bracket_groups[2:]))
 
 def groups_slideshow(request):
     males = Category.objects.filter(gender=0).annotate(player_count=Count('players'))
