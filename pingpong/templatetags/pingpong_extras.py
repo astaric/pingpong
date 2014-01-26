@@ -163,6 +163,7 @@ def match_history(context, limit=None):
     matches = Match.objects \
         .filter(status=Match.COMPLETE) \
         .filter(Q(group__isnull=True) ^ Q(player1__isnull=True, player2__isnull=True)) \
+        .exclude(end_time__isnull=True) \
         .order_by('-end_time')
     if limit:
         matches = matches[:limit]
