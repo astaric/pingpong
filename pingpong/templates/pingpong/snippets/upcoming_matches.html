@@ -1,10 +1,19 @@
 {% load sekizai_tags %}
 
 <div id="upcoming_matches">
-    {% for form in formset %}
-        <a class="match"
-           href="{% url 'set_table' match_id=form.instance.id %}">
-            {{ form.instance.description }}
+    {% for match in group_matches %}
+        <a class="match" href="{% url 'set_table' match_id=match.id %}">
+            {{ match.description }}
+        </a>
+    {% endfor %}
+    {% for match in bracket_matches %}
+        <a class="match" href="{% url 'set_table' match_id=match.id %}">
+            {{ match.description }}
+        </a>
+    {% endfor %}
+    {% for match in doubles_matches %}
+        <a class="match" href="{% url 'set_table' match_id=match.id %}">
+            {{ match.description }}
         </a>
     {% endfor %}
 </div>

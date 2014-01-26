@@ -151,6 +151,9 @@ def upcoming_matches(context):
             queryset=Match.ready_group_matches() | Match.ready_bracket_matches() | Match.ready_doubles_matches())
     context.update({
         'formset': formset,
+        'group_matches': Match.ready_group_matches(),
+        'bracket_matches': Match.ready_bracket_matches(),
+        'doubles_matches': Match.ready_doubles_matches()
     })
     return context
 
