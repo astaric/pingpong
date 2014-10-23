@@ -249,3 +249,16 @@ input[type="radio"] + label {
 input[type="radio"]:checked + label {
     color: #000000;
 }
+
+.over {
+    border: 1px solid black !important;
+}
+
+#players,
+#leaders,
+#groups{
+    float: left;
+    min-width: 150px;
+    min-height: 250px;
+    padding: 15px;
+}

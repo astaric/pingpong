@@ -25,7 +25,7 @@
             <p>
                 <label>{% trans 'Draw' %}</label>
                 {% if category.group__count == 0 %}
-                    <a class="btn btn-primary" href="{% url "create_groups" category_id=category.id %}">
+                    <a class="btn btn-primary" href="{% url "create_groups_ng" category_id=category.id %}">
                         <i class="glyphicon glyphicon-plus"></i> {% trans 'groups' %}
                     </a>
                 {% endif %}

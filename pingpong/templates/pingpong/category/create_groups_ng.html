@@ -1,0 +1,56 @@
+{% extends 'pingpong/category/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="panel panel-default" ng-app="pingpongApp" ng-controller="CreateGroupsCtrl"
+         ng-init="init({{ category.id }})">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                {{ category.description }},
+                {[{ players.length + leaders.length }]} tekmovalcev,
+                <input ng-model="numberOfGroups" ng-change="updateGroups()" size="4"> skupin
+            </h4>
+        </div>
+
+        <div class="panel-body" style="vertical-align: top;">
+
+            <div id="players" droppable drop="removeLeader">
+                <h5>Tekmovalci</h5>
+
+                <div ng-repeat="player in players | orderBy:'surname'" draggable id="player{[{ player.id }]}"
+                     ng-click="addLeader('player' + player.id)">
+                    {[{ player.name }]}
+                </div>
+            </div>
+
+            <div id="leaders" droppable drop="addLeader">
+                <h5>Nosilci</h5>
+
+                <div ng-repeat="player in leaders" draggable id="player{[{ player.id }]}">
+                    N{[{ $index + 1 }]} {[{ player.name }]}
+                </div>
+            </div>
+
+            <div id="groups">
+                <h5>Skupine</h5>
+
+                <div ng-repeat="group in groups"
+                     style="width: 100px; height: 200px; border: 1px solid silver; float: left; margin: 5px;"
+                     class="player_group"
+                     droppable drop="addToGroup" id="group{[{ $index }]}">
+                    <div>Skupina {[{ "ABCDEFGHIJKLMN"[$index] }]}</div>
+                    <div ng-repeat="player in group" draggable id="player{[{ player.id }]}"
+                         ng-class="{leader: player.leader}">
+                        {[{ player.name }]} {[{ player.club }]}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-footer">
+            <button ng-click="drawOthers()">Žreb</button>
+            <button ng-click="reset()">Reset</button>
+            <button ng-click="saveToServer()">Shrani</button>
+        </div>
+    </div>
+{% endblock %}

@@ -16,8 +16,10 @@ urlpatterns = patterns(
         url(r'^brackets/delete/$', views.delete_brackets, name='delete_brackets'),
 
         url(r'^groups/create/$', views.create_groups, name='create_groups'),
+        url(r'^groups/create_ng/$', views.create_groups_ng, name='create_groups_ng'),
         url(r'^groups/delete/', views.delete_groups, name='delete_groups'),
 
+        url(r'^players.json$', views.category_players, name='category_players'),
         url(r'^players/edit/$', views.edit_category_players, name='category_edit_players'),
     ))),
     url(r'^known_clubs/$', views.known_clubs, name="known_clubs"),

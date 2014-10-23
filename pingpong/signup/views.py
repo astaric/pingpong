@@ -1,12 +1,16 @@
+from collections import defaultdict
 import json
+import string
 
 from django.contrib.admin.util import NestedObjects
 from django.core.urlresolvers import reverse
 from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from pingpong.bracket import helpers
+from pingpong.helpers import berger_tables
 
-from pingpong.models import Category, Player, Double, Group, KnownPlayer, KnownClub, Bracket
+from pingpong.models import Category, Player, Double, Group, KnownPlayer, KnownClub, Bracket, GroupMember, Match
 from pingpong.printing.helpers import print_groups
 from pingpong.signup.forms import (
     PlayerFormSet, CategoryEditForm, CategoryAddForm, DoubleFormSet,
@@ -180,6 +184,39 @@ def create_groups(request, category_id):
                        numgroups=number_of_groups))
 
 
+def create_groups_ng(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        json_groups = json.loads(request.body)
+        groups = []
+        members = []
+        for i, json_group in enumerate(json_groups):
+            group = Group.objects.create(name=string.ascii_uppercase[i], category=category)
+            groups.append(group)
+            for player in json_group:
+                members.append(GroupMember(player_id=player['id'], group=group, leader=player['leader']))
+        GroupMember.objects.bulk_create(members)
+        group_members = defaultdict(list)
+        for member in GroupMember.objects.filter(group__category=category).select_related('group'):
+            group_members[member.group].append(member)
+
+        matches = []
+        for group in groups:
+            for p1, p2 in berger_tables(len(group_members[group])):
+                matches.append(Match(player1=group_members[group][p1].player,
+                                     player2=group_members[group][p2].player,
+                                     group=group,
+                                     status=Match.PENDING))
+
+            # Create a dummy match that will be used to assign table to the group.
+            matches.append(Match(group=group, status=Match.READY))
+        Match.objects.bulk_create(matches)
+        helpers.create_brackets(category)
+        return HttpResponse(json.dumps('ok'), content_type="application/json")
+    return render(request, 'pingpong/category/create_groups_ng.html', dict(category=category))
+
+
 def create_brackets(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
@@ -228,5 +265,17 @@ def known_clubs(request):
             for c in KnownClub.objects
                 .filter(search_name__istartswith=term)
                 .order_by("name"))
+
+    return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def category_players(request, category_id):
+    response_data = [{
+        'id': p.id,
+        'name': p.full_name(),
+        'surname': p.surname,
+        'club': p.club,
+        'leader': False,
+    } for p in Player.objects.filter(category=category_id).order_by('surname')]
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")
