@@ -18,7 +18,7 @@
                 <h5>Tekmovalci</h5>
 
                 <div ng-repeat="player in players | orderBy:'surname'" draggable id="player{[{ player.id }]}"
-                     ng-click="addLeader('player' + player.id)">
+                     ng-click="addLeader('player' + player.id)"  style="min-height: 25px;">
                     {[{ player.name }]}
                 </div>
             </div>
@@ -26,7 +26,7 @@
             <div id="leaders" droppable drop="addLeader">
                 <h5>Nosilci</h5>
 
-                <div ng-repeat="player in leaders" draggable id="player{[{ player.id }]}">
+                <div ng-repeat="player in leaders" draggable id="player{[{ player.id }]}" style="min-height: 25px;">
                     N{[{ $index + 1 }]} {[{ player.name }]}
                 </div>
             </div>
@@ -40,7 +40,7 @@
                      droppable drop="addToGroup" id="group{[{ $index }]}">
                     <div>Skupina {[{ "ABCDEFGHIJKLMN"[$index] }]}</div>
                     <div ng-repeat="player in group" draggable id="player{[{ player.id }]}"
-                         ng-class="{leader: player.leader}">
+                         ng-class="{leader: player.leader}"  style="min-height: 25px;">
                         {[{ player.name }]} {[{ player.club }]}
                     </div>
                 </div>
