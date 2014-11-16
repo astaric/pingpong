@@ -1,0 +1,1427 @@
+[
+    {
+        "pk": 154,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Mihelic",
+            "club": "sodra\u017eica",
+            "surname": "Miheli\u010d",
+            "name": "Ga\u0161per",
+            "search_name": "Gasper"
+        }
+    },
+    {
+        "pk": 155,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Orazem",
+            "club": "sodra\u017eica",
+            "surname": "Ora\u017eem",
+            "name": "\u017dan",
+            "search_name": "Zan"
+        }
+    },
+    {
+        "pk": 156,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Zupancic",
+            "club": "",
+            "surname": "Zupan\u010di\u010d",
+            "name": "Simon",
+            "search_name": "Simon"
+        }
+    },
+    {
+        "pk": 157,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Zupancic",
+            "club": "",
+            "surname": "Zupan\u010di\u010d",
+            "name": "Iztok",
+            "search_name": "Iztok"
+        }
+    },
+    {
+        "pk": 158,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Kokelj",
+            "club": "Bled",
+            "surname": "Kokelj",
+            "name": "Drejc",
+            "search_name": "Drejc"
+        }
+    },
+    {
+        "pk": 159,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Blaauw",
+            "club": "LJ",
+            "surname": "Blaauw",
+            "name": "Marten",
+            "search_name": "Marten"
+        }
+    },
+    {
+        "pk": 160,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Janezic",
+            "club": "grosuplje",
+            "surname": "Jane\u017ei\u010d",
+            "name": "Martin",
+            "search_name": "Martin"
+        }
+    },
+    {
+        "pk": 161,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Lesar",
+            "club": "ko\u010devje",
+            "surname": "Lesar",
+            "name": "Marko",
+            "search_name": "Marko"
+        }
+    },
+    {
+        "pk": 162,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vodlan",
+            "club": "Trbovlje",
+            "surname": "Vodlan",
+            "name": "Bla\u017e",
+            "search_name": "Blaz"
+        }
+    },
+    {
+        "pk": 163,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Rezun",
+            "club": "Trbovlje",
+            "surname": "Re\u017eun",
+            "name": "Miha",
+            "search_name": "Miha"
+        }
+    },
+    {
+        "pk": 164,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Klenovsek",
+            "club": "Hrastnik",
+            "surname": "Klenov\u0161ek",
+            "name": "Alja\u017e",
+            "search_name": "Aljaz"
+        }
+    },
+    {
+        "pk": 165,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Svetec",
+            "club": "Kamnik",
+            "surname": "Svetec",
+            "name": "Gregor",
+            "search_name": "Gregor"
+        }
+    },
+    {
+        "pk": 166,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Cerar",
+            "club": "LJ",
+            "surname": "Cerar",
+            "name": "Uro\u0161",
+            "search_name": "Uros"
+        }
+    },
+    {
+        "pk": 167,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Spendov",
+            "club": "Sp. Dobrava",
+            "surname": "\u0160pendov",
+            "name": "Rok",
+            "search_name": "Rok"
+        }
+    },
+    {
+        "pk": 168,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Cucic",
+            "club": "Ajdov\u0161\u010dina",
+            "surname": "\u010cu\u010di\u010d",
+            "name": "Martin",
+            "search_name": "Martin"
+        }
+    },
+    {
+        "pk": 169,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Bokal",
+            "club": "",
+            "surname": "Bokal",
+            "name": "Ivo",
+            "search_name": "Ivo"
+        }
+    },
+    {
+        "pk": 170,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Gasperic",
+            "club": "",
+            "surname": "Ga\u0161peri\u010d",
+            "name": "Mitja",
+            "search_name": "Mitja"
+        }
+    },
+    {
+        "pk": 171,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Petrin",
+            "club": "",
+            "surname": "Petrin",
+            "name": "Lovro",
+            "search_name": "Lovro"
+        }
+    },
+    {
+        "pk": 172,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Potrbin",
+            "club": "Trbovlje",
+            "surname": "Potrbin",
+            "name": "Andrej",
+            "search_name": "Andrej"
+        }
+    },
+    {
+        "pk": 173,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Ulcnik",
+            "club": "",
+            "surname": "Ul\u010dnik",
+            "name": "Matej",
+            "search_name": "Matej"
+        }
+    },
+    {
+        "pk": 174,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Zgur",
+            "club": "",
+            "surname": "\u017dgur",
+            "name": "Igor",
+            "search_name": "Igor"
+        }
+    },
+    {
+        "pk": 175,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Zore",
+            "club": "",
+            "surname": "Zore",
+            "name": "Janez",
+            "search_name": "Janez"
+        }
+    },
+    {
+        "pk": 176,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Kandare",
+            "club": "",
+            "surname": "Kandare",
+            "name": "Boris",
+            "search_name": "Boris"
+        }
+    },
+    {
+        "pk": 177,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Spegel",
+            "club": "Ravne",
+            "surname": "\u0160pegel",
+            "name": "Marko",
+            "search_name": "Marko"
+        }
+    },
+    {
+        "pk": 178,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Kuhelj",
+            "club": "Sti\u010dna",
+            "surname": "Kuhelj",
+            "name": "Bojan",
+            "search_name": "Bojan"
+        }
+    },
+    {
+        "pk": 179,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Oven",
+            "club": "Sti\u010dna",
+            "surname": "Oven",
+            "name": "Robert",
+            "search_name": "Robert"
+        }
+    },
+    {
+        "pk": 180,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Svab",
+            "club": "Podnart",
+            "surname": "\u0160vab",
+            "name": "Uro\u0161",
+            "search_name": "Uros"
+        }
+    },
+    {
+        "pk": 181,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vodopivec",
+            "club": "Ajdov\u0161\u010dina",
+            "surname": "Vodopivec",
+            "name": "Boris",
+            "search_name": "Boris"
+        }
+    },
+    {
+        "pk": 182,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Ribaric",
+            "club": "Bohinj",
+            "surname": "Ribari\u010d",
+            "name": "Andrej",
+            "search_name": "Andrej"
+        }
+    },
+    {
+        "pk": 183,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Stor",
+            "club": "Celje",
+            "surname": "\u0160tor",
+            "name": "Vojteh",
+            "search_name": "Vojteh"
+        }
+    },
+    {
+        "pk": 184,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Slacek",
+            "club": "MB",
+            "surname": "Sla\u010dek",
+            "name": "Silvo",
+            "search_name": "Silvo"
+        }
+    },
+    {
+        "pk": 185,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Konjicek",
+            "club": "MB",
+            "surname": "Konji\u010dek",
+            "name": "Boris",
+            "search_name": "Boris"
+        }
+    },
+    {
+        "pk": 186,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Fridrih",
+            "club": "M. Sobota",
+            "surname": "Fridrih",
+            "name": "Tim",
+            "search_name": "Tim"
+        }
+    },
+    {
+        "pk": 187,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Zavec",
+            "club": "M. Sobota",
+            "surname": "Zavec",
+            "name": "Jure",
+            "search_name": "Jure"
+        }
+    },
+    {
+        "pk": 188,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Sencar",
+            "club": "M. Sobota",
+            "surname": "Sen\u010dar",
+            "name": "Marjan",
+            "search_name": "Marjan"
+        }
+    },
+    {
+        "pk": 189,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Lisac",
+            "club": "Ko\u010devje",
+            "surname": "Lisac",
+            "name": "Jani",
+            "search_name": "Jani"
+        }
+    },
+    {
+        "pk": 190,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Maselj",
+            "club": "Komenda",
+            "surname": "Maselj",
+            "name": "Bojan",
+            "search_name": "Bojan"
+        }
+    },
+    {
+        "pk": 191,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Zore",
+            "club": "Komenda",
+            "surname": "Zore",
+            "name": "Lojze",
+            "search_name": "Lojze"
+        }
+    },
+    {
+        "pk": 192,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Fijavz",
+            "club": "M. Sobota",
+            "surname": "Fijav\u017e",
+            "name": "Darko",
+            "search_name": "Darko"
+        }
+    },
+    {
+        "pk": 193,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Gunther",
+            "club": "Ravne",
+            "surname": "G\u00fcnther",
+            "name": "Erih",
+            "search_name": "Erih"
+        }
+    },
+    {
+        "pk": 194,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Jelusic",
+            "club": "Ribnica",
+            "surname": "Jelu\u0161i\u010d",
+            "name": "Josip",
+            "search_name": "Josip"
+        }
+    },
+    {
+        "pk": 195,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Rus",
+            "club": "Ribnica",
+            "surname": "Rus",
+            "name": "Janez",
+            "search_name": "Janez"
+        }
+    },
+    {
+        "pk": 196,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vancic",
+            "club": "Ribnica",
+            "surname": "Van\u010di\u010d",
+            "name": "Igor",
+            "search_name": "Igor"
+        }
+    },
+    {
+        "pk": 197,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Pugelj",
+            "club": "Ribnica",
+            "surname": "Pugelj",
+            "name": "Janez",
+            "search_name": "Janez"
+        }
+    },
+    {
+        "pk": 198,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Strnisnik",
+            "club": "Dom\u017eale",
+            "surname": "Strni\u0161nik",
+            "name": "Franc",
+            "search_name": "Franc"
+        }
+    },
+    {
+        "pk": 199,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Makovec",
+            "club": "\u017diri",
+            "surname": "Makovec",
+            "name": "Darko",
+            "search_name": "Darko"
+        }
+    },
+    {
+        "pk": 200,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Cikojevic",
+            "club": "",
+            "surname": "\u010cikojevi\u010d",
+            "name": "Nedeljko",
+            "search_name": "Nedeljko"
+        }
+    },
+    {
+        "pk": 201,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Pirc",
+            "club": "",
+            "surname": "Pirc",
+            "name": "Du\u0161an",
+            "search_name": "Dusan"
+        }
+    },
+    {
+        "pk": 202,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Glisic",
+            "club": "Bohinj",
+            "surname": "Gli\u0161i\u010d",
+            "name": "Matja\u017e",
+            "search_name": "Matjaz"
+        }
+    },
+    {
+        "pk": 203,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vincec",
+            "club": "",
+            "surname": "Vin\u010dec",
+            "name": "Igor",
+            "search_name": "Igor"
+        }
+    },
+    {
+        "pk": 204,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Nadoh",
+            "club": "Postojna",
+            "surname": "Nadoh",
+            "name": "Iztok",
+            "search_name": "Iztok"
+        }
+    },
+    {
+        "pk": 205,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Supanic",
+            "club": "LJ",
+            "surname": "Supani\u010d",
+            "name": "Bojan",
+            "search_name": "Bojan"
+        }
+    },
+    {
+        "pk": 206,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vodopivec",
+            "club": "Ajdov\u0161\u010dina",
+            "surname": "Vodopivec",
+            "name": "Boris",
+            "search_name": "Boris"
+        }
+    },
+    {
+        "pk": 207,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Duric",
+            "club": "Kamnik",
+            "surname": "\u0110uri\u010d",
+            "name": "\u017deljko",
+            "search_name": "Zeljko"
+        }
+    },
+    {
+        "pk": 208,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Marun",
+            "club": "Sti\u010dna",
+            "surname": "Marun",
+            "name": "Nader",
+            "search_name": "Nader"
+        }
+    },
+    {
+        "pk": 209,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Klenovsek",
+            "club": "Hrastnik",
+            "surname": "Klenov\u0161ek",
+            "name": "Jurij",
+            "search_name": "Jurij"
+        }
+    },
+    {
+        "pk": 210,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Kosir",
+            "club": "Kamna Gorica",
+            "surname": "Ko\u0161ir",
+            "name": "Janez",
+            "search_name": "Janez"
+        }
+    },
+    {
+        "pk": 211,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vida",
+            "club": "Bohinj",
+            "surname": "Vida",
+            "name": "Sre\u010do",
+            "search_name": "Sreco"
+        }
+    },
+    {
+        "pk": 212,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Arh",
+            "club": "Bohinj",
+            "surname": "Arh",
+            "name": "Pavel",
+            "search_name": "Pavel"
+        }
+    },
+    {
+        "pk": 213,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Stor",
+            "club": "Celje",
+            "surname": "\u0160tor",
+            "name": "Gorazd",
+            "search_name": "Gorazd"
+        }
+    },
+    {
+        "pk": 214,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Trbovc",
+            "club": "Celje",
+            "surname": "Trbovc",
+            "name": "Drago",
+            "search_name": "Drago"
+        }
+    },
+    {
+        "pk": 215,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vodusek",
+            "club": "Kranj",
+            "surname": "Vodu\u0161ek",
+            "name": "Fredi",
+            "search_name": "Fredi"
+        }
+    },
+    {
+        "pk": 216,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Tasic",
+            "club": "Celje",
+            "surname": "Tasi\u010d",
+            "name": "Milan",
+            "search_name": "Milan"
+        }
+    },
+    {
+        "pk": 217,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Dezelak",
+            "club": "",
+            "surname": "De\u017eelak",
+            "name": "Vladimir",
+            "search_name": "Vladimir"
+        }
+    },
+    {
+        "pk": 218,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Cargo",
+            "club": "NG",
+            "surname": "\u010cargo",
+            "name": "Zdenko",
+            "search_name": "Zdenko"
+        }
+    },
+    {
+        "pk": 219,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Govednik",
+            "club": "Metlika",
+            "surname": "Govednik",
+            "name": "Boris",
+            "search_name": "Boris"
+        }
+    },
+    {
+        "pk": 220,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Skoberne",
+            "club": "Celje",
+            "surname": "\u0160koberne",
+            "name": "Boris",
+            "search_name": "Boris"
+        }
+    },
+    {
+        "pk": 221,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Kozjek",
+            "club": "Kranj",
+            "surname": "Kozjek",
+            "name": "Ciril",
+            "search_name": "Ciril"
+        }
+    },
+    {
+        "pk": 222,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Rakovec",
+            "club": "Kranj",
+            "surname": "Rakovec",
+            "name": "Brane",
+            "search_name": "Brane"
+        }
+    },
+    {
+        "pk": 223,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Zbasnik",
+            "club": "Ribnica",
+            "surname": "Zba\u0161nik",
+            "name": "Jo\u017ee",
+            "search_name": "Joze"
+        }
+    },
+    {
+        "pk": 224,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Pretnar",
+            "club": "",
+            "surname": "Pretnar",
+            "name": "Vinko",
+            "search_name": "Vinko"
+        }
+    },
+    {
+        "pk": 225,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Torkar",
+            "club": "Bled",
+            "surname": "Torkar",
+            "name": "Miha",
+            "search_name": "Miha"
+        }
+    },
+    {
+        "pk": 226,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Varl",
+            "club": "",
+            "surname": "Varl",
+            "name": "Igor",
+            "search_name": "Igor"
+        }
+    },
+    {
+        "pk": 227,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Kenic",
+            "club": "Postojna",
+            "surname": "Keni\u010d",
+            "name": "Ivan",
+            "search_name": "Ivan"
+        }
+    },
+    {
+        "pk": 228,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Glazar",
+            "club": "Prestranek",
+            "surname": "Gla\u017ear",
+            "name": "Stane",
+            "search_name": "Stane"
+        }
+    },
+    {
+        "pk": 229,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Semrov",
+            "club": "",
+            "surname": "\u0160emrov",
+            "name": "Miro",
+            "search_name": "Miro"
+        }
+    },
+    {
+        "pk": 230,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Muzik",
+            "club": "",
+            "surname": "Muzik",
+            "name": "Janez",
+            "search_name": "Janez"
+        }
+    },
+    {
+        "pk": 231,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Kunstelj",
+            "club": "",
+            "surname": "Kunstelj",
+            "name": "\u0160tefan",
+            "search_name": "Stefan"
+        }
+    },
+    {
+        "pk": 232,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Klosternik",
+            "club": "",
+            "surname": "Klosternik",
+            "name": "Ivan",
+            "search_name": "Ivan"
+        }
+    },
+    {
+        "pk": 233,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Hafner",
+            "club": "",
+            "surname": "Hafner",
+            "name": "Jo\u017ee",
+            "search_name": "Joze"
+        }
+    },
+    {
+        "pk": 234,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Burger",
+            "club": "",
+            "surname": "Burger",
+            "name": "Maks",
+            "search_name": "Maks"
+        }
+    },
+    {
+        "pk": 235,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Stropnik",
+            "club": "Celje",
+            "surname": "Stropnik",
+            "name": "Robert",
+            "search_name": "Robert"
+        }
+    },
+    {
+        "pk": 236,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Bergoc",
+            "club": "Postojna",
+            "surname": "Bergo\u010d",
+            "name": "Dario",
+            "search_name": "Dario"
+        }
+    },
+    {
+        "pk": 237,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Hafner",
+            "club": "",
+            "surname": "Hafner",
+            "name": "Ivan",
+            "search_name": "Ivan"
+        }
+    },
+    {
+        "pk": 238,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Simic",
+            "club": "",
+            "surname": "Simi\u010d",
+            "name": "Radovan",
+            "search_name": "Radovan"
+        }
+    },
+    {
+        "pk": 239,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Markic",
+            "club": "",
+            "surname": "Marki\u010d",
+            "name": "Ciril",
+            "search_name": "Ciril"
+        }
+    },
+    {
+        "pk": 240,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Pancur",
+            "club": "Tr\u017ei\u010d",
+            "surname": "Pan\u010dur",
+            "name": "Rado",
+            "search_name": "Rado"
+        }
+    },
+    {
+        "pk": 241,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Jancic",
+            "club": "Jesenice",
+            "surname": "Jan\u010di\u010d",
+            "name": "Barbara",
+            "search_name": "Barbara"
+        }
+    },
+    {
+        "pk": 242,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Smolej",
+            "club": "Jesenice",
+            "surname": "Smolej",
+            "name": "Mojca",
+            "search_name": "Mojca"
+        }
+    },
+    {
+        "pk": 243,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Lebaric",
+            "club": "Ravne",
+            "surname": "Lebari\u010d",
+            "name": "Janja",
+            "search_name": "Janja"
+        }
+    },
+    {
+        "pk": 244,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Zidar Zupan",
+            "club": "vl",
+            "surname": "Zidar Zupan",
+            "name": "Alenka",
+            "search_name": "Alenka"
+        }
+    },
+    {
+        "pk": 245,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Lesnik",
+            "club": "",
+            "surname": "Lesnik",
+            "name": "Doris",
+            "search_name": "Doris"
+        }
+    },
+    {
+        "pk": 246,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Komovec",
+            "club": "MB",
+            "surname": "Komovec",
+            "name": "Martina",
+            "search_name": "Martina"
+        }
+    },
+    {
+        "pk": 247,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Krmelj",
+            "club": "Jesenice",
+            "surname": "Krmelj",
+            "name": "Milana",
+            "search_name": "Milana"
+        }
+    },
+    {
+        "pk": 248,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Prezelj",
+            "club": "",
+            "surname": "Prezelj",
+            "name": "\u017diva",
+            "search_name": "Ziva"
+        }
+    },
+    {
+        "pk": 249,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Mlinar",
+            "club": "\u017diri",
+            "surname": "Mlinar",
+            "name": "Vida",
+            "search_name": "Vida"
+        }
+    },
+    {
+        "pk": 250,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Sebjanic Pupis",
+            "club": "",
+            "surname": "\u0160ebjani\u010d Pupis",
+            "name": "Jasna",
+            "search_name": "Jasna"
+        }
+    },
+    {
+        "pk": 251,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Gradisnik",
+            "club": "",
+            "surname": "Gradi\u0161nik",
+            "name": "Sonja",
+            "search_name": "Sonja"
+        }
+    },
+    {
+        "pk": 252,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Stankovic",
+            "club": "LJ",
+            "surname": "Stankovi\u010d",
+            "name": "Dragutin",
+            "search_name": "Dragutin"
+        }
+    },
+    {
+        "pk": 253,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Hajdarovic",
+            "club": "",
+            "surname": "Hajdarovi\u010d",
+            "name": "Miha",
+            "search_name": "Miha"
+        }
+    },
+    {
+        "pk": 254,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Pogacar",
+            "club": "",
+            "surname": "Poga\u010dar",
+            "name": "Jo\u017ee",
+            "search_name": "Joze"
+        }
+    },
+    {
+        "pk": 255,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vahcic",
+            "club": "",
+            "surname": "Vah\u010di\u010d",
+            "name": "Jo\u017ee",
+            "search_name": "Joze"
+        }
+    },
+    {
+        "pk": 256,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vizjak",
+            "club": "",
+            "surname": "Vizjak",
+            "name": "Darijan",
+            "search_name": "Darijan"
+        }
+    },
+    {
+        "pk": 257,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Vodlan",
+            "club": "Trbovlje",
+            "surname": "Vodlan",
+            "name": "Jo\u017ee",
+            "search_name": "Joze"
+        }
+    },
+    {
+        "pk": 258,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Meza",
+            "club": "",
+            "surname": "Me\u017ea",
+            "name": "Bo\u017ea",
+            "search_name": "Boza"
+        }
+    },
+    {
+        "pk": 259,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Klosternik",
+            "club": "",
+            "surname": "Klosternik",
+            "name": "Irena",
+            "search_name": "Irena"
+        }
+    },
+    {
+        "pk": 260,
+        "model": "pingpong.knownplayer",
+        "fields": {
+            "search_surname": "Lapanja",
+            "club": "",
+            "surname": "Lapanja",
+            "name": "Dragica",
+            "search_name": "Dragica"
+        }
+    },
+    {
+        "pk": 33,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Ajdov\u0161\u010dina",
+            "search_name": "Ajdovscina"
+        }
+    },
+    {
+        "pk": 34,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Bled",
+            "search_name": "Bled"
+        }
+    },
+    {
+        "pk": 35,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Bohinj",
+            "search_name": "Bohinj"
+        }
+    },
+    {
+        "pk": 36,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Celje",
+            "search_name": "Celje"
+        }
+    },
+    {
+        "pk": 37,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Dom\u017eale",
+            "search_name": "Domzale"
+        }
+    },
+    {
+        "pk": 38,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Hrastnik",
+            "search_name": "Hrastnik"
+        }
+    },
+    {
+        "pk": 39,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Jesenice",
+            "search_name": "Jesenice"
+        }
+    },
+    {
+        "pk": 40,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Kamna Gorica",
+            "search_name": "Kamna Gorica"
+        }
+    },
+    {
+        "pk": 41,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Kamnik",
+            "search_name": "Kamnik"
+        }
+    },
+    {
+        "pk": 42,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Komenda",
+            "search_name": "Komenda"
+        }
+    },
+    {
+        "pk": 43,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Ko\u010devje",
+            "search_name": "Kocevje"
+        }
+    },
+    {
+        "pk": 44,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Kranj",
+            "search_name": "Kranj"
+        }
+    },
+    {
+        "pk": 45,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "LJ",
+            "search_name": "LJ"
+        }
+    },
+    {
+        "pk": 46,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "M. Sobota",
+            "search_name": "M. Sobota"
+        }
+    },
+    {
+        "pk": 47,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "MB",
+            "search_name": "MB"
+        }
+    },
+    {
+        "pk": 48,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Metlika",
+            "search_name": "Metlika"
+        }
+    },
+    {
+        "pk": 49,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "NG",
+            "search_name": "NG"
+        }
+    },
+    {
+        "pk": 50,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Podnart",
+            "search_name": "Podnart"
+        }
+    },
+    {
+        "pk": 51,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Postojna",
+            "search_name": "Postojna"
+        }
+    },
+    {
+        "pk": 52,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Prestranek",
+            "search_name": "Prestranek"
+        }
+    },
+    {
+        "pk": 53,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Ravne",
+            "search_name": "Ravne"
+        }
+    },
+    {
+        "pk": 54,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Ribnica",
+            "search_name": "Ribnica"
+        }
+    },
+    {
+        "pk": 55,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Sp. Dobrava",
+            "search_name": "Sp. Dobrava"
+        }
+    },
+    {
+        "pk": 56,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Sti\u010dna",
+            "search_name": "Sticna"
+        }
+    },
+    {
+        "pk": 57,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Trbovlje",
+            "search_name": "Trbovlje"
+        }
+    },
+    {
+        "pk": 58,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "Tr\u017ei\u010d",
+            "search_name": "Trzic"
+        }
+    },
+    {
+        "pk": 59,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "grosuplje",
+            "search_name": "grosuplje"
+        }
+    },
+    {
+        "pk": 60,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "ko\u010devje",
+            "search_name": "kocevje"
+        }
+    },
+    {
+        "pk": 61,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "sodra\u017eica",
+            "search_name": "sodrazica"
+        }
+    },
+    {
+        "pk": 62,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "vl",
+            "search_name": "vl"
+        }
+    },
+    {
+        "pk": 63,
+        "model": "pingpong.knownclub",
+        "fields": {
+            "name": "\u017diri",
+            "search_name": "Ziri"
+        }
+    }
+]
