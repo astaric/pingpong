@@ -83,6 +83,7 @@
                 <h5>Skupine</h5>
 
                 <div ng-repeat="group in groups" class="player_group"
+                     ng-drop="true" ng-drop-success="moveToGroup($data, $index)">
                     <div>Skupina {[{ "ABCDEFGHIJKLMN"[$index] }]}</div>
                     <ul>
                         <li ng-repeat="player in group" ng-class="{leader: player.leader}">

@@ -99,6 +99,18 @@ pingpongControllers.controller('CreateGroupsCtrl', ['$scope', '$http', '$cookieS
             }
         };
 
+        $scope.moveToGroup = function(p, groupIdx) {
+            if (p.leader == false) {
+                $scope.groups.forEach(function (g) {
+                    idx = g.indexOf(p);
+                    if (idx !== -1)
+                        g.splice(idx, 1);
+                });
+                console.log(groupIdx);
+                $scope.groups[groupIdx].push(p);
+            }
+        };
+
         $scope.drawOthers = function () {
             var shuffledPlayers = shuffled($scope.players);
             var others = [];
