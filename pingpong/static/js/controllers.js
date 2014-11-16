@@ -2,7 +2,7 @@
 
 /* Controllers */
 
-var pingpongControllers = angular.module('pingpongControllers', ['ngCookies']);
+var pingpongControllers = angular.module('pingpongControllers', ['ngDraggable', 'ngCookies']);
 
 //+ Jonas Raoni Soares Silva
 //@ http://jsfromhell.com/array/shuffle [v1.0]
@@ -69,12 +69,9 @@ pingpongControllers.controller('CreateGroupsCtrl', ['$scope', '$http', '$cookieS
                 // called asynchronously if an error occurs
                 // or server returns response with an error status.
               });
-        }
+        };
 
-        $scope.addLeader = function (player, leaders) {
-            console.log(player);
-            var playerId = player.replace(/\D/g, '');
-            var p = playerMap[playerId];
+        $scope.addLeader = function (p) {
             if (p.leader == false) {
                 idx = $scope.players.indexOf(p);
                 if (idx !== -1)
@@ -88,9 +85,7 @@ pingpongControllers.controller('CreateGroupsCtrl', ['$scope', '$http', '$cookieS
             }
         };
 
-        $scope.removeLeader = function (player, players) {
-            var playerId = player.replace(/\D/g, '');
-            var p = playerMap[playerId];
+        $scope.removeLeader = function (p) {
             if (p.leader == true) {
                 idx = $scope.leaders.indexOf(p);
                 if (idx !== -1)

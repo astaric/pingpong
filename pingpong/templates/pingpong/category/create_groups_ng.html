@@ -1,5 +1,46 @@
 {% extends 'pingpong/category/base.html' %}
 {% load i18n %}
+{% load staticfiles %}
+
+{% block headjs %}
+    <script src="{% static 'components/angular/angular.js' %}"></script>
+    <script src="{% static 'components/angular-cookies/angular-cookies.js' %}"></script>
+    <script src="{% static 'components/ngDraggable/ngDraggable.js' %}"></script>
+    <script src="{% static 'js/app.js' %}"></script>
+    <script src="{% static 'js/controllers.js' %}"></script>
+
+    <style>
+        .drag-enter {
+            border: 1px solid red !important;
+        }
+
+        .drag-list {
+            padding-left: inherit;
+        }
+
+        .drag-list li {
+
+            line-height: 2em;
+            margin: 1px;
+
+            list-style: none;
+            min-height: 40px;
+        }
+
+        .drag-list li div {
+            padding: 5px;
+            border: 1px solid #c0c0c0;
+        }
+
+        .player_group {
+            width: 100px;
+            height: 200px;
+            border: 1px solid silver;
+            float: left;
+            margin: 5px;
+        }
+    </style>
+{% endblock %}
 
 {% block content %}
     <div class="panel panel-default" ng-app="pingpongApp" ng-controller="CreateGroupsCtrl"
@@ -14,35 +55,42 @@
 
         <div class="panel-body" style="vertical-align: top;">
 
-            <div id="players" droppable drop="removeLeader">
+            <div id="players" ng-drop="true" ng-drop-success="removeLeader($data)">
                 <h5>Tekmovalci</h5>
 
-                <div ng-repeat="player in players | orderBy:'surname'" draggable id="player{[{ player.id }]}"
-                     ng-click="addLeader('player' + player.id)"  style="min-height: 25px;">
-                    {[{ player.name }]}
-                </div>
+                <ul class="drag-list">
+                    <li ng-repeat="player in players | orderBy:'surname'">
+                        <div ng-drag="true" ng-drag-data="player">
+                            {[{ player.name }]}
+                        </div>
+                    </li>
+                </ul>
             </div>
 
-            <div id="leaders" droppable drop="addLeader">
+            <div id="leaders" ng-drop="true" ng-drop-success="addLeader($data)">
                 <h5>Nosilci</h5>
 
-                <div ng-repeat="player in leaders" draggable id="player{[{ player.id }]}" style="min-height: 25px;">
-                    N{[{ $index + 1 }]} {[{ player.name }]}
-                </div>
+                <ul class="drag-list">
+                    <li ng-repeat="player in leaders">
+                        <div ng-drag="true" ng-drag-data="player">
+                            N{[{ $index + 1 }]} {[{ player.name }]}
+                        </div>
+                    </li>
+                </ul>
             </div>
 
             <div id="groups">
                 <h5>Skupine</h5>
 
-                <div ng-repeat="group in groups"
-                     style="width: 100px; height: 200px; border: 1px solid silver; float: left; margin: 5px;"
-                     class="player_group"
-                     droppable drop="addToGroup" id="group{[{ $index }]}">
+                <div ng-repeat="group in groups" class="player_group"
                     <div>Skupina {[{ "ABCDEFGHIJKLMN"[$index] }]}</div>
-                    <div ng-repeat="player in group" draggable id="player{[{ player.id }]}"
-                         ng-class="{leader: player.leader}"  style="min-height: 25px;">
-                        {[{ player.name }]} {[{ player.club }]}
-                    </div>
+                    <ul>
+                        <li ng-repeat="player in group" ng-class="{leader: player.leader}">
+                            <div ng-drag="true" ng-drag-data="player">
+                                {[{ player.name }]} {[{ player.club }]}
+                            </div>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
