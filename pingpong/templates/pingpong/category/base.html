@@ -26,12 +26,14 @@
                     {% else %}
                         {{ category.description }} ({{ category.name }})
                     {% endif %}
-                    {% if category.group__count > 0 or category.bracket__count > 0 %}
-                        <span style="float:right;">
+                    {% if user.is_authenticated %}
+                        {% if category.group__count > 0 or category.bracket__count > 0 %}
+                            <span style="float:right;">
                         <a data-toggle="modal" href="{% url 'category_edit_players' category_id=category.id %}"
                            data-target="#modal-edit-players">
                             {% trans 'Edit players' %}</a>
                     </span>
+                        {% endif %}
                     {% endif %}
                 </h4>
             </div>

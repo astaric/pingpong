@@ -1,20 +1,16 @@
 {% load sekizai_tags %}
 
 <div id="upcoming_matches">
-    {% for match in group_matches %}
-        <a class="match" href="{% url 'set_table' match_id=match.id %}">
+    {% for match in matches %}
+        {% if user.is_authenticated %}
+            <a class="match" href="{% url 'set_table' match_id=match.id %}">
+                {{ match.description }}
+            </a>
+        {% else %}
+            <span class="match">
             {{ match.description }}
-        </a>
-    {% endfor %}
-    {% for match in bracket_matches %}
-        <a class="match" href="{% url 'set_table' match_id=match.id %}">
-            {{ match.description }}
-        </a>
-    {% endfor %}
-    {% for match in doubles_matches %}
-        <a class="match" href="{% url 'set_table' match_id=match.id %}">
-            {{ match.description }}
-        </a>
+            </span>
+        {% endif %}
     {% endfor %}
 </div>
 <div class="modal" id="set-table-modal"></div>

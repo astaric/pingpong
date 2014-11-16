@@ -3,6 +3,7 @@ import json
 import string
 
 from django.contrib.admin.util import NestedObjects
+from django.contrib.auth.decorators import login_required
 from django.core.urlresolvers import reverse
 from django.db.models import Count, Q
 from django.http import HttpResponse
@@ -30,6 +31,7 @@ def category_details(request, category_id):
     return render(request, 'pingpong/category/base.html', dict(category=category))
 
 
+@login_required
 def edit_category(request, category_id):
     category = get_object_or_404(Category.objects.annotate(Count('bracket'), Count('group')),
                                  id=category_id)
@@ -52,7 +54,7 @@ def edit_category(request, category_id):
                   dict(category=category,
                        category_fields_form=category_fields))
 
-
+@login_required
 def edit_category_players(request, category_id):
     category = get_object_or_404(Category.objects.annotate(Count('bracket'), Count('group')),
                                  id=category_id)
@@ -89,6 +91,7 @@ def _players_formset(category, post_data, Model, Formset):
     return formset
 
 
+@login_required
 def add_category(request):
     if request.method == 'POST':
         form = CategoryAddForm(request.POST)
@@ -104,6 +107,7 @@ def add_category(request):
                        categories=categories))
 
 
+@login_required
 def delete_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
@@ -121,6 +125,7 @@ def delete_category(request, category_id):
     ))
 
 
+@login_required
 def delete_groups(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     groups = category.group_set.all()
@@ -137,6 +142,7 @@ def delete_groups(request, category_id):
     ))
 
 
+@login_required
 def delete_brackets(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
@@ -161,6 +167,7 @@ def get_related_objects(obj):
             for model, instance in collector.instances_with_model()]
 
 
+@login_required
 def create_groups(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
@@ -184,6 +191,7 @@ def create_groups(request, category_id):
                        numgroups=number_of_groups))
 
 
+@login_required
 def create_groups_ng(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 
@@ -217,6 +225,7 @@ def create_groups_ng(request, category_id):
     return render(request, 'pingpong/category/create_groups_ng.html', dict(category=category))
 
 
+@login_required
 def create_brackets(request, category_id):
     category = get_object_or_404(Category, id=category_id)
 

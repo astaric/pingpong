@@ -4,7 +4,11 @@
     {% regroup group_members by group as group_list %}
     {% for group in group_list %}
         <div class="player_group">
-            <a href="{% url 'set_group_scores' group_id=group.grouper.id %}">{{ group.grouper }}</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'set_group_scores' group_id=group.grouper.id %}">{{ group.grouper }}</a>
+            {% else %}
+                {{ group.grouper }}
+            {% endif %}
             <ul>
                 {% for member in group.list %}
                     <li{% if member.leader %} class="leader"{% endif %}>

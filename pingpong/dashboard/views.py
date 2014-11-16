@@ -1,4 +1,5 @@
 import json
+from django.contrib.auth.decorators import login_required
 
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
@@ -19,6 +20,7 @@ def match_history(request):
     return render(request, 'pingpong/dashboard/match_history.html')
 
 
+@login_required
 def set_score(request, match_id):
     match = get_object_or_404(Match, id=match_id)
 
@@ -38,6 +40,7 @@ def set_score(request, match_id):
     ))
 
 
+@login_required
 def set_table(request, match_id):
     match = get_object_or_404(Match, id=match_id)
 
@@ -58,6 +61,7 @@ def set_table(request, match_id):
     ))
 
 
+@login_required
 @require_http_methods('POST')
 def clear_table(request, match_id):
     match = get_object_or_404(Match, id=match_id)
@@ -140,6 +144,7 @@ def match_details(request, match_id):
                         content_type="application/json")
 
 
+@login_required
 def set_group_scores(request, group_id):
     group = get_object_or_404(Group, id=group_id)
 

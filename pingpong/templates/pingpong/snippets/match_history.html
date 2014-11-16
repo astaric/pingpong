@@ -2,10 +2,16 @@
 
 <div id="old_matches">
     {% for match in old_matches %}
-        <a class="match"
-           href="{% url 'set_score' match_id=match.id %}">
+        {% if user.is_authenticated %}
+            <a class="match"
+               href="{% url 'set_score' match_id=match.id %}">
+                {{ match.description }}
+            </a>
+        {% else %}
+            <span class="match">
             {{ match.description }}
-        </a>
+            </span>
+        {% endif %}
     {% endfor %}
 </div>
 <div class="modal" id="set-score-modal"></div>
