@@ -288,3 +288,9 @@ def category_players(request, category_id):
     } for p in Player.objects.filter(category=category_id).order_by('surname')]
 
     return HttpResponse(json.dumps(response_data), content_type="application/json")
+
+
+def print_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+    print_groups(category)
+    return redirect(reverse('category', kwargs=dict(category_id=category.id)))

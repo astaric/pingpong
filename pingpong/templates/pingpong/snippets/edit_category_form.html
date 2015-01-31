@@ -35,6 +35,13 @@
                     </a>
                 {% endif %}
             </p>
+        {% else %}
+            <p>
+            <label>{% trans 'Print' %}</label>
+            <a class="btn btn-primary" href="{% url "category_print" category_id=category.id %}">
+                <i class="glyphicon glyphicon-print"></i> {% trans 'category' %}
+            </a>
+        </p>
         {% endif %}
         <p>
             <label>{% trans 'Remove' %}</label>
