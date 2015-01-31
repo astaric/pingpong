@@ -10,6 +10,22 @@
 {% block content %}
     {% addtoblock 'css' %}
         <link rel="stylesheet" href="{% static 'css/jquery-ui-1.10.3.custom.min.css' %}">
+        <style>
+        #tables-panel {
+            display: none;
+        }
+
+        @media (min-width: 1600px) {
+            #tables-panel {
+                display: block;
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 800px;
+            }
+        }
+
+        </style>
     {% endaddtoblock %}
 
     {% if category.group__count == 0 and category.bracket__count == 0 %}
@@ -46,7 +62,14 @@
             {% if category.bracket__count > 0 %}
                 {% show_brackets category %}
             {% endif %}
-
+        </div>
+        <div id="tables-panel" class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">{% trans 'Tables' %}</h4>
+            </div>
+            <div class="panel-body">
+                {% show_readonly_tables %}
+            </div>
         </div>
     {% endif %}
     {% if user.is_authenticated %}

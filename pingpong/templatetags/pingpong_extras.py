@@ -142,6 +142,14 @@ def show_tables(context):
     return context
 
 
+@register.inclusion_tag('pingpong/snippets/tables.html', takes_context=True)
+def show_readonly_tables(context):
+    context = show_tables(context)
+    context['user'] = None
+    return context
+
+
+
 @register.inclusion_tag('pingpong/snippets/upcoming_matches.html', takes_context=True)
 def upcoming_matches(context):
     if 'formset' in context:
