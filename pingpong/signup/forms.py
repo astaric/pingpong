@@ -21,8 +21,12 @@ class CategoryEditForm(ModelForm):
 
 
 class DoubleEditForm(ModelForm):
-    player1 = ModelChoiceField(required=False, queryset=Player.objects.order_by('surname'))
-    player2 = ModelChoiceField(required=False, queryset=Player.objects.order_by('surname'))
+    player1 = ModelChoiceField(required=False, queryset=Player.objects
+                               .filter(category__type=Category.SINGLE)
+                               .order_by('surname'))
+    player2 = ModelChoiceField(required=False, queryset=Player.objects
+                               .filter(category__type=Category.SINGLE)
+                               .order_by('surname'))
 
     class Meta:
         model = Double

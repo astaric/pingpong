@@ -16,8 +16,9 @@ class BracketSlotAdmin(admin.ModelAdmin):
     def get_form(self, request, obj=None, **kwargs):
         form = super(BracketSlotAdmin, self).get_form(request, obj, **kwargs)
         if obj:
+            c = obj.bracket.category_id
             form.base_fields['player'].queryset = \
-                Player.objects.filter(category__type=1)
+                Player.objects.filter(category__id=c)
         return form
 
     inlines = (
@@ -28,7 +29,7 @@ class BracketSlotAdmin(admin.ModelAdmin):
         if not obj:
             return super(BracketSlotAdmin, self).response_change(request, obj)
 
-        return redirect(reverse('admin:bracket_bracket_change', args=(obj.bracket_id,)))
+        return redirect(reverse('admin:pingpong_bracket_change', args=(obj.bracket_id,)))
 
 
 class BracketAdmin(admin.ModelAdmin):

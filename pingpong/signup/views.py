@@ -221,6 +221,7 @@ def create_groups_ng(request, category_id):
             matches.append(Match(group=group, status=Match.READY))
         Match.objects.bulk_create(matches)
         helpers.create_brackets(category)
+        print_groups(category)
         return HttpResponse(json.dumps('ok'), content_type="application/json")
     return render(request, 'pingpong/category/create_groups_ng.html', dict(category=category))
 

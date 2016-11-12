@@ -21,7 +21,7 @@
             <input type="submit" value="{% trans 'Save' %}">
         </p>
         {% footer %}
-        {% if category.group__count == 0 or category.bracket__count == 0 %}
+        {% if category.group__count == 0 and category.bracket__count == 0 %}
             <p>
                 <label>{% trans 'Draw' %}</label>
                 {% if category.group__count == 0 %}

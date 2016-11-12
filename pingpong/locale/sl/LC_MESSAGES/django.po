@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-01-14 12:26+0100\n"
+"POT-Creation-Date: 2015-11-07 08:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,92 +19,101 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n"
 "%100==4 ? 2 : 3);\n"
 
-#: models.py:15
+#: models.py:33
 msgid "Male"
 msgstr "moški"
 
-#: models.py:16
+#: models.py:34
 msgid "Female"
 msgstr "ženski"
 
-#: models.py:22
+#: models.py:40
 msgid "player"
 msgstr "tekmovalec"
 
-#: models.py:23
+#: models.py:41
 msgid "players"
 msgstr "tekmovalci"
 
-#: models.py:25 models.py:66
+#: models.py:43 models.py:84 models.py:380 models.py:399
 msgid "name"
 msgstr "ime"
 
-#: models.py:26
+#: models.py:44 models.py:382
 msgid "surname"
 msgstr "priimek"
 
-#: models.py:28 models.py:71
+#: models.py:46 models.py:89
 msgid "gender"
 msgstr "spol"
 
-#: models.py:30
+#: models.py:48 models.py:384
 msgid "club"
 msgstr "klub"
 
-#: models.py:31 models.py:63
-#: templates/pingpong/snippets/edit_category_form.html:37
+#: models.py:49 models.py:81
+#: templates/pingpong/snippets/edit_category_form.html:42
+#: templates/pingpong/snippets/edit_category_form.html:49
 msgid "category"
 msgstr "kategorija"
 
-#: models.py:58
+#: models.py:76
 msgid "Single"
 msgstr "Posamezno"
 
-#: models.py:59
+#: models.py:77
 msgid "Double"
 msgstr "Dvojica"
 
-#: models.py:64
+#: models.py:82
 msgid "categories"
 msgstr "kategorije"
 
-#: models.py:67
+#: models.py:85
 msgid "description"
 msgstr "dolgo ime"
 
-#: models.py:69
+#: models.py:87
 msgid "type"
 msgstr "vrsta"
 
-#: models.py:72
+#: models.py:90
 msgid "min age"
 msgstr "najnižja starost"
 
-#: models.py:73
+#: models.py:91
 msgid "max age"
 msgstr "najvišja starost"
 
-#: models.py:190
+#: models.py:212
 msgid "Match"
 msgstr "Dvoboj"
 
-#: models.py:191
+#: models.py:213
 msgid "Matches"
 msgstr "Dvoboji"
 
-#: bracket/helpers.py:77
+#: models.py:381 models.py:400
+msgid "searchable name"
+msgstr ""
+
+#: models.py:383
+msgid "searchable surname"
+msgstr ""
+
+#: bracket/helpers.py:76 bracket/tests.py:61
 msgid "WINNERS"
 msgstr "ZMAGOVALNA SKUPINA"
 
-#: bracket/helpers.py:82
+#: bracket/helpers.py:81
 msgid "SOOTHERS"
 msgstr "TOLAZILNA SKUPINA"
 
-#: bracket/helpers.py:113
+#: bracket/helpers.py:114
 msgid "DOUBLES"
 msgstr "DVOJICE"
 
-#: signup/forms.py:59
+#: signup/forms.py:57
 msgid "Number of groups"
 msgstr "Število skupin"
 
@@ -114,24 +123,24 @@ msgstr "Število skupin"
 msgid "(%(member_count)s members)"
 msgstr "(%(member_count)s igralcev)"
 
-#: templates/pingpong/base.html:22
+#: templates/pingpong/base.html:24
 msgid "Toggle navigation"
 msgstr "Odpri navigacijo"
 
-#: templates/pingpong/base.html:29
+#: templates/pingpong/base.html:31
 msgid "Unknown"
 msgstr "Neznano"
 
-#: templates/pingpong/base.html:34
-#: templates/pingpong/dashboard/dashboard.html:7
+#: templates/pingpong/base.html:36
+#: templates/pingpong/dashboard/dashboard.html:11
 msgid "Dashboard"
 msgstr "Tekmovanje"
 
-#: templates/pingpong/base.html:37 templates/pingpong/logged_out.html:5
+#: templates/pingpong/base.html:39 templates/pingpong/logged_out.html:5
 msgid "Logout"
 msgstr "Odjava"
 
-#: templates/pingpong/base.html:39 templates/pingpong/login.html:5
+#: templates/pingpong/base.html:41 templates/pingpong/login.html:5
 #: templates/pingpong/login.html.py:11 templates/pingpong/login.html:18
 msgid "Login"
 msgstr "Prijava"
@@ -190,10 +199,15 @@ msgstr "Prekliči"
 msgid "Categories"
 msgstr "kategorije"
 
-#: templates/pingpong/category/base.html:30
+#: templates/pingpong/category/base.html:50
 #, fuzzy
 msgid "Edit players"
 msgstr "tekmovalci"
+
+#: templates/pingpong/category/base.html:68
+#: templates/pingpong/dashboard/dashboard.html:18
+msgid "Tables"
+msgstr "Mize"
 
 #: templates/pingpong/category/create_bracket.html:8
 msgid "Create bracket"
@@ -214,56 +228,78 @@ msgstr "Žrebaj piramide"
 msgid "Create groups"
 msgstr "Žrebaj piramide"
 
-#: templates/pingpong/category/edit_group.html:8
+#: templates/pingpong/category/edit_group.html:12
 #, fuzzy
 msgid "Group"
 msgstr "Skupine"
 
-#: templates/pingpong/dashboard/dashboard.html:14
+#: templates/pingpong/dashboard/dashboard.html:26
 msgid "Upcoming matches"
 msgstr "Prihajajoči dvoboji"
 
-#: templates/pingpong/snippets/edit_category_form.html:8
-#: templates/pingpong/snippets/edit_players_form.html:8
-msgid "Edit"
-msgstr "Uredi"
+#: templates/pingpong/dashboard/dashboard.html:35
+#: templates/pingpong/dashboard/match_history.html:11
+#: templates/pingpong/dashboard/match_history.html:18
+#, fuzzy
+msgid "Match history"
+msgstr "Dvoboji"
 
-#: templates/pingpong/snippets/edit_category_form.html:16
-#: templates/pingpong/snippets/edit_players_form.html:48
+#: templates/pingpong/snippets/edit_category_form.html:9
+#, python-format
+msgid ""
+"\n"
+"                %(category_name)s Settings\n"
+"            "
+msgstr ""
+
+#: templates/pingpong/snippets/edit_category_form.html:21
+#: templates/pingpong/snippets/edit_players_form.html:56
 #: templates/pingpong/snippets/set_group_scores_form.html:21
 msgid "Save"
 msgstr "Shrani"
 
-#: templates/pingpong/snippets/edit_category_form.html:21
+#: templates/pingpong/snippets/edit_category_form.html:26
 msgid "Draw"
 msgstr "Žrebaj"
 
-#: templates/pingpong/snippets/edit_category_form.html:24
-#: templates/pingpong/snippets/edit_category_form.html:41
+#: templates/pingpong/snippets/edit_category_form.html:29
+#: templates/pingpong/snippets/edit_category_form.html:53
 #, fuzzy
 msgid "groups"
 msgstr "Skupine"
 
-#: templates/pingpong/snippets/edit_category_form.html:29
-#: templates/pingpong/snippets/edit_category_form.html:46
+#: templates/pingpong/snippets/edit_category_form.html:34
+#: templates/pingpong/snippets/edit_category_form.html:58
 msgid "brackets"
 msgstr "Piramide"
 
-#: templates/pingpong/snippets/edit_category_form.html:35
+#: templates/pingpong/snippets/edit_category_form.html:40
+msgid "Print"
+msgstr "Natisni"
+
+#: templates/pingpong/snippets/edit_category_form.html:47
 msgid "Remove"
 msgstr "Izbriši"
+
+#: templates/pingpong/snippets/edit_players_form.html:9
+#, fuzzy
+msgid "Players"
+msgstr "tekmovalci"
 
 #: templates/pingpong/snippets/set_score_form.html:7
 msgid "Set score"
 msgstr "Vnos rezultata"
 
-#: templates/pingpong/snippets/set_score_form.html:47
+#: templates/pingpong/snippets/set_score_form.html:35
 msgid "Clear table"
 msgstr "Sprazni mizo"
 
 #: templates/pingpong/snippets/set_table_form.html:6
 msgid "Set table"
 msgstr "Dodeli mizo"
+
+#~ msgid "Edit"
+#~ msgstr "Uredi"
 
 #~ msgid "Live"
 #~ msgstr "Tekmovanje"

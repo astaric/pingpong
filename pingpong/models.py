@@ -64,7 +64,7 @@ class Player(models.Model):
         return self.full_name()
 
     def full_name(self):
-        return u"{} {}".format(self.name, self.surname)
+        return u"{} {}".format(self.surname, self.name)
 
     full_name.admin_order_field = 'surname'
 
@@ -226,12 +226,17 @@ class Match(models.Model):
 
     table = models.ForeignKey(Table, blank=True, null=True, related_name='all_matches')
 
+    ready_time = models.DateTimeField(null=True)
     start_time = models.DateTimeField(null=True)
     end_time = models.DateTimeField(null=True)
 
     def set_score(self, player1_score, player2_score):
         self.player1_score = player1_score
         self.player2_score = player2_score
+        self.player1_bracket_slot.score = player1_score
+        self.player1_bracket_slot.save()
+        self.player2_bracket_slot.score = player2_score
+        self.player2_bracket_slot.save()
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):

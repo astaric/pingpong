@@ -18,6 +18,7 @@ while [[ true ]]
               wkhtmltopdf "$f" "$pdf"
               lpr "$pdf"
             fi
+            #cp "$pdf" "/Volumes/Users/joze1/Dropbox/PrintQueue/"
             mv "$f" "printed/$f"
           fi
         done
