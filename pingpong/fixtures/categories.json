@@ -1,0 +1,110 @@
+[
+  {
+    "pk": 1,
+    "model": "pingpong.category",
+    "fields": {
+      "max_age": null,
+      "name": "M<39",
+      "gender": null,
+      "min_age": null,
+      "type": 0,
+      "description": "Mo\u0161ki do 39 let"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "pingpong.category",
+    "fields": {
+      "max_age": null,
+      "name": "M40-49",
+      "gender": null,
+      "min_age": null,
+      "type": 0,
+      "description": "Mo\u0161ki 40 do 49 let"
+    }
+  },
+  {
+    "pk": 3,
+    "model": "pingpong.category",
+    "fields": {
+      "max_age": null,
+      "name": "M50-59",
+      "gender": null,
+      "min_age": null,
+      "type": 0,
+      "description": "Mo\u0161ki 50 do 59 let"
+    }
+  },
+  {
+    "pk": 4,
+    "model": "pingpong.category",
+    "fields": {
+      "max_age": null,
+      "name": "M60-64",
+      "gender": null,
+      "min_age": null,
+      "type": 0,
+      "description": "Mo\u0161ki 60 do 64 let"
+    }
+  },
+  {
+    "pk": 5,
+    "model": "pingpong.category",
+    "fields": {
+      "max_age": null,
+      "name": "M65-69",
+      "gender": null,
+      "min_age": null,
+      "type": 0,
+      "description": "Mo\u0161ki 65 do 69 let"
+    }
+  },
+  {
+    "pk": 6,
+    "model": "pingpong.category",
+    "fields": {
+      "max_age": null,
+      "name": "M70-74",
+      "gender": null,
+      "min_age": null,
+      "type": 0,
+      "description": "Mo\u0161ki 70 do 74 let"
+    }
+  },
+  {
+    "pk": 7,
+    "model": "pingpong.category",
+    "fields": {
+      "max_age": null,
+      "name": "M>75",
+      "gender": null,
+      "min_age": null,
+      "type": 0,
+      "description": "Mo\u0161ki nad 75"
+    }
+  },
+  {
+    "pk": 8,
+    "model": "pingpong.category",
+    "fields": {
+      "max_age": null,
+      "name": "\u017d<49",
+      "gender": null,
+      "min_age": null,
+      "type": 0,
+      "description": "\u017denske do 49 let"
+    }
+  },
+  {
+    "pk": 9,
+    "model": "pingpong.category",
+    "fields": {
+      "max_age": null,
+      "name": "\u017d>50",
+      "gender": null,
+      "min_age": null,
+      "type": 0,
+      "description": "\u017denske nad 50 let"
+    }
+  }
+]
